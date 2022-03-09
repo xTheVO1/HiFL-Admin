@@ -31,7 +31,6 @@ export const Container = styled.div<AsideTypeProps>`
 export const Header = styled.header`
     display: flex;
     align-items: center;
-
     height: 80px;
 `;
 
@@ -45,7 +44,6 @@ export const LogoImg  = styled.img`
 export const TitleHeader = styled.h3`
     color: ${props => props.theme.colors.white};
     margin-left: 15px;
-
     @media(max-width: 600px) {
         display: none;
         width: 100px;
@@ -84,13 +82,10 @@ export const MenuItemBottom = styled.button`
 export const MenuItemLink = styled.a`
     display: flex;
     align-items: center;
-    color: ${props => props.theme.colors.info};
+     color: ${props => props.theme.colors.info};
     text-decoration: none;
-
-    margin: 10px 0;
-
+    margin: 1rem 0;
     transition: opacity .3s;
-
     &:hover {
         opacity: .7;
     }

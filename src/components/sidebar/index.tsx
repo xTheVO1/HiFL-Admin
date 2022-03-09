@@ -1,6 +1,6 @@
 import { Container, Header, LogoImg, MenuNavigator, MenuItemLink, MenuItemBottom, ToggleMenu, Signout} from "./styles";
 import logoImg from '../../assests/logo.png';
-import { MdDashboard, MdArrowDownward, MdArrowUpward, MdExitToApp, MdClose, MdMenu } from 'react-icons/md';
+import { MdDashboard, MdArrowDownward, MdArrowUpward, MdExitToApp, MdClose, MdMenu, MdOutlineSupervisorAccount } from 'react-icons/md';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -10,7 +10,7 @@ export default function Aside () {
     const navigate = useNavigate()
 
     const logout = () => {
-        // localStorage.removeItem('@minha-carteira:logged')
+        sessionStorage.clear();
         navigate('/login')
     }
     
@@ -28,19 +28,19 @@ export default function Aside () {
             <MenuNavigator>
                 <MenuItemLink href="/dashboard">
                     <MdDashboard />
-                    Dashboard
+                    DASHBOARD
                 </MenuItemLink>
                 <MenuItemLink href="/team-manager">
-                    <MdArrowDownward />
-                    Teams
+                    <MdOutlineSupervisorAccount />
+                    TEAMS
                 </MenuItemLink>
                 <MenuItemLink href="/teams">
                     <MdArrowUpward />
-                    Guidelines
+                    GUIDELINES
                 </MenuItemLink>
                 <MenuItemLink href="/teams">
                     <MdArrowUpward />
-                    Support
+                    SUPPORT
                 </MenuItemLink>
             </MenuNavigator>
             <Signout>

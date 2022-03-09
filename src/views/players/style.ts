@@ -1,63 +1,53 @@
 import styled from "styled-components";
 
 
-export const Content = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  width: 100%;
-  justify-content: space-between;
-`;
-
 export const Container = styled.div`
     
 `;
-export const Card = styled.div`
-    background: ${props => props.theme.colors.secondary};
-    padding: 1rem 2rem;
-    display: flex;
-    width: 100%;
+export const Form = styled.form`
+display: flex;
+justify-content: space-between;
+flex-wrap: wrap;
+padding: 0 .5rem;
+padding-top: 1rem;
+`;
+export const Content = styled.div`
+    background: white;
+    padding: 0 2rem;
+`;
+
+export const Input = styled.input`
     border-radius: 5px;
-    cursor: pointer;
-    transition: opacity .3s;
-    margin-bottom: .5rem;
-    &:hover{
-    }
-`
+    border: 1px solid grey;
+    width: 100%;
+    padding: 8px;
+`;
 
-export const ImgCard = styled.div`
-    width: 70px;
-    height: 70px;
-    border-radius: 50%;
-    background: red;
-    margin-right: 2rem;
+export const Label = styled.label`
+    display: block;
+    font-weight: 500;
+`;
 
-`
-export const CardText = styled.div`
-   font-weight: 600;
-   padding-top: .5rem;
-   transition: opacity .3s;
-   color:${props => props.theme.colors.white};
-   &:hover{
-   }
-`
-export const Btn = styled.div`
-    padding: .4rem 1rem;
+export const Outlet = styled.div`
+   background: #FCFCFC;
+   padding: 1.5rem;
+`;
+
+export const CreateBtn = styled.button`
+    background: #000292;
+    color: white;
     border-radius: 15px;
-    background: #eef4ff;
-    font-weight: 200;
-    color: ${props => props.theme.colors.white};
-   margin-top: .5rem;
-
+    padding: .4rem 1rem;
+    margin-left: 1rem;
 `;
-export const Icon = styled.div`
-    color: ${props => props.theme.colors.white};
-    font-size: 2rem;
-   margin-top: .5rem;
 
+export const FormData = styled.div`
+    width: 45%;
+    margin-bottom: 1rem;
 `;
-export const Small = styled.p`
-    color: ${props => props.theme.colors.white};
-    `;
-    export const Div = styled.div`
-    display: flex;
-    `;
+
+export const BtnDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+`;

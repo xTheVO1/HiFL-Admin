@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Container, Welcome, Username, Profile, Toggle } from "./styles";
+import { Container, Welcome, Username, Profile } from "./styles";
 import { useTheme } from "../../hooks/theme";
 
 export default function MainHeader () {
@@ -7,10 +7,10 @@ export default function MainHeader () {
 
     const [darkTheme, setDarkTheme] = useState(() => theme.title === 'dark' ? true : false)
 
-    const handleChangeTheme = () => {
-        setDarkTheme(!darkTheme);
-        toggleTheme();
-    }
+    // const handleChangeTheme = () => {
+    //     setDarkTheme(!darkTheme);
+    //     toggleTheme();
+    // }
 
     return (
         <Container>

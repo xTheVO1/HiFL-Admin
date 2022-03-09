@@ -12,9 +12,9 @@ export default {
         gray: '#bfbfbf',
 
         success: '#03bb85',
-        info: '#3b5998',
+        info: '#000229',
         warning: '#0013FF',
 
-        cardSecondary: '#ffffff'
+        cardWhite: '#ffffff'
     }
 };

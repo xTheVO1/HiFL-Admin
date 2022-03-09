@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { Card, CardText, ImgCard, Button } from "./styles";
+import { Card, CardText, ImgCard, P, SideText } from "./styles";
 
 
 type TeamCardPropsType = {
@@ -16,11 +16,12 @@ function TeamCard({title, teamLogo}: TeamCardPropsType) {
     return (
         <Card onClick={viewPlayers}>
                <ImgCard>
-               <img src={teamLogo} alt="Team log"/></ImgCard>
-                <div>
+               {/* <Img src={teamLogo} alt="Team log"/> */}
+               </ImgCard>
+                <SideText>
                     <CardText>{title}</CardText>
-                    <Button>Manage </Button>
-                </div>
+                    <P>Lorem lorem lorem</P>
+                </SideText>
            </Card>
     );
 }

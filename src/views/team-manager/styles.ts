@@ -7,4 +7,6 @@ export const Content = styled.div`
   display: flex;
   // justify-content: space-between;  
   flex-wrap: wrap;
+  background: white;
+  padding: 1rem .5rem;
 `;
