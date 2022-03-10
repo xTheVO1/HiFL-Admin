@@ -11,7 +11,7 @@ export default function Aside () {
 
     const logout = () => {
         sessionStorage.clear();
-        navigate('/login')
+        navigate('/')
     }
     
     return (

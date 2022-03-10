@@ -16,7 +16,7 @@ function AppRoutes() {
                 <Route path="/dashboard" element={<Dashboard/>} />
                 <Route path="/team-manager" element={<TeamManager/>} />
             </Route>
-            <Route path="/login" element={<Login />} />
+            <Route path="/" element={<Login />} />
         </Routes>
     );
 }
