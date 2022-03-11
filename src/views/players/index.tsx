@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
-import { Container, CreateBtn, Content} from "./style";
+import { Container, CreateBtn, Content, Table} from "./style";
 import { PlayerCard} from "../../components/playerCard";
 
 export const Players: React.FC = () => {
@@ -18,11 +18,17 @@ export const Players: React.FC = () => {
 
   return (
     <Container>
-      <ContentHeader title="Players" lineColor="#0013FF">
+      <Content>
+      <ContentHeader title="Players">
         <CreateBtn onClick={addPlayer}>Create Player</CreateBtn>
       </ContentHeader>
-      <Content>
-       
+       <Table>
+         <h4>DETAILS</h4>
+         <div>
+         <h4>PROFILE STATUS</h4>
+         <h4>APPROVAL</h4>
+         </div>
+       </Table>
       </Content>
      <PlayerCard/>
     </Container>

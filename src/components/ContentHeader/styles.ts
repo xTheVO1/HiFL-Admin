@@ -1,7 +1,6 @@
 import styled from "styled-components";
 
 type TitleContainerTypeProps = {
-    lineColor: string
 }
 
 export const Container = styled.div`
@@ -11,8 +10,7 @@ export const Container = styled.div`
     justify-content: space-between;
     background: white;
     padding: 1.5rem 1rem;
-    margin-bottom: 25px;
-    border-radius: 5px;
+    border-bottom: 6px solid #F8F8F8;
 `;
 
 export const Title = styled.div<TitleContainerTypeProps>`
@@ -20,12 +18,6 @@ export const Title = styled.div<TitleContainerTypeProps>`
             color: ${props => props.theme.colors.white};
     }
 
-    &::after {
-        content: '';
-        display: block;
-        width: 55px;
-        border-bottom: 3px solid ${props => props.lineColor}
-    }
 `;
 
 export const Controllers = styled.div`

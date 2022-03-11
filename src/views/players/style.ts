@@ -36,9 +36,9 @@ export const Outlet = styled.div`
 export const CreateBtn = styled.button`
     background: #000292;
     color: white;
-    border-radius: 15px;
-    padding: .4rem 1rem;
+    padding: 1rem 3rem;
     margin-left: 1rem;
+   
 `;
 
 export const FormData = styled.div`
@@ -50,4 +50,13 @@ export const BtnDiv = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  & .submit{
+    background: #FFB422;
+    color: black;
+}
+`;
+
+export const Table = styled.div`
+    display: flex;
+    background: #F8F8F8;
 `;

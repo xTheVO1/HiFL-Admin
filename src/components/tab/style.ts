@@ -15,6 +15,9 @@ margin: 0 0 0rem;
 display: flex;
 align-items: left;
 padding-left: 0px;
+&.active {
+  background: red;
+}
 @media (max-width: 768px) {
   width: 90%;
 }`
@@ -22,22 +25,23 @@ padding-left: 0px;
 export const List = styled.li`
 margin-right: 1rem;
 font-weight: 500;
-font-size: 1.2rem;
+font-size: 1rem;
 list-style: none;
-padding-top: 2rem;
-padding-bottom: .2rem;
-  text-align: left;
+padding: .65rem 3rem;
+text-align: left;
   cursor: pointer;
   transition: all 0.7s;
   border-bottom: 1px solid #0013FF;
+  background: #000292;
+  color: white;
   &:nth-child(2) {
     border-radius: 0;
   }
   &:hover {
-    // background: rgba(50, 224, 196, 0.15);
+    background:  #000292;
   }
-  &:.active {
-    // background: #39A2DB;
+  &.active {
+    background: #FFB422;
   }
 `
 

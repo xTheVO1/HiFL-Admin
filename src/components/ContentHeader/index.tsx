@@ -3,14 +3,13 @@ import { Container, Title, Controllers } from "./styles";
 
 type ContentHeaderPropsType = {
     title: string
-    lineColor: string
     children: ReactNode
 }
 
-export default function ContentHeader ({ title, lineColor, children }: ContentHeaderPropsType) {
+export default function ContentHeader ({ title, children }: ContentHeaderPropsType) {
     return (
         <Container>
-            <Title lineColor={lineColor}>
+            <Title >
                 <h1>{title}</h1>
             </Title>
             <Controllers>

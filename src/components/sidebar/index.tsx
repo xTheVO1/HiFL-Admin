@@ -1,6 +1,6 @@
-import { Container, Header, LogoImg, MenuNavigator, MenuItemLink, MenuItemBottom, ToggleMenu, Signout} from "./styles";
+import { Container, Header, LogoImg, MenuNavigator, MenuItemLink, MenuItemBottom, ToggleMenu, Signout, Svg} from "./styles";
 import logoImg from '../../assests/logo.png';
-import { MdDashboard, MdArrowDownward, MdArrowUpward, MdExitToApp, MdClose, MdMenu, MdOutlineSupervisorAccount } from 'react-icons/md';
+import { MdDashboard, MdArrowUpward,  MdOutlineLogout, MdClose, MdMenu, MdOutlineSupervisorAccount } from 'react-icons/md';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -27,11 +27,11 @@ export default function Aside () {
             </Header>
             <MenuNavigator>
                 <MenuItemLink href="/dashboard">
-                    <MdDashboard />
+                        <MdDashboard />
                     DASHBOARD
                 </MenuItemLink>
                 <MenuItemLink href="/team-manager">
-                    <MdOutlineSupervisorAccount />
+                    <MdOutlineSupervisorAccount/>
                     TEAMS
                 </MenuItemLink>
                 <MenuItemLink href="/teams">
@@ -45,8 +45,8 @@ export default function Aside () {
             </MenuNavigator>
             <Signout>
             <MenuItemBottom onClick={logout}>
-                    <MdExitToApp />
-                    Logout
+                    <MdOutlineLogout />
+                    LOGOUT
                 </MenuItemBottom>
             </Signout>
         </Container>

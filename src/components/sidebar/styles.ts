@@ -1,4 +1,5 @@
 import styled, { css } from "styled-components";
+import Aside from "./index";
 
 type AsideTypeProps = {
     menuIsOpen: boolean
@@ -6,7 +7,7 @@ type AsideTypeProps = {
 
 export const Container = styled.div<AsideTypeProps>`
     grid-area: AS;
-    background-color: ${props => props.theme.colors.secondary};
+    background-color: #000292;
     padding-left: 40px;
     border-right: 1px solid ${props => props.theme.colors.gray};
 
@@ -60,56 +61,55 @@ export const MenuNavigator  = styled.nav`
 `;
 
 export const MenuItemBottom = styled.button`
-    font-size: 16px;
+    font-size: 20px;
     display: flex;
     align-items: center;
-    color: ${props => props.theme.colors.info};
-
-    background: none;
+    color: white;
     margin: 10px 0;
-
-    transition: opacity .3s;
-
+    background: none;
+    padding: .5rem 1rem;
     &:hover {
-        opacity: .7;
-    }
-    
+     background: white;
+     color:#000292;
+ }
+    transition: opacity .3s;
     > svg {
         margin-right: 5px;
     }
+    & svg{
+        color: #FFB422;
+    };
 `;
 
 export const MenuItemLink = styled.a`
     display: flex;
     align-items: center;
-     color: ${props => props.theme.colors.info};
+     color:white;
     text-decoration: none;
-    margin: 1rem 0;
+    font-size: 20px;
+    margin: 21px 0;
+    padding: .5rem 1rem;
     transition: opacity .3s;
     &:hover {
-        opacity: .7;
+        background: white;
+        color:#000292;
     }
-    
     > svg {
         margin-right: 5px;
     }
+    & svg{
+        color: #FFB422;
+    };
 `;
 
 export const ToggleMenu = styled.button`
     width: 40px;
     height: 40px;
-
     border-radius: 5px;
     font-size: 22px;
-    background-color: ${props => props.theme.colors.warning};
+    // background-color: ${props => props.theme.colors.warning};
     transition: opacity .3s;
-
-    &:hover {
-        opacity: .7;
-    }
-
     display: none;
-
     @media (max-width: 600px) {
         display: flex;
         justify-content: center;
@@ -120,4 +120,12 @@ export const ToggleMenu = styled.button`
 export const Signout = styled.span`
    position: fixed;
    bottom: 20px;
+  
 `;
+
+export const Icon = styled.svg`
+  background: red;
+`;
+export const Svg = styled(Aside)`
+  
+  `

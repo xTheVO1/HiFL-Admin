@@ -5,7 +5,7 @@ import { MdMenu } from 'react-icons/md';
 
 // components
 import ContentHeader from "../ContentHeader";
-import { Container, Content, Card, Div, ImgCard, CardText, Btn, Icon, Small, SideText } from "./style";
+import { Content, Card, Div, ImgCard, CardText, Btn, Icon, Small, SideText } from "./style";
 
 export const PlayerCard: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch()
@@ -23,15 +23,14 @@ export const PlayerCard: React.FC = () => {
           </Div>
           <div>
             <Btn>
-              Status
+              PROFILE STATUS
             </Btn>
           </div>
           <div>
             <Btn>
-              Download
+              APPROVAL
             </Btn>
           </div>
-          <Icon><MdMenu /></Icon>
         </Content>
       </Card>
   )

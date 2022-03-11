@@ -11,10 +11,10 @@ export const Dashboard: React.FC = () => {
 
   return (
     <Container>
-      <ContentHeader title="Dashboard" lineColor="#0013FF">
+      <Content>
+      <ContentHeader title="Dashboard">
         <h1>Dashboard</h1>
       </ContentHeader>
-      <Content>
       </Content>
     </Container>
   )

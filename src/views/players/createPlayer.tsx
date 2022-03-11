@@ -16,14 +16,15 @@ export const AddPlayer: React.FC = () => {
 //   }
   return (
     <Container>
-    <ContentHeader title="Create Player" lineColor="#0013FF">
-   </ContentHeader>
     <Content>
+    <ContentHeader title="Create Player">
+   </ContentHeader>
     <Tab>
       <Nav>
-        <List className={activeTab === "tab1" ? "active" : ""} onClick={() => setActiveTab("tab1")}>Personal Information</List>
-        <List className={activeTab === "tab2" ? "active" : ""} onClick={() => setActiveTab("tab2")}>Bio Date</List>
-        <List className={activeTab === "tab3" ? "active" : ""} onClick={() => setActiveTab("tab3")}>File Upload</List>
+        <List className={activeTab === "tab1" ? "active" : ""} onClick={() => setActiveTab("tab1")}>PERSONAL</List>
+        <List className={activeTab === "tab2" ? "active" : ""} onClick={() => setActiveTab("tab2")}>SPORT</List>
+        <List className={activeTab === "tab3" ? "active" : ""} onClick={() => setActiveTab("tab3")}>ACADEMIC</List>
+        <List className={activeTab === "tab4" ? "active" : ""} onClick={() => setActiveTab("tab4")}>UPLOADS</List>
       </Nav>
       <Outlet>
           {activeTab === "tab1" ?  
@@ -73,8 +74,8 @@ export const AddPlayer: React.FC = () => {
             <Input type="text" name="name"/>
           </FormData> */}
           <BtnDiv>
-              <CreateBtn>Save</CreateBtn>
-              <CreateBtn>Submit</CreateBtn>
+              <CreateBtn>SAVE & CONTINUE</CreateBtn>
+              <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn>
           </BtnDiv>
         </Form> : 
         ""}
@@ -122,15 +123,7 @@ export const AddPlayer: React.FC = () => {
             <Label>Name</Label>
             <Input type="text" name="name"/>
           </FormData>
-          <FormData>
-            <Label>Name</Label>
-            <Input type="text" name="name"/>
-          </FormData>
-          <FormData>
-            <Label>Name</Label>
-            <Input type="text" name="name"/>
-          </FormData>
-        </Form>  : ""}
+         </Form>  : ""}
       </Outlet>
     </Tab>
       </Content>
