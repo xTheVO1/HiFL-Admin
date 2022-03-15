@@ -15,7 +15,16 @@ export const Content = styled.div`
     background: white;
     padding: 0 2rem;
 `;
-
+export const Section = styled.div`
+    width:100%;
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 1rem; 
+    justify-content: space-between;
+    h4{
+        color: rgb(216, 212, 212);
+    }
+`;
 export const Input = styled.input`
     border-radius: 5px;
     border: 1px solid grey;
@@ -43,13 +52,18 @@ export const CreateBtn = styled.button`
 
 export const FormData = styled.div`
     width: 45%;
+
     margin-bottom: 1rem;
+    @media(max-width: 800px) {
+        width: 100%;
+    }
 `;
 
 export const BtnDiv = styled.div`
   display: flex;
   justify-content: flex-end;
   width: 100%;
+  margin-top: 2rem;
   & .submit{
     background: #FFB422;
     color: black;
