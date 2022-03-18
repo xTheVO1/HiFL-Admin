@@ -44,5 +44,27 @@ type TeamAction = {
   payload: ITeam[]
 }
 
+type IPlayer = {
+  _id: string,
+  User: string,
+  MiddleName: string,
+  DateOfBirth: string,
+  Age: 0,
+  NextOfKin:any
+}
+
+interface PlayerState {
+ players: any,
+player: IPlayer[],
+ loading: boolean,
+ error: any
+}
+
+type PlayerAction = {
+type: string
+payload: ITeam[]
+}
+
   type UserDispatchType = (args: UserAction) => UserAction
   type TeamDispatchType = (args: TeamAction) => TeamAction
+  type PlayerDispatchType = (args: PlayerAction) => PlayerAction

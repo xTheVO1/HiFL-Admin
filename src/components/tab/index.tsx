@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Tab, Nav, List } from "./style";
 
 const Tabs = () => {

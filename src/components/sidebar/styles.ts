@@ -8,7 +8,7 @@ type AsideTypeProps = {
 export const Container = styled.div<AsideTypeProps>`
     grid-area: AS;
     background-color: #000292;
-    padding-left: 40px;
+    padding-left: 20px;
     border-right: 1px solid ${props => props.theme.colors.gray};
 
     position: relative;
@@ -88,7 +88,7 @@ export const MenuItemLink = styled.a`
     text-decoration: none;
     font-size: 20px;
     margin: 21px 0;
-    padding: .5rem 1rem;
+    padding: .5rem .3rem;
     transition: opacity .3s;
     &:hover {
         background: white;
@@ -122,7 +122,15 @@ export const Signout = styled.span`
    bottom: 20px;
   
 `;
-
+export const SideImage = styled.div`
+  width: 90%;
+  margin: 1rem auto;
+  
+`;
+export const Image = styled.img`
+width: 100%;
+object-fit: contain;
+`
 export const Icon = styled.svg`
   background: red;
 `;

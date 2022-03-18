@@ -5,13 +5,16 @@ import { Card, CardText, ImgCard, P, SideText } from "./styles";
 type TeamCardPropsType = {
     title: string
     teamLogo: string
+    teamId: string
 }
 
-function TeamCard({title, teamLogo}: TeamCardPropsType) {
+function TeamCard({title, teamLogo, teamId}: TeamCardPropsType) {
     const navigate = useNavigate();
     
     const viewPlayers = () => {
-        navigate("/players")
+        sessionStorage.removeItem('Teamid');
+        sessionStorage.setItem('Teamid', teamId);
+        navigate("/players");
     }
     return (
         <Card onClick={viewPlayers}>

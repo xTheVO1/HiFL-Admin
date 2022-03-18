@@ -1,36 +1,54 @@
-import * as React from "react"
+import React, {useState} from "react"
 // import { useDispatch } from "react-redux"
 // import { Dispatch } from "redux"
 import { useNavigate } from "react-router-dom";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
-import { Container, CreateBtn, Content, Table} from "./style";
-import { PlayerCard} from "../../components/playerCard";
+import { Container, CreateBtn, Content, Table } from "./style";
+import { PlayerCard } from "../../components/playerCard";
 
 export const Players: React.FC = () => {
+  const [activeTab, setActiveTab] = useState("OFFICIALS");
+
   // const dispatch: Dispatch<any> = useDispatch();
   const navigate = useNavigate();
 
   const addPlayer = () => {
+
     navigate("/add-player")
   }
 
   return (
     <Container>
       <Content>
-      <ContentHeader title="Players">
-        <CreateBtn onClick={addPlayer}>Create Player</CreateBtn>
-      </ContentHeader>
-       <Table>
-         <h4>DETAILS</h4>
-         <div>
-         <h4>PROFILE STATUS</h4>
-         <h4>APPROVAL</h4>
-         </div>
-       </Table>
+        <Table className="padding">
+          <h6 className="">DETAILS</h6>
+          <div className="flex-header">
+            <p className={activeTab === "PLAYERS" ? "active" : ""} onClick={() => setActiveTab("PLAYERS")}>MANAGE PLAYERS</p> |
+            <p className={activeTab === "OFFICIALS" ? "active" : ""} onClick={() => setActiveTab("OFFICIALS")}> MANAGE OFFICIALS</p> 
+          </div>
+        </Table>
+        <ContentHeader title={activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"} >
+          <CreateBtn onClick={addPlayer}>REGISTER {activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"}</CreateBtn>
+        </ContentHeader>
+        <Table>
+          <div className="header">
+          <p className="">DETAILS</p>
+          <div className="flex">
+            <p>PROFILE STATUS</p>
+            <p>APPROVAL</p>
+          </div>
+          </div>
+        </Table>
       </Content>
-     <PlayerCard/>
+      {activeTab === "OFFICIALS" ? 
+       <PlayerCard approval={false} status={true} playerName={"Sanmi James"} age={24} position={"FW"}/> :
+      <>
+      <PlayerCard approval={false} status={true} playerName={"Chukwu Emmannuel"} age={22} position={"GK"}/>
+      <PlayerCard approval={true} status={false} playerName={"Abdulahi Wahab"} age={19} position={"MD"}/>
+      </>
+}
     </Container>
   )
 }

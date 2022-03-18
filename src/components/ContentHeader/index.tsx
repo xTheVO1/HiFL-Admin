@@ -8,9 +8,9 @@ type ContentHeaderPropsType = {
 
 export default function ContentHeader ({ title, children }: ContentHeaderPropsType) {
     return (
-        <Container>
+        <Container >
             <Title >
-                <h1>{title}</h1>
+                <h2>{title}</h2>
             </Title>
             <Controllers>
                 {children}

@@ -27,10 +27,10 @@ function TeamManager() {
            <ContentHeader title="Team(s)">
             </ContentHeader>
             <Content>
-            {!mainDataResult ? <h2>No Data found</h2> :
+            {mainDataResult.length === 0 ? <h2 className="no-data">NO DATA FOUND</h2> :
             loading ? <Loader>Loading.....</Loader> :
                 mainDataResult && mainDataResult.map((item: any) => (
-                <TeamCard title={item.TeamName} teamLogo={FUTMINNA} key={item._id}/>
+                <TeamCard title={item.TeamName} teamLogo={FUTMINNA} teamId={item._id} key={item._id}/>
                 ))
             }
             </Content>

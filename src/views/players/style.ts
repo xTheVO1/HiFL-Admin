@@ -2,7 +2,16 @@ import styled from "styled-components";
 
 
 export const Container = styled.div`
-    
+   width: 100%; 
+`;
+export const Image = styled.img`
+   width: 250px;
+   height: 250px; 
+   border-radius: 50%;
+   img{
+   object-fit: contain;
+
+   }
 `;
 export const Form = styled.form`
 display: flex;
@@ -11,10 +20,7 @@ flex-wrap: wrap;
 padding: 0 .5rem;
 padding-top: 1rem;
 `;
-export const Content = styled.div`
-    background: white;
-    padding: 0 2rem;
-`;
+
 export const Section = styled.div`
     width:100%;
     display: flex;
@@ -45,18 +51,39 @@ export const Outlet = styled.div`
 export const CreateBtn = styled.button`
     background: #000292;
     color: white;
-    padding: 1rem 3rem;
+    padding: .6rem 2rem;
     margin-left: 1rem;
    
 `;
 
 export const FormData = styled.div`
     width: 45%;
-
+    .no-image{
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        position: relative;
+        background: red;
+    }
+    svg{
+        position: absolute;
+        color: vlue;
+    }
     margin-bottom: 1rem;
-    @media(max-width: 800px) {
+    @media(max-width: 1050px) {
         width: 100%;
     }
+    .file{
+        border: 0px;
+    }
+    .file-btn{
+        margin-left: 1.5rem;
+        color: #000292;
+        cursor: pointer;
+        font-weight: 600;
+        padding: .5rem .5rem;
+    }
+   
 `;
 
 export const BtnDiv = styled.div`
@@ -71,6 +98,51 @@ export const BtnDiv = styled.div`
 `;
 
 export const Table = styled.div`
-    display: flex;
     background: #F8F8F8;
+    display: flex;
+    padding: 0rem 1rem;
+    padding-top: .8rem;
+    padding-bottom: .5rem;
+    width: 100%;
+    .header{
+        width: 80%;
+        display: flex;
+        justify-content: space-between;
+
+    }
+    .flex{
+        display: flex;
+        justify-content: space-around;
+        width: 50%;
+    }
+    .flex-header{
+        display: flex;
+        justify-content: flex-end;
+        width: 50%;
+        p{
+           color:  #000292;
+        }
+        p:hover{
+            cursor: pointer;
+        }
+        .active{
+            color: #FFB422;
+        }
+    }
+    .flex-header p{
+        margin: 0 1rem;
+    }
+`;
+
+export const Content = styled.div`
+    background: white;
+    padding: 0rem 2rem;
+    padding-top: 2rem;
+    .padding{
+        margin-bottom: 2rem;
+        justify-content: space-between;
+        padding: 0 .5rem;
+        padding-top: 1.5rem;
+        padding-bottom: 1rem;
+    }
 `;

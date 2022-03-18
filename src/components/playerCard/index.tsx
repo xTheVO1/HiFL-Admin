@@ -1,34 +1,43 @@
-import * as React from "react"
-import { useDispatch } from "react-redux"
-import { Dispatch } from "redux"
-import { MdMenu } from 'react-icons/md';
+// import { useDispatch } from "react-redux"
+import { useNavigate } from "react-router-dom";
+// import { Dispatch } from "redux"
 
 // components
-import ContentHeader from "../ContentHeader";
-import { Content, Card, Div, ImgCard, CardText, Btn, Icon, Small, SideText } from "./style";
+import { Content, Card, Div, ImgCard, CardText, Btn, Small, SideText } from "./style";
 
-export const PlayerCard: React.FC = () => {
-  const dispatch: Dispatch<any> = useDispatch()
+interface PropsType {
+status: boolean;
+playerName: string;
+age: number;
+position: string;
+approval: boolean
+}
+export const PlayerCard = ({age, position,approval, status, playerName}: PropsType) => {
+  // const dispatch: Dispatch<any> = useDispatch()
+  const navigate = useNavigate();
 
+  const editPlayer = () => {
+    navigate("/edit-player")
+  }
   return (
       <Card>
-        <Content>
+        <Content onClick={editPlayer}>
           <Div>
             <ImgCard>
             </ImgCard>
             <SideText>
-              <CardText>Title</CardText>
-              <Small>Title of player and details shown below</Small>
+              <CardText>{playerName}</CardText>
+              <Small>AGE: {age}yrs | POSITION: {position}</Small>
             </SideText>
           </Div>
           <div>
-            <Btn>
-              PROFILE STATUS
+            <Btn className={status === true ? "complete" : "incomplete"}>
+             {status === true ? "COMPLETE" : "INCOMPLETE"}
             </Btn>
           </div>
           <div>
-            <Btn>
-              APPROVAL
+            <Btn className={approval === false ? "incomplete" : "complete"}>
+            {approval ? "COMPLETE" : "INCOMPLETE"}
             </Btn>
           </div>
         </Content>

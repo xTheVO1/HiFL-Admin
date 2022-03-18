@@ -46,6 +46,7 @@ text-align: left;
   }
   &.active {
     background: #FFB422;
+    color: black;
   }
   @media (max-width: 768px) {
     width: 100%;

@@ -4,8 +4,16 @@ import styled from "styled-components";
 export const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 100%;
+  width: 80%;
   justify-content: space-between;
+  div .complete{
+      background: #03A430;
+      color: white
+    }
+    div .incomplete{
+      background: #FFD583;
+    color: black;
+  }
 `;
 
 export const Container = styled.div`
@@ -44,9 +52,8 @@ margin-top: .4rem;
    }
 `
 export const Btn = styled.div`
-    padding: .4rem 1rem;
-    border-radius: 15px;
-    background: #eef4ff;
+    padding: .4rem 2rem;
+    border-radius: 30px;   
     font-weight: 200;
     color: ${props => props.theme.colors.white};
    margin-top: 1.2rem;
@@ -64,6 +71,7 @@ export const Icon = styled.div`
 `;
 export const Small = styled.p`
     color: ${props => props.theme.colors.white};
+    font-size: .8rem;
     `;
     export const Div = styled.div`
     display: flex;
@@ -72,4 +80,5 @@ export const Small = styled.p`
     @media(max-width: 700px) {
         width: 70%;
     }
+
     `;
