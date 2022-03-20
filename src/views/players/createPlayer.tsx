@@ -73,7 +73,7 @@ export const AddPlayer: React.FC = () => {
   return (
     <Container>
       <Content>
-        <ContentHeader title="Create Player">
+        <ContentHeader title={pathname === "/add-player" ? "CREATE PLAYER": "CREATE OFFICIAL"}>
         </ContentHeader>
         <Tab>
           <Nav>
