@@ -12,7 +12,7 @@
     }
 }
 
-interface State {
+interface UserState {
   user: IUser[],
   loading: boolean,
   error: string | null
@@ -65,6 +65,28 @@ type: string
 payload: ITeam[]
 }
 
-  type UserDispatchType = (args: UserAction) => UserAction
-  type TeamDispatchType = (args: TeamAction) => TeamAction
-  type PlayerDispatchType = (args: PlayerAction) => PlayerAction
+type IOfficial = {
+  _id: string,
+  User: string,
+  MiddleName: string,
+  DateOfBirth: string,
+  Age: 0,
+  NextOfKin:any
+}
+
+interface OfficialState {
+ officials: any,
+ official: IPlayer[],
+ loading: boolean,
+ error: any
+}
+
+type OfficialAction = {
+type: string
+payload: IOfficial[]
+}
+
+type UserDispatchType = (args: UserAction) => UserAction
+type TeamDispatchType = (args: TeamAction) => TeamAction
+type PlayerDispatchType = (args: PlayerAction) => PlayerAction
+type OfficialDispatchType = (args: OfficialAction) => PlayerAction

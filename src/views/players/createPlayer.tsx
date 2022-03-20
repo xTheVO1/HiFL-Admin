@@ -1,6 +1,7 @@
 import React, { useState } from "react";
-import { MdCameraAlt } from 'react-icons/md';
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 // components
 import ContentHeader from "../../components/ContentHeader";
 import { Container, Label, Content, FormData, Form, CreateBtn, BtnDiv, Outlet, Section, Image } from "./style";
@@ -12,6 +13,7 @@ import { createPlayers } from "../../redux/actions/players";
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [object, setObject]: any = useState({});
   const [image, setImage] = useState();
   const hiddenFileInput: any = React.useRef(null);
@@ -27,19 +29,17 @@ export const AddPlayer: React.FC = () => {
     });
   }
 
+  const pathname = window.location.pathname;
+  console.log(pathname)
+
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem('Teamid');
     e.preventDefault();
-    console.log(object, image, 23)
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
       Email: object.email,
-      // Phonenumber: object.phone
-      // MiddleName: string,
-      // DateOfBirth: string,
-      // Age: 0,
-      // NextOfKin:any
+      // Phone: object.phone
     }
     const playerData = {
       Team: teamId,
@@ -55,7 +55,11 @@ export const AddPlayer: React.FC = () => {
         Address: object.kinAddress
       }
     }
-    dispatch(createPlayers({ userData, playerData }))
+    if(pathname === "/add-player"){
+      dispatch(createPlayers({ userData, playerData, navigate}))
+    }else if(pathname === "/add-official"){
+
+    }
   }
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files[0]) {

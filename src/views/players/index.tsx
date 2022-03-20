@@ -19,6 +19,10 @@ export const Players: React.FC = () => {
     navigate("/add-player")
   }
 
+  const addOfficial = () => {
+
+    navigate("/add-official")
+  }
   return (
     <Container>
       <Content>
@@ -30,7 +34,7 @@ export const Players: React.FC = () => {
           </div>
         </Table>
         <ContentHeader title={activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"} >
-          <CreateBtn onClick={addPlayer}>REGISTER {activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"}</CreateBtn>
+          <CreateBtn onClick={activeTab === "OFFICIALS"  ? addOfficial : addPlayer}>REGISTER {activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"}</CreateBtn>
         </ContentHeader>
         <Table>
           <div className="header">
