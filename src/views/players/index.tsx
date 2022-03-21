@@ -1,4 +1,4 @@
-import React, {useState} from "react"
+import React, { useState } from "react";
 // import { useDispatch } from "react-redux"
 // import { Dispatch } from "redux"
 import { useNavigate } from "react-router-dom";
@@ -15,9 +15,8 @@ export const Players: React.FC = () => {
   const navigate = useNavigate();
 
   const addPlayer = () => {
-
-    navigate("/add-player")
-  }
+    navigate("/add-player");
+  };
 
   return (
     <Container>
@@ -25,30 +24,65 @@ export const Players: React.FC = () => {
         <Table className="padding">
           <h6 className="">DETAILS</h6>
           <div className="flex-header">
-            <p className={activeTab === "PLAYERS" ? "active" : ""} onClick={() => setActiveTab("PLAYERS")}>MANAGE PLAYERS</p> |
-            <p className={activeTab === "OFFICIALS" ? "active" : ""} onClick={() => setActiveTab("OFFICIALS")}> MANAGE OFFICIALS</p> 
+            <p
+              className={activeTab === "PLAYERS" ? "active" : ""}
+              onClick={() => setActiveTab("PLAYERS")}
+            >
+              MANAGE PLAYERS
+            </p>{" "}
+            |
+            <p
+              className={activeTab === "OFFICIALS" ? "active" : ""}
+              onClick={() => setActiveTab("OFFICIALS")}
+            >
+              {" "}
+              MANAGE OFFICIALS
+            </p>
           </div>
         </Table>
-        <ContentHeader title={activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"} >
-          <CreateBtn onClick={addPlayer}>REGISTER {activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"}</CreateBtn>
+        <ContentHeader
+          title={activeTab === "OFFICIALS" ? "OFFICIALS" : "PLAYERS"}
+        >
+          <CreateBtn onClick={addPlayer}>
+            REGISTER {activeTab === "OFFICIALS" ? "OFFICIALS" : "PLAYERS"}
+          </CreateBtn>
         </ContentHeader>
         <Table>
           <div className="header">
-          <p className="">DETAILS</p>
-          <div className="flex">
-            <p>PROFILE STATUS</p>
-            <p>APPROVAL</p>
-          </div>
+            <p className="">DETAILS</p>
+            <div className="flex">
+              <p>PROFILE STATUS</p>
+              <p>APPROVAL</p>
+            </div>
           </div>
         </Table>
       </Content>
-      {activeTab === "OFFICIALS" ? 
-       <PlayerCard approval={false} status={true} playerName={"Sanmi James"} age={24} position={"FW"}/> :
-      <>
-      <PlayerCard approval={false} status={true} playerName={"Chukwu Emmannuel"} age={22} position={"GK"}/>
-      <PlayerCard approval={true} status={false} playerName={"Abdulahi Wahab"} age={19} position={"MD"}/>
-      </>
-}
+      {activeTab === "OFFICIALS" ? (
+        <PlayerCard
+          approval={false}
+          status={true}
+          playerName={"Sanmi James"}
+          age={24}
+          position={"FW"}
+        />
+      ) : (
+        <>
+          <PlayerCard
+            approval={false}
+            status={true}
+            playerName={"Chukwu Emmannuel"}
+            age={22}
+            position={"GK"}
+          />
+          <PlayerCard
+            approval={true}
+            status={false}
+            playerName={"Abdulahi Wahab"}
+            age={19}
+            position={"MD"}
+          />
+        </>
+      )}
     </Container>
-  )
-}
+  );
+};

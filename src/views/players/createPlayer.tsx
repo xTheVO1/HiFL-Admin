@@ -1,9 +1,20 @@
 import React, { useState } from "react";
-import { MdCameraAlt } from 'react-icons/md';
+import { MdCameraAlt } from "react-icons/md";
 import { useDispatch } from "react-redux";
 // components
 import ContentHeader from "../../components/ContentHeader";
-import { Container, Label, Content, FormData, Form, CreateBtn, BtnDiv, Outlet, Section, Image } from "./style";
+import {
+  Container,
+  Label,
+  Content,
+  FormData,
+  Form,
+  CreateBtn,
+  BtnDiv,
+  Outlet,
+  Section,
+  Image,
+} from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
 
@@ -25,12 +36,12 @@ export const AddPlayer: React.FC = () => {
       ...object,
       [e.target.name]: e.target.value,
     });
-  }
+  };
 
   const submit = (e: any) => {
-    const teamId = sessionStorage.getItem('Teamid');
+    const teamId = sessionStorage.getItem("Teamid");
     e.preventDefault();
-    console.log(object, image, 23)
+    console.log(object, image, 23);
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
@@ -40,7 +51,7 @@ export const AddPlayer: React.FC = () => {
       // DateOfBirth: string,
       // Age: 0,
       // NextOfKin:any
-    }
+    };
     const playerData = {
       Team: teamId,
       Email: object.email,
@@ -52,11 +63,11 @@ export const AddPlayer: React.FC = () => {
       NextOfKin: {
         PhoneNumber: object.kinPhone,
         Email: object.kinEmail,
-        Address: object.kinAddress
-      }
-    }
-    dispatch(createPlayers({ userData, playerData }))
-  }
+        Address: object.kinAddress,
+      },
+    };
+    dispatch(createPlayers({ userData, playerData }));
+  };
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
@@ -65,12 +76,14 @@ export const AddPlayer: React.FC = () => {
       };
       reader.readAsDataURL(event.target.files[0]);
     }
-  }
+  };
   return (
     <Container>
       <Content>
-        <ContentHeader title="Create Player">
-        </ContentHeader>
+        <ContentHeader
+          title={"Register Player"}
+          children={"Enter all information below"}
+        />
         <Tab>
           <Nav>
             <List className="active">PERSONAL INFORMATIONS</List>
@@ -79,37 +92,68 @@ export const AddPlayer: React.FC = () => {
             <Form onSubmit={submit}>
               <Section>
                 <FormData>
-                  <>
-                    {image ?
-                      <Image src={image} alt="players" /> : ""}
-                  </>
-                  <button onClick={handleClick} className="file-btn">Upload an image</button>
-                  <input type="file" onChange={onImageChange} ref={hiddenFileInput} className="file" id="group_image" style={{ display: 'none' }} />
+                  <>{image ? <Image src={image} alt="players" /> : ""}</>
+                  <button onClick={handleClick} className="file-btn">
+                    {" "}
+                    Upload Passport Photograph
+                  </button>
+                  <input
+                    type="file"
+                    onChange={onImageChange}
+                    ref={hiddenFileInput}
+                    className="file"
+                    id="group_image"
+                    style={{ display: "none" }}
+                  />
                 </FormData>
               </Section>
               <FormData>
                 <Label>FIRST NAME </Label>
-                <Input type="text" name="Firstname" onChange={(e) => handleChange(e)} />
+                <Input
+                  type="text"
+                  name="Firstname"
+                  onChange={(e) => handleChange(e)}
+                />
               </FormData>
               <FormData>
                 <Label>LAST NAME</Label>
-                <Input type="text" name="Lastname" onChange={(e) => handleChange(e)} />
+                <Input
+                  type="text"
+                  name="Lastname"
+                  onChange={(e) => handleChange(e)}
+                />
               </FormData>
               <FormData>
                 <Label>MIDDLE NAME</Label>
-                <Input type="text" name="Middlename" onChange={(e) => handleChange(e)} />
+                <Input
+                  type="text"
+                  name="Middlename"
+                  onChange={(e) => handleChange(e)}
+                />
               </FormData>
               <FormData>
                 <Label>DATE OF BIRTH</Label>
-                <Input type="date" name="datOfBirth" onChange={(e) => handleChange(e)} />
+                <Input
+                  type="date"
+                  name="datOfBirth"
+                  onChange={(e) => handleChange(e)}
+                />
               </FormData>
               <FormData>
                 <Label>EMAIL</Label>
-                <Input type="text" name="email" onChange={(e) => handleChange(e)} />
+                <Input
+                  type="text"
+                  name="email"
+                  onChange={(e) => handleChange(e)}
+                />
               </FormData>
               <FormData>
                 <Label>PHONE</Label>
-                <Input type="text" name="phone" onChange={(e) => handleChange(e)} />
+                <Input
+                  type="text"
+                  name="phone"
+                  onChange={(e) => handleChange(e)}
+                />
               </FormData>
               <Section>
                 <Section>
@@ -117,19 +161,35 @@ export const AddPlayer: React.FC = () => {
                 </Section>
                 <FormData>
                   <Label>STREET ADDRESS</Label>
-                  <Input type="text" name="streetAddress" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="streetAddress"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>LOCAL GOVERNMENT</Label>
-                  <Input type="text" name="localGovt" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="localGovt"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>STATE</Label>
-                  <Input type="text" name="state" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="state"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>NEAREST BUSSTOP</Label>
-                  <Input type="text" name="nearestBusStop" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="nearestBusStop"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
               </Section>
               <Section>
@@ -138,19 +198,35 @@ export const AddPlayer: React.FC = () => {
                 </Section>
                 <FormData>
                   <Label>STREET ADDRESS</Label>
-                  <Input type="text" name="schoolStreet" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="schoolStreet"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>LOCAL GOVERNMENT</Label>
-                  <Input type="text" name="schLGA" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="schLGA"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>STATE</Label>
-                  <Input type="text" name="state" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="state"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>NEAREST BUSSTOP</Label>
-                  <Input type="text" name="schBusstop" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="schBusstop"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
               </Section>
               <Section>
@@ -159,30 +235,50 @@ export const AddPlayer: React.FC = () => {
                 </Section>
                 <FormData>
                   <Label>FULL NAME</Label>
-                  <Input type="text" name="FullNameOfKin" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="FullNameOfKin"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>NEXT OF KIN RELATIONSHIP</Label>
-                  <Input type="text" name="kinRelationship" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="kinRelationship"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>EMAIL</Label>
-                  <Input type="text" name="kinEmail" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="kinEmail"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <FormData>
                   <Label>PHONE NUMBER</Label>
-                  <Input type="text" name="kinPhone" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="kinPhone"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </FormData>
                 <Section>
                   <Label>ADDRESS</Label>
-                  <Input type="text" name="kinAddress" onChange={(e) => handleChange(e)} />
+                  <Input
+                    type="text"
+                    name="kinAddress"
+                    onChange={(e) => handleChange(e)}
+                  />
                 </Section>
               </Section>
               <BtnDiv>
                 <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
               </BtnDiv>
             </Form>
-            {/* {activeTab === "tab2" ?  
+            {/* {activeTab === "tab2" ?
         <>
           <Section>
         <FormData>
@@ -195,7 +291,7 @@ export const AddPlayer: React.FC = () => {
         </FormData>
         </Section>
       </> : ""} */}
-            {/* {activeTab === "tab3" ?  
+            {/* {activeTab === "tab3" ?
         <>
           <FormData>
             <Label>LATEST COURSE REGISTRATION</Label>
@@ -209,9 +305,9 @@ export const AddPlayer: React.FC = () => {
             <Label>COURSE STUDY</Label>
             <Input type="text" name="CourseStudy"/>
           </FormData>
-         </>  
+         </>
          : ""} */}
-            {/* {activeTab === "tab4" ?  
+            {/* {activeTab === "tab4" ?
         <>
           <FormData>
             <Label>MEDICAL CERTIFICATE</Label>
@@ -226,19 +322,18 @@ export const AddPlayer: React.FC = () => {
             <Input type="file" name="PassportPhotograph"/>
           </FormData>
           <FormData>
-            <Label>JAMB PHOTOGRAPH</Label> 
+            <Label>JAMB PHOTOGRAPH</Label>
             <Input type="file" name="JambPhotograph"/>
           </FormData>
-         </>  
+         </>
          : ""} */}
             {/* <BtnDiv>
               <CreateBtn>SAVE & CONTINUE</CreateBtn>
               <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn>
           </BtnDiv> */}
-
           </Outlet>
         </Tab>
       </Content>
     </Container>
-  )
-}
+  );
+};
