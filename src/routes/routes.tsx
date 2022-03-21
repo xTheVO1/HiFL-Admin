@@ -14,6 +14,7 @@ function AppRoutes() {
     <Routes>
       <Route element={<PrivateRoute />}>
         <Route path="/player" element={<UpdatePlayer />} />
+        <Route path="/guidelines" element={<Guidelines />} />
         <Route path="/register-player" element={<AddPlayer />} />
         <Route path="/register-official" element={<AddPlayer />} />
         <Route path="/players" element={<Players />} />
