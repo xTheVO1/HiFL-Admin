@@ -16,11 +16,6 @@ interface IUser {
       Role: string
     }
 }
-interface State {
-  user: IUser[],
-  loading: boolean,
-  error: string | null
-}
 
 const  initialState = {
   user:[],
@@ -28,7 +23,7 @@ const  initialState = {
   error: null
 }
 
-export const userReducer = (state: State = initialState, action: any):State => {
+export const userReducer = (state: UserState = initialState, action: any):UserState => {
     switch(action.type) {
       case LOGIN_START:
         return {

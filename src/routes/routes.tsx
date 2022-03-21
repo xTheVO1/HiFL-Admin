@@ -6,13 +6,16 @@ import TeamManager from "../views/teams";
 import { Players } from "../views/players";
 import { AddPlayer } from "../views/players/createPlayer";
 import { UpdatePlayer } from "../views/players/editPlayer";
+import {Guidelines} from "../views/guidelines";
 
 function AppRoutes() {
+
   return (
     <Routes>
       <Route element={<PrivateRoute />}>
         <Route path="/player" element={<UpdatePlayer />} />
         <Route path="/register-player" element={<AddPlayer />} />
+        <Route path="/register-official" element={<AddPlayer />} />
         <Route path="/players" element={<Players />} />
         <Route path="/dashboard" element={<Dashboard />} />
         <Route path="/teams" element={<TeamManager />} />

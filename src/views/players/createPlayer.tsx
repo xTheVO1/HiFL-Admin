@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { MdCameraAlt } from "react-icons/md";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -23,9 +25,11 @@ import { createPlayers } from "../../redux/actions/players";
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const [object, setObject]: any = useState({});
   const [image, setImage] = useState();
   const hiddenFileInput: any = React.useRef(null);
+  const pathname = window.location.pathname;
 
   const handleClick = (event: any) => {
     hiddenFileInput.current.click();
@@ -38,20 +42,16 @@ export const AddPlayer: React.FC = () => {
     });
   };
 
+
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem("Teamid");
     e.preventDefault();
-    console.log(object, image, 23);
+
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
       Email: object.email,
-      // Phonenumber: object.phone
-      // MiddleName: string,
-      // DateOfBirth: string,
-      // Age: 0,
-      // NextOfKin:any
-    };
+    }
     const playerData = {
       Team: teamId,
       Email: object.email,
@@ -63,11 +63,16 @@ export const AddPlayer: React.FC = () => {
       NextOfKin: {
         PhoneNumber: object.kinPhone,
         Email: object.kinEmail,
-        Address: object.kinAddress,
-      },
-    };
-    dispatch(createPlayers({ userData, playerData }));
-  };
+        Address: object.kinAddress
+      }
+    }
+    if(pathname === "/register-player"){
+      dispatch(createPlayers({ userData, playerData, navigate}))
+    }else if(pathname === "/register-official"){
+
+    }
+  }
+
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
@@ -80,13 +85,13 @@ export const AddPlayer: React.FC = () => {
   return (
     <Container>
       <Content>
+
         <ContentHeader
-          title={"Register Player"}
-          children={"Enter all information below"}
+title={pathname === "/register-player" ? "REGISTER PLAYER": "REGISTER OFFICIAL"}          children={"Enter all information below"}
         />
         <Tab>
           <Nav>
-            <List className="active">PERSONAL INFORMATIONS</List>
+            <List className="active">PERSONAL INFORMATION</List>
           </Nav>
           <Outlet>
             <Form onSubmit={submit}>

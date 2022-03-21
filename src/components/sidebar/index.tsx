@@ -1,7 +1,7 @@
 import { Container, Header, LogoImg, MenuNavigator, MenuItemLink, MenuItemBottom, ToggleMenu, Signout, SideImage, Image} from "./styles";
 import logoImg from '../../assests/logo.png';
 import dashboard from '../../assests/dashboard .png';
-import { MdDashboard, MdArrowUpward,  MdOutlineLogout, MdClose, MdMenu, MdOutlineSupervisorAccount } from 'react-icons/md';
+import {  MdOutlineLogout, MdClose, MdMenu } from 'react-icons/md';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { teamManagerMenu } from "../../utils/menu";
