@@ -55,7 +55,7 @@ const getOfficialsFailed = (data: any) => ({
 })
 
 export const createOfficials = (data: any) => async (dispatch: Dispatch) => {
-  const { userData, officialData, navigate } = data;
+  const { userData, playerData, navigate } = data;
   try {
     dispatch(start())
     // registers a user on the app
@@ -65,19 +65,21 @@ export const createOfficials = (data: any) => async (dispatch: Dispatch) => {
       data: userData
     })
     const { data } = response;
-
     //appending user._id to official data
-    officialData.User = data.data._id;
+    playerData.User = data.data._id;
+    console.log(response.data, playerData)
 
     // registers a official after creating a user on the app
     const officialResponse = await privateHttp({
       method: "post",
-      url: `/`,
-      data: officialData
+      url: `/officials/official/register/`,
+      data: playerData
     })
-    navigate("/edit")
+    const id = officialResponse.data.data._id;
+    navigate(`/player/${id}`)
     return dispatch(postOfficialSuccess(officialResponse.data))
   } catch (error: any) {
+    console.log(error)
     return dispatch(postOfficialFailed(error.response))
   }
 }

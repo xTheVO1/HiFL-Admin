@@ -6,18 +6,19 @@ import { useNavigate } from "react-router-dom";
 import { Content, Card, Div, ImgCard, CardText, Btn, Small, SideText } from "./style";
 
 interface PropsType {
+  _id: string;
 status: boolean;
 playerName: string;
 age: number;
 position: string;
 approval: boolean
 }
-export const PlayerCard = ({age, position,approval, status, playerName}: PropsType) => {
+export const PlayerCard = ({_id, age, position,approval, status, playerName}: PropsType) => {
   // const dispatch: Dispatch<any> = useDispatch()
   const navigate = useNavigate();
 
   const editPlayer = () => {
-    navigate("/edit-player")
+    navigate(`/player/${_id}`)
   }
   return (
       <Card>

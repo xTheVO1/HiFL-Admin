@@ -3,6 +3,7 @@ import styled from "styled-components";
 
 export const Container = styled.div`
    width: 100%; 
+   background: white;
 `;
 export const Image = styled.img`
    width: 250px;

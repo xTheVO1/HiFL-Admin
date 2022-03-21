@@ -1,27 +1,38 @@
-import React, { useState } from "react";
-// import { useDispatch } from "react-redux"
-// import { Dispatch } from "redux"
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
 import { Container, CreateBtn, Content, Table } from "./style";
 import { PlayerCard } from "../../components/playerCard";
+import { getPlayers } from "../../redux/actions/players";
+import { RootState } from "../../redux/reducers";
+import { Loader } from "../teams/styles";
 
 export const Players: React.FC = () => {
-  const [activeTab, setActiveTab] = useState("OFFICIALS");
-
-  // const dispatch: Dispatch<any> = useDispatch();
+  const [activeTab, setActiveTab] = useState("PLAYERS");
   const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useDispatch();
+  const teamId = sessionStorage.getItem('Teamid');
+  const store = useSelector((state: RootState) => state.player)
+  const {loading, players } = store;
+  const mainData = players && players ? players : []; 
 
   const addPlayer = () => {
-    navigate("/add-player");
+    navigate("/register-player");
   };
 
   const addOfficial = () => {
-
-    navigate("/add-official")
+    navigate("/register-official");
   }
+  useEffect(() => {
+    if(teamId === ""){
+      navigate("/dashboard");
+    }
+      dispatch(getPlayers(teamId));
+  },[dispatch])
   return (
     <Container>
       <Content>
@@ -46,7 +57,6 @@ export const Players: React.FC = () => {
         </Table>
         <ContentHeader title={activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"} >
           <CreateBtn onClick={activeTab === "OFFICIALS"  ? addOfficial : addPlayer}>REGISTER {activeTab === "OFFICIALS" ? "OFFICIALS": "PLAYERS"}</CreateBtn>
-
         </ContentHeader>
         <Table>
           <div className="header">
@@ -60,6 +70,7 @@ export const Players: React.FC = () => {
       </Content>
       {activeTab === "OFFICIALS" ? (
         <PlayerCard
+        _id={"7"}
           approval={false}
           status={true}
           playerName={"Sanmi James"}
@@ -68,21 +79,21 @@ export const Players: React.FC = () => {
         />
       ) : (
         <>
+        {players && players.length === 0 || !mainData ? <Loader>NO DATA FOUND</Loader> : 
+        (loading ? <Loader>LOADING....</Loader> :
+        mainData &&  mainData.map((item: any )=> (
           <PlayerCard
+          _id={item._id}
             approval={false}
-            status={true}
-            playerName={"Chukwu Emmannuel"}
+            status={!item.isCompleted ? "" : item.isCompleted}
+            playerName={item.User.Firstname + " " + item.User.Lastname}
             age={22}
-            position={"GK"}
+            position={!item.SportRecord ? "" : item.SportRecord.Position}
           />
-          <PlayerCard
-            approval={true}
-            status={false}
-            playerName={"Abdulahi Wahab"}
-            age={19}
-            position={"MD"}
-          />
+          )))
+        }
         </>
+
       )}
     </Container>
   );

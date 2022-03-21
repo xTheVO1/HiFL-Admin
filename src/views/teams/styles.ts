@@ -8,7 +8,8 @@ export const Loader = styled.p`
 text-align: center;
 font-size: 2rem;
 width: 100%;
-margin: 6rem auto;
+margin: 0rem auto;
+padding: 6rem 0;
 `;
 
 export const Content = styled.div`

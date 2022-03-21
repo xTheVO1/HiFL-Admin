@@ -10,7 +10,7 @@ color: #000729;
 `
 
 export const Nav = styled.ul`
-width: 80%;
+width: 100%;
 margin: 0 0 0rem;
 display: flex;
 align-items: left;

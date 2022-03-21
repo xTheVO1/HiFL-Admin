@@ -63,7 +63,7 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
       method: "post",
       url: `/auth/register/`,
       data: userData
-    })
+    });
     const { data } = response;
 
     //appending user._id to player data
@@ -74,34 +74,37 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
       method: "post",
       url: `/players/player/register/`,
       data: playerData
-    })
-    navigate("/edit-player")
+    });
+    const id = playerResponse.data.data._id;
+    navigate(`/player/${id}`)
     return dispatch(postPlayerSuccess(playerResponse.data))
   } catch (error: any) {
     return dispatch(postPlayerFailed(error.response))
   }
 }
 
-export const getPlayers = () => async (dispatch: Dispatch) => {
+export const getPlayers = (id: any) => async (dispatch: Dispatch) => {
   try {
       dispatch(getPlayersStarted())
       const response = await privateHttp({
         method: "get",
-        url: `/player/players/`
+        url: `/players/?Team=${id}`
       })
-      const { data } = response;
-      return dispatch(getPlayersSuccess(data.data))
+      console.log(response)
+
+      return dispatch(getPlayersSuccess(response.data.data))
     } catch (error: any) {
+      console.log(error)
       return dispatch(getPlayersFailed(error.response))
     }
   }
 
-export const getPlayerById = (id: string) => async (dispatch: Dispatch) => {
+export const getPlayerById = (id: any) => async (dispatch: Dispatch) => {
   try {
       dispatch(getPlayerStarted())
       const response = await privateHttp({
         method: "get",
-        url: `/players/player/`,
+        url: `/players/player/?_id=${id}`
       })
       const { data } = response;
       return dispatch(getPlayerSuccess(data.data))

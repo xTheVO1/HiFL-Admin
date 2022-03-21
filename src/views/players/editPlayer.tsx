@@ -1,6 +1,6 @@
-import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { Dispatch } from "redux";
+import React, { useState, useEffect, memo } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "redux";
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -18,14 +18,97 @@ import {
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
 import Player from "../../assests/player.png";
+import {getPlayerById} from "../../redux/actions/players"
+import { useParams } from "react-router-dom";
+import { RootState } from "../../redux/reducers";
+import { Loader } from "../teams/styles";
 
 export const UpdatePlayer: React.FC = () => {
   const [activeTab, setActiveTab] = useState("tab1");
-  //   const dispatch: Dispatch<any> = useDispatch();
+  const [playersObject, setPlayersObject] = useState({});
+  const [inputObject, setObject] = useState({ Firstname: "",
+                                              Lastname: "",
+                                              Email: "",
+                                              MiddleName: "",
+                                              SchoolAddress: "",
+                                              StreetAddress: "",
+                                              NearestBusStop: "",
+                                              State:"",
+                                              LocalGovt:"",
+                                              SchLGA: ""
+                                            });
+  const dispatch: Dispatch<any> = useDispatch();
+  const { id } = useParams();
+  const store = useSelector((state: RootState) => state.player)
+  const {loading, singlePlayer } = store;
+  const mainData = singlePlayer && singlePlayer ? singlePlayer : {}; 
+  const {user, player} = mainData;
 
-  //   const addPlayer = () => {
+  useEffect(() => {
+    const playerId = id;
 
+    const getPlayer = async () => {
+      await dispatch(getPlayerById(playerId));
+    }
+   getPlayer();
+
+  //  const updateForm = async () => {
+  //    if(user && player){
+  //     const {Firstname, Lastname, Email } = user;
+  //     const { MiddleName, Address:{LocalGovt, NearestBusStop, State, StreetAddress} } = player;
+  //    await setObject({
+  //      ...inputObject,
+  //       Firstname: Firstname,
+  //       Lastname: Lastname,
+  //       Email: Email,
+  //       MiddleName: MiddleName,
+  //       StreetAddress: StreetAddress,
+  //       NearestBusStop: NearestBusStop,
+  //       State: State,
+  //       LocalGovt: LocalGovt
+  //     });
   //   }
+  //  }
+  //  updateForm();
+  }, [dispatch]);
+
+  useEffect(() => {
+  //   const playerId = id;
+
+  //   const getPlayer = async () => {
+  //     await dispatch(getPlayerById(playerId));
+  //   }
+  //  getPlayer();
+
+   const updateForm = () => {
+     if(user && player){
+      const {Firstname, Lastname, Email } = user;
+      const { MiddleName, Address:{LocalGovt, NearestBusStop, State, StreetAddress} } = player;
+   if(!loading) {
+      setObject({
+       ...inputObject,
+        Firstname: Firstname,
+        Lastname: Lastname,
+        Email: Email,
+        MiddleName: MiddleName,
+        StreetAddress: StreetAddress,
+        NearestBusStop: NearestBusStop,
+        State: State,
+        LocalGovt: LocalGovt
+      });
+    }
+  }
+   }
+   updateForm();
+  }, [dispatch]);
+
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    setObject({
+      ...inputObject,
+      [e.target.name]: e.target.value 
+    });
+  }
   return (
     <Container>
       <Content>
@@ -33,6 +116,7 @@ export const UpdatePlayer: React.FC = () => {
           title={"Player Profile"}
           children={"Update Player Information"}
         />
+        {loading ? <Loader>LOADING....</Loader> : 
         <Tab>
           <Nav>
             <List
@@ -68,26 +152,25 @@ export const UpdatePlayer: React.FC = () => {
                     <Image src={Player} alt="players" />
                   </FormData>
                 </Section>
-
                 <FormData>
                   <Label>FIRST NAME </Label>
-                  <Input type="text" name="Firstname" />
+                  <Input type="text" name="Firstname" onChange={(e) => handleChange(e)} value={inputObject.Firstname}/>
                 </FormData>
                 <FormData>
                   <Label>LAST NAME</Label>
-                  <Input type="text" name="Lastname" />
+                  <Input type="text" name="Lastname" onChange={(e) => handleChange(e)} value={inputObject.Lastname}/>
                 </FormData>
                 <FormData>
                   <Label>MIDDLE NAME</Label>
-                  <Input type="text" name="MiddleName" />
+                  <Input type="text" name="MiddleName" onChange={(e) => handleChange(e)} value={inputObject.MiddleName}/>
                 </FormData>
                 <FormData>
                   <Label>DATE OF BIRTH</Label>
-                  <Input type="date" name="DateOfBirth" />
+                  <Input type="date" name="DateOfBirth" onChange={(e) => handleChange(e)}/>
                 </FormData>
                 <Section>
                   <Label>EMAIL</Label>
-                  <Input type="text" name="Email" />
+                  <Input type="text" name="Email" onChange={(e) => handleChange(e)} value={inputObject.Email}/>
                 </Section>
                 <Section>
                   <Section>
@@ -95,19 +178,19 @@ export const UpdatePlayer: React.FC = () => {
                   </Section>
                   <FormData>
                     <Label>STREET ADDRESS</Label>
-                    <Input type="text" name="StreetAddress" />
+                    <Input type="text" name="StreetAddress"onChange={(e) => handleChange(e)} value={inputObject.StreetAddress}/>
                   </FormData>
                   <FormData>
                     <Label>LOCAL GOVERNMENT</Label>
-                    <Input type="text" name="LocalGovt" />
+                    <Input type="text" name="LocalGovt" onChange={(e) => handleChange(e)} value={inputObject.LocalGovt}/>
                   </FormData>
                   <FormData>
                     <Label>STATE</Label>
-                    <Input type="text" name="State" />
+                    <Input type="text" name="State"onChange={(e) => handleChange(e)} value={inputObject.State}/>
                   </FormData>
                   <FormData>
                     <Label>NEAREST BUSSTOP</Label>
-                    <Input type="text" name="NearestBusStop" />
+                    <Input type="text" name="NearestBusStop" onChange={(e) => handleChange(e)} value={inputObject.NearestBusStop}/>
                   </FormData>
                 </Section>
                 <Section>
@@ -116,19 +199,19 @@ export const UpdatePlayer: React.FC = () => {
                   </Section>
                   <FormData>
                     <Label>STREET ADDRESS</Label>
-                    <Input type="text" name="SchoolStreet" />
+                    <Input type="text" name="SchoolStreet"onChange={(e) => handleChange(e)} />
                   </FormData>
                   <FormData>
                     <Label>LOCAL GOVERNMENT</Label>
-                    <Input type="text" name="SchLGA" />
+                    <Input type="text" name="SchLGA" onChange={(e) => handleChange(e)}/>
                   </FormData>
                   <FormData>
                     <Label>STATE</Label>
-                    <Input type="text" name="State" />
+                    <Input type="text" name="State" onChange={(e) => handleChange(e)}/>
                   </FormData>
                   <FormData>
                     <Label>NEAREST BUSSTOP</Label>
-                    <Input type="text" name="SchBusstop" />
+                    <Input type="text" name="SchBusstop"onChange={(e) => handleChange(e)} />
                   </FormData>
                 </Section>
                 <Section>
@@ -137,38 +220,26 @@ export const UpdatePlayer: React.FC = () => {
                   </Section>
                   <FormData>
                     <Label>FULL NAME</Label>
-                    <Input type="text" name="FullNameOfKin" />
+                    <Input type="text" name="FullNameOfKin" onChange={(e) => handleChange(e)}/>
                   </FormData>
                   <FormData>
                     <Label>NEXT OF KIN RELATIONSHIP</Label>
-                    <Input type="text" name="kinRelationship" />
+                    <Input type="text" name="kinRelationship" onChange={(e) => handleChange(e)}/>
                   </FormData>
                   <FormData>
                     <Label>EMAIL</Label>
-                    <Input type="text" name="kinEmail" />
+                    <Input type="text" name="kinEmail" onChange={(e) => handleChange(e)}/>
                   </FormData>
                   <FormData>
                     <Label>PHONE NUMBER</Label>
-                    <Input type="text" name="kinPhone" />
+                    <Input type="text" name="kinPhone" onChange={(e) => handleChange(e)}/>
                   </FormData>
                   <Section>
                     <Label>ADDRESS</Label>
-                    <Input type="text" name="kinAddress" />
+                    <Input type="text" name="kinAddress"onChange={(e) => handleChange(e)} />
                   </Section>
                 </Section>
-                <Section>
-                  <Section>
-                    <h4>MEDICAL RECORD</h4>
-                  </Section>
-                  <FormData>
-                    <Label>GENOTYPE</Label>
-                    <Input type="text" name="Genotype" />
-                  </FormData>
-                  <FormData>
-                    <Label>BLOOD GROUP</Label>
-                    <Input type="text" name="BloodGroup" />
-                  </FormData>
-                </Section>
+                
               </Form>
             ) : (
               ""
@@ -183,6 +254,19 @@ export const UpdatePlayer: React.FC = () => {
                   <FormData>
                     <Label>JERSEY NUMBER</Label>
                     <Input type="number" name="jerseyNumber" />
+                  </FormData>
+                </Section>
+                <Section>
+                  <Section>
+                    <h4>MEDICAL RECORD</h4>
+                  </Section>
+                  <FormData>
+                    <Label>GENOTYPE</Label>
+                    <Input type="text" name="Genotype" onChange={(e) => handleChange(e)}/>
+                  </FormData>
+                  <FormData>
+                    <Label>BLOOD GROUP</Label>
+                    <Input type="text" name="BloodGroup" onChange={(e) => handleChange(e)}/>
                   </FormData>
                 </Section>
               </Form>
@@ -235,6 +319,7 @@ export const UpdatePlayer: React.FC = () => {
             </BtnDiv>
           </Outlet>
         </Tab>
+}
       </Content>
     </Container>
   );

@@ -49,13 +49,15 @@ type IPlayer = {
   User: string,
   MiddleName: string,
   DateOfBirth: string,
-  Age: 0,
+  Address: any,
+  Age: string,
   NextOfKin:any
 }
 
 interface PlayerState {
  players: any,
-player: IPlayer[],
+ player: any,
+ singlePlayer: any;
  loading: boolean,
  error: any
 }

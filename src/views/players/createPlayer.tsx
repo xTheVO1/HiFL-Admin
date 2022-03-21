@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { MdCameraAlt } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
@@ -22,6 +21,7 @@ import Input from "../../components/Input";
 
 //actions
 import { createPlayers } from "../../redux/actions/players";
+import { createOfficials } from "../../redux/actions/officials";
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
@@ -34,6 +34,7 @@ export const AddPlayer: React.FC = () => {
   const handleClick = (event: any) => {
     hiddenFileInput.current.click();
   };
+
   const handleChange = (e: any) => {
     e.preventDefault();
     setObject({
@@ -60,15 +61,16 @@ export const AddPlayer: React.FC = () => {
       DateOfBirth: object.Dateofbirth,
       Age: object.age,
       KinRelationship: object.kinRelationship,
-      NextOfKin: {
-        PhoneNumber: object.kinPhone,
-        Email: object.kinEmail,
-        Address: object.kinAddress
-      }
+      // NextOfKin: {
+      //   PhoneNumber: object.kinPhone,
+      //   Email: object.kinEmail,
+      //   Address: object.kinAddress
+      // }
     }
     if(pathname === "/register-player"){
       dispatch(createPlayers({ userData, playerData, navigate}))
     }else if(pathname === "/register-official"){
+      dispatch(createOfficials({ userData, playerData, navigate}))
 
     }
   }
