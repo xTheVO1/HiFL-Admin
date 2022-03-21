@@ -1,26 +1,32 @@
-import { MdDashboard, MdArrowUpward, MdOutlineSupervisorAccount } from 'react-icons/md';
+import {
+  MdDashboard,
+  MdArrowUpward,
+  MdOutlineSupervisorAccount,
+} from "react-icons/md";
 
-export const teamManagerMenu =[
-  { id: "dashboard",
+export const teamManagerMenu = [
+  {
+    id: "dashboard",
     title: "DASHBOARD",
     href: "/dashboard",
-    icon: <MdDashboard/>
-},
-{ id: "team",
+    icon: <MdDashboard />,
+  },
+  {
+    id: "team",
     title: "TEAMS",
-    href: "/team-manager",
-    icon:  <MdOutlineSupervisorAccount/>
-
-},
-{ id: "guideline",
+    href: "/teams",
+    icon: <MdOutlineSupervisorAccount />,
+  },
+  {
+    id: "guidelines",
     title: "GUIDELINES",
     href: "/guidelines",
     icon:  <MdArrowUpward />
 },
-{ id: "support",
+  {
+    id: "support",
     title: "SUPPORT",
-    href: "/team-manager",
-    icon:  <MdArrowUpward />
-
-},
-]
+    href: "/support",
+    icon: <MdArrowUpward />,
+  },
+];
