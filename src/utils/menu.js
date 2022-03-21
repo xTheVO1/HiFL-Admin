@@ -14,7 +14,7 @@ export const teamManagerMenu =[
 },
 { id: "guideline",
     title: "GUIDELINES",
-    href: "/team-manager",
+    href: "/guidelines",
     icon:  <MdArrowUpward />
 },
 { id: "support",

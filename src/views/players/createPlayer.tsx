@@ -17,6 +17,7 @@ export const AddPlayer: React.FC = () => {
   const [object, setObject]: any = useState({});
   const [image, setImage] = useState();
   const hiddenFileInput: any = React.useRef(null);
+  const pathname = window.location.pathname;
 
   const handleClick = (event: any) => {
     hiddenFileInput.current.click();
@@ -29,8 +30,6 @@ export const AddPlayer: React.FC = () => {
     });
   }
 
-  const pathname = window.location.pathname;
-  console.log(pathname)
 
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem('Teamid');

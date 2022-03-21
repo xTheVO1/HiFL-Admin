@@ -23,4 +23,5 @@ export const Title = styled.div<TitleContainerTypeProps>`
 export const Controllers = styled.div`
     display: flex;
     align-items: center;
+    font-weight: 400;
 `;
