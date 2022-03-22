@@ -60,12 +60,16 @@ export const AddPlayer: React.FC = () => {
       MiddleName: object.Middlename,
       DateOfBirth: object.Dateofbirth,
       Age: object.age,
+      NextOfKin: {
+        FullNameOfKin: object.FullNameOfKin,
       KinRelationship: object.kinRelationship,
-      // NextOfKin: {
-      //   PhoneNumber: object.kinPhone,
-      //   Email: object.kinEmail,
-      //   Address: object.kinAddress
-      // }
+      TermsAndConditions: true,
+      NextOfKin: {
+        PhoneNumber: object.kinPhone,
+        Email: object.kinEmail,
+        Address: object.kinAddress
+      }
+    }
     }
     if(pathname === "/register-player"){
       dispatch(createPlayers({ userData, playerData, navigate}))

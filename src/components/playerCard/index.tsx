@@ -11,18 +11,22 @@ status: boolean;
 playerName: string;
 age: number;
 position: string;
-approval: boolean
+approval: boolean;
+type: string;
 }
-export const PlayerCard = ({_id, age, position,approval, status, playerName}: PropsType) => {
+export const PlayerCard = ({_id, age, type, position,approval, status, playerName}: PropsType) => {
   // const dispatch: Dispatch<any> = useDispatch()
   const navigate = useNavigate();
 
   const editPlayer = () => {
     navigate(`/player/${_id}`)
   }
+  const editOfficial = () => {
+    navigate(`/official/${_id}`)
+  }
   return (
-      <Card>
-        <Content onClick={editPlayer}>
+      <Card key={_id}>
+        <Content onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
           <Div>
             <ImgCard>
             </ImgCard>

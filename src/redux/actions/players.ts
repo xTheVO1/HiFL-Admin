@@ -8,7 +8,10 @@ import {
   GET_PLAYERS_FAILED,
   GET_PLAYER_STARTED,
   GET_PLAYER_SUCCESSFUL,
-  GET_PLAYER_FAILED
+  GET_PLAYER_FAILED,
+  UPDATE_PLAYER_STARTED,
+  UPDATE_PLAYER_SUCCESSFUL,
+  UPDATE_PLAYER_FAILED
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
 
@@ -53,6 +56,19 @@ const getPlayersFailed = (data: any) => ({
   type: GET_PLAYERS_FAILED,
   payload: data
 })
+const updatePlayerStarted = () => ({
+  type: UPDATE_PLAYER_STARTED
+})
+
+const updatePlayerSuccess = (data: IPlayer) => ({
+  type: UPDATE_PLAYER_SUCCESSFUL,
+  payload: data
+});
+
+const updatePlayerFailed = (data: any) => ({
+  type: UPDATE_PLAYER_FAILED,
+  payload: data
+});
 
 export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
   const { userData, playerData, navigate } = data;
@@ -112,3 +128,20 @@ export const getPlayerById = (id: any) => async (dispatch: Dispatch) => {
       return dispatch(getPlayerFailed(error.response))
     }
   }
+export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
+  console.log(playerData, 132)
+  try {
+    dispatch(updatePlayerStarted())
+    const response = await privateHttp({
+      method: "patch",
+      url: `/players/player/update/`,
+      data: playerData
+    })
+    const {data} = response;
+    console.log(data)
+    return dispatch(updatePlayerSuccess(data))
+  } catch (error: any) {
+    console.log(error)
+    return dispatch(updatePlayerFailed(error.response))
+  }
+}

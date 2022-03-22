@@ -18,14 +18,13 @@ import {
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
 import Player from "../../assests/player.png";
-import {getPlayerById, updatePlayer} from "../../redux/actions/players"
+import { getOfficialById, updateOfficials } from "../../redux/actions/officials";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import { Loader } from "../teams/styles";
 
-export const UpdatePlayer: React.FC = () => {
+export const UpdateOfficial: React.FC = () => {
   const [activeTab, setActiveTab] = useState("tab1");
-  const [playersObject, setPlayersObject] = useState({});
   const [inputObject, setObject] = useState({ Firstname: "",
                                               Lastname: "",
                                               Email: "",
@@ -36,92 +35,55 @@ export const UpdatePlayer: React.FC = () => {
                                               State:"",
                                               LocalGovt:"",
                                               SchLGA: "",
+                                              Dateofbirth: 0,
+                                              Age:0,
                                               FullNameOfKin: "",
-                                              kinPhone:"",
-                                              kinEmail: "",
+                                              kinRelationship: "",
+                                              kinPhone: "",
                                               kinAddress: "",
-                                              kinRelationship:"",
-                                              Dateofbirth: "",
-                                              Age: ""
+                                              kinEmail: ""
                                             });
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
-  const store = useSelector((state: RootState) => state.player)
-  const {loading, singlePlayer } = store;
-  const mainData = singlePlayer && singlePlayer ? singlePlayer : {}; 
-  const {user, player} = mainData;
+  const store = useSelector((state: RootState) => state.officials)
+  const {loading, official } = store;
+  const mainData = official && official ? official : {}; 
   const teamId = sessionStorage.getItem("Teamid");
 
   useEffect(() => {
-    const playerId = id;
+    const officialId = id;
 
-    const getPlayer = async () => {
-      await dispatch(getPlayerById(playerId));
+    const getOfficial = async () => {
+      dispatch(getOfficialById(officialId));
     }
-   getPlayer();
+    
+  console.log(mainData, 2 )
 
-  //  const updateForm = async () => {
-  //    if(user && player){
-  //     const {Firstname, Lastname, Email } = user;
-  //     const { MiddleName, Address:{LocalGovt, NearestBusStop, State, StreetAddress} } = player;
-  //    await setObject({
-  //      ...inputObject,
-  //       Firstname: Firstname,
-  //       Lastname: Lastname,
-  //       Email: Email,
-  //       MiddleName: MiddleName,
-  //       StreetAddress: StreetAddress,
-  //       NearestBusStop: NearestBusStop,
-  //       State: State,
-  //       LocalGovt: LocalGovt
-  //     });
-  //   }
-  //  }
-  //  updateForm();
-  }, [dispatch]);
-
-  useEffect(() => {
-  //   const playerId = id;
-
-  //   const getPlayer = async () => {
-  //     await dispatch(getPlayerById(playerId));
-  //   }
-  //  getPlayer();
-
-   const updateForm = () => {
-     if(user && player){
-      const {Firstname, Lastname, Email } = user;
-      const { MiddleName, Address:{LocalGovt, NearestBusStop, State, StreetAddress} } = player;
-      setObject({
-       ...inputObject,
-        Firstname: Firstname,
-        Lastname: Lastname,
-        Email: Email,
-        MiddleName: MiddleName,
-        StreetAddress: StreetAddress,
-        NearestBusStop: NearestBusStop,
-        State: State,
-        LocalGovt: LocalGovt
-      });
-  }
-   }
-   updateForm();
-  }, [dispatch]);
+    getOfficial();
+   async function updateForm () {
+      if(official === {}){
+  console.log(mainData, 3 )
+      }else if(official && !loading){
+  console.log(mainData, 4 )
+        const { MiddleName, Address:{LocalGovt, NearestBusStop, State, StreetAddress}  } = mainData;
+     await setObject({
+         ...inputObject,
+          // MiddleName: MiddleName,
+          // StreetAddress: StreetAddress,
+          // NearestBusStop: NearestBusStop,
+          // State: State,
+          // LocalGovt: LocalGovt
+        });
+      }
+       }
+       updateForm();
+  }, []);
 
 
-  const handleChange = (e: any) => {
-    e.preventDefault();
-    setObject({
-      ...inputObject,
-      [e.target.name]: e.target.value 
-    });
-  }
-
-  const editPlayer = (e: any) => {
+  const editOfficial = (e: any) => {
     e.preventDefault();
       const details = {
         Team: teamId,
-       
         // Phonenumber: object.phone,
         DateOfBirth: inputObject.Dateofbirth,
         Age: inputObject.Age,
@@ -137,14 +99,22 @@ export const UpdatePlayer: React.FC = () => {
       }
       }
       const payload = { _id: id, params: details}
-      dispatch(updatePlayer(payload))
+      dispatch(updateOfficials(payload))
+  }
+ 
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    setObject({
+      ...inputObject,
+      [e.target.name]: e.target.value 
+    });
   }
   return (
     <Container>
       <Content>
         <ContentHeader
-          title={"Player Profile"}
-          children={"Update Player Information"}
+          title={"OFFICIAL PROFILE"}
+          children={"UPDATE OFFICIAL INFORMATION"}
         />
         {loading ? <Loader>LOADING....</Loader> : 
         <Tab>
@@ -176,7 +146,8 @@ export const UpdatePlayer: React.FC = () => {
           </Nav>
           <Outlet>
             {activeTab === "tab1" ? (
-              <Form onSubmit={editPlayer}>
+              loading ? <Loader>Loading</Loader> :
+              <Form onSubmit={editOfficial}>
                 <Section>
                   <FormData>
                     <Image src={Player} alt="players" />
@@ -184,23 +155,23 @@ export const UpdatePlayer: React.FC = () => {
                 </Section>
                 <FormData>
                   <Label>FIRST NAME </Label>
-                  <Input type="text" name="Firstname" onChange={(e) => handleChange(e)} value={inputObject.Firstname}/>
+                  <Input type="text" name="Firstname" onChange={(e) => handleChange(e)} disabled={true} value={mainData.User ? mainData.User.Firstname : ""}/>
                 </FormData>
                 <FormData>
                   <Label>LAST NAME</Label>
-                  <Input type="text" name="Lastname" onChange={(e) => handleChange(e)} value={inputObject.Lastname}/>
+                  <Input type="text" name="Lastname" onChange={(e) => handleChange(e)} disabled={true} value={mainData.User ? mainData.User.Lastname : ""}/>
                 </FormData>
                 <FormData>
                   <Label>MIDDLE NAME</Label>
-                  <Input type="text" name="MiddleName" onChange={(e) => handleChange(e)} value={inputObject.MiddleName}/>
+                  <Input type="text" name="MiddleName" onChange={(e) => handleChange(e)} disabled={true} value={mainData.MiddleName}/>
                 </FormData>
                 <FormData>
                   <Label>DATE OF BIRTH</Label>
-                  <Input type="date" name="DateOfBirth" onChange={(e) => handleChange(e)}/>
+                  <Input type="date" name="DateOfBirth" disabled={true} onChange={(e) => handleChange(e)}/>
                 </FormData>
                 <Section>
                   <Label>EMAIL</Label>
-                  <Input type="text" name="Email" onChange={(e) => handleChange(e)} value={inputObject.Email}/>
+                  <Input type="text" name="Email" disabled={true} onChange={(e) => handleChange(e)} value={mainData.User ? mainData.User.Email : ""}/>
                 </Section>
                 <Section>
                   <Section>
@@ -209,6 +180,8 @@ export const UpdatePlayer: React.FC = () => {
                   <FormData>
                     <Label>STREET ADDRESS</Label>
                     <Input type="text" name="StreetAddress"onChange={(e) => handleChange(e)} value={inputObject.StreetAddress}/>
+                    <p>inputObject</p>
+                    <p>{inputObject.Email}</p>
                   </FormData>
                   <FormData>
                     <Label>LOCAL GOVERNMENT</Label>
@@ -270,7 +243,7 @@ export const UpdatePlayer: React.FC = () => {
                   </Section>
                 </Section>
                 <BtnDiv>
-              <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
+              <CreateBtn type="submit" >SAVE & CONTINUE</CreateBtn>
               <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn>
             </BtnDiv>
               </Form>
@@ -346,7 +319,7 @@ export const UpdatePlayer: React.FC = () => {
             ) : (
               ""
             )}
-           
+            
           </Outlet>
         </Tab>
 }

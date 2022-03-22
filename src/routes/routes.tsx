@@ -4,6 +4,7 @@ import { Dashboard } from "../views/dashboard";
 import { PrivateRoute } from "./privateRoutes";
 import TeamManager from "../views/teams";
 import { Players } from "../views/players";
+import { UpdateOfficial } from "../views/players/editOfficial";
 import { AddPlayer } from "../views/players/createPlayer";
 import { UpdatePlayer } from "../views/players/editPlayer";
 import {Guidelines} from "../views/guidelines";
@@ -16,6 +17,7 @@ function AppRoutes() {
         <Route path="/register-player" element={<AddPlayer />} />
         <Route path="/register-official" element={<AddPlayer />} />
         <Route path="/guidelines" element={<Guidelines />} />
+        <Route path="/official/:id" element={<UpdateOfficial />} />
         <Route path="/player/:id" element={<UpdatePlayer />} />
         <Route path="/players" element={<Players />} />
         <Route path="/dashboard" element={<Dashboard />} />

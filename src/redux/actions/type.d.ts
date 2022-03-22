@@ -53,7 +53,6 @@ type IPlayer = {
   Age: string,
   NextOfKin:any
 }
-
 interface PlayerState {
  players: any,
  player: any,
@@ -78,7 +77,8 @@ type IOfficial = {
 
 interface OfficialState {
  officials: any,
- official: IPlayer[],
+ official: any,
+ newOfficial: any,
  loading: boolean,
  error: any
 }

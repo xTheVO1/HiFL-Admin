@@ -60,6 +60,9 @@ export const Btn = styled.div`
    @media(max-width: 930px) {
     display: none;
 }
+@media(min-width: 1000px) {
+    font-weight: 500;
+}
 `;
 export const Icon = styled.div`
     color: ${props => props.theme.colors.white};

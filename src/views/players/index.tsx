@@ -8,6 +8,7 @@ import ContentHeader from "../../components/ContentHeader";
 import { Container, CreateBtn, Content, Table } from "./style";
 import { PlayerCard } from "../../components/playerCard";
 import { getPlayers } from "../../redux/actions/players";
+import { getOfficials} from "../../redux/actions/officials";
 import { RootState } from "../../redux/reducers";
 import { Loader } from "../teams/styles";
 
@@ -17,8 +18,11 @@ export const Players: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const teamId = sessionStorage.getItem('Teamid');
   const store = useSelector((state: RootState) => state.player)
+  const officialStore = useSelector((state: RootState) => state.officials)
   const {loading, players } = store;
+  const {officials } = officialStore;
   const mainData = players && players ? players : []; 
+  const officialData = officials && officials ? officials : []; 
 
   const addPlayer = () => {
     navigate("/register-player");
@@ -32,6 +36,7 @@ export const Players: React.FC = () => {
       navigate("/dashboard");
     }
       dispatch(getPlayers(teamId));
+      dispatch(getOfficials(teamId));
   },[dispatch])
   return (
     <Container>
@@ -69,20 +74,26 @@ export const Players: React.FC = () => {
         </Table>
       </Content>
       {activeTab === "OFFICIALS" ? (
-        <PlayerCard
-        _id={"7"}
-          approval={false}
-          status={true}
-          playerName={"Sanmi James"}
-          age={24}
-          position={"FW"}
-        />
+         officials && officials.length === 0 || !officialData ? <Loader>NO DATA FOUND</Loader> : 
+         (loading ? <Loader>LOADING....</Loader> :
+         officialData &&  officialData.map((item: any )=> (
+           <PlayerCard
+           type="OFFICIALS"
+           _id={item._id}
+             approval={false}
+             status={!item.isCompleted ? "" : item.isCompleted}
+             playerName={item.User.Firstname + " " + item.User.Lastname}
+             age={22}
+             position={!item.SportRecord ? "" : item.SportRecord.Position}
+           />
+           )))
       ) : (
         <>
         {players && players.length === 0 || !mainData ? <Loader>NO DATA FOUND</Loader> : 
         (loading ? <Loader>LOADING....</Loader> :
         mainData &&  mainData.map((item: any )=> (
           <PlayerCard
+          type="PLAYERS"
           _id={item._id}
             approval={false}
             status={!item.isCompleted ? "" : item.isCompleted}

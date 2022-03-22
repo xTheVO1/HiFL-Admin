@@ -2,11 +2,13 @@ import { combineReducers } from 'redux';
 import { userReducer  } from './auth';
 import { teamReducer  } from './team';
 import { playerReducer } from './players';
+import { officialReducer } from './officials';
 
 const reducers = combineReducers({
 auth: userReducer,
 team: teamReducer,
-player: playerReducer
+player: playerReducer,
+officials: officialReducer
 });
 
 export default reducers;
