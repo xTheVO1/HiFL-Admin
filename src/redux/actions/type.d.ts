@@ -70,11 +70,20 @@ type IOfficial = {
   _id: string,
   User: string,
   MiddleName: string,
-  DateOfBirth: string,
-  Age: 0,
-  NextOfKin:any
+  SchoolAddress: string,
+  StreetAddress: string,
+  NearestBusStop: string,
+  State:string,
+  LocalGovt:string,
+  SchLGA: string,
+  Dateofbirth:string,
+  Age:number,
+  FullNameOfKin: string,
+  kinRelationship: string,
+  kinPhone: string,
+  kinAddress: string,
+  kinEmail: string
 }
-
 interface OfficialState {
  officials: any,
  official: any,

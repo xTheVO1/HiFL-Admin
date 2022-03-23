@@ -25,14 +25,14 @@ export const PlayerCard = ({_id, age, type, position,approval, status, playerNam
     navigate(`/official/${_id}`)
   }
   return (
-      <Card key={_id}>
+      <Card key={playerName}>
         <Content onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
           <Div>
             <ImgCard>
             </ImgCard>
             <SideText>
               <CardText>{playerName}</CardText>
-              <Small>AGE: {age}yrs | POSITION: {position}</Small>
+              <Small>AGE: {age}yrs | POSITION: {!position ? "Player" : position}</Small>
             </SideText>
           </Div>
           <div>

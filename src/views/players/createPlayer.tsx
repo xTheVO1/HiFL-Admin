@@ -60,15 +60,29 @@ export const AddPlayer: React.FC = () => {
       MiddleName: object.Middlename,
       DateOfBirth: object.Dateofbirth,
       Age: object.age,
+      TermsAndConditions: true,
       NextOfKin: {
         FullNameOfKin: object.FullNameOfKin,
       KinRelationship: object.kinRelationship,
-      TermsAndConditions: true,
-      NextOfKin: {
+      kinContact: {
         PhoneNumber: object.kinPhone,
         Email: object.kinEmail,
         Address: object.kinAddress
       }
+    },
+    Address: {
+      HomeAddress: {
+        StreetAddress: "string",
+        LocalGovt: "string",
+        State: "string",
+        NearestBusStop: "string"
+      }
+    },
+    SchoolAddress: {
+      StreetAddress: "string",
+      LocalGovt: "string",
+      State: "string",
+      NearestBusStop: "string"
     }
     }
     if(pathname === "/register-player"){
@@ -93,7 +107,7 @@ export const AddPlayer: React.FC = () => {
       <Content>
 
         <ContentHeader
-title={pathname === "/register-player" ? "REGISTER PLAYER": "REGISTER OFFICIAL"}          children={"Enter all information below"}
+          title={pathname === "/register-player" ? "REGISTER PLAYER": "REGISTER OFFICIAL"}          children={"Enter all information below"}
         />
         <Tab>
           <Nav>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, useLayoutEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 // components
@@ -21,15 +21,19 @@ import Player from "../../assests/player.png";
 import { getOfficialById, updateOfficials } from "../../redux/actions/officials";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
-import { Loader } from "../teams/styles";
+import Loader from "../../components/Loader";
 
 export const UpdateOfficial: React.FC = () => {
   const [activeTab, setActiveTab] = useState("tab1");
+  const [, refresh] = useState("");
   const [inputObject, setObject] = useState({ Firstname: "",
                                               Lastname: "",
                                               Email: "",
                                               MiddleName: "",
                                               SchoolAddress: "",
+                                              SchoolNearestBusStop: "",
+                                              SchoolState:"",
+                                              SchoolLocalGovt:"",
                                               StreetAddress: "",
                                               NearestBusStop: "",
                                               State:"",
@@ -41,7 +45,14 @@ export const UpdateOfficial: React.FC = () => {
                                               kinRelationship: "",
                                               kinPhone: "",
                                               kinAddress: "",
-                                              kinEmail: ""
+                                              kinEmail: "",
+                                              Position:"",
+                                              Genotype: "",
+                                              BloodGroup: "",
+                                              AnyAllergies: "",
+                                              PassportPhotograph: "",
+                                              MedicalCert: "",
+                                              SchoolID: ""
                                             });
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
@@ -49,57 +60,82 @@ export const UpdateOfficial: React.FC = () => {
   const {loading, official } = store;
   const mainData = official && official ? official : {}; 
   const teamId = sessionStorage.getItem("Teamid");
-
-  useEffect(() => {
-    const officialId = id;
-
+  const [image, setImage] = useState();
+  
+  useLayoutEffect(() => {
     const getOfficial = async () => {
-      dispatch(getOfficialById(officialId));
+      dispatch(getOfficialById(id));
     }
-    
-  console.log(mainData, 2 )
-
     getOfficial();
-   async function updateForm () {
-      if(official === {}){
-  console.log(mainData, 3 )
-      }else if(official && !loading){
-  console.log(mainData, 4 )
-        const { MiddleName, Address:{LocalGovt, NearestBusStop, State, StreetAddress}  } = mainData;
-     await setObject({
-         ...inputObject,
-          // MiddleName: MiddleName,
-          // StreetAddress: StreetAddress,
-          // NearestBusStop: NearestBusStop,
-          // State: State,
-          // LocalGovt: LocalGovt
-        });
-      }
-       }
-       updateForm();
-  }, []);
+     const {  Address, NextOfKin, SchoolAddress, Position, MedicalRecord,  DocumentUploads} = mainData;
+     if(Address ){
+       refresh("no")
+  setObject({
+        ...inputObject,
+        FullNameOfKin: NextOfKin?.FullNameOfKin,
+        kinRelationship: NextOfKin?.kinRelationship,
+        kinPhone:  NextOfKin?.KinContact?.PhoneNumber,
+        kinAddress: NextOfKin?.KinContact?.Address,
+        kinEmail:  NextOfKin?.KinContact?.Email,
+        StreetAddress: Address?.HomeAddress && Address?.HomeAddress?.StreetAddress,
+         LocalGovt:  Address?.HomeAddress?.LocalGovt,
+         NearestBusStop:  Address?.HomeAddress?.NearestBusStop,
+         State: Address?.HomeAddress?.LocalGovt,
+         SchoolAddress:  SchoolAddress?.StreetAddress,
+         SchoolLocalGovt:  SchoolAddress?.LocalGovt,
+         SchoolNearestBusStop:  SchoolAddress?.NearestBusStop,
+         SchoolState: SchoolAddress?.LocalGovt,
+         Position: Position,
+          Genotype: MedicalRecord.Genotype,
+          BloodGroup: MedicalRecord.BloodGroup,
+          AnyAllergies: MedicalRecord.AnyAllergies,
+          PassportPhotograph: DocumentUploads.PassportPhotograph,
+          MedicalCert: DocumentUploads.MedicalCert,
+          SchoolID: DocumentUploads.SchoolID
+      
+       });
+    }
+  }, [dispatch]);
 
 
   const editOfficial = (e: any) => {
     e.preventDefault();
       const details = {
         Team: teamId,
+        Position: inputObject.Position,
         // Phonenumber: object.phone,
         DateOfBirth: inputObject.Dateofbirth,
         Age: inputObject.Age,
+        TermsAndConditions: true,
         NextOfKin: {
           FullNameOfKin: inputObject.FullNameOfKin,
         KinRelationship: inputObject.kinRelationship,
-        TermsAndConditions: true,
-        NextOfKin: {
+       kinContact: {
           PhoneNumber: inputObject.kinPhone,
           Email: inputObject.kinEmail,
           Address: inputObject.kinAddress
         }
-      }
+      },
+      SchoolAddress: {
+        StreetAddress: inputObject.SchoolAddress,
+        LocalGovt: inputObject.SchoolLocalGovt,
+        State: inputObject.State,
+        NearestBusStop: inputObject.NearestBusStop
+      },
+      MedicalRecord: {
+        Genotype: inputObject.Genotype,
+        BloodGroup: inputObject.BloodGroup,
+        AnyAllergies: inputObject.AnyAllergies
+      },
+      DocumentUploads:{
+      PassportPhotograph: inputObject.PassportPhotograph,
+      MedicalCert: inputObject.MedicalCert,
+      SchoolID: inputObject.SchoolID
+     }
       }
       const payload = { _id: id, params: details}
-      dispatch(updateOfficials(payload))
+      dispatch(updateOfficials(payload));
+      dispatch(getOfficialById(id));
   }
  
   const handleChange = (e: any) => {
@@ -109,6 +145,17 @@ export const UpdateOfficial: React.FC = () => {
       [e.target.name]: e.target.value 
     });
   }
+
+
+  const onImageChange = (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e: any) => {
+        setImage(e.target.result);
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  };
   return (
     <Container>
       <Content>
@@ -116,7 +163,7 @@ export const UpdateOfficial: React.FC = () => {
           title={"OFFICIAL PROFILE"}
           children={"UPDATE OFFICIAL INFORMATION"}
         />
-        {loading ? <Loader>LOADING....</Loader> : 
+        {loading ? <Loader/> : 
         <Tab>
           <Nav>
             <List
@@ -146,7 +193,7 @@ export const UpdateOfficial: React.FC = () => {
           </Nav>
           <Outlet>
             {activeTab === "tab1" ? (
-              loading ? <Loader>Loading</Loader> :
+              loading ? <Loader/> :
               <Form onSubmit={editOfficial}>
                 <Section>
                   <FormData>
@@ -179,21 +226,20 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                   <FormData>
                     <Label>STREET ADDRESS</Label>
-                    <Input type="text" name="StreetAddress"onChange={(e) => handleChange(e)} value={inputObject.StreetAddress}/>
-                    <p>inputObject</p>
-                    <p>{inputObject.Email}</p>
+                    <Input type="text" name="StreetAddress"onChange={(e) => handleChange(e)} value={!inputObject.StreetAddress ?  mainData?.Address?.HomeAddress?.StreetAddress : inputObject.StreetAddress}/>
+
                   </FormData>
                   <FormData>
                     <Label>LOCAL GOVERNMENT</Label>
-                    <Input type="text" name="LocalGovt" onChange={(e) => handleChange(e)} value={inputObject.LocalGovt}/>
+                    <Input type="text" name="LocalGovt" onChange={(e) => handleChange(e)} value={!inputObject.LocalGovt ?  mainData?.Address?.HomeAddress?.LocalGovt : inputObject.LocalGovt}/>
                   </FormData>
                   <FormData>
                     <Label>STATE</Label>
-                    <Input type="text" name="State"onChange={(e) => handleChange(e)} value={inputObject.State}/>
+                    <Input type="text" name="State"onChange={(e) => handleChange(e)} value={!inputObject.State ?  mainData?.Address?.HomeAddress?.State : inputObject.State}/>
                   </FormData>
                   <FormData>
                     <Label>NEAREST BUSSTOP</Label>
-                    <Input type="text" name="NearestBusStop" onChange={(e) => handleChange(e)} value={inputObject.NearestBusStop}/>
+                    <Input type="text" name="NearestBusStop" onChange={(e) => handleChange(e)} value={!inputObject.NearestBusStop ?  mainData?.Address?.HomeAddress?.NearestBusStop : inputObject.NearestBusStop}/>
                   </FormData>
                 </Section>
                 <Section>
@@ -202,19 +248,19 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                   <FormData>
                     <Label>STREET ADDRESS</Label>
-                    <Input type="text" name="SchoolStreet"onChange={(e) => handleChange(e)} />
+                    <Input type="text" name="SchoolAddress"onChange={(e) => handleChange(e)} value={!inputObject.SchoolAddress ?  mainData?.SchoolAddress?.StreetAddress : inputObject.SchoolAddress}/>
                   </FormData>
                   <FormData>
                     <Label>LOCAL GOVERNMENT</Label>
-                    <Input type="text" name="SchLGA" onChange={(e) => handleChange(e)}/>
+                    <Input type="text" name="SchoolLocalGovt" onChange={(e) => handleChange(e)} value={!inputObject.SchoolLocalGovt ?  mainData?.SchoolAddress?.LocalGovt : inputObject.SchoolLocalGovt}/>
                   </FormData>
                   <FormData>
                     <Label>STATE</Label>
-                    <Input type="text" name="State" onChange={(e) => handleChange(e)}/>
+                    <Input type="text" name="SchoolState" onChange={(e) => handleChange(e)} value={!inputObject.SchoolState ?  mainData?.SchoolAddress?.State : inputObject.SchoolState}/>
                   </FormData>
                   <FormData>
                     <Label>NEAREST BUSSTOP</Label>
-                    <Input type="text" name="SchBusstop"onChange={(e) => handleChange(e)} />
+                    <Input type="text" name="SchoolNearestBusstop"onChange={(e) => handleChange(e)} value={!inputObject.SchoolNearestBusStop ?  mainData?.SchoolAddress?.NearestBusStop : inputObject.SchoolNearestBusStop}/>
                   </FormData>
                 </Section>
                 <Section>
@@ -223,23 +269,26 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                   <FormData>
                     <Label>FULL NAME</Label>
-                    <Input type="text" name="FullNameOfKin" onChange={(e) => handleChange(e)}/>
+                    <Input type="text" name="FullNameOfKin" onChange={(e) => handleChange(e)} value={!inputObject.FullNameOfKin ?  mainData?.NextOfKin?.FullNameOfKin : inputObject.FullNameOfKin}/>
                   </FormData>
                   <FormData>
                     <Label>NEXT OF KIN RELATIONSHIP</Label>
-                    <Input type="text" name="kinRelationship" onChange={(e) => handleChange(e)}/>
+                    <Input type="text" name="kinRelationship" onChange={(e) => handleChange(e)} value={!inputObject.kinRelationship ?  mainData?.NextOfKin?.KinRelationship : inputObject.kinRelationship}/>
                   </FormData>
                   <FormData>
                     <Label>EMAIL</Label>
-                    <Input type="text" name="kinEmail" onChange={(e) => handleChange(e)}/>
+                    <Input type="text" name="kinEmail" onChange={(e) => handleChange(e)} value={!inputObject.kinEmail ?  mainData?.NextOfKin?.KinContact?.Email : inputObject.kinEmail}/>
                   </FormData>
                   <FormData>
                     <Label>PHONE NUMBER</Label>
-                    <Input type="text" name="kinPhone" onChange={(e) => handleChange(e)}/>
+                    <Input type="text" 
+                    name="kinPhone" 
+                    onChange={(e) => handleChange(e)} 
+                    value={inputObject.kinPhone ?  mainData?.NextOfKin?.KinContact?.PhoneNumber : inputObject.kinPhone}/>
                   </FormData>
                   <Section>
                     <Label>ADDRESS</Label>
-                    <Input type="text" name="kinAddress"onChange={(e) => handleChange(e)} />
+                    <Input type="text" name="kinAddress" onChange={(e) => handleChange(e)} value={inputObject.kinAddress ? mainData?.NextOfKin?.KinContact?.Address : inputObject.kinAddress}/>
                   </Section>
                 </Section>
                 <BtnDiv>
@@ -251,11 +300,14 @@ export const UpdateOfficial: React.FC = () => {
               ""
             )}
             {activeTab === "tab2" ? (
-              <Form>
+              <Form onSubmit={editOfficial}>
                 <Section>
                   <FormData>
                     <Label>POSITION</Label>
-                    <Input type="text" name="position" />
+                    <Input type="text" 
+                    name="Position"
+                    onChange={(e) => handleChange(e)} 
+                    value={inputObject.Position ?  mainData?.Position : inputObject.Position} />
                   </FormData>
                   <FormData>
                     <Label>JERSEY NUMBER</Label>
@@ -268,19 +320,35 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                   <FormData>
                     <Label>GENOTYPE</Label>
-                    <Input type="text" name="Genotype" onChange={(e) => handleChange(e)}/>
+                    <Input type="text" 
+                    name="Genotype" 
+                    onChange={(e) => handleChange(e)}
+                    value={inputObject.Genotype ?  mainData?.MedicalRecord?.Genotype : inputObject.Genotype} />
                   </FormData>
                   <FormData>
                     <Label>BLOOD GROUP</Label>
-                    <Input type="text" name="BloodGroup" onChange={(e) => handleChange(e)}/>
+                    <Input type="text" 
+                    name="BloodGroup" 
+                    onChange={(e) => handleChange(e)} 
+                    value={inputObject.BloodGroup ?  mainData?.MedicalRecord?.BloodGroup : inputObject.BloodGroup} />
+                  </FormData>
+                  <FormData>
+                    <Label>ALLERGIES</Label>
+                    <Input type="text" name="Allergies" 
+                    onChange={(e) => handleChange(e)}
+                    value={inputObject.AnyAllergies ?  mainData?.MedicalRecord?.AnyAllergies : inputObject.AnyAllergies} />
                   </FormData>
                 </Section>
+                <BtnDiv>
+              <CreateBtn type="submit" >SAVE & CONTINUE</CreateBtn>
+              <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn>
+            </BtnDiv>
               </Form>
             ) : (
               ""
             )}
             {activeTab === "tab3" ? (
-              <Form>
+              <Form onSubmit={editOfficial}>
                 <FormData>
                   <Label>LATEST COURSE REGISTRATION</Label>
                   <Input type="text" name="LatestCourseRegistration" />
@@ -298,7 +366,7 @@ export const UpdateOfficial: React.FC = () => {
               ""
             )}
             {activeTab === "tab4" ? (
-              <Form>
+              <Form onSubmit={editOfficial}>
                 <FormData>
                   <Label>MEDICAL CERTIFICATE</Label>
                   <Input type="file" name="MedicalCert" />

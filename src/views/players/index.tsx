@@ -10,7 +10,8 @@ import { PlayerCard } from "../../components/playerCard";
 import { getPlayers } from "../../redux/actions/players";
 import { getOfficials} from "../../redux/actions/officials";
 import { RootState } from "../../redux/reducers";
-import { Loader } from "../teams/styles";
+import Loader from "../../components/Loader";
+import NoData from "../../components/NoData";
 
 export const Players: React.FC = () => {
   const [activeTab, setActiveTab] = useState("PLAYERS");
@@ -37,7 +38,7 @@ export const Players: React.FC = () => {
     }
       dispatch(getPlayers(teamId));
       dispatch(getOfficials(teamId));
-  },[dispatch])
+  },[dispatch, teamId, navigate])
   return (
     <Container>
       <Content>
@@ -74,9 +75,9 @@ export const Players: React.FC = () => {
         </Table>
       </Content>
       {activeTab === "OFFICIALS" ? (
-         officials && officials.length === 0 || !officialData ? <Loader>NO DATA FOUND</Loader> : 
-         (loading ? <Loader>LOADING....</Loader> :
-         officialData &&  officialData.map((item: any )=> (
+          (!officialData) && loading ? <Loader/> : 
+         (officialData.length === 0) ? <NoData text="NO DATA FOUND"/> :
+         (officialData &&  officialData?.map((item: any )=> (
            <PlayerCard
            type="OFFICIALS"
            _id={item._id}
@@ -89,9 +90,9 @@ export const Players: React.FC = () => {
            )))
       ) : (
         <>
-        {players && players.length === 0 || !mainData ? <Loader>NO DATA FOUND</Loader> : 
-        (loading ? <Loader>LOADING....</Loader> :
-        mainData &&  mainData.map((item: any )=> (
+        { loading && !mainData ? <Loader/> : 
+        (mainData.length === 0 ? <NoData text="NO DATA FOUND"/> :
+        mainData &&  mainData?.map((item: any )=> (
           <PlayerCard
           type="PLAYERS"
           _id={item._id}

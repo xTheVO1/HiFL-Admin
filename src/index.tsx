@@ -5,12 +5,12 @@ import './index.css';
 import { ThemeProvider } from './hooks/theme'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import store from "./redux/store";
 import { Provider } from "react-redux"
+import giveStore from './redux/store';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <Provider store={giveStore()}>
       <BrowserRouter>
       <ThemeProvider>
           <App />

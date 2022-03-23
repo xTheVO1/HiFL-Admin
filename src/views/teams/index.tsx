@@ -1,5 +1,5 @@
 import React from "react";
-import { Container, Content, Loader } from "./styles";
+import { Container, Content } from "./styles";
 import { Dispatch } from "redux"
 import { useDispatch, useSelector } from "react-redux"
 import {getTeams} from "../../redux/actions/teams";
@@ -8,6 +8,7 @@ import {getTeams} from "../../redux/actions/teams";
 import ContentHeader from "../../components/ContentHeader";
 import TeamCard from "../../components/TeamCards";
 import FUTMINNA from "../../assests/FUTMINNA.png";
+import Loader from "../../components/Loader";
 
 function TeamManager() {
     const dispatch: Dispatch<any> = useDispatch()
@@ -27,9 +28,9 @@ function TeamManager() {
            <ContentHeader title="Team(s)">
             </ContentHeader>
             <Content>
-            {mainDataResult.length === 0 ? <h2 className="no-data">NO DATA FOUND</h2> :
-            loading ? <Loader>Loading.....</Loader> :
-                mainDataResult && mainDataResult.map((item: any) => (
+            {(mainDataResult.length === 0) && loading ? <Loader/>:
+            mainDataResult.length === 0 ? <h2 className="no-data">NO DATA FOUND</h2> :
+                mainDataResult && mainDataResult?.map((item: any) => (
                 <TeamCard title={item.TeamName} teamLogo={FUTMINNA} teamId={item._id} key={item._id}/>
                 ))
             }

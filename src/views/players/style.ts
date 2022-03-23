@@ -114,12 +114,13 @@ export const Table = styled.div`
     .flex{
         display: flex;
         justify-content: space-around;
-        width: 50%;
+        width: 60%;
     }
     .flex-header{
         display: flex;
         justify-content: flex-end;
         width: 50%;
+
         p{
            color:  #000292;
         }
