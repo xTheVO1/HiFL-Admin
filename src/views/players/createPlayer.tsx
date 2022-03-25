@@ -22,6 +22,7 @@ import Input from "../../components/Input";
 //actions
 import { createPlayers } from "../../redux/actions/players";
 import { createOfficials } from "../../redux/actions/officials";
+import Button from "../../components/Button";
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
@@ -107,8 +108,10 @@ export const AddPlayer: React.FC = () => {
       <Content>
 
         <ContentHeader
-          title={pathname === "/register-player" ? "REGISTER PLAYER": "REGISTER OFFICIAL"}          children={"Enter all information below"}
-        />
+          title={pathname === "/register-player" ? "REGISTER PLAYER": "REGISTER OFFICIAL"}          
+          >
+         <Button onClick={() => navigate("/players")}>GO BACK</Button>
+          </ContentHeader>
         <Tab>
           <Nav>
             <List className="active">PERSONAL INFORMATION</List>

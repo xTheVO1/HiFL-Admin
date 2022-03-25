@@ -9,7 +9,7 @@ interface PropsType {
   _id: string;
 status: boolean;
 playerName: string;
-age: number;
+age: string;
 position: string;
 approval: boolean;
 type: string;
@@ -32,7 +32,7 @@ export const PlayerCard = ({_id, age, type, position,approval, status, playerNam
             </ImgCard>
             <SideText>
               <CardText>{playerName}</CardText>
-              <Small>AGE: {age}yrs | POSITION: {!position ? "Player" : position}</Small>
+              <Small><strong>AGE:</strong> {age} | <strong>POSITION:</strong> {!position ? "Player" : position}</Small>
             </SideText>
           </Div>
           <div>

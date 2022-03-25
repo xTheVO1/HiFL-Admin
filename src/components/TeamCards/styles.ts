@@ -21,13 +21,14 @@ export const Container = styled.div`
 `;
 export const Card = styled.div`
     background: ${props => props.theme.colors.secondary};
-    padding: 2.5rem 1rem;
+    padding: 2.5rem .5rem;
     display: flex;
-    width: 30%;
+    width: 31%;
     border-radius: 5px;
     cursor: pointer;
     transition: opacity .3s;
     margin-bottom: .5rem;
+    text-align: left;
     margin-right: 1rem;
     box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.08);
     &:hover{

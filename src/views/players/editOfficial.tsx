@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useLayoutEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
+
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -19,11 +20,13 @@ import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
 import Player from "../../assests/player.png";
 import { getOfficialById, updateOfficials } from "../../redux/actions/officials";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
+import Button from "../../components/Button";
 
 export const UpdateOfficial: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [, refresh] = useState("");
   const [inputObject, setObject] = useState({ Firstname: "",
@@ -42,10 +45,10 @@ export const UpdateOfficial: React.FC = () => {
                                               Dateofbirth: 0,
                                               Age:0,
                                               FullNameOfKin: "",
-                                              kinRelationship: "",
-                                              kinPhone: "",
-                                              kinAddress: "",
-                                              kinEmail: "",
+                                              KinRelationship: "",
+                                              KinPhone: "",
+                                              KinAddress: "",
+                                              KinEmail: "",
                                               Position:"",
                                               Genotype: "",
                                               BloodGroup: "",
@@ -73,10 +76,10 @@ export const UpdateOfficial: React.FC = () => {
   setObject({
         ...inputObject,
         FullNameOfKin: NextOfKin?.FullNameOfKin,
-        kinRelationship: NextOfKin?.kinRelationship,
-        kinPhone:  NextOfKin?.KinContact?.PhoneNumber,
-        kinAddress: NextOfKin?.KinContact?.Address,
-        kinEmail:  NextOfKin?.KinContact?.Email,
+        KinRelationship: NextOfKin?.KinRelationship,
+        KinPhone:  NextOfKin?.KinContact?.PhoneNumber,
+       KinAddress: NextOfKin?.KinContact?.Address,
+        KinEmail:  NextOfKin?.KinContact?.Email,
         StreetAddress: Address?.HomeAddress && Address?.HomeAddress?.StreetAddress,
          LocalGovt:  Address?.HomeAddress?.LocalGovt,
          NearestBusStop:  Address?.HomeAddress?.NearestBusStop,
@@ -109,11 +112,11 @@ export const UpdateOfficial: React.FC = () => {
         TermsAndConditions: true,
         NextOfKin: {
           FullNameOfKin: inputObject.FullNameOfKin,
-        KinRelationship: inputObject.kinRelationship,
-       kinContact: {
-          PhoneNumber: inputObject.kinPhone,
-          Email: inputObject.kinEmail,
-          Address: inputObject.kinAddress
+          KinRelationship: inputObject.KinRelationship,
+          kinContact: {
+          PhoneNumber: inputObject.KinPhone,
+          Email: inputObject.KinEmail,
+          Address: inputObject.KinAddress
         }
       },
       SchoolAddress: {
@@ -161,8 +164,8 @@ export const UpdateOfficial: React.FC = () => {
       <Content>
         <ContentHeader
           title={"OFFICIAL PROFILE"}
-          children={"UPDATE OFFICIAL INFORMATION"}
-        />
+        > <Button onClick={() => navigate("/players")}>GO BACK</Button>
+          </ContentHeader>
         {loading ? <Loader/> : 
         <Tab>
           <Nav>
@@ -178,15 +181,10 @@ export const UpdateOfficial: React.FC = () => {
             >
               SPORT & MEDICAL
             </List>
+           
             <List
               className={activeTab === "tab3" ? "active" : ""}
               onClick={() => setActiveTab("tab3")}
-            >
-              ACADEMIC
-            </List>
-            <List
-              className={activeTab === "tab4" ? "active" : ""}
-              onClick={() => setActiveTab("tab4")}
             >
               DOCUMENT UPLOADS
             </List>
@@ -273,22 +271,22 @@ export const UpdateOfficial: React.FC = () => {
                   </FormData>
                   <FormData>
                     <Label>NEXT OF KIN RELATIONSHIP</Label>
-                    <Input type="text" name="kinRelationship" onChange={(e) => handleChange(e)} value={!inputObject.kinRelationship ?  mainData?.NextOfKin?.KinRelationship : inputObject.kinRelationship}/>
+                    <Input type="text" name="KinRelationship" onChange={(e) => handleChange(e)} value={!inputObject.KinRelationship ?  mainData?.NextOfKin?.KinRelationship : inputObject.KinRelationship}/>
                   </FormData>
                   <FormData>
                     <Label>EMAIL</Label>
-                    <Input type="text" name="kinEmail" onChange={(e) => handleChange(e)} value={!inputObject.kinEmail ?  mainData?.NextOfKin?.KinContact?.Email : inputObject.kinEmail}/>
+                    <Input type="text" name="KinEmail" onChange={(e) => handleChange(e)} value={!inputObject.KinEmail ?  mainData?.NextOfKin?.KinContact?.Email : inputObject.KinEmail}/>
                   </FormData>
                   <FormData>
                     <Label>PHONE NUMBER</Label>
                     <Input type="text" 
-                    name="kinPhone" 
+                    name="KinPhone" 
                     onChange={(e) => handleChange(e)} 
-                    value={inputObject.kinPhone ?  mainData?.NextOfKin?.KinContact?.PhoneNumber : inputObject.kinPhone}/>
+                    value={inputObject.KinPhone ?  mainData?.NextOfKin?.KinContact?.PhoneNumber : inputObject.KinPhone}/>
                   </FormData>
                   <Section>
                     <Label>ADDRESS</Label>
-                    <Input type="text" name="kinAddress" onChange={(e) => handleChange(e)} value={inputObject.kinAddress ? mainData?.NextOfKin?.KinContact?.Address : inputObject.kinAddress}/>
+                    <Input type="text" name="kinAddress" onChange={(e) => handleChange(e)} value={inputObject.KinAddress ? mainData?.NextOfKin?.KinContact?.Address : inputObject.KinAddress}/>
                   </Section>
                 </Section>
                 <BtnDiv>
@@ -302,17 +300,11 @@ export const UpdateOfficial: React.FC = () => {
             {activeTab === "tab2" ? (
               <Form onSubmit={editOfficial}>
                 <Section>
-                  <FormData>
                     <Label>POSITION</Label>
                     <Input type="text" 
                     name="Position"
                     onChange={(e) => handleChange(e)} 
                     value={inputObject.Position ?  mainData?.Position : inputObject.Position} />
-                  </FormData>
-                  <FormData>
-                    <Label>JERSEY NUMBER</Label>
-                    <Input type="number" name="jerseyNumber" />
-                  </FormData>
                 </Section>
                 <Section>
                   <Section>
@@ -332,12 +324,12 @@ export const UpdateOfficial: React.FC = () => {
                     onChange={(e) => handleChange(e)} 
                     value={inputObject.BloodGroup ?  mainData?.MedicalRecord?.BloodGroup : inputObject.BloodGroup} />
                   </FormData>
-                  <FormData>
+                  <Section>
                     <Label>ALLERGIES</Label>
                     <Input type="text" name="Allergies" 
                     onChange={(e) => handleChange(e)}
                     value={inputObject.AnyAllergies ?  mainData?.MedicalRecord?.AnyAllergies : inputObject.AnyAllergies} />
-                  </FormData>
+                  </Section>
                 </Section>
                 <BtnDiv>
               <CreateBtn type="submit" >SAVE & CONTINUE</CreateBtn>
@@ -348,24 +340,6 @@ export const UpdateOfficial: React.FC = () => {
               ""
             )}
             {activeTab === "tab3" ? (
-              <Form onSubmit={editOfficial}>
-                <FormData>
-                  <Label>LATEST COURSE REGISTRATION</Label>
-                  <Input type="text" name="LatestCourseRegistration" />
-                </FormData>
-                <FormData>
-                  <Label>COURSE LEVEL</Label>
-                  <Input type="text" name="CourseLevel" />
-                </FormData>
-                <FormData>
-                  <Label>COURSE STUDY</Label>
-                  <Input type="text" name="CourseStudy" />
-                </FormData>
-              </Form>
-            ) : (
-              ""
-            )}
-            {activeTab === "tab4" ? (
               <Form onSubmit={editOfficial}>
                 <FormData>
                   <Label>MEDICAL CERTIFICATE</Label>

@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 export const Container = styled.div`
-    background-color: ${props => props.theme.colors.primary};
+    background-color: white;
+    padding: 0rem 2rem;
+
 `;
 
 export const Loader = styled.p`
@@ -9,7 +11,7 @@ text-align: center;
 font-size: 2rem;
 width: 100%;
 margin: 0rem auto;
-padding: 6rem 0;
+padding: 6rem ;
 `;
 
 export const Content = styled.div`

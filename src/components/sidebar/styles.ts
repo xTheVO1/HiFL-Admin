@@ -57,7 +57,7 @@ export const MenuNavigator  = styled.nav`
     display: flex;
     flex-direction: column;
     justify-contenr: center;
-    margin-top: 40px;
+    margin-top: 30px;
 `;
 
 export const MenuItemBottom = styled.button`
@@ -87,7 +87,7 @@ export const MenuItemLink = styled.a`
      color:white;
     text-decoration: none;
     font-size: 20px;
-    margin: 21px 0;
+    margin: 5px 0;
     padding: .5rem .3rem;
     transition: opacity .3s;
     &:hover {
@@ -123,9 +123,9 @@ export const Signout = styled.span`
   
 `;
 export const SideImage = styled.div`
-  width: 90%;
+  width: 80%;
   margin: 1rem auto;
-  
+  margin-top: 2rem;
 `;
 export const Image = styled.img`
 width: 100%;

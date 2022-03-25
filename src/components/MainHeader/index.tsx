@@ -2,7 +2,8 @@ import {MdNotifications, MdHome} from 'react-icons/md'
 import { Container, Welcome, Username, Profile } from "./styles";
 
 export default function MainHeader () {
-
+    const data:any = sessionStorage.getItem("userData");
+    const user = JSON.parse(data);
     return (
         <Container>
             <div></div>
@@ -11,10 +12,12 @@ export default function MainHeader () {
                 <Welcome><MdHome/> FUTA TIGERS <span></span></Welcome>
                 <Welcome><MdNotifications/> NOTIFICATIONS<span></span></Welcome>
                 <Username>
-                   <div className="profile-img"></div> 
+                   <div className="profile-img">
+                       <h1><span>{user.Firstname.charAt(0) + " " + user.Lastname.charAt(0)}</span></h1>
+                       </div> 
                    <div className="details">
-                       <h5>VICTOR OLAITAN</h5>
-                       <p>TEAM MANAGER</p>
+                       <h4>{user.Firstname + " " + user.Lastname}</h4>
+                       <p>{user.Role}</p>
                    </div>
                 </Username>
             </Profile>

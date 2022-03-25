@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Dispatch } from "redux";
+import { Dispatch } from "redux";  
+import { useNavigate } from "react-router-dom";
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -22,8 +23,10 @@ import {getPlayerById, updatePlayer} from "../../redux/actions/players"
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
+import Button from "../../components/Button";
 
 export const UpdatePlayer: React.FC = () => {
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [inputObject, setObject] = useState({ Firstname: "",
                                               Lastname: "",
@@ -51,7 +54,10 @@ export const UpdatePlayer: React.FC = () => {
                                               AnyAllergies: "",
                                               PassportPhotograph: "",
                                               MedicalCert: "",
-                                              SchoolID: ""
+                                              SchoolID: "",
+                                              JerseyNumber:"",
+                                              CourseStudy:"",
+                                              CourseLevel: ""
                                             });
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
@@ -65,16 +71,21 @@ export const UpdatePlayer: React.FC = () => {
       dispatch(getPlayerById(id));
     }
     getOfficial();
-     const {  Address, NextOfKin, SchoolAddress, Position, MedicalRecord,  DocumentUploads} = mainData;
+     const {  Address, 
+              NextOfKin, 
+              SchoolAddress, 
+              MedicalRecord,  
+              DocumentUploads,
+              SportRecord} = mainData;
      if(Address ){
-  setObject({
+      setObject({
         ...inputObject,
         FullNameOfKin: NextOfKin?.FullNameOfKin,
         KinRelationship: NextOfKin?.KinRelationship,
         KinPhone:  NextOfKin?.KinContact?.PhoneNumber,
         KinAddress: NextOfKin?.KinContact?.Address,
         KinEmail:  NextOfKin?.KinContact?.Email,
-        StreetAddress: Address?.HomeAddress && Address?.HomeAddress?.StreetAddress,
+        StreetAddress: Address?.HomeAddress?.StreetAddress,
          LocalGovt:  Address?.HomeAddress?.LocalGovt,
          NearestBusStop:  Address?.HomeAddress?.NearestBusStop,
          State: Address?.HomeAddress?.LocalGovt,
@@ -82,7 +93,8 @@ export const UpdatePlayer: React.FC = () => {
          SchoolLocalGovt:  SchoolAddress?.LocalGovt,
          SchoolNearestBusStop:  SchoolAddress?.NearestBusStop,
          SchoolState: SchoolAddress?.LocalGovt,
-         Position: Position,
+         Position: SportRecord?.Position,
+         JerseyNumber: SportRecord?.JerseyNumber,
           Genotype: MedicalRecord.Genotype,
           BloodGroup: MedicalRecord.BloodGroup,
           AnyAllergies: MedicalRecord.AnyAllergies,
@@ -107,7 +119,14 @@ export const UpdatePlayer: React.FC = () => {
     e.preventDefault();
     const details = {
       Team: teamId,
-      Position: inputObject.Position,
+      AcademicRecord: {
+        CourseLevel: inputObject.CourseLevel,
+        CourseStudy: inputObject.CourseStudy
+      },
+      SportRecord: {
+        Position: inputObject.Position,
+        JerseyNumber: inputObject.JerseyNumber
+      },
       // Phonenumber: object.phone,
       DateOfBirth: inputObject.Dateofbirth,
       Age: inputObject.Age,
@@ -149,8 +168,9 @@ export const UpdatePlayer: React.FC = () => {
       <Content>
         <ContentHeader
           title={"Player Profile"}
-          children={"Update Player Information"}
-        />
+        >
+          <Button onClick={() => navigate("/players")}>Go Back</Button>
+          </ContentHeader>
         {loading ? <Loader/> : 
         <Tab>
           <Nav>
@@ -169,6 +189,12 @@ export const UpdatePlayer: React.FC = () => {
             <List
               className={activeTab === "tab3" ? "active" : ""}
               onClick={() => setActiveTab("tab3")}
+            >
+              ACADEMIC
+            </List>
+            <List
+              className={activeTab === "tab4" ? "active" : ""}
+              onClick={() => setActiveTab("tab4")}
             >
               DOCUMENT UPLOADS
             </List>
@@ -313,12 +339,12 @@ export const UpdatePlayer: React.FC = () => {
                onChange={(e) => handleChange(e)} 
                value={inputObject.BloodGroup ?  mainData?.MedicalRecord?.BloodGroup : inputObject.BloodGroup} />
              </FormData>
-             <FormData>
+             <Section>
                <Label>ALLERGIES</Label>
                <Input type="text" name="Allergies" 
                onChange={(e) => handleChange(e)}
                value={inputObject.AnyAllergies ?  mainData?.MedicalRecord?.AnyAllergies : inputObject.AnyAllergies} />
-             </FormData>
+             </Section>
            </Section>
            <BtnDiv>
          <CreateBtn type="submit" >SAVE & CONTINUE</CreateBtn>
@@ -328,7 +354,25 @@ export const UpdatePlayer: React.FC = () => {
             ) : (
               ""
             )}
-            {activeTab === "tab3" ? (
+             {activeTab === "tab3" ? (
+              <Form onSubmit={editPlayer}>
+                <FormData>
+                  <Label>LATEST COURSE REGISTRATION</Label>
+                  <Input type="text" name="LatestCourseRegistration" />
+                </FormData>
+                <FormData>
+                  <Label>COURSE LEVEL</Label>
+                  <Input type="text" name="CourseLevel" />
+                </FormData>
+                <FormData>
+                  <Label>COURSE STUDY</Label>
+                  <Input type="text" name="CourseStudy" />
+                </FormData>
+              </Form>
+            ) : (
+              ""
+            )}
+            {activeTab === "tab4" ? (
               <Form onSubmit={editPlayer}>
               <FormData>
                 <Label>MEDICAL CERTIFICATE</Label>

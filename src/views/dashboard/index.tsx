@@ -9,11 +9,12 @@ import DashboardCard from "../../components/dasboardCard";
 
 export const Dashboard: React.FC = () => {
   // const dispatch: Dispatch<any> = useDispatch()
-
+  const data:any = sessionStorage.getItem("userData");
+  const user = JSON.parse(data);
   return (
     <Container>
       <Content>
-      <ContentHeader title="Hello Victor,">
+      <ContentHeader title={"Hello" + " " + user.Firstname + ","}>
         <h6>Here is your account overview</h6>
       </ContentHeader>
       <Row>

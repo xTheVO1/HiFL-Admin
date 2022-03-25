@@ -32,7 +32,7 @@ font-weight: 500;
 font-size: 1rem;
 list-style: none;
 border-bottom: 0px;
-padding: .65rem 3rem;
+padding: .65rem 2rem;
 text-align: left;
   cursor: pointer;
   transition: all 0.7s;

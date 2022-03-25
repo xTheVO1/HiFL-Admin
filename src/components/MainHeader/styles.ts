@@ -40,13 +40,19 @@ span{
 export const Username = styled.div`
 display: flex;
 .profile-img{
-    background: red;
-    height: 50px;
-    width: 50px;
-    border-radius: 50%;
     margin-top: 1rem;
     margin-right: 1rem;
-
+    h1 {
+        font-size: 1rem;
+        border-radius: 50%;
+        background: #000292;
+        color:white;
+        width: 50px;
+        height: 50px;
+        text-align: center;
+        padding: .8em 0em;
+        display: inline-block;
+    }
 }
 p{
     font-size: .7rem;
@@ -55,6 +61,9 @@ p{
 }
 .details{
     padding-top: 1.5rem;
+    p{
+        text-transform: uppercase;
+    }
 }
 `;
 

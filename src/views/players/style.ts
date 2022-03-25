@@ -6,9 +6,8 @@ export const Container = styled.div`
    background: white;
 `;
 export const Image = styled.img`
-   width: 250px;
-   height: 250px; 
-   border-radius: 50%;
+   width: 170px;
+   height: 170px; 
    img{
    object-fit: contain;
 
@@ -116,12 +115,14 @@ export const Table = styled.div`
         justify-content: space-around;
         width: 60%;
     }
-    .flex-header{
+   
+    .flex-header, .flex-start{
         display: flex;
         justify-content: flex-end;
         width: 50%;
 
         p{
+            font-weight: 500;
            color:  #000292;
         }
         p:hover{
@@ -131,7 +132,14 @@ export const Table = styled.div`
             color: #FFB422;
         }
     }
-    .flex-header p{
+    .flex-start{
+        justify-content: flex-start;
+        svg{
+            font-size: 1.5rem;
+            padding-bottom: .2rem;
+        }
+    }
+    .flex-header p,  .flex-start p{
         margin: 0 1rem;
     }
 `;
