@@ -9,21 +9,6 @@ import { POST_PLAYER_FAILED,
         GET_PLAYER_FAILED
     } from "../actions/actionTypes";
 
-    type IPlayer = {
-        _id: string,
-        User: string,
-        MiddleName: string,
-        DateOfBirth: string,
-        Age: 0,
-        NextOfKin:any
-      }
-      interface State {
-        players: [],
-       player: IPlayer[],
-        loading: boolean,
-        error: any
-       }
-
 const  initialState = {
   player:{},
   players:[],

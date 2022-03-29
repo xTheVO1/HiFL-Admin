@@ -5,11 +5,11 @@ export default {
     colors: {
         primary: '#000292',
         secondary: '#ffffff',
-        tertiary: '#f5f5f5',
+        tertiary: '#FFB422',
 
         white: '#000',
         black: '#fff',
-        gray: '#bfbfbf',
+        gray: '#C7C7C7',
 
         success: '#03bb85',
         info: '#000229',

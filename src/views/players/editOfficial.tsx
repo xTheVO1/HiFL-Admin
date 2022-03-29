@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useLayoutEffect} from "react";
+import React, { useState, useLayoutEffect} from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 
@@ -63,7 +63,7 @@ export const UpdateOfficial: React.FC = () => {
   const {loading, official } = store;
   const mainData = official && official ? official : {}; 
   const teamId = sessionStorage.getItem("Teamid");
-  const [image, setImage] = useState();
+  const [, setImage] = useState();
   
   useLayoutEffect(() => {
     const getOfficial = async () => {

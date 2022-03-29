@@ -4,19 +4,6 @@ import {
   LOGIN_SUCCESSFUL
 } from "../actions/actionTypes";
 
-interface IUser {
-    acccesToken: string,
-    User: {
-      _id: string,
-      Email: string,
-      Password: string,
-      Username: string,
-      Firstname: string,
-      Lastname: string,
-      Role: string
-    }
-}
-
 const  initialState = {
   user:[],
   loading: false,

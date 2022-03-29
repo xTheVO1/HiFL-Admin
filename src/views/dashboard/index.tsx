@@ -14,7 +14,7 @@ export const Dashboard: React.FC = () => {
   return (
     <Container>
       <Content>
-      <ContentHeader title={"Hello" + " " + user.Firstname + ","}>
+      <ContentHeader title={`Hello${" "} ${user.Firstname} ${","}`}>
         <h6>Here is your account overview</h6>
       </ContentHeader>
       <Row>

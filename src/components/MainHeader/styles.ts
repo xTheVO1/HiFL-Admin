@@ -10,7 +10,7 @@ export const Container = styled.div`
 
     padding: 0 10px;
 
-    border-bottom: 1px solid #FFB422;
+    border-bottom: 1px solid ${props => props.theme.colors.tertiary};
 `;
 
 export const Profile = styled.div`
@@ -20,17 +20,17 @@ export const Profile = styled.div`
 `;
 
 export const Welcome = styled.h4`
-color: #000292;
+color:  ${props => props.theme.colors.primary};
 margin-right: 1.5rem;
 font-size: 1.2rem;
 display: flex;
 padding-top: 1.7rem;
 svg{
-    color: #FFB422;
+    color: ${props => props.theme.colors.tertiary};
     margin-right: .4rem;
 }
 span{
-   background: #C7C7C7;
+   background: ${props => props.theme.colors.gray};
     margin-left: 1rem;
     padding: .2px;
     height: 30px;
@@ -45,7 +45,7 @@ display: flex;
     h1 {
         font-size: 1rem;
         border-radius: 50%;
-        background: #000292;
+        background: ${props => props.theme.colors.primary};
         color:white;
         width: 50px;
         height: 50px;
@@ -56,7 +56,7 @@ display: flex;
 }
 p{
     font-size: .7rem;
-    color:#C7C7C7;
+    color:${props => props.theme.colors.gray};
     margin-top: -.5rem;
 }
 .details{

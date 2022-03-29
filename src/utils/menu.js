@@ -30,3 +30,45 @@ export const teamManagerMenu = [
     icon: <MdArrowUpward />,
   },
 ];
+
+export const AdminMenu = [
+  {
+    id: "dashboard",
+    title: "DASHBOARD",
+    href: "/dashboard",
+    icon: <MdDashboard />,
+  },
+  {
+    id: "team",
+    title: "TEAMS",
+    href: "/teams",
+    icon: <MdOutlineSupervisorAccount />,
+  },
+  {
+    id: "guidelines",
+    title: "INSTITUTIONS",
+    href: "/institution",
+    icon:  <MdArrowUpward />
+}
+];
+
+export const SuperAdminMenu = [
+  {
+    id: "dashboard",
+    title: "DASHBOARD",
+    href: "/dashboard",
+    icon: <MdDashboard />,
+  },
+  {
+    id: "team",
+    title: "TEAMS",
+    href: "/teams",
+    icon: <MdOutlineSupervisorAccount />,
+  },
+  {
+    id: "guidelines",
+    title: "INSTITUTIONS",
+    href: "/institution",
+    icon:  <MdArrowUpward />
+}
+];

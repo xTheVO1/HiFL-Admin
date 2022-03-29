@@ -92,7 +92,9 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
       data: playerData
     });
     const id = playerResponse.data.data._id;
-    navigate(`/player/${id}`)
+    if(playerResponse){
+      navigate(`/player/${id}`)
+    }
     return dispatch(postPlayerSuccess(playerResponse.data))
   } catch (error: any) {
     return dispatch(postPlayerFailed(error.response))
@@ -106,11 +108,8 @@ export const getPlayers = (id: any) => async (dispatch: Dispatch) => {
         method: "get",
         url: `/players/?Team=${id}`
       })
-      console.log(response)
-
       return dispatch(getPlayersSuccess(response.data.data))
     } catch (error: any) {
-      console.log(error)
       return dispatch(getPlayersFailed(error.response))
     }
   }
@@ -128,8 +127,8 @@ export const getPlayerById = (id: any) => async (dispatch: Dispatch) => {
       return dispatch(getPlayerFailed(error.response))
     }
   }
+
 export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
-  console.log(playerData, 132)
   try {
     dispatch(updatePlayerStarted())
     const response = await privateHttp({

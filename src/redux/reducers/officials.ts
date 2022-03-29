@@ -9,22 +9,6 @@ import {  POST_OFFICIAL_STARTED,
           GET_OFFICIALS_FAILED
     } from "../actions/actionTypes";
 
-    type IOfficial = {
-        _id: string,
-        User: string,
-        MiddleName: string,
-        DateOfBirth: string,
-        Age: 0,
-        NextOfKin:any
-      }
-      interface State {
-        officials: [],
-       official: IPlayer[],
-       newOfficial: {},
-        loading: boolean,
-        error: any
-       }
-
 const  initialState = {
   official:{},
   officials:[],

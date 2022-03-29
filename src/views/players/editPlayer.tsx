@@ -28,6 +28,7 @@ import Button from "../../components/Button";
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
+  const [, setImage] = useState();
   const [inputObject, setObject] = useState({ Firstname: "",
                                               Lastname: "",
                                               Email: "",
@@ -51,7 +52,7 @@ export const UpdatePlayer: React.FC = () => {
                                               Position:"",
                                               Genotype: "",
                                               BloodGroup: "",
-                                              AnyAllergies: "",
+                                              Allergies: "",
                                               PassportPhotograph: "",
                                               MedicalCert: "",
                                               SchoolID: "",
@@ -76,7 +77,8 @@ export const UpdatePlayer: React.FC = () => {
               SchoolAddress, 
               MedicalRecord,  
               DocumentUploads,
-              SportRecord} = mainData;
+              SportRecord,
+      } = mainData;
      if(Address ){
       setObject({
         ...inputObject,
@@ -97,7 +99,7 @@ export const UpdatePlayer: React.FC = () => {
          JerseyNumber: SportRecord?.JerseyNumber,
           Genotype: MedicalRecord.Genotype,
           BloodGroup: MedicalRecord.BloodGroup,
-          AnyAllergies: MedicalRecord.AnyAllergies,
+          // AnyAllergies: MedicalRecord.AnyAllergies,
           PassportPhotograph: DocumentUploads.PassportPhotograph,
           MedicalCert: DocumentUploads.MedicalCert,
           SchoolID: DocumentUploads.SchoolID
@@ -149,7 +151,7 @@ export const UpdatePlayer: React.FC = () => {
     MedicalRecord: {
       Genotype: inputObject.Genotype,
       BloodGroup: inputObject.BloodGroup,
-      AnyAllergies: inputObject.AnyAllergies
+      AnyAllergies: inputObject.Allergies
     },
     DocumentUploads:{
     PassportPhotograph: inputObject.PassportPhotograph,
@@ -163,6 +165,18 @@ export const UpdatePlayer: React.FC = () => {
       dispatch(getPlayerById(id));
 
   }
+  const onImageChange = (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      reader.onload = (e: any) => {
+        setImage(e.target.result);
+        console.log(event.target.files, e.target.result )
+
+      };
+      reader.readAsDataURL(event.target.files[0]);
+    }
+  
+}
   return (
     <Container>
       <Content>
@@ -201,9 +215,10 @@ export const UpdatePlayer: React.FC = () => {
           </Nav>
           <Outlet>
             {activeTab === "tab1" ? (
-             <Form onSubmit={editPlayer}>
+             <Form onSubmit={editPlayer}> 
                 <Section>
                   <FormData>
+                  {/* <Image src={!inputObject.PassportPhotograph ? `https://hifl-temp.herokuapp.com/api/v1/${mainData.DocumentUploads.PassportPhotograph}` : `https://hifl-temp.herokuapp.com/api/v1/${inputObject.PassportPhotograph}`} alt="players" /> */}
                     <Image src={Player} alt="players" />
                   </FormData>
                 </Section>
@@ -343,7 +358,7 @@ export const UpdatePlayer: React.FC = () => {
                <Label>ALLERGIES</Label>
                <Input type="text" name="Allergies" 
                onChange={(e) => handleChange(e)}
-               value={inputObject.AnyAllergies ?  mainData?.MedicalRecord?.AnyAllergies : inputObject.AnyAllergies} />
+               value={inputObject.Allergies ?  mainData?.MedicalRecord?.AnyAllergies : inputObject.Allergies} />
              </Section>
            </Section>
            <BtnDiv>
@@ -376,19 +391,19 @@ export const UpdatePlayer: React.FC = () => {
               <Form onSubmit={editPlayer}>
               <FormData>
                 <Label>MEDICAL CERTIFICATE</Label>
-                <Input type="file" name="MedicalCert" />
+                <Input type="file" name="MedicalCert" onChange={onImageChange}/>
               </FormData>
               <FormData>
                 <Label>SCHOOL ID</Label>
-                <Input type="file" name="SchoolId" />
+                <Input type="file" name="SchoolId" onChange={onImageChange}/>
               </FormData>
               <FormData>
                 <Label>PASSPORT PHOTOGRAPH</Label>
-                <Input type="file" name="PassportPhotograph" />
+                <Input type="file" name="PassportPhotograph"onChange={onImageChange} />
               </FormData>
               <FormData>
                 <Label>JAMB PHOTOGRAPH</Label>
-                <Input type="file" name="JambPhotograph" />
+                <Input type="file" name="JambPhotograph" onChange={onImageChange}/>
               </FormData>
             </Form>
             ) : (

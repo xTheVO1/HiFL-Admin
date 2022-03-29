@@ -129,7 +129,6 @@ export const getOfficialById = (id:any) => async (dispatch: Dispatch) => {
   }
 
 export const updateOfficials = (officialData: any) => async (dispatch: Dispatch) => {
-  console.log(officialData, 132)
   try {
     dispatch(updateOfficerStarted())
     const response = await privateHttp({

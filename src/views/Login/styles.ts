@@ -36,7 +36,7 @@ export const Form = styled.form`
 
     padding: 30px;
 
-    background-color: ${props => props.theme.colors.tertiary};
+    background-color: white;
     border-radius: 10px;
 `;
 

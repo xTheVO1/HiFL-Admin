@@ -3,7 +3,7 @@ export default {
     title: 'dark',
 
     colors: {
-        primary: '#1b1f38',
+        primary: ' #000292;',
         secondary: '#252a48',
         tertiary: '#313862',
 

@@ -18,15 +18,17 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
+import Button from "../../components/Button";
 
 //actions
 import { createPlayers } from "../../redux/actions/players";
 import { createOfficials } from "../../redux/actions/officials";
-import Button from "../../components/Button";
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  // states
   const [object, setObject]: any = useState({});
   const [image, setImage] = useState();
   const hiddenFileInput: any = React.useRef(null);
@@ -43,53 +45,55 @@ export const AddPlayer: React.FC = () => {
       [e.target.name]: e.target.value,
     });
   };
-
-
+  
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem("Teamid");
     e.preventDefault();
-
+   
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
       Email: object.email,
     }
+    
     const playerData = {
       Team: teamId,
       Email: object.email,
       // Phonenumber: object.phone,
       MiddleName: object.Middlename,
       DateOfBirth: object.Dateofbirth,
-      Age: object.age,
       TermsAndConditions: true,
       NextOfKin: {
         FullNameOfKin: object.FullNameOfKin,
-      KinRelationship: object.kinRelationship,
-      kinContact: {
-        PhoneNumber: object.kinPhone,
-        Email: object.kinEmail,
-        Address: object.kinAddress
+        KinRelationship: object.kinRelationship,
+        kinContact: {
+          PhoneNumber: object.kinPhone,
+          Email: object.kinEmail,
+          Address: object.kinAddress
+        }
+      },
+      Address: {
+        HomeAddress: {
+          StreetAddress: object.streetAddress, 
+          LocalGovt: object.localGovt,
+          State: object.state,
+          NearestBusStop: object.nearestBusstop
+        }
+      },
+      SchoolAddress: {
+        StreetAddress: object.schoolAddress, 
+        LocalGovt: object.schLGA,
+        State: object.schoolState,
+        NearestBusStop: object.schBusstop
+      },
+      DocumentUploads:{
+        PassportPhotograph: image
       }
-    },
-    Address: {
-      HomeAddress: {
-        StreetAddress: "string",
-        LocalGovt: "string",
-        State: "string",
-        NearestBusStop: "string"
-      }
-    },
-    SchoolAddress: {
-      StreetAddress: "string",
-      LocalGovt: "string",
-      State: "string",
-      NearestBusStop: "string"
     }
-    }
-    if(pathname === "/register-player"){
-      dispatch(createPlayers({ userData, playerData, navigate}))
-    }else if(pathname === "/register-official"){
-      dispatch(createOfficials({ userData, playerData, navigate}))
+    if (pathname === "/register-player") {
+      dispatch(createPlayers({ userData, playerData, navigate }))
+    } else if (pathname === "/register-official") {
+      dispatch(createOfficials({ userData, playerData, navigate }))
 
     }
   }
@@ -99,19 +103,40 @@ export const AddPlayer: React.FC = () => {
       let reader = new FileReader();
       reader.onload = (e: any) => {
         setImage(e.target.result);
+        console.log(event.target.files, e.target.result )
+
       };
       reader.readAsDataURL(event.target.files[0]);
     }
-  };
+  // };
+  // const blob = event.target.files[0];
+  // const params = { Body: blob, 
+  //                  Bucket: `${Config.bucketName}`, 
+  //                  Key: blob.name};
+   // Sending the file to the Spaces
+  //  S3.putObject(params)
+  //    .on('build', request => {
+  //      request.httpRequest.headers.Host = `${Config.digitalOceanSpaces}`;
+  //      request.httpRequest.headers['Content-Length'] = blob.size;
+  //      request.httpRequest.headers['Content-Type'] = blob.type;
+  //      request.httpRequest.headers['x-amz-acl'] = 'public-read';
+  //   })
+  //   .send((err) => {
+  //     if (err) errorCallback();
+  //     else {
+  //     // If there is no error updating the editor with the imageUrl
+  //     const imageUrl = `${Config.digitalOceanSpaces}` + blob.name
+  //     callback(imageUrl, blob.name)
+  //    }
+  // });
+}
   return (
     <Container>
       <Content>
-
         <ContentHeader
-          title={pathname === "/register-player" ? "REGISTER PLAYER": "REGISTER OFFICIAL"}          
-          >
-         <Button onClick={() => navigate("/players")}>GO BACK</Button>
-          </ContentHeader>
+          title={pathname === "/register-player" ? "REGISTER PLAYER" : "REGISTER OFFICIAL"}>
+          <Button onClick={() => navigate("/players")}>GO BACK</Button>
+        </ContentHeader>
         <Tab>
           <Nav>
             <List className="active">PERSONAL INFORMATION</List>
@@ -215,7 +240,7 @@ export const AddPlayer: React.FC = () => {
                   <Label>NEAREST BUSSTOP</Label>
                   <Input
                     type="text"
-                    name="nearestBusStop"
+                    name="nearestBusstop"
                     onChange={(e) => handleChange(e)}
                   />
                 </FormData>
@@ -228,7 +253,7 @@ export const AddPlayer: React.FC = () => {
                   <Label>STREET ADDRESS</Label>
                   <Input
                     type="text"
-                    name="schoolStreet"
+                    name="schoolAddress"
                     onChange={(e) => handleChange(e)}
                   />
                 </FormData>
@@ -244,7 +269,7 @@ export const AddPlayer: React.FC = () => {
                   <Label>STATE</Label>
                   <Input
                     type="text"
-                    name="state"
+                    name="schoolState"
                     onChange={(e) => handleChange(e)}
                   />
                 </FormData>
@@ -306,59 +331,6 @@ export const AddPlayer: React.FC = () => {
                 <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
               </BtnDiv>
             </Form>
-            {/* {activeTab === "tab2" ?
-        <>
-          <Section>
-        <FormData>
-          <Label>POSITION</Label>
-          <Input type="text" name="position"/>
-        </FormData>
-        <FormData>
-          <Label>JERSEY NUMBER</Label>
-          <Input type="number" name="jerseyNumber"/>
-        </FormData>
-        </Section>
-      </> : ""} */}
-            {/* {activeTab === "tab3" ?
-        <>
-          <FormData>
-            <Label>LATEST COURSE REGISTRATION</Label>
-            <Input type="text" name="LatestCourseRegistration"/>
-          </FormData>
-          <FormData>
-            <Label>COURSE LEVEL</Label>
-            <Input type="text" name="CourseLevel"/>
-          </FormData>
-          <FormData>
-            <Label>COURSE STUDY</Label>
-            <Input type="text" name="CourseStudy"/>
-          </FormData>
-         </>
-         : ""} */}
-            {/* {activeTab === "tab4" ?
-        <>
-          <FormData>
-            <Label>MEDICAL CERTIFICATE</Label>
-            <Input type="file" name="MedicalCert"/>
-          </FormData>
-          <FormData>
-            <Label>SCHOOL ID</Label>
-            <Input type="file" name="SchoolId"/>
-          </FormData>
-          <FormData>
-            <Label>PASSPORT PHOTOGRAPH</Label>
-            <Input type="file" name="PassportPhotograph"/>
-          </FormData>
-          <FormData>
-            <Label>JAMB PHOTOGRAPH</Label>
-            <Input type="file" name="JambPhotograph"/>
-          </FormData>
-         </>
-         : ""} */}
-            {/* <BtnDiv>
-              <CreateBtn>SAVE & CONTINUE</CreateBtn>
-              <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn>
-          </BtnDiv> */}
           </Outlet>
         </Tab>
       </Content>

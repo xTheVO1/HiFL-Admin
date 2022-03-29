@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense, lazy } from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom'
 import './index.css';
@@ -7,15 +7,23 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux"
 import giveStore from './redux/store';
+import Loader from './components/Loader';
+import { Spinner } from 'reactstrap';
+
+// ** Lazy load app
+const LazyApp = lazy(() => import('./App'));
+
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={giveStore()}>
+    <Suspense fallback={<Spinner className='loader'/>}>
       <BrowserRouter>
       <ThemeProvider>
-          <App />
+          <LazyApp />
       </ThemeProvider>
     </BrowserRouter>
+    </Suspense>
     </Provider>
   </React.StrictMode>,
   document.getElementById('root')

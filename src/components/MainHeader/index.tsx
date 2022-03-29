@@ -2,14 +2,16 @@ import {MdNotifications, MdHome} from 'react-icons/md'
 import { Container, Welcome, Username, Profile } from "./styles";
 
 export default function MainHeader () {
+    const teamName = sessionStorage.getItem('Teamname');
     const data:any = sessionStorage.getItem("userData");
     const user = JSON.parse(data);
+
     return (
         <Container>
             <div></div>
             {/* <Toggle checked={darkTheme} labelLeft="Light" labelRight="Dark" onChange={handleChangeTheme}/> */}
             <Profile>
-                <Welcome><MdHome/> FUTA TIGERS <span></span></Welcome>
+            {teamName ? <Welcome><MdHome/> teamName  <span></span></Welcome> : ""}
                 <Welcome><MdNotifications/> NOTIFICATIONS<span></span></Welcome>
                 <Username>
                    <div className="profile-img">

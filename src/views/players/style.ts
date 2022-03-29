@@ -28,7 +28,7 @@ export const Section = styled.div`
     margin-bottom: 1rem; 
     justify-content: space-between;
     h4{
-        color: rgb(216, 212, 212);
+        color: black;
     }
 `;
 export const Input = styled.input`
@@ -104,19 +104,19 @@ export const Table = styled.div`
     padding-top: .8rem;
     padding-bottom: .5rem;
     width: 100%;
-    .header{
+    .players-header{
         width: 80%;
         display: flex;
         justify-content: space-between;
 
     }
-    .flex{
+    .players-header-flex{
         display: flex;
         justify-content: space-around;
         width: 60%;
     }
    
-    .flex-header, .flex-start{
+    .players-flex-header, .players-flex-start{
         display: flex;
         justify-content: flex-end;
         width: 50%;
@@ -132,14 +132,14 @@ export const Table = styled.div`
             color: #FFB422;
         }
     }
-    .flex-start{
+    .players-flex-start{
         justify-content: flex-start;
         svg{
             font-size: 1.5rem;
             padding-bottom: .2rem;
         }
     }
-    .flex-header p,  .flex-start p{
+    .players-flex-header p,  .players-flex-start p{
         margin: 0 1rem;
     }
 `;
