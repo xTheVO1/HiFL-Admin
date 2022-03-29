@@ -1,31 +1,32 @@
 import {
-  GET_INSTITUTIONS_STARTED,
-  GET_INSTITUTIONS_SUCCESSFUL,
-  GET_INSTITUTIONS_FAILED
+    GET_TEAMS_STARTED,
+    GET_TEAMS_SUCCESSFUL,
+    GET_TEAMS_FAILED
 } from "../actions/actionTypes";
 
+
+
 const  initialState = {
-  institutions:[],
-  institution:[],
-  newInstitution: {},
+  teams:[],
+  team:[],
   loading: false,
   error: null
 }
 
-export const teamReducer = (state: InstitutionState = initialState, action: any):InstitutionState => {
+export const teamReducer = (state: TeamState = initialState, action: any):TeamState => {
     switch(action.type) {
-      case  GET_INSTITUTIONS_STARTED:
+      case  GET_TEAMS_STARTED:
         return {
           ...state,
           loading: true
         }
-      case GET_INSTITUTIONS_SUCCESSFUL: 
+      case GET_TEAMS_SUCCESSFUL: 
         return {
           ...state,
           loading: false,
-          institutions: action.payload
+          team: action.payload
         }
-      case GET_INSTITUTIONS_FAILED:
+      case GET_TEAMS_FAILED:
         return {
           ...state,
           loading: false,

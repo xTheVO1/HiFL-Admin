@@ -97,7 +97,31 @@ type: string
 payload: IOfficial[]
 }
 
+type IInstitution = {
+  _id: string,
+  InstitutionName: string,
+  Abbreviation: string,
+  InstitutionType: string,
+  __v: number,
+  Description: string,
+  Location: string,
+  props: {}
+}
+interface InstitutionState {
+ institutions: any,
+ institution: any,
+ newInstitution: any,
+ loading: boolean,
+ error: any
+}
+
+type InstitutionAction = {
+type: string
+payload: IOfficial[]
+}
+
 type UserDispatchType = (args: UserAction) => UserAction
 type TeamDispatchType = (args: TeamAction) => TeamAction
 type PlayerDispatchType = (args: PlayerAction) => PlayerAction
 type OfficialDispatchType = (args: OfficialAction) => PlayerAction
+type InstitutionDispatchType = (args: InstitutionAction) => InstitutionAction
