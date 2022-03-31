@@ -1,32 +1,41 @@
 import React from "react";
-import { Container, Content } from "./styles";
+import { Container, Content, H2 } from "./styles";
 import { Table } from 'reactstrap';
 import { Dispatch } from "redux"
 import { useDispatch, useSelector } from "react-redux"
-import { getTeams } from "../../redux/actions/teams";
+import { getInstitutions} from "../../redux/actions/institutions";
+import { useNavigate } from "react-router-dom";
+
 
 // components
 import ContentHeader from "../../components/ContentHeader";
-// import Loader from "../../components/Loader";
+import Loader from "../../components/Loader";
+import { CreateBtn } from "../players/style";
 
 function Institutions() {
     const dispatch: Dispatch<any> = useDispatch()
-
-    const items = useSelector((state: any) => state.team)
-    const loading = useSelector((state: any) => state.team.loading)
-    const mainDataResult = items && items ? items.team : [];
+    const navigate = useNavigate();
+    const items = useSelector((state: any) => state.institution)
+    const loading = useSelector((state: any) => state.institution.loading)
+    const mainDataResult = items && items ? items.institutions : [];
 
     React.useEffect(() => {
-        dispatch(getTeams())
+        dispatch(getInstitutions())
     }, [dispatch])
 
-    //    /teams
+    const addInstitution = () => {
+        navigate("/create-institution")
+    }
+    
     // sending User ID
     return (
         <Container>
-            <ContentHeader title="Institution(s)">
+            <ContentHeader title="Institution">
+            <CreateBtn onClick={addInstitution}>CREATE INSTITUTION</CreateBtn>
             </ContentHeader>
             <Content>
+            {loading ? <Loader/>:
+            mainDataResult.length === 0 ? <H2>NO DATA FOUND</H2> :
                 <Table hover>
                     <thead>
                         <tr>
@@ -37,20 +46,17 @@ function Institutions() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <th scope="row">1</th>
-                            <td>Mark</td>
-                            <td>Otto</td>
-                            <td>@mdo</td>
+                    {mainDataResult && mainDataResult?.map((item: any, index: any) => (
+                        <tr key={index}>
+                            <th scope="row">{index + 1}</th>
+                            <td>{item.InstitutionName}</td>
+                            <td>{item.Abbreviation}</td>
+                            <td>{item.InstitutionType}</td>
                         </tr>
+)) }
                     </tbody>
                 </Table>
-                {/* {(mainDataResult.length === 0) && loading ? <Loader/>:
-            mainDataResult.length === 0 ? <h2 className="no-data">NO DATA FOUND</h2> :
-                mainDataResult && mainDataResult?.map((item: any) => (
-                <TeamCard title={item.TeamName} teamLogo={FUTMINNA} teamId={item._id} TeamName={item.TeamName} key={item._id}/>
-                )) */}
-                {/* } */}
+            }
             </Content>
         </Container>
     );

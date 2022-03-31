@@ -10,9 +10,7 @@ export const Container = styled.div<AsideTypeProps>`
     background-color: #000292;
     padding-left: 20px;
     border-right: 1px solid ${props => props.theme.colors.gray};
-
     position: relative;
-
     @media(max-width: 600px) {
         padding-left: 8px;
         position: fixed;

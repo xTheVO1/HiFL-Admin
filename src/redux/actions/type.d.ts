@@ -117,11 +117,57 @@ interface InstitutionState {
 
 type InstitutionAction = {
 type: string
-payload: IOfficial[]
+payload: IInstitution[]
 }
 
+type ISeason = {
+  _id: string,
+  InstitutionName: string,
+  Abbreviation: string,
+  InstitutionType: string,
+  __v: number,
+  Description: string,
+  Location: string,
+  props: {}
+}
+interface SeasonState {
+  seasons: any,
+  season: any,
+ newSeason: any,
+ loading: boolean,
+ error: any
+}
+
+type SeasonAction = {
+type: string
+payload: IOfficial[]
+}
+type ILeague = {
+  _id: string,
+  InstitutionName: string,
+  Abbreviation: string,
+  InstitutionType: string,
+  __v: number,
+  Description: string,
+  Location: string,
+  props: {}
+}
+interface LeagueState {
+ leagues: any,
+ league: any,
+ newLeague: any,
+ loading: boolean,
+ error: any
+}
+
+type LeagueAction = {
+type: string
+payload: IOfficial[]
+}
 type UserDispatchType = (args: UserAction) => UserAction
 type TeamDispatchType = (args: TeamAction) => TeamAction
 type PlayerDispatchType = (args: PlayerAction) => PlayerAction
 type OfficialDispatchType = (args: OfficialAction) => PlayerAction
 type InstitutionDispatchType = (args: InstitutionAction) => InstitutionAction
+type SeasonDispatchType = (args: SeasonAction) => SeasonAction
+type LeagueDispatchType = (args: LeagueAction) => LeagueAction

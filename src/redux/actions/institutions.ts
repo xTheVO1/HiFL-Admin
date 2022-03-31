@@ -5,10 +5,10 @@ import {
     GET_INSTITUTIONS_FAILED,
     GET_INSTITUTION_STARTED,
     GET_INSTITUTION_SUCCESSFUL,
-    GET_INSTITUTION_FAILED,
-    POST_INSTITUTION_STARTED,
-    POST_INSTITUTION_SUCCESSFUL,
-    POST_INSTITUTION_FAILED
+    GET_INSTITUTION_FAILED
+    // POST_INSTITUTION_STARTED,
+    // POST_INSTITUTION_SUCCESSFUL,
+    // POST_INSTITUTION_FAILED
 } from "./actionTypes";
 import {privateHttp} from "../../baseUrl";
 
@@ -26,7 +26,21 @@ const getInstitutionsFailed = (data: any) => ({
     payload: data
   })
 
-  export const getInstitutions = () => async (dispatch: Dispatch) => {
+  const getInstitutionStarted = () => ({
+    type: GET_INSTITUTION_STARTED
+  })
+
+const getInstitutionSuccess = (data: ITeam) => ({
+    type: GET_INSTITUTION_SUCCESSFUL,
+    payload: data
+  })
+
+const getInstitutionFailed = (data: any) => ({
+    type: GET_INSTITUTION_FAILED,
+    payload: data
+  })
+
+export const getInstitutions = () => async (dispatch: Dispatch) => {
    try {
        dispatch(getInstitutionsStarted())
        const response = await privateHttp({
@@ -34,9 +48,22 @@ const getInstitutionsFailed = (data: any) => ({
          url: `/institutions/`
        })
        const { data } = response;
-       console.log(data)
        return dispatch(getInstitutionsSuccess(data.data))
      } catch (error: any) {
        return dispatch(getInstitutionsFailed(error.response))
      }
-   }
+  }
+
+export const getInstitution = () => async (dispatch: Dispatch) => {
+    try {
+        dispatch(getInstitutionStarted())
+        const response = await privateHttp({
+          method: "get",
+          url: `/institutions/institution/`
+        })
+        const { data } = response;
+        return dispatch(getInstitutionSuccess(data.data))
+      } catch (error: any) {
+        return dispatch(getInstitutionFailed(error.response))
+      }
+  }

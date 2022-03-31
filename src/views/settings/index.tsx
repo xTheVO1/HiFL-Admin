@@ -10,7 +10,7 @@ import TeamCard from "../../components/TeamCards";
 import FUTMINNA from "../../assests/FUTMINNA.png";
 import Loader from "../../components/Loader";
 
-function TeamManager() {
+function Setting() {
     const dispatch: Dispatch<any> = useDispatch()
 
     const items = useSelector((state: any) => state.team)
@@ -39,4 +39,4 @@ function TeamManager() {
     );
 }
 
-export default TeamManager;
+export default Setting;

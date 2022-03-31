@@ -22,8 +22,11 @@ export const Content = styled.div`
   width: 100%;
   padding: 1rem .5rem;
   text-align: center;
-  .no-data{
-    text-align: center;
-    margin: 3rem auto;
-  }
+ 
 `;
+
+export const H2 = styled.h2`
+  text-align: center;
+  margin: 3rem auto;
+
+`

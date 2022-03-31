@@ -22,3 +22,13 @@ padding: 6rem 0;
 color: #000279;
 
 }
+.table{
+  text-align: center;
+  color: #000279 !important;
+  /* border-color: #000279 !important; */
+}
+
+.table{
+  text-align: left;
+
+  }

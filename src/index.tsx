@@ -3,11 +3,9 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom'
 import './index.css';
 import { ThemeProvider } from './hooks/theme'
-import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from "react-redux"
 import giveStore from './redux/store';
-import Loader from './components/Loader';
 import { Spinner } from 'reactstrap';
 
 // ** Lazy load app
