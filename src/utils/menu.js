@@ -6,7 +6,7 @@ import {
   MdToggleOn,
   MdSchool,
   MdSports,
-  MdCalendarToday
+  MdCalendarToday,
 } from "react-icons/md";
 
 export const teamManagerMenu = [
@@ -26,8 +26,8 @@ export const teamManagerMenu = [
     id: "guidelines",
     title: "GUIDELINES",
     href: "/guidelines",
-    icon:  <MdArrowUpward />
-},
+    icon: <MdArrowUpward />,
+  },
   {
     id: "support",
     title: "SUPPORT",
@@ -53,8 +53,8 @@ export const AdminMenu = [
     id: "guidelines",
     title: "INSTITUTIONS",
     href: "/institution",
-    icon:  <MdArrowUpward />
-}
+    icon: <MdArrowUpward />,
+  },
 ];
 
 export const SuperAdminMenu = [
@@ -74,30 +74,30 @@ export const SuperAdminMenu = [
     id: "institutions",
     title: "INSTITUTIONS",
     href: "/institutions",
-    icon:  <MdSchool />
-},
-{
-  id: "season",
-  title: "SEASONS",
-  href: "/seasons",
-  icon:  <MdCalendarToday />
-},
-{
-  id: "league",
-  title: "LEAGUES",
-  href: "/leagues",
-  icon:  <MdSports />
-},
-{
-  id: "user",
-  title: "USERS",
-  href: "/users",
-  icon:  < MdPeopleAlt />
-},
-{
-  id: "settings",
-  title: "SETTINGS",
-  href: "/settings",
-  icon:  <MdToggleOn />
-}
+    icon: <MdSchool />,
+  },
+  {
+    id: "season",
+    title: "SEASONS",
+    href: "/seasons",
+    icon: <MdCalendarToday />,
+  },
+  {
+    id: "league",
+    title: "LEAGUES",
+    href: "/leagues",
+    icon: <MdSports />,
+  },
+  {
+    id: "user",
+    title: "USERS",
+    href: "/users",
+    icon: <MdPeopleAlt />,
+  },
+  {
+    id: "settings",
+    title: "SETTINGS",
+    href: "/settings",
+    icon: <MdToggleOn />,
+  },
 ];
