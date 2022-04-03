@@ -29,7 +29,7 @@ function TeamCard({
   };
   return (
     <Card onClick={viewPlayers}>
-      <ImgCard>{/* <Img src={TeamLogo} alt={TeamName} /> */}</ImgCard>
+      <ImgCard><img src={TeamLogo} alt={TeamName} /></ImgCard>
       <SideText>
         <CardText>{title}</CardText>
         <P>
