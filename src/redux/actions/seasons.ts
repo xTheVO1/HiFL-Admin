@@ -91,7 +91,7 @@ export const postSeason = (payload: any) => async (dispatch: Dispatch) => {
         data: payload
       })
       const { data } = response;
-      return dispatch(postSeasonSuccess(data))
+      return dispatch(postSeasonSuccess(data.data))
     } catch (error: any) {
       return dispatch(postSeasonFailed(error.response))
     }

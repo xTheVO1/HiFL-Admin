@@ -7,15 +7,14 @@ import {getSeasons} from "../../redux/actions/seasons";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
-import TeamCard from "../../components/TeamCards";
-import FUTMINNA from "../../assests/FUTMINNA.png";
 import Loader from "../../components/Loader";
 import { H2 } from "../institutions/styles";
 import { CreateBtn } from "../players/style";
+import { useNavigate } from "react-router-dom";
 
 function Seasons() {
     const dispatch: Dispatch<any> = useDispatch()
-
+    const navigate = useNavigate();
     const items = useSelector((state: any) => state.seasons)
     const loading = useSelector((state: any) => state.seasons.loading)
     const mainDataResult = items && items ? items.seasons: [];
@@ -25,8 +24,9 @@ function Seasons() {
     }, [dispatch])
 
    const addSeason = () => {
-
+    navigate("/create-season")
    }
+   
 // sending User ID
     return (
         <Container>
@@ -40,17 +40,17 @@ function Seasons() {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Institution Name</th>
-                            <th>Abbreviation</th>
-                            <th>Institution Type</th>
+                            <th>Season Name</th>
+                            <th>Season Year</th>
+                            <th>Status</th>
                         </tr>
                     </thead>
                     <tbody>
-                    { mainDataResult && mainDataResult?.map((item: any, index: any) => (
+                    { mainDataResult && mainDataResult?.data?.map((item: any, index: any) => (
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
-                            <td>{item.InstitutionName}</td>
-                            <td>{item.Abbreviation}</td>
+                            <td>{item.SeasonName}</td>
+                            <td>{item.SeasonYear}</td>
                             <td>{item.InstitutionType}</td>
                         </tr>
 )) }

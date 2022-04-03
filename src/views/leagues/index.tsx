@@ -39,16 +39,16 @@ function Leagues() {
                     <thead>
                         <tr>
                             <th>#</th>
-                            <th>Institution Name</th>
+                            <th>League Name</th>
                             <th>Abbreviation</th>
-                            <th>Institution Type</th>
+                            <th>Season</th>
                         </tr>
                     </thead>
                     <tbody>
                     {mainDataResult && mainDataResult?.map((item: any, index: any) => (
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
-                            <td>{item.InstitutionName}</td>
+                            <td>{item.LeagueName}</td>
                             <td>{item.Abbreviation}</td>
                             <td>{item.InstitutionType}</td>
                         </tr>
