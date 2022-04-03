@@ -11,74 +11,74 @@ import {
   GET_PLAYER_FAILED,
   UPDATE_PLAYER_STARTED,
   UPDATE_PLAYER_SUCCESSFUL,
-  UPDATE_PLAYER_FAILED
+  UPDATE_PLAYER_FAILED,
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
 
 const start = () => ({
-  type: POST_PLAYER_STARTED
-})
+  type: POST_PLAYER_STARTED,
+});
 
 const postPlayerSuccess = (data: ITeam) => ({
   type: POST_PLAYER_SUCCESSFUL,
-  payload: data
-})
+  payload: data,
+});
 
 const postPlayerFailed = (data: any) => ({
   type: POST_PLAYER_FAILED,
-  payload: data
-})
+  payload: data,
+});
 
 const getPlayerStarted = () => ({
-  type: GET_PLAYER_STARTED
-})
+  type: GET_PLAYER_STARTED,
+});
 
 const getPlayerSuccess = (data: ITeam) => ({
   type: GET_PLAYER_SUCCESSFUL,
-  payload: data
-})
+  payload: data,
+});
 
 const getPlayerFailed = (data: any) => ({
   type: GET_PLAYER_FAILED,
-  payload: data
-})
+  payload: data,
+});
 
 const getPlayersStarted = () => ({
-  type: GET_PLAYERS_STARTED
-})
+  type: GET_PLAYERS_STARTED,
+});
 
 const getPlayersSuccess = (data: ITeam) => ({
   type: GET_PLAYERS_SUCCESSFUL,
-  payload: data
-})
+  payload: data,
+});
 
 const getPlayersFailed = (data: any) => ({
   type: GET_PLAYERS_FAILED,
-  payload: data
-})
+  payload: data,
+});
 const updatePlayerStarted = () => ({
-  type: UPDATE_PLAYER_STARTED
-})
+  type: UPDATE_PLAYER_STARTED,
+});
 
 const updatePlayerSuccess = (data: IPlayer) => ({
   type: UPDATE_PLAYER_SUCCESSFUL,
-  payload: data
+  payload: data,
 });
 
 const updatePlayerFailed = (data: any) => ({
   type: UPDATE_PLAYER_FAILED,
-  payload: data
+  payload: data,
 });
 
 export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
   const { userData, playerData, navigate } = data;
   try {
-    dispatch(start())
+    dispatch(start());
     // registers a user on the app
     const response = await http({
       method: "post",
       url: `/auth/register/`,
-      data: userData
+      data: userData,
     });
     const { data } = response;
 
@@ -89,61 +89,61 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
     const playerResponse = await privateHttp({
       method: "post",
       url: `/players/player/register/`,
-      data: playerData
+      data: playerData,
     });
     const id = playerResponse.data.data._id;
-    if(playerResponse){
-      navigate(`/player/${id}`)
+    if (playerResponse) {
+      navigate(`/player/${id}`);
     }
-    return dispatch(postPlayerSuccess(playerResponse.data))
+    return dispatch(postPlayerSuccess(playerResponse.data));
   } catch (error: any) {
-    return dispatch(postPlayerFailed(error.response))
+    return dispatch(postPlayerFailed(error.response));
   }
-}
+};
 
 export const getPlayers = (id: any) => async (dispatch: Dispatch) => {
   try {
-      dispatch(getPlayersStarted())
-      const response = await privateHttp({
-        method: "get",
-        url: `/players/?Team=${id}`
-      })
-      return dispatch(getPlayersSuccess(response.data.data))
-    } catch (error: any) {
-      return dispatch(getPlayersFailed(error.response))
-    }
+    dispatch(getPlayersStarted());
+    const response = await privateHttp({
+      method: "get",
+      url: `/players/?Team=${id}`,
+    });
+    return dispatch(getPlayersSuccess(response.data.data));
+  } catch (error: any) {
+    return dispatch(getPlayersFailed(error.response));
   }
+};
 
 export const getPlayerById = (id: any) => async (dispatch: Dispatch) => {
   try {
-      dispatch(getPlayerStarted())
-      const response = await privateHttp({
-        method: "get",
-        url: `/players/player/?_id=${id}`
-      })
-      const { data } = response;
-      return dispatch(getPlayerSuccess(data.data))
-    } catch (error: any) {
-      return dispatch(getPlayerFailed(error.response))
-    }
+    dispatch(getPlayerStarted());
+    const response = await privateHttp({
+      method: "get",
+      url: `/players/player/?_id=${id}`,
+    });
+    const { data } = response;
+    return dispatch(getPlayerSuccess(data.data));
+  } catch (error: any) {
+    return dispatch(getPlayerFailed(error.response));
   }
+};
 
 export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
   try {
-    dispatch(updatePlayerStarted())
+    dispatch(updatePlayerStarted());
     const response = await privateHttp({
       method: "patch",
       url: `/players/player/update/`,
-      data: playerData
-    })
-    const {data} = response;
-    console.log(data)
-    return dispatch(updatePlayerSuccess(data))
+      data: playerData,
+    });
+    const { data } = response;
+    // console.log(data)
+    return dispatch(updatePlayerSuccess(data));
   } catch (error: any) {
-    console.log(error)
-    return dispatch(updatePlayerFailed(error.response))
+    // console.log(error)
+    return dispatch(updatePlayerFailed(error.response));
   }
-}
+};
 
 // AWS.config.update({ region: process.env.AWS_REGION })
 // const s3 = new AWS.S3()
@@ -173,4 +173,3 @@ export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
 //     Key
 //   })
 // }
-

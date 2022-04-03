@@ -45,17 +45,17 @@ export const AddPlayer: React.FC = () => {
       [e.target.name]: e.target.value,
     });
   };
-  
+
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem("Teamid");
     e.preventDefault();
-   
+
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
       Email: object.email,
-    }
-    
+    };
+
     const playerData = {
       Team: teamId,
       Email: object.email,
@@ -69,72 +69,75 @@ export const AddPlayer: React.FC = () => {
         kinContact: {
           PhoneNumber: object.kinPhone,
           Email: object.kinEmail,
-          Address: object.kinAddress
-        }
+          Address: object.kinAddress,
+        },
       },
       Address: {
         HomeAddress: {
-          StreetAddress: object.streetAddress, 
+          StreetAddress: object.streetAddress,
           LocalGovt: object.localGovt,
           State: object.state,
-          NearestBusStop: object.nearestBusstop
-        }
+          NearestBusStop: object.nearestBusstop,
+        },
       },
       SchoolAddress: {
-        StreetAddress: object.schoolAddress, 
+        StreetAddress: object.schoolAddress,
         LocalGovt: object.schLGA,
         State: object.schoolState,
-        NearestBusStop: object.schBusstop
+        NearestBusStop: object.schBusstop,
       },
-      DocumentUploads:{
-        PassportPhotograph: image
-      }
-    }
+      DocumentUploads: {
+        PassportPhotograph: image,
+      },
+    };
     if (pathname === "/register-player") {
-      dispatch(createPlayers({ userData, playerData, navigate }))
+      dispatch(createPlayers({ userData, playerData, navigate }));
     } else if (pathname === "/register-official") {
-      dispatch(createOfficials({ userData, playerData, navigate }))
-
+      dispatch(createOfficials({ userData, playerData, navigate }));
     }
-  }
+  };
 
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (e: any) => {
         setImage(e.target.result);
-        console.log(event.target.files, e.target.result )
-
+        // console.log(event.target.files, e.target.result )
       };
       reader.readAsDataURL(event.target.files[0]);
     }
-  // };
-  // const blob = event.target.files[0];
-  // const params = { Body: blob, 
-  //                  Bucket: `${Config.bucketName}`, 
-  //                  Key: blob.name};
-   // Sending the file to the Spaces
-  //  S3.putObject(params)
-  //    .on('build', request => {
-  //      request.httpRequest.headers.Host = `${Config.digitalOceanSpaces}`;
-  //      request.httpRequest.headers['Content-Length'] = blob.size;
-  //      request.httpRequest.headers['Content-Type'] = blob.type;
-  //      request.httpRequest.headers['x-amz-acl'] = 'public-read';
-  //   })
-  //   .send((err) => {
-  //     if (err) errorCallback();
-  //     else {
-  //     // If there is no error updating the editor with the imageUrl
-  //     const imageUrl = `${Config.digitalOceanSpaces}` + blob.name
-  //     callback(imageUrl, blob.name)
-  //    }
-  // });
-}
+    // };
+    // const blob = event.target.files[0];
+    // const params = { Body: blob,
+    //                  Bucket: `${Config.bucketName}`,
+    //                  Key: blob.name};
+    // Sending the file to the Spaces
+    //  S3.putObject(params)
+    //    .on('build', request => {
+    //      request.httpRequest.headers.Host = `${Config.digitalOceanSpaces}`;
+    //      request.httpRequest.headers['Content-Length'] = blob.size;
+    //      request.httpRequest.headers['Content-Type'] = blob.type;
+    //      request.httpRequest.headers['x-amz-acl'] = 'public-read';
+    //   })
+    //   .send((err) => {
+    //     if (err) errorCallback();
+    //     else {
+    //     // If there is no error updating the editor with the imageUrl
+    //     const imageUrl = `${Config.digitalOceanSpaces}` + blob.name
+    //     callback(imageUrl, blob.name)
+    //    }
+    // });
+  };
   return (
     <Container>
       <Content>
         <ContentHeader
-          title={pathname === "/register-player" ? "REGISTER PLAYER" : "REGISTER OFFICIAL"}>
+          title={
+            pathname === "/register-player"
+              ? "REGISTER PLAYER"
+              : "REGISTER OFFICIAL"
+          }
+        >
           <Button onClick={() => navigate("/players")}>GO BACK</Button>
         </ContentHeader>
         <Tab>
