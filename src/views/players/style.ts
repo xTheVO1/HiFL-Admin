@@ -56,7 +56,7 @@ export const CreateBtn = styled.button`
    
 `;
 
-export const FormData = styled.div`
+export const FormHolder = styled.div`
     width: 45%;
     .no-image{
         width: 100px;

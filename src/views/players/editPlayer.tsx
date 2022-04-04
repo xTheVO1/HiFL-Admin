@@ -2,14 +2,17 @@ import React, { useState, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
+// import AWS from 'aws-sdk';
+import FormData from "form-data";
+
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
   Container,
   Label,
   Content,
-  FormData,
   Form,
+  FormHolder,
   CreateBtn,
   BtnDiv,
   Outlet,
@@ -24,11 +27,22 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
+import {fileUpload} from "../../utils/file";
+
+
 
 export const UpdatePlayer: React.FC = () => {
+  
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [, setImage] = useState();
+  const [files, setFileUpload] = useState({});
+  const [progress , setProgress] = useState(0);
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileInput = (e: any) => {
+      setSelectedFile(e.target.files[0]);
+  }
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",
@@ -161,20 +175,59 @@ export const UpdatePlayer: React.FC = () => {
       },
     };
 
+    
     const payload = { _id: id, params: details };
     dispatch(updatePlayer(payload));
     dispatch(getPlayerById(id));
   };
+
   const onImageChange = (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (e: any) => {
         setImage(e.target.result);
-        // console.log(event.target.files, e.target.result )
+        setFileUpload({ 
+          ...files,
+          [event.target.name]: event.target.files[0]
+        })
+        fileUpload(files)
+        const formData = new FormData();
+        // formData.append()
+        console.log(files, event, event.target.files[0])
       };
       reader.readAsDataURL(event.target.files[0]);
     }
   };
+
+  const S3_BUCKET ='fra1';
+  const REGION ='YOUR_DESIRED_REGION_HERE';
+//   AWS.config.update({
+//     accessKeyId: 'NI7S7OYIIAK5FS2WN4AD',
+//     secretAccessKey: 'Iz8ngfgip4Ig2uUDJQWyGTELVgpuebrdiNhU1K0sNi0'
+// })
+
+// const myBucket = new AWS.S3({
+//     params: { Bucket: S3_BUCKET},
+//     region: REGION,
+// })
+
+const uploadFile = (file: any) => {
+
+  const params = {
+      ACL: 'public-read',
+      Body: file,
+      Bucket: S3_BUCKET,
+      Key: file.name
+  };
+
+  // myBucket.putObject(params)
+  //     .on('httpUploadProgress', (evt) => {
+  //         setProgress(Math.round((evt.loaded / evt.total) * 100))
+  //     })
+  //     .send((err) => {
+  //         if (err) console.log(err)
+  //     })
+}
   return (
     <Container>
       <Content>
@@ -215,12 +268,12 @@ export const UpdatePlayer: React.FC = () => {
               {activeTab === "tab1" ? (
                 <Form onSubmit={editPlayer}>
                   <Section>
-                    <FormData>
+                    <FormHolder>
                       {/* <Image src={!inputObject.PassportPhotograph ? `https://hifl-temp.herokuapp.com/api/v1/${mainData.DocumentUploads.PassportPhotograph}` : `https://hifl-temp.herokuapp.com/api/v1/${inputObject.PassportPhotograph}`} alt="players" /> */}
                       <Image src={Player} alt="players" />
-                    </FormData>
+                    </FormHolder>
                   </Section>
-                  <FormData>
+                  <FormHolder>
                     <Label>FIRST NAME </Label>
                     <Input
                       type="text"
@@ -229,8 +282,8 @@ export const UpdatePlayer: React.FC = () => {
                       disabled={true}
                       value={mainData.User ? mainData.User.Firstname : ""}
                     />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>LAST NAME</Label>
                     <Input
                       type="text"
@@ -239,8 +292,8 @@ export const UpdatePlayer: React.FC = () => {
                       disabled={true}
                       value={mainData.User ? mainData.User.Lastname : ""}
                     />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>MIDDLE NAME</Label>
                     <Input
                       type="text"
@@ -249,8 +302,8 @@ export const UpdatePlayer: React.FC = () => {
                       disabled={true}
                       value={mainData.MiddleName}
                     />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>DATE OF BIRTH</Label>
                     <Input
                       type="date"
@@ -258,7 +311,7 @@ export const UpdatePlayer: React.FC = () => {
                       disabled={true}
                       onChange={(e) => handleChange(e)}
                     />
-                  </FormData>
+                  </FormHolder>
                   <Section>
                     <Label>EMAIL</Label>
                     <Input
@@ -273,7 +326,7 @@ export const UpdatePlayer: React.FC = () => {
                     <Section>
                       <h4>HOME ADDRESS</h4>
                     </Section>
-                    <FormData>
+                    <FormHolder>
                       <Label>STREET ADDRESS</Label>
                       <Input
                         type="text"
@@ -285,8 +338,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.StreetAddress
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>LOCAL GOVERNMENT</Label>
                       <Input
                         type="text"
@@ -298,8 +351,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.LocalGovt
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>STATE</Label>
                       <Input
                         type="text"
@@ -311,8 +364,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.State
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>NEAREST BUSSTOP</Label>
                       <Input
                         type="text"
@@ -324,13 +377,13 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.NearestBusStop
                         }
                       />
-                    </FormData>
+                    </FormHolder>
                   </Section>
                   <Section>
                     <Section>
                       <h4>SCHOOL ADDRESS</h4>
                     </Section>
-                    <FormData>
+                    <FormHolder>
                       <Label>STREET ADDRESS</Label>
                       <Input
                         type="text"
@@ -342,8 +395,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.SchoolAddress
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>LOCAL GOVERNMENT</Label>
                       <Input
                         type="text"
@@ -355,8 +408,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.SchoolLocalGovt
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>STATE</Label>
                       <Input
                         type="text"
@@ -368,8 +421,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.SchoolState
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>NEAREST BUSSTOP</Label>
                       <Input
                         type="text"
@@ -381,13 +434,13 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.SchoolNearestBusStop
                         }
                       />
-                    </FormData>
+                    </FormHolder>
                   </Section>
                   <Section>
                     <Section>
                       <h4>NEXT OF KIN</h4>
                     </Section>
-                    <FormData>
+                    <FormHolder>
                       <Label>FULL NAME</Label>
                       <Input
                         type="text"
@@ -399,8 +452,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.FullNameOfKin
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>NEXT OF KIN RELATIONSHIP</Label>
                       <Input
                         type="text"
@@ -412,8 +465,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.KinRelationship
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>EMAIL</Label>
                       <Input
                         type="text"
@@ -425,8 +478,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.KinEmail
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>PHONE NUMBER</Label>
                       <Input
                         type="text"
@@ -438,7 +491,7 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.KinPhone
                         }
                       />
-                    </FormData>
+                    </FormHolder>
                     <Section>
                       <Label>ADDRESS</Label>
                       <Input
@@ -466,7 +519,7 @@ export const UpdatePlayer: React.FC = () => {
               {activeTab === "tab2" ? (
                 <Form onSubmit={editPlayer}>
                   <Section>
-                    <FormData>
+                    <FormHolder>
                       <Label>POSITION</Label>
                       <Input
                         type="text"
@@ -478,17 +531,17 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.Position
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>JERSEY NUMBER</Label>
                       <Input type="number" name="jerseyNumber" />
-                    </FormData>
+                    </FormHolder>
                   </Section>
                   <Section>
                     <Section>
                       <h4>MEDICAL RECORD</h4>
                     </Section>
-                    <FormData>
+                    <FormHolder>
                       <Label>GENOTYPE</Label>
                       <Input
                         type="text"
@@ -500,8 +553,8 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.Genotype
                         }
                       />
-                    </FormData>
-                    <FormData>
+                    </FormHolder>
+                    <FormHolder>
                       <Label>BLOOD GROUP</Label>
                       <Input
                         type="text"
@@ -513,7 +566,7 @@ export const UpdatePlayer: React.FC = () => {
                             : inputObject.BloodGroup
                         }
                       />
-                    </FormData>
+                    </FormHolder>
                     <Section>
                       <Label>ALLERGIES</Label>
                       <Input
@@ -540,56 +593,56 @@ export const UpdatePlayer: React.FC = () => {
               )}
               {activeTab === "tab3" ? (
                 <Form onSubmit={editPlayer}>
-                  <FormData>
+                  <FormHolder>
                     <Label>LATEST COURSE REGISTRATION</Label>
                     <Input type="text" name="LatestCourseRegistration" />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>COURSE LEVEL</Label>
                     <Input type="text" name="CourseLevel" />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>COURSE STUDY</Label>
                     <Input type="text" name="CourseStudy" />
-                  </FormData>
+                  </FormHolder>
                 </Form>
               ) : (
                 ""
               )}
               {activeTab === "tab4" ? (
                 <Form onSubmit={editPlayer}>
-                  <FormData>
+                  <FormHolder>
                     <Label>MEDICAL CERTIFICATE</Label>
                     <Input
                       type="file"
                       name="MedicalCert"
-                      onChange={onImageChange}
+                      onChange={(e) => onImageChange(e)}
                     />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>SCHOOL ID</Label>
                     <Input
                       type="file"
                       name="SchoolId"
-                      onChange={onImageChange}
+                      onChange={(e) => onImageChange(e)}
                     />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>PASSPORT PHOTOGRAPH</Label>
                     <Input
                       type="file"
                       name="PassportPhotograph"
-                      onChange={onImageChange}
+                      onChange={(e) => onImageChange(e)}
                     />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>JAMB PHOTOGRAPH</Label>
                     <Input
                       type="file"
                       name="JambPhotograph"
-                      onChange={onImageChange}
+                      onChange={(e) => onImageChange(e)}
                     />
-                  </FormData>
+                  </FormHolder>
                 </Form>
               ) : (
                 ""

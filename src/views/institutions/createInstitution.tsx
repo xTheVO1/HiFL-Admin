@@ -8,7 +8,7 @@ import {
   Container,
   Label,
   Content,
-  FormData,
+  FormHolder,
   Form,
   CreateBtn,
   BtnDiv,
@@ -56,46 +56,46 @@ export const AddInstitution: React.FC = () => {
         <Tab>
         <Outlet>
           <Form onSubmit={submit}>
-            <FormData>
+            <FormHolder>
               <Label>INSTITUTION NAME </Label>
               <Input
                 type="text"
                 name="InstitutionName"
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
-            <FormData>
+            </FormHolder>
+            <FormHolder>
               <Label>ABBREVIATION</Label>
               <Input
                 type="text"
                 name="Abbreviation"
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
-            <FormData>
+            </FormHolder>
+            <FormHolder>
               <Label>INSTITUTION TYPE</Label>
               <Input
                 type="text"
                 name="InstitutionTypee"
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
-            <FormData>
+            </FormHolder>
+            <FormHolder>
               <Label>DESCRIPTION</Label>
               <Input
                 type="text"
                 name="description"
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
-            <FormData>
+            </FormHolder>
+            <FormHolder>
               <Label>LOCATION</Label>
               <Input
                 type="text"
                 name="location"
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
+            </FormHolder>
             
             <BtnDiv>
               <CreateBtn type="submit">SUBMIT</CreateBtn>

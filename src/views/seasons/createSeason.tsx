@@ -8,7 +8,7 @@ import {
   Container,
   Label,
   Content,
-  FormData,
+  FormHolder,
   Form,
   CreateBtn,
   BtnDiv,
@@ -58,38 +58,38 @@ export const AddSeason: React.FC = () => {
         <Tab>
           <Outlet>
             <Form onSubmit={submit}>
-              <FormData>
+              <FormHolder>
                 <Label>SEASON NAME </Label>
                 <Input
                   type="text"
                   name="SeasonName"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>ABBREVIATION</Label>
                 <Input
                   type="text"
                   name="Abbreviation"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>FORMAT</Label>
                 <Input
                   type="text"
                   name="format"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>SEASON</Label>
                 <Input
                   type="number"
                   name="Season"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
+              </FormHolder>
               <BtnDiv>
                 <CreateBtn type="submit">SUBMIT</CreateBtn>
               </BtnDiv>

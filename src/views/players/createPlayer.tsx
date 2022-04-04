@@ -8,7 +8,7 @@ import {
   Container,
   Label,
   Content,
-  FormData,
+  FormHolder,
   Form,
   CreateBtn,
   BtnDiv,
@@ -147,7 +147,7 @@ export const AddPlayer: React.FC = () => {
           <Outlet>
             <Form onSubmit={submit}>
               <Section>
-                <FormData>
+                <FormHolder>
                   <>{image ? <Image src={image} alt="players" /> : ""}</>
                   <button onClick={handleClick} className="file-btn">
                     {" "}
@@ -161,166 +161,166 @@ export const AddPlayer: React.FC = () => {
                     id="group_image"
                     style={{ display: "none" }}
                   />
-                </FormData>
+                </FormHolder>
               </Section>
-              <FormData>
+              <FormHolder>
                 <Label>FIRST NAME </Label>
                 <Input
                   type="text"
                   name="Firstname"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>LAST NAME</Label>
                 <Input
                   type="text"
                   name="Lastname"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>MIDDLE NAME</Label>
                 <Input
                   type="text"
                   name="Middlename"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>DATE OF BIRTH</Label>
                 <Input
                   type="date"
                   name="datOfBirth"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>EMAIL</Label>
                 <Input
                   type="text"
                   name="email"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>PHONE</Label>
                 <Input
                   type="text"
                   name="phone"
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
+              </FormHolder>
               <Section>
                 <Section>
                   <h4>HOME ADDRESS</h4>
                 </Section>
-                <FormData>
+                <FormHolder>
                   <Label>STREET ADDRESS</Label>
                   <Input
                     type="text"
                     name="streetAddress"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>LOCAL GOVERNMENT</Label>
                   <Input
                     type="text"
                     name="localGovt"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>STATE</Label>
                   <Input
                     type="text"
                     name="state"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>NEAREST BUSSTOP</Label>
                   <Input
                     type="text"
                     name="nearestBusstop"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
+                </FormHolder>
               </Section>
               <Section>
                 <Section>
                   <h4>SCHOOL ADDRESS</h4>
                 </Section>
-                <FormData>
+                <FormHolder>
                   <Label>STREET ADDRESS</Label>
                   <Input
                     type="text"
                     name="schoolAddress"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>LOCAL GOVERNMENT</Label>
                   <Input
                     type="text"
                     name="schLGA"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>STATE</Label>
                   <Input
                     type="text"
                     name="schoolState"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>NEAREST BUSSTOP</Label>
                   <Input
                     type="text"
                     name="schBusstop"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
+                </FormHolder>
               </Section>
               <Section>
                 <Section>
                   <h4>NEXT OF KIN</h4>
                 </Section>
-                <FormData>
+                <FormHolder>
                   <Label>FULL NAME</Label>
                   <Input
                     type="text"
                     name="FullNameOfKin"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>NEXT OF KIN RELATIONSHIP</Label>
                   <Input
                     type="text"
                     name="kinRelationship"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>EMAIL</Label>
                   <Input
                     type="text"
                     name="kinEmail"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>PHONE NUMBER</Label>
                   <Input
                     type="text"
                     name="kinPhone"
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
+                </FormHolder>
                 <Section>
                   <Label>ADDRESS</Label>
                   <Input
