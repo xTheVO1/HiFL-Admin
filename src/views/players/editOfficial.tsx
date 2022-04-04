@@ -73,7 +73,7 @@ export const UpdateOfficial: React.FC = () => {
      const {  Address, NextOfKin, SchoolAddress, Position, MedicalRecord,  DocumentUploads} = mainData;
      if(Address ){
        refresh("no")
-  setObject({
+      setObject({
         ...inputObject,
         FullNameOfKin: NextOfKin?.FullNameOfKin,
         KinRelationship: NextOfKin?.KinRelationship,
@@ -98,6 +98,7 @@ export const UpdateOfficial: React.FC = () => {
       
        });
     }
+    // eslint-disable-next-line
   }, [dispatch]);
 
 
@@ -355,7 +356,7 @@ export const UpdateOfficial: React.FC = () => {
                 </FormData>
                 <FormData>
                   <Label>JAMB PHOTOGRAPH</Label>
-                  <Input type="file" name="JambPhotograph" />
+                  <Input type="file" name="JambPhotograph" onChange={onImageChange}/>
                 </FormData>
               </Form>
             ) : (

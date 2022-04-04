@@ -37,13 +37,13 @@ export const AddInstitution: React.FC = () => {
   
   const submit = (e: any) => {
     e.preventDefault();
-     const data = {
-      InstitutionName: object.InstitutionName,
-      Abbreviation: object.Abbreviation,
-      InstitutionType: object.InstitutionType,
-      Description: object.Description,
-      Location: object.Location
-     }
+    //  const data = {
+    //   InstitutionName: object.InstitutionName,
+    //   Abbreviation: object.Abbreviation,
+    //   InstitutionType: object.InstitutionType,
+    //   Description: object.Description,
+    //   Location: object.Location
+    //  }
   }
 
   return (
