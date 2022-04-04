@@ -23,6 +23,8 @@ export const Content = styled.div`
 `;
 export const Card = styled.p`
   background: white;
+  font-weight: 700px;
+  font-size: 20px;
   padding: 1rem 86px 1rem 51px;
   margin: 0px 0px 23px 0px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.11);
