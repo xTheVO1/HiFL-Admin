@@ -7,7 +7,7 @@ background: white;
     width 97%;
     margin: 0 auto;
     margin-bottom: 3rem;
-    background: white; 
+    background: white;
 
 }
 `;
@@ -22,9 +22,26 @@ export const Content = styled.div`
 }
 `;
 export const Card = styled.p`
-    background: white;
-    padding: 1rem 86px 1rem 51px;
-    margin: 0px 0px 23px 0px;
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.11);
+  background: white;
+  padding: 1rem 86px 1rem 51px;
+  margin: 0px 0px 23px 0px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.11);
+`;
 
+export const CreateBtn = styled.button`
+  background: #000292;
+  color: white;
+  padding: 0.6rem 2rem;
+  margin-left: 1rem;
+`;
+
+export const BtnDiv = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+  margin-top: 2rem;
+  & .submit {
+    background: #ffb422;
+    color: black;
+  }
 `;
