@@ -107,6 +107,7 @@ export const UpdatePlayer: React.FC = () => {
         SchoolID: DocumentUploads.SchoolID,
       });
     }
+    // eslint-disable-next-line
   }, [dispatch]);
 
   const handleChange = (e: any) => {

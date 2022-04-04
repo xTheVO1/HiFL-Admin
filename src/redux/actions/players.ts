@@ -137,10 +137,8 @@ export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
       data: playerData,
     });
     const { data } = response;
-    // console.log(data)
     return dispatch(updatePlayerSuccess(data));
   } catch (error: any) {
-    // console.log(error)
     return dispatch(updatePlayerFailed(error.response));
   }
 };

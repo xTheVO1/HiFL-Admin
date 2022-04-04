@@ -2,7 +2,7 @@ import React from "react";
 import { Container, Content } from "./styles";
 import { Dispatch } from "redux";
 import { useDispatch, useSelector } from "react-redux";
-import { getTeams } from "../../redux/actions/teams";
+import { getTeams, getTeamsByQuery } from "../../redux/actions/teams";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
@@ -15,9 +15,20 @@ function TeamManager() {
   const items = useSelector((state: any) => state.team);
   const loading = useSelector((state: any) => state.team.loading);
   const mainDataResult = items && items ? items.team : [];
+  const data:any = sessionStorage.getItem("userData");
+  const user = JSON.parse(data);
 
+  // TeamManager
   React.useEffect(() => {
-    dispatch(getTeams());
+    if(user.Role === "TeamManager"){
+      const id = user._id;
+      dispatch(getTeamsByQuery(id));
+    }
+    else{
+      dispatch(getTeams());
+
+    }
+    // eslint-disable-next-line
   }, [dispatch]);
 
   //    /teams
