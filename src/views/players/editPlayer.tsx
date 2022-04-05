@@ -18,6 +18,7 @@ import {
   Outlet,
   Section,
   Image,
+  Select
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
@@ -27,21 +28,21 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
-import {fileUpload} from "../../utils/file";
-
+import { fileUpload } from "../../utils/file";
+import { postFile } from "../../redux/actions/fileUpload"
 
 
 export const UpdatePlayer: React.FC = () => {
-  
+
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [, setImage] = useState();
-  const [files, setFileUpload] = useState({});
-  const [progress , setProgress] = useState(0);
+  const [files, setFileUpload] = useState({ MedicalCert: "", PassportPhotograph: "", JambPhotograph: "", SchoolId: "" });
+  const [progress, setProgress] = useState(0);
   const [selectedFile, setSelectedFile] = useState(null);
 
   const handleFileInput = (e: any) => {
-      setSelectedFile(e.target.files[0]);
+    setSelectedFile(e.target.files[0]);
   }
   const [inputObject, setObject] = useState({
     Firstname: "",
@@ -74,6 +75,15 @@ export const UpdatePlayer: React.FC = () => {
     JerseyNumber: "",
     CourseStudy: "",
     CourseLevel: "",
+    MatricNumber: "",
+    JambRegNumber: "",
+    LatestCourseRegistration: "",
+    JambPhotograph:"",
+    JambResultSlip:"",
+    SchoolPortalPassword: "",
+    SchoolPortalID: "",
+    Programme: "",
+    CourseFaculty: "",
   });
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
@@ -90,11 +100,12 @@ export const UpdatePlayer: React.FC = () => {
     const {
       Address,
       NextOfKin,
-      SchoolAddress,
       MedicalRecord,
       DocumentUploads,
       SportRecord,
+      AcademicRecord
     } = mainData;
+
     if (Address) {
       setObject({
         ...inputObject,
@@ -107,10 +118,10 @@ export const UpdatePlayer: React.FC = () => {
         LocalGovt: Address?.HomeAddress?.LocalGovt,
         NearestBusStop: Address?.HomeAddress?.NearestBusStop,
         State: Address?.HomeAddress?.LocalGovt,
-        SchoolAddress: SchoolAddress?.StreetAddress,
-        SchoolLocalGovt: SchoolAddress?.LocalGovt,
-        SchoolNearestBusStop: SchoolAddress?.NearestBusStop,
-        SchoolState: SchoolAddress?.LocalGovt,
+        SchoolAddress: Address?.SchoolAddress?.StreetAddress,
+        SchoolLocalGovt: Address?.SchoolAddress?.LocalGovt,
+        SchoolNearestBusStop: Address?.SchoolAddress?.NearestBusStop,
+        SchoolState: Address?.SchoolAddress?.LocalGovt,
         Position: SportRecord?.Position,
         JerseyNumber: SportRecord?.JerseyNumber,
         Genotype: MedicalRecord.Genotype,
@@ -118,7 +129,13 @@ export const UpdatePlayer: React.FC = () => {
         // AnyAllergies: MedicalRecord.AnyAllergies,
         PassportPhotograph: DocumentUploads.PassportPhotograph,
         MedicalCert: DocumentUploads.MedicalCert,
-        SchoolID: DocumentUploads.SchoolID,
+        SchoolID: AcademicRecord.SchoolID,
+        MatricNumber: AcademicRecord.MatricNumber,
+        JambRegNumber : AcademicRecord.JambRegNumber,
+        CourseFaculty: AcademicRecord.CourseFaculty,
+        Programme: AcademicRecord.Programme,
+        SchoolPortalID:AcademicRecord.SchoolPortalID,
+        SchoolPortalPassword: AcademicRecord.SchoolPortalPassword
       });
     }
     // eslint-disable-next-line
@@ -139,6 +156,13 @@ export const UpdatePlayer: React.FC = () => {
       AcademicRecord: {
         CourseLevel: inputObject.CourseLevel,
         CourseStudy: inputObject.CourseStudy,
+        MatricNumber: inputObject.MatricNumber,
+        JambRegNumber : inputObject.JambRegNumber,
+        CourseFaculty: inputObject.CourseFaculty,
+        Programme: inputObject.Programme,
+        SchoolPortalID:inputObject.SchoolPortalID,
+        SchoolPortalPassword: inputObject.SchoolPortalPassword
+
       },
       SportRecord: {
         Position: inputObject.Position,
@@ -157,11 +181,19 @@ export const UpdatePlayer: React.FC = () => {
           Address: inputObject.KinAddress,
         },
       },
-      SchoolAddress: {
-        StreetAddress: inputObject.SchoolAddress,
-        LocalGovt: inputObject.SchoolLocalGovt,
-        State: inputObject.State,
-        NearestBusStop: inputObject.NearestBusStop,
+      Address: {
+        HomeAddress: {
+          StreetAddress: inputObject.StreetAddress,
+          LocalGovt: inputObject.LocalGovt,
+          State: inputObject.State,
+          NearestBusStop: inputObject.NearestBusStop,
+        },
+        SchoolAddress: {
+          StreetAddress: inputObject.SchoolAddress,
+          LocalGovt: inputObject.SchoolLocalGovt,
+          State: inputObject.SchoolState,
+          NearestBusStop: inputObject.SchoolNearestBusStop,
+        },
       },
       MedicalRecord: {
         Genotype: inputObject.Genotype,
@@ -172,10 +204,12 @@ export const UpdatePlayer: React.FC = () => {
         PassportPhotograph: inputObject.PassportPhotograph,
         MedicalCert: inputObject.MedicalCert,
         SchoolID: inputObject.SchoolID,
+        JambResultSlip: inputObject.JambResultSlip,
+        JambPhotograph: inputObject.JambPhotograph,
+        LatestCourseRegistration: inputObject.LatestCourseRegistration
       },
     };
 
-    
     const payload = { _id: id, params: details };
     dispatch(updatePlayer(payload));
     dispatch(getPlayerById(id));
@@ -186,48 +220,34 @@ export const UpdatePlayer: React.FC = () => {
       let reader = new FileReader();
       reader.onload = (e: any) => {
         setImage(e.target.result);
-        setFileUpload({ 
+        setFileUpload({
           ...files,
           [event.target.name]: event.target.files[0]
         })
         fileUpload(files)
         const formData = new FormData();
-        // formData.append()
+        formData.append(
+          "", files.MedicalCert
+        )
+        formData.append(
+          "PassportPhotograph",
+          files.PassportPhotograph
+        )
+        formData.append(
+          "JambPhotograph",
+          files.JambPhotograph
+        )
+        formData.append(
+          "SchoolId",
+          files.SchoolId
+        )
+        dispatch(postFile(formData))
         console.log(files, event, event.target.files[0])
       };
       reader.readAsDataURL(event.target.files[0]);
     }
   };
 
-  const S3_BUCKET ='fra1';
-  const REGION ='YOUR_DESIRED_REGION_HERE';
-//   AWS.config.update({
-//     accessKeyId: 'NI7S7OYIIAK5FS2WN4AD',
-//     secretAccessKey: 'Iz8ngfgip4Ig2uUDJQWyGTELVgpuebrdiNhU1K0sNi0'
-// })
-
-// const myBucket = new AWS.S3({
-//     params: { Bucket: S3_BUCKET},
-//     region: REGION,
-// })
-
-const uploadFile = (file: any) => {
-
-  const params = {
-      ACL: 'public-read',
-      Body: file,
-      Bucket: S3_BUCKET,
-      Key: file.name
-  };
-
-  // myBucket.putObject(params)
-  //     .on('httpUploadProgress', (evt) => {
-  //         setProgress(Math.round((evt.loaded / evt.total) * 100))
-  //     })
-  //     .send((err) => {
-  //         if (err) console.log(err)
-  //     })
-}
   return (
     <Container>
       <Content>
@@ -548,7 +568,7 @@ const uploadFile = (file: any) => {
                         name="Genotype"
                         onChange={(e) => handleChange(e)}
                         value={
-                          inputObject.Genotype
+                          !inputObject.Genotype
                             ? mainData?.MedicalRecord?.Genotype
                             : inputObject.Genotype
                         }
@@ -561,7 +581,7 @@ const uploadFile = (file: any) => {
                         name="BloodGroup"
                         onChange={(e) => handleChange(e)}
                         value={
-                          inputObject.BloodGroup
+                          !inputObject.BloodGroup
                             ? mainData?.MedicalRecord?.BloodGroup
                             : inputObject.BloodGroup
                         }
@@ -574,7 +594,7 @@ const uploadFile = (file: any) => {
                         name="Allergies"
                         onChange={(e) => handleChange(e)}
                         value={
-                          inputObject.Allergies
+                          !inputObject.Allergies
                             ? mainData?.MedicalRecord?.AnyAllergies
                             : inputObject.Allergies
                         }
@@ -594,17 +614,96 @@ const uploadFile = (file: any) => {
               {activeTab === "tab3" ? (
                 <Form onSubmit={editPlayer}>
                   <FormHolder>
-                    <Label>LATEST COURSE REGISTRATION</Label>
-                    <Input type="text" name="LatestCourseRegistration" />
-                  </FormHolder>
+                    <Label>MATRICULATION NUMBER</Label>
+                    <Input type="text" 
+                    name="MatricNumber"
+                     onChange={(e) => handleChange(e)}
+                     value={
+                      !inputObject.MatricNumber
+                        ? mainData?.AcademicRecord?.MatricNumber
+                        : inputObject.MatricNumber
+                    }/>
+                  </FormHolder> 
+                  <FormHolder>
+                    <Label>JAMB REGISTRATION NUMBER</Label>
+                    <Input type="text"
+                     name="JambRegNumber"
+                      onChange={(e) => handleChange(e)}
+                      value={
+                        !inputObject.JambRegNumber
+                          ? mainData?.AcademicRecord?.JambRegNumber
+                          : inputObject.JambRegNumber
+                      }/>
+                  </FormHolder> 
                   <FormHolder>
                     <Label>COURSE LEVEL</Label>
-                    <Input type="text" name="CourseLevel" />
+                    <Input type="text" 
+                    name="CourseLevel" 
+                    onChange={(e) => handleChange(e)} 
+                    value={
+                      !inputObject.CourseLevel
+                        ? mainData?.AcademicRecord?.CourseLevel
+                        : inputObject.CourseLevel
+                    }/>
                   </FormHolder>
                   <FormHolder>
                     <Label>COURSE STUDY</Label>
-                    <Input type="text" name="CourseStudy" />
+                    <Input type="text"
+                     name="CourseStudy" 
+                     onChange={(e) => handleChange(e)}
+                     value={
+                      !inputObject.CourseStudy
+                        ? mainData?.AcademicRecord?.CourseStudy
+                        : inputObject.CourseStudy
+                    }
+                    />
                   </FormHolder>
+                  <FormHolder>
+                    <Label>SCHOOL PORTAL PASSWORD</Label>
+                    <Input type="text"
+                     name="SchoolPortalPassword" 
+                     onChange={(e) => handleChange(e)}
+                     value={
+                      !inputObject.SchoolPortalPassword
+                        ? mainData?.AcademicRecord?.SchoolPortalPassword
+                        : inputObject.SchoolPortalPassword
+                    }/>
+                  </FormHolder>
+                  <FormHolder>
+                    <Label>SCHOOL PORTAL ID</Label>
+                    <Input type="text" 
+                    name="SchoolPortalID" 
+                    onChange={(e) => handleChange(e)}
+                    value={
+                      !inputObject.SchoolPortalID
+                        ? mainData?.AcademicRecord?.SchoolPortalID
+                        : inputObject.SchoolPortalID
+                    }/>
+                  </FormHolder>
+                  <FormHolder>
+                    <Label>PROGRAMME</Label>
+                    <Select onChange={(e) => handleChange(e)}>
+                    <option value="undergraduate">Undergraduate</option>
+                    <option value="postGraduate">Post-Graduate</option>
+                  </Select>
+                  </FormHolder>
+                  <FormHolder>
+                    <Label>COURSE FACULTY</Label>
+                    <Input type="text" 
+                    name="CourseFaculty"
+                     onChange={(e) => handleChange(e)}
+                     value={
+                      !inputObject.CourseFaculty
+                        ? mainData?.AcademicRecord?.CourseFaculty
+                        : inputObject.SchoolPortalID
+                    }/>
+                  </FormHolder>
+                  <BtnDiv>
+                    <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
+                    <CreateBtn className="submit">
+                      SUBMIT FOR ACCREDITATION
+                    </CreateBtn>
+                  </BtnDiv>
                 </Form>
               ) : (
                 ""
@@ -628,15 +727,23 @@ const uploadFile = (file: any) => {
                     />
                   </FormHolder>
                   <FormHolder>
-                    <Label>PASSPORT PHOTOGRAPH</Label>
+                    <Label>LATEST COURSE REGISTRATION</Label>
                     <Input
                       type="file"
-                      name="PassportPhotograph"
+                      name="LaestCourseRegistration"
                       onChange={(e) => onImageChange(e)}
                     />
                   </FormHolder>
                   <FormHolder>
                     <Label>JAMB PHOTOGRAPH</Label>
+                    <Input
+                      type="file"
+                      name="JambPhotograph"
+                      onChange={(e) => onImageChange(e)}
+                    />
+                  </FormHolder>
+                  <FormHolder>
+                    <Label>JAMB RESULT SLIP</Label>
                     <Input
                       type="file"
                       name="JambPhotograph"

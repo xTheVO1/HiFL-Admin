@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 // components
@@ -19,9 +19,10 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 
 //actions
+import {postInstitution} from "../../redux/actions/institutions";
 
 export const AddInstitution: React.FC = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // states
@@ -37,13 +38,14 @@ export const AddInstitution: React.FC = () => {
   
   const submit = (e: any) => {
     e.preventDefault();
-    //  const data = {
-    //   InstitutionName: object.InstitutionName,
-    //   Abbreviation: object.Abbreviation,
-    //   InstitutionType: object.InstitutionType,
-    //   Description: object.Description,
-    //   Location: object.Location
-    //  }
+     const instituteData = {
+      InstitutionName: object.InstitutionName,
+      Abbreviation: object.Abbreviation,
+      InstitutionType: object.InstitutionType,
+      Description: object.Description,
+      Location: object.Location
+     }
+     dispatch(postInstitution({instituteData, navigate}))
   }
 
   return (
@@ -57,7 +59,7 @@ export const AddInstitution: React.FC = () => {
         <Outlet>
           <Form onSubmit={submit}>
             <FormHolder>
-              <Label>INSTITUTION NAME </Label>
+              <Label> NAME OF INSTITUTION</Label>
               <Input
                 type="text"
                 name="InstitutionName"
@@ -76,7 +78,7 @@ export const AddInstitution: React.FC = () => {
               <Label>INSTITUTION TYPE</Label>
               <Input
                 type="text"
-                name="InstitutionTypee"
+                name="InstitutionType"
                 onChange={(e) => handleChange(e)}
               />
             </FormHolder>
@@ -84,7 +86,7 @@ export const AddInstitution: React.FC = () => {
               <Label>DESCRIPTION</Label>
               <Input
                 type="text"
-                name="description"
+                name="Description"
                 onChange={(e) => handleChange(e)}
               />
             </FormHolder>
@@ -92,7 +94,7 @@ export const AddInstitution: React.FC = () => {
               <Label>LOCATION</Label>
               <Input
                 type="text"
-                name="location"
+                name="Location"
                 onChange={(e) => handleChange(e)}
               />
             </FormHolder>

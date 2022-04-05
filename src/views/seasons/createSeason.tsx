@@ -37,22 +37,19 @@ export const AddSeason: React.FC = () => {
   
   const submit = (e: any) => {
     e.preventDefault();
-    const stages = []
-    const data = {
+    const seasonData = {
       SeasonName: object.SeasonName,
-      Abbreviation: object.Abbreviation,
-      Format: object.Format,
-      Stages: stages.push(object.stages),
-      Seasons: object.Season
+      SeasonYear: object.Season,
+      Leagues: [{}]
      }
-     dispatch(postSeason(data))
+     dispatch(postSeason({seasonData, navigate}))
   }
 
   return (
     <Container>
       <Content>
         <ContentHeader
-          title="CREATE LEAGUE">
+          title="CREATE SEASON">
           <Button onClick={() => navigate("/seasons")}>GO BACK</Button>
         </ContentHeader>
         <Tab>
@@ -67,23 +64,7 @@ export const AddSeason: React.FC = () => {
                 />
               </FormHolder>
               <FormHolder>
-                <Label>ABBREVIATION</Label>
-                <Input
-                  type="text"
-                  name="Abbreviation"
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
-              <FormHolder>
-                <Label>FORMAT</Label>
-                <Input
-                  type="text"
-                  name="format"
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
-              <FormHolder>
-                <Label>SEASON</Label>
+                <Label>SEASON YEAR</Label>
                 <Input
                   type="number"
                   name="Season"

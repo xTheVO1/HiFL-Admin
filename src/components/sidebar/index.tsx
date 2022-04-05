@@ -12,7 +12,6 @@ export default function Aside() {
     const navigate = useNavigate()
     const data: any = sessionStorage.getItem("userData");
     const user = JSON.parse(data);
-    console.log(user)
     const logout = () => {
         sessionStorage.clear();
         navigate('/')

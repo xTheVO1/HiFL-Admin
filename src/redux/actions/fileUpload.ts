@@ -5,6 +5,7 @@ import {
     POST_FILE_FAILED
 } from "./actionTypes";
 import {privateHttp} from "../../baseUrl";
+import axios from "axios";
 
 const postFileStarted = () => ({
     type: POST_FILE_STARTED
@@ -23,10 +24,16 @@ const postFileStarted = () => ({
     export const postFile = (payload: any) => async (dispatch: Dispatch) => {
         try {
             dispatch(postFileStarted())
+            const headers = {
+                "Authorization": `Bearer-Jwt ${sessionStorage.getItem('token')}`,
+                "Content-Type": "multipart/formdata"
+         
+              }
             const response = await privateHttp({
               method: "post",
               url: `/file/upload/`,
-              data: payload
+              headers: headers,
+              data: payload,
             })
             const { data } = response;
             return dispatch(postFileSuccess(data))
