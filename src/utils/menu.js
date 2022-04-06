@@ -1,12 +1,12 @@
 import {
   MdDashboard,
-  MdArrowUpward,
   MdOutlineSupervisorAccount,
   MdPeopleAlt,
   MdToggleOn,
   MdSchool,
   MdSports,
   MdCalendarToday,
+  MdInfo,
 } from "react-icons/md";
 
 export const teamManagerMenu = [
@@ -26,13 +26,7 @@ export const teamManagerMenu = [
     id: "guidelines",
     title: "GUIDELINES",
     href: "/guidelines",
-    icon: <MdArrowUpward />,
-  },
-  {
-    id: "support",
-    title: "SUPPORT",
-    href: "/support",
-    icon: <MdArrowUpward />,
+    icon: <MdInfo />,
   },
 ];
 
@@ -50,10 +44,10 @@ export const AdminMenu = [
     icon: <MdOutlineSupervisorAccount />,
   },
   {
-    id: "guidelines",
+    id: "institutions",
     title: "INSTITUTIONS",
     href: "/institution",
-    icon: <MdArrowUpward />,
+    icon: <MdSchool />,
   },
 ];
 

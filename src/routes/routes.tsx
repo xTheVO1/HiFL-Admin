@@ -7,7 +7,7 @@ import { Players } from "../views/players";
 import { UpdateOfficial } from "../views/players/editOfficial";
 import { AddPlayer } from "../views/players/createPlayer";
 import { UpdatePlayer } from "../views/players/editPlayer";
-import {Guidelines} from "../views/guidelines";
+import { Guidelines } from "../views/guidelines";
 import Institution from "../views/institutions";
 import Leagues from "../views/leagues";
 import Season from "../views/seasons";
@@ -19,7 +19,6 @@ import { AddSeason } from "../views/seasons/createSeason";
 import ViewSeason from "../views/seasons/viewSeason";
 
 function AppRoutes() {
-
   return (
     <Routes>
       <Route element={<PrivateRoute />}>
@@ -38,7 +37,7 @@ function AppRoutes() {
         <Route path="/official/:id" element={<UpdateOfficial />} />
         <Route path="/player/:id" element={<UpdatePlayer />} />
         <Route path="/players" element={<Players />} />
-        <Route path="/dashboard" element={<Dashboard />} />
+        <Route path="/dashboard" element={<Guidelines />} />
         <Route path="/teams" element={<TeamManager />} />
       </Route>
       <Route path="/" element={<Login />} />
