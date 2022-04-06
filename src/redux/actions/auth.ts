@@ -27,7 +27,7 @@ export const signIn = (data: any) => async (dispatch: Dispatch) => {
       dispatch(start())
       const response = await http({
         method: "post",
-        url: `/auth/login`,
+        url: `/auth/login/`,
         data: user
       })
       const { data } = response;

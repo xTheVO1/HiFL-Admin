@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import FormData from "form-data";
 // import AWS from 'aws-sdk';
@@ -25,7 +25,8 @@ import Button from "../../components/Button";
 //actions
 import { createPlayers } from "../../redux/actions/players";
 import { createOfficials } from "../../redux/actions/officials";
-import { fileUpload } from "../../utils/file";
+import { postFile } from "../../redux/actions/fileUpload";
+import { RootState } from "../../redux/reducers";
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
@@ -38,6 +39,11 @@ export const AddPlayer: React.FC = () => {
   const [image, setImage] = useState();
   const hiddenFileInput: any = React.useRef(null);
   const pathname = window.location.pathname;
+
+  const store = useSelector((state: RootState) => state.files.file)
+  const loadaing = useSelector((state: RootState) => state.files.loading)
+  const fileData = store && store ? store : {};
+
 
   const handleClick = (event: any) => {
     hiddenFileInput.current.click();
@@ -107,20 +113,29 @@ export const AddPlayer: React.FC = () => {
       let reader = new FileReader();
       reader.onload = (e: any) => {
         setImage(e.target.result);
-        const formData = new FormData();
-        formData.append(
-          "file", 
-          image
-        )
-        formData.append(
-          "folder", 
-          "passportphotograph"
-        )
-        formData.append(
-          "id", 
-          ""
-        )
-        fileUpload(formData)
+        const formData:any = new FormData();
+        if(formData){
+          console.log(event.target.name)
+
+          formData.append(
+            "file", 
+            event.target.files[0]
+          )
+          formData.append(
+            "folder", 
+            "passportphotograph"
+          )
+          formData.append(
+            "fileid", 
+            "passpo"
+          )
+
+          dispatch(postFile(formData))
+        // Display the key/value pairs
+        for (var pair of formData.entries()) {
+          console.log(pair[0]+ ', ' + pair[1]); 
+        }
+        }
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -128,34 +143,6 @@ export const AddPlayer: React.FC = () => {
    
   };
 
-//   const S3_BUCKET ='fra1';
-//   const REGION ='YOUR_DESIRED_REGION_HERE';
-//   AWS.config.update({
-//     accessKeyId: 'NI7S7OYIIAK5FS2WN4AD',
-//     secretAccessKey: 'Iz8ngfgip4Ig2uUDJQWyGTELVgpuebrdiNhU1K0sNi0'
-// })
-
-// const myBucket = new AWS.S3({
-//     params: { Bucket: S3_BUCKET},
-//     region: REGION,
-// })
-
-const uploadFile = (file: any) => {
-
-  // const params = {
-  //     ACL: 'public-read',
-  //     Body: file,
-  //     Bucket: S3_BUCKET,
-  //     Key: file.name
-  // };
-
-  // myBucket.putObject(params)
-  //     .on('httpUploadProgress', (evt) => {
-  //         setProgress(Math.round((evt.loaded / evt.total) * 100))
-  //     })
-  //     .send((err) => {
-  //     })
-}
   return (
     <Container>
       <Content>
@@ -183,7 +170,7 @@ const uploadFile = (file: any) => {
                   </button>
                   <input
                     type="file"
-                    onChange={onImageChange}
+                    onChange={(e) =>onImageChange(e)}
                     ref={hiddenFileInput}
                     className="file"
                     id="group_image"

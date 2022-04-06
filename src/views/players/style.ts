@@ -7,10 +7,10 @@ export const Container = styled.div`
 `;
 export const Image = styled.img`
    width: 170px;
-   height: 170px; 
+//    height: 170px; 
    img{
    object-fit: contain;
-
+    width: 100%;
    }
 `;
 export const Form = styled.form`

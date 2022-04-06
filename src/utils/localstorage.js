@@ -7,13 +7,6 @@ export const loadState = () => {
         return undefined;
       }
       let state = JSON.parse(serializedState)
-      /*
-      let token = JSON.parse(serializedState).AuthReducer.access_token;
-      jwt.verify(token,jwt_token,function (err,decoded) {
-        if (err) {
-        }
-      })
-      */
       return state;
     } catch (err) {
       return undefined;

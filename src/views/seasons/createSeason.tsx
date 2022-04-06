@@ -59,14 +59,14 @@ export const AddSeason: React.FC = () => {
                 <Label>SEASON NAME </Label>
                 <Input
                   type="text"
-                  name="SeasonName"
+                  name="SeasonName"  required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
               <FormHolder>
                 <Label>SEASON YEAR</Label>
                 <Input
-                  type="number"
+                  type="number" required
                   name="Season"
                   onChange={(e) => handleChange(e)}
                 />

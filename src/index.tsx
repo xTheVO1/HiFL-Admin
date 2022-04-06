@@ -8,6 +8,8 @@ import { Provider } from "react-redux"
 import giveStore from './redux/store';
 import { Spinner } from 'reactstrap';
 
+
+
 // ** Lazy load app
 const LazyApp = lazy(() => import('./App'));
 

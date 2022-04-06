@@ -62,7 +62,7 @@ export const AddInstitution: React.FC = () => {
               <Label> NAME OF INSTITUTION</Label>
               <Input
                 type="text"
-                name="InstitutionName"
+                name="InstitutionName" required
                 onChange={(e) => handleChange(e)}
               />
             </FormHolder>
@@ -70,7 +70,7 @@ export const AddInstitution: React.FC = () => {
               <Label>ABBREVIATION</Label>
               <Input
                 type="text"
-                name="Abbreviation"
+                name="Abbreviation" required
                 onChange={(e) => handleChange(e)}
               />
             </FormHolder>
@@ -78,7 +78,7 @@ export const AddInstitution: React.FC = () => {
               <Label>INSTITUTION TYPE</Label>
               <Input
                 type="text"
-                name="InstitutionType"
+                name="InstitutionType" required
                 onChange={(e) => handleChange(e)}
               />
             </FormHolder>
@@ -86,7 +86,7 @@ export const AddInstitution: React.FC = () => {
               <Label>DESCRIPTION</Label>
               <Input
                 type="text"
-                name="Description"
+                name="Description" required
                 onChange={(e) => handleChange(e)}
               />
             </FormHolder>
@@ -94,7 +94,7 @@ export const AddInstitution: React.FC = () => {
               <Label>LOCATION</Label>
               <Input
                 type="text"
-                name="Location"
+                name="Location" required
                 onChange={(e) => handleChange(e)}
               />
             </FormHolder>
