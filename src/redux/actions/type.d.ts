@@ -165,6 +165,7 @@ type LeagueAction = {
   type: string;
   payload: IOfficial[];
 };
+
 type UserDispatchType = (args: UserAction) => UserAction;
 type TeamDispatchType = (args: TeamAction) => TeamAction;
 type PlayerDispatchType = (args: PlayerAction) => PlayerAction;
