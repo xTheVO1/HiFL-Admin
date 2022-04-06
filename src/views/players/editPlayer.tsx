@@ -242,7 +242,6 @@ export const UpdatePlayer: React.FC = () => {
           files.SchoolId
         )
         dispatch(postFile(formData))
-        console.log(files, event, event.target.files[0])
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -352,6 +351,7 @@ export const UpdatePlayer: React.FC = () => {
                         type="text"
                         name="StreetAddress"
                         onChange={(e) => handleChange(e)}
+                        required
                         value={
                           !inputObject.StreetAddress
                             ? mainData?.Address?.HomeAddress?.StreetAddress
@@ -364,7 +364,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="LocalGovt"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.LocalGovt
                             ? mainData?.Address?.HomeAddress?.LocalGovt
@@ -382,7 +382,7 @@ export const UpdatePlayer: React.FC = () => {
                           !inputObject.State
                             ? mainData?.Address?.HomeAddress?.State
                             : inputObject.State
-                        }
+                        } required
                       />
                     </FormHolder>
                     <FormHolder>
@@ -390,7 +390,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="NearestBusStop"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.NearestBusStop
                             ? mainData?.Address?.HomeAddress?.NearestBusStop
@@ -408,7 +408,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="SchoolAddress"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.SchoolAddress
                             ? mainData?.SchoolAddress?.StreetAddress
@@ -421,7 +421,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="SchoolLocalGovt"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.SchoolLocalGovt
                             ? mainData?.SchoolAddress?.LocalGovt
@@ -434,7 +434,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="SchoolState"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.SchoolState
                             ? mainData?.SchoolAddress?.State
@@ -447,7 +447,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="SchoolNearestBusstop"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.SchoolNearestBusStop
                             ? mainData?.SchoolAddress?.NearestBusStop
@@ -465,7 +465,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="FullNameOfKin"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.FullNameOfKin
                             ? mainData?.NextOfKin?.FullNameOfKin
@@ -478,7 +478,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="KinRelationship"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.KinRelationship
                             ? mainData?.NextOfKin?.KinRelationship
@@ -491,7 +491,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="KinEmail"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.KinEmail
                             ? mainData?.NextOfKin?.KinContact?.Email
@@ -504,7 +504,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="KinPhone"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           inputObject.KinPhone
                             ? mainData?.NextOfKin?.KinContact?.PhoneNumber
@@ -517,7 +517,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="KinAddress"
-                        onChange={(e) => handleChange(e)}
+                        onChange={(e) => handleChange(e)} required
                         value={
                           inputObject.KinAddress
                             ? mainData?.NextOfKin?.KinContact?.Address

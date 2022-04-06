@@ -32,8 +32,8 @@ export const AddPlayer: React.FC = () => {
   const navigate = useNavigate();
 
   // states
-  const [progress , setProgress] = useState(0);
-  const [selectedFile, setSelectedFile] = useState(null);
+  // const [progress , setProgress] = useState(0);
+  // const [selectedFile, setSelectedFile] = useState(null);
   const [object, setObject]: any = useState({});
   const [image, setImage] = useState();
   const hiddenFileInput: any = React.useRef(null);
@@ -121,7 +121,6 @@ export const AddPlayer: React.FC = () => {
           ""
         )
         fileUpload(formData)
-        // console.log(event.target.files, e.target.result )
       };
       reader.readAsDataURL(event.target.files[0]);
     }
@@ -155,7 +154,6 @@ const uploadFile = (file: any) => {
   //         setProgress(Math.round((evt.loaded / evt.total) * 100))
   //     })
   //     .send((err) => {
-  //         if (err) console.log(err)
   //     })
 }
   return (
@@ -198,6 +196,7 @@ const uploadFile = (file: any) => {
                 <Input
                   type="text"
                   name="Firstname"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -206,6 +205,7 @@ const uploadFile = (file: any) => {
                 <Input
                   type="text"
                   name="Lastname"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -214,6 +214,7 @@ const uploadFile = (file: any) => {
                 <Input
                   type="text"
                   name="Middlename"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -222,6 +223,7 @@ const uploadFile = (file: any) => {
                 <Input
                   type="date"
                   name="datOfBirth"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -230,6 +232,7 @@ const uploadFile = (file: any) => {
                 <Input
                   type="text"
                   name="email"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -238,6 +241,7 @@ const uploadFile = (file: any) => {
                 <Input
                   type="text"
                   name="phone"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -250,6 +254,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="streetAddress"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -258,6 +263,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="localGovt"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -266,6 +272,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="state"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -274,6 +281,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="nearestBusstop"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -287,6 +295,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="schoolAddress"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -295,6 +304,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="schLGA"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -303,6 +313,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="schoolState"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -311,6 +322,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="schBusstop"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -324,6 +336,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="FullNameOfKin"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -332,6 +345,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="kinRelationship"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -340,6 +354,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="kinEmail"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -348,6 +363,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="kinPhone"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </FormHolder>
@@ -356,6 +372,7 @@ const uploadFile = (file: any) => {
                   <Input
                     type="text"
                     name="kinAddress"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </Section>
