@@ -68,29 +68,31 @@ export const getSeasons = () => async (dispatch: Dispatch) => {
      }
   }
 
-export const getSeason = () => async (dispatch: Dispatch) => {
+export const getSeason = (id: any) => async (dispatch: Dispatch) => {
     try {
         dispatch(getSeasonStarted())
         const response = await privateHttp({
           method: "get",
-          url: `/seansons/season/`
+          url: `/seasons/season/?_id=${id}`
         })
         const { data } = response;
-        return dispatch(getSeasonSuccess(data.data))
+        return dispatch(getSeasonSuccess(data))
       } catch (error: any) {
         return dispatch(getSeasonFailed(error.response))
       }
   }
 
 export const postSeason = (payload: any) => async (dispatch: Dispatch) => {
+ const {seasonData, navigate} = payload;
   try {
       dispatch(postSeasonStarted())
       const response = await privateHttp({
-        method: "get",
-        url: `/seasons/season/`,
-        data: payload
+        method: "post",
+        url: `/seasons/create/`,
+        data: seasonData
       })
       const { data } = response;
+      navigate("/seasons")
       return dispatch(postSeasonSuccess(data.data))
     } catch (error: any) {
       return dispatch(postSeasonFailed(error.response))

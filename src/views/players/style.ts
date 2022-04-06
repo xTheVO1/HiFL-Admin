@@ -37,6 +37,13 @@ export const Input = styled.input`
     width: 100%;
     padding: 8px;
 `;
+export const Select = styled.select`
+    border-radius: 5px;
+    border: 1px solid grey !important;
+    width: 100%;
+    padding: 15px;
+    margin-top: 5px;
+`;
 
 export const Label = styled.label`
     display: block;
@@ -56,7 +63,7 @@ export const CreateBtn = styled.button`
    
 `;
 
-export const FormData = styled.div`
+export const FormHolder = styled.div`
     width: 45%;
     .no-image{
         width: 100px;
