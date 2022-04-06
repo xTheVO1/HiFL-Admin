@@ -40,9 +40,9 @@ const getleagueFailed = (data: any) => ({
     payload: data
   })
 
-  const postleagueStarted = () => ({
-    type: POST_LEAGUE_STARTED
-  })
+const postleagueStarted = () => ({
+  type: POST_LEAGUE_STARTED
+})
 
 const postleagueSuccess = (data: ISeason) => ({
     type: POST_LEAGUE_SUCCESSFUL,
@@ -85,7 +85,7 @@ export const getleague = () => async (dispatch: Dispatch) => {
     try {
         dispatch(postleagueStarted())
         const response = await privateHttp({
-          method: "get",
+          method: "post",
           url: `/leagues/create/`,
           data: payload
         })

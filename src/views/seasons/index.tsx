@@ -26,6 +26,10 @@ function Seasons() {
    const addSeason = () => {
     navigate("/create-season")
    }
+
+   const viewSeason = (id:any) => {
+    navigate(`/seasons/${id}`)
+   }
    
 // sending User ID
     return (
@@ -47,7 +51,7 @@ function Seasons() {
                     </thead>
                     <tbody>
                     { mainDataResult && mainDataResult?.data?.map((item: any, index: any) => (
-                        <tr key={index}>
+                        <tr key={index} onClick={() => viewSeason(item._id)}>
                             <th scope="row">{index + 1}</th>
                             <td>{item.SeasonName}</td>
                             <td>{item.SeasonYear}</td>
