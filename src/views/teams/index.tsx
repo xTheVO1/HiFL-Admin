@@ -26,7 +26,6 @@ function TeamManager() {
     }
     else{
       dispatch(getTeams());
-
     }
     // eslint-disable-next-line
   }, [dispatch]);
@@ -49,7 +48,7 @@ function TeamManager() {
               TeamLogo={item.TeamLogo}
               teamId={item._id}
               TeamName={item.TeamName}
-              Institution={item.Institution.InstitutionName}
+              Institution={item.Institution?.InstitutionName}
               Category={item.Category}
               key={item._id}
             />

@@ -37,7 +37,7 @@ function Login() {
             </Logo>
             <Form onSubmit={(e) => handleLogin(e)}>
                 <FormTitle>
-                   Enter
+                   Login
                 </FormTitle>
                 <Input onChange={(e) => setEmail(e.target.value)} required type="email" placeholder="exemplo@gmail.com"/>
                 <Input onChange={(e) => setPassword(e.target.value)} required type="password" />

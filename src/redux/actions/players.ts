@@ -84,7 +84,6 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
 
     //appending user._id to player data
     playerData.User = data.data._id;
-    console.log(playerData)
     // registers a player after creating a user on the app
     const playerResponse = await privateHttp({
       method: "post",
