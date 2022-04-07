@@ -16,10 +16,8 @@ export const Container = styled.div<AsideTypeProps>`
         position: fixed;
         z-index: 2;
         width: 170px;
-
         height: ${props => props.menuIsOpen ? '100vh' : '80px'};
-        overflow: hidden;
-
+        // overflow: hidden;
         ${props => !props.menuIsOpen && css`
             border: none;
             border-bottom: 1px solid ${props => props.theme.colors.gray};
@@ -116,8 +114,8 @@ export const ToggleMenu = styled.button`
 `;
 
 export const Signout = styled.span`
-   position: fixed;
-   bottom: 20px;
+   position:absolute;
+   bottom: 8px;
   
 `;
 export const SideImage = styled.div`

@@ -63,7 +63,7 @@ export const AddLeague: React.FC = () => {
                 <Label>LEAGUE NAME </Label>
                 <Input
                   type="text"
-                  name="LeagueName"
+                  name="LeagueName" required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -71,7 +71,7 @@ export const AddLeague: React.FC = () => {
                 <Label>ABBREVIATION</Label>
                 <Input
                   type="text"
-                  name="Abbreviation"
+                  name="Abbreviation" required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -79,7 +79,7 @@ export const AddLeague: React.FC = () => {
                 <Label>STAGES</Label>
                 <Input
                   type="text"
-                  name="Stages"
+                  name="Stages" required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
@@ -87,7 +87,7 @@ export const AddLeague: React.FC = () => {
                 <Label>SEASON</Label>
                 <Input
                   type="text"
-                  name="Seasons"
+                  name="Seasons" required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>

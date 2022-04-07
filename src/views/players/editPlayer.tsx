@@ -124,18 +124,18 @@ export const UpdatePlayer: React.FC = () => {
         SchoolState: Address?.SchoolAddress?.LocalGovt,
         Position: SportRecord?.Position,
         JerseyNumber: SportRecord?.JerseyNumber,
-        Genotype: MedicalRecord.Genotype,
-        BloodGroup: MedicalRecord.BloodGroup,
+        Genotype: MedicalRecord?.Genotype,
+        BloodGroup: MedicalRecord?.BloodGroup,
         // AnyAllergies: MedicalRecord.AnyAllergies,
-        PassportPhotograph: DocumentUploads.PassportPhotograph,
-        MedicalCert: DocumentUploads.MedicalCert,
-        SchoolID: AcademicRecord.SchoolID,
-        MatricNumber: AcademicRecord.MatricNumber,
-        JambRegNumber : AcademicRecord.JambRegNumber,
-        CourseFaculty: AcademicRecord.CourseFaculty,
-        Programme: AcademicRecord.Programme,
-        SchoolPortalID:AcademicRecord.SchoolPortalID,
-        SchoolPortalPassword: AcademicRecord.SchoolPortalPassword
+        PassportPhotograph: DocumentUploads?.PassportPhotograph,
+        MedicalCert: DocumentUploads?.MedicalCert,
+        SchoolID: AcademicRecord?.SchoolID,
+        MatricNumber: AcademicRecord?.MatricNumber,
+        JambRegNumber : AcademicRecord?.JambRegNumber,
+        CourseFaculty: AcademicRecord?.CourseFaculty,
+        Programme: AcademicRecord?.Programme,
+        SchoolPortalID:AcademicRecord?.SchoolPortalID,
+        SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword
       });
     }
     // eslint-disable-next-line
@@ -215,37 +215,41 @@ export const UpdatePlayer: React.FC = () => {
     dispatch(getPlayerById(id));
   };
 
-  const onImageChange = (event: any) => {
+  const onImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (e: any) => {
         setImage(e.target.result);
-        setFileUpload({
-          ...files,
-          [event.target.name]: event.target.files[0]
-        })
-        fileUpload(files)
-        const formData = new FormData();
-        formData.append(
-          "", files.MedicalCert
-        )
-        formData.append(
-          "PassportPhotograph",
-          files.PassportPhotograph
-        )
-        formData.append(
-          "JambPhotograph",
-          files.JambPhotograph
-        )
-        formData.append(
-          "SchoolId",
-          files.SchoolId
-        )
-        dispatch(postFile(formData))
+        const formData:any = new FormData();
+        if(formData){
+          formData.append(
+            "file", 
+            event.target.files[0]
+          )
+          formData.append(
+            "folder", 
+            "passportphotograph"
+          )
+          formData.append(
+            "fileid", 
+            "passpo"
+          )
+
+          dispatch(postFile(formData))
+          
+        }
       };
       reader.readAsDataURL(event.target.files[0]);
     }
+    // };
   };
+
+  const positions = [
+    {type:"Forward", value:"FW"},
+    {type: "Midfielder", value: "MF"},
+    {type: "Defender", value: "DF"},
+    {type: "Goal Keeper", value: "GK"}
+  ]
 
   return (
     <Container>
@@ -289,7 +293,7 @@ export const UpdatePlayer: React.FC = () => {
                   <Section>
                     <FormHolder>
                       {/* <Image src={!inputObject.PassportPhotograph ? `https://hifl-temp.herokuapp.com/api/v1/${mainData.DocumentUploads.PassportPhotograph}` : `https://hifl-temp.herokuapp.com/api/v1/${inputObject.PassportPhotograph}`} alt="players" /> */}
-                      <Image src={Player} alt="players" />
+                      <Image src={"https://prod-hiv.fra1.digitaloceanspaces.com/hifl-fileserver/jhaga/plojd_B6J340GJB5_.png"} alt="players" />
                     </FormHolder>
                   </Section>
                   <FormHolder>
@@ -411,7 +415,7 @@ export const UpdatePlayer: React.FC = () => {
                         onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.SchoolAddress
-                            ? mainData?.SchoolAddress?.StreetAddress
+                            ? mainData?.Address?.SchoolAddress?.StreetAddress
                             : inputObject.SchoolAddress
                         }
                       />
@@ -424,7 +428,7 @@ export const UpdatePlayer: React.FC = () => {
                         onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.SchoolLocalGovt
-                            ? mainData?.SchoolAddress?.LocalGovt
+                            ? mainData?.Address?.SchoolAddress?.LocalGovt
                             : inputObject.SchoolLocalGovt
                         }
                       />
@@ -437,7 +441,7 @@ export const UpdatePlayer: React.FC = () => {
                         onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.SchoolState
-                            ? mainData?.SchoolAddress?.State
+                            ? mainData?.Address?.SchoolAddress?.State
                             : inputObject.SchoolState
                         }
                       />
@@ -450,7 +454,7 @@ export const UpdatePlayer: React.FC = () => {
                         onChange={(e) => handleChange(e)} required
                         value={
                           !inputObject.SchoolNearestBusStop
-                            ? mainData?.SchoolAddress?.NearestBusStop
+                            ? mainData?.Address?.SchoolAddress?.NearestBusStop
                             : inputObject.SchoolNearestBusStop
                         }
                       />
@@ -541,8 +545,7 @@ export const UpdatePlayer: React.FC = () => {
                   <Section>
                     <FormHolder>
                       <Label>POSITION</Label>
-                      <Input
-                        type="text"
+                      <Select
                         name="Position"
                         onChange={(e) => handleChange(e)}
                         value={
@@ -550,11 +553,16 @@ export const UpdatePlayer: React.FC = () => {
                             ? mainData?.Position
                             : inputObject.Position
                         }
-                      />
+                      >
+                        <option>Select a Position</option>
+                        {positions.map(item => (
+                        <option value={item.value}>{item.type}</option>
+                        ))}
+                      </Select>
                     </FormHolder>
                     <FormHolder>
                       <Label>JERSEY NUMBER</Label>
-                      <Input type="number" name="jerseyNumber" />
+                      <Input type="number" name="jerseyNumber" min="1" max="30"  />
                     </FormHolder>
                   </Section>
                   <Section>
@@ -647,6 +655,17 @@ export const UpdatePlayer: React.FC = () => {
                     }/>
                   </FormHolder>
                   <FormHolder>
+                    <Label>SCHOOL PORTAL ID</Label>
+                    <Input type="text" 
+                    name="SchoolPortalID" 
+                    onChange={(e) => handleChange(e)}
+                    value={
+                      !inputObject.SchoolPortalID
+                        ? mainData?.AcademicRecord?.SchoolPortalID
+                        : inputObject.SchoolPortalID
+                    }/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>COURSE STUDY</Label>
                     <Input type="text"
                      name="CourseStudy" 
@@ -667,17 +686,6 @@ export const UpdatePlayer: React.FC = () => {
                       !inputObject.SchoolPortalPassword
                         ? mainData?.AcademicRecord?.SchoolPortalPassword
                         : inputObject.SchoolPortalPassword
-                    }/>
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>SCHOOL PORTAL ID</Label>
-                    <Input type="text" 
-                    name="SchoolPortalID" 
-                    onChange={(e) => handleChange(e)}
-                    value={
-                      !inputObject.SchoolPortalID
-                        ? mainData?.AcademicRecord?.SchoolPortalID
-                        : inputObject.SchoolPortalID
                     }/>
                   </FormHolder>
                   <FormHolder>
