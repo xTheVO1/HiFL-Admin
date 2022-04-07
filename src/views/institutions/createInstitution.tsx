@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-// import { useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
 // components
@@ -8,7 +8,7 @@ import {
   Container,
   Label,
   Content,
-  FormData,
+  FormHolder,
   Form,
   CreateBtn,
   BtnDiv,
@@ -19,9 +19,10 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 
 //actions
+import {postInstitution} from "../../redux/actions/institutions";
 
 export const AddInstitution: React.FC = () => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // states
@@ -37,13 +38,14 @@ export const AddInstitution: React.FC = () => {
   
   const submit = (e: any) => {
     e.preventDefault();
-    //  const data = {
-    //   InstitutionName: object.InstitutionName,
-    //   Abbreviation: object.Abbreviation,
-    //   InstitutionType: object.InstitutionType,
-    //   Description: object.Description,
-    //   Location: object.Location
-    //  }
+     const instituteData = {
+      InstitutionName: object.InstitutionName,
+      Abbreviation: object.Abbreviation,
+      InstitutionType: object.InstitutionType,
+      Description: object.Description,
+      Location: object.Location
+     }
+     dispatch(postInstitution({instituteData, navigate}))
   }
 
   return (
@@ -56,46 +58,46 @@ export const AddInstitution: React.FC = () => {
         <Tab>
         <Outlet>
           <Form onSubmit={submit}>
-            <FormData>
-              <Label>INSTITUTION NAME </Label>
+            <FormHolder>
+              <Label> NAME OF INSTITUTION</Label>
               <Input
                 type="text"
-                name="InstitutionName"
+                name="InstitutionName" required
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
-            <FormData>
+            </FormHolder>
+            <FormHolder>
               <Label>ABBREVIATION</Label>
               <Input
                 type="text"
-                name="Abbreviation"
+                name="Abbreviation" required
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
-            <FormData>
+            </FormHolder>
+            <FormHolder>
               <Label>INSTITUTION TYPE</Label>
               <Input
                 type="text"
-                name="InstitutionTypee"
+                name="InstitutionType" required
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
-            <FormData>
+            </FormHolder>
+            <FormHolder>
               <Label>DESCRIPTION</Label>
               <Input
                 type="text"
-                name="description"
+                name="Description" required
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
-            <FormData>
+            </FormHolder>
+            <FormHolder>
               <Label>LOCATION</Label>
               <Input
                 type="text"
-                name="location"
+                name="Location" required
                 onChange={(e) => handleChange(e)}
               />
-            </FormData>
+            </FormHolder>
             
             <BtnDiv>
               <CreateBtn type="submit">SUBMIT</CreateBtn>

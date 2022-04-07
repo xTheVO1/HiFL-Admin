@@ -16,6 +16,8 @@ import User from "../views/user";
 import { AddInstitution } from "../views/institutions/createInstitution";
 import { AddLeague } from "../views/leagues/createLeague";
 import { AddSeason } from "../views/seasons/createSeason";
+import ViewSeason from "../views/seasons/viewSeason";
+
 function AppRoutes() {
   return (
     <Routes>
@@ -24,6 +26,7 @@ function AppRoutes() {
         <Route path="/register-official" element={<AddPlayer />} />
         <Route path="/users" element={<User />} />
         <Route path="/seasons" element={<Season />} />
+        <Route path="/seasons/:id" element={<ViewSeason />} />
         <Route path="/leagues" element={<Leagues />} />
         <Route path="/institutions" element={<Institution />} />
         <Route path="/create-institution" element={<AddInstitution />} />

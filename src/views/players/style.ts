@@ -7,10 +7,10 @@ export const Container = styled.div`
 `;
 export const Image = styled.img`
    width: 170px;
-   height: 170px; 
+//    height: 170px; 
    img{
    object-fit: contain;
-
+    width: 100%;
    }
 `;
 export const Form = styled.form`
@@ -37,6 +37,12 @@ export const Input = styled.input`
     width: 100%;
     padding: 8px;
 `;
+export const Select = styled.select`
+    border: 1px solid #C7C7C7;
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+`;
 
 export const Label = styled.label`
     display: block;
@@ -56,7 +62,7 @@ export const CreateBtn = styled.button`
    
 `;
 
-export const FormData = styled.div`
+export const FormHolder = styled.div`
     width: 45%;
     .no-image{
         width: 100px;

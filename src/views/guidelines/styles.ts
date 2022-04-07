@@ -28,6 +28,9 @@ export const Card = styled.p`
   padding: 1rem 86px 1rem 51px;
   margin: 0px 0px 23px 0px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.11);
+  :hover{
+    cursor: pointer;
+  }
 `;
 
 export const CreateBtn = styled.button`

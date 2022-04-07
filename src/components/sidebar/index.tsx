@@ -9,23 +9,21 @@ import {
   Signout,
 } from "./styles";
 import logoImg from "../../assests/logo.png";
-import dashboard from "../../assests/dashboard.png";
 import { MdOutlineLogout, MdClose, MdMenu } from "react-icons/md";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { teamManagerMenu, AdminMenu, SuperAdminMenu } from "../../utils/menu";
 
 export default function Aside() {
-  const [toggleMenuOpened, setToggleMenuOpened] = useState<boolean>(false);
-  const handleToggleMenu = () => setToggleMenuOpened(!toggleMenuOpened);
-  const navigate = useNavigate();
-  const data: any = sessionStorage.getItem("userData");
-  const user = JSON.parse(data);
-  // console.log(user);
-  const logout = () => {
-    sessionStorage.clear();
-    navigate("/");
-  };
+    const [toggleMenuOpened, setToggleMenuOpened] = useState<boolean>(false)
+    const handleToggleMenu = () => setToggleMenuOpened(!toggleMenuOpened)
+    const navigate = useNavigate()
+    const data: any = sessionStorage.getItem("userData");
+    const user = JSON.parse(data);
+    const logout = () => {
+        sessionStorage.clear();
+        navigate('/')
+    }
 
   return (
     <Container menuIsOpen={toggleMenuOpened}>
@@ -81,7 +79,6 @@ export default function Aside() {
             ))
           : ""}
       </MenuNavigator>
-
       <Signout>
         <MenuItemBottom onClick={logout}>
           <MdOutlineLogout />

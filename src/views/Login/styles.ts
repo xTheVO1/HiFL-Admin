@@ -50,3 +50,11 @@ export const FormTitle = styled.h1`
         border-bottom: 5px solid ${props => props.theme.colors.warning};
     }
 `;
+
+export const Error = styled.p`
+   color: red;
+   text-transform: capitalize;
+   background: white;
+   padding: 1rem;
+   border-radius: 10px;
+`;

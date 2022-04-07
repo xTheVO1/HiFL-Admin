@@ -8,7 +8,7 @@ import {
   Container,
   Label,
   Content,
-  FormData,
+  FormHolder,
   Form,
   CreateBtn,
   BtnDiv,
@@ -195,26 +195,26 @@ export const UpdateOfficial: React.FC = () => {
               loading ? <Loader/> :
               <Form onSubmit={editOfficial}>
                 <Section>
-                  <FormData>
+                  <FormHolder>
                     <Image src={Player} alt="players" />
-                  </FormData>
+                  </FormHolder>
                 </Section>
-                <FormData>
+                <FormHolder>
                   <Label>FIRST NAME </Label>
                   <Input type="text" name="Firstname" onChange={(e) => handleChange(e)} disabled={true} value={mainData.User ? mainData.User.Firstname : ""}/>
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>LAST NAME</Label>
                   <Input type="text" name="Lastname" onChange={(e) => handleChange(e)} disabled={true} value={mainData.User ? mainData.User.Lastname : ""}/>
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>MIDDLE NAME</Label>
                   <Input type="text" name="MiddleName" onChange={(e) => handleChange(e)} disabled={true} value={mainData.MiddleName}/>
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>DATE OF BIRTH</Label>
                   <Input type="date" name="DateOfBirth" disabled={true} onChange={(e) => handleChange(e)}/>
-                </FormData>
+                </FormHolder>
                 <Section>
                   <Label>EMAIL</Label>
                   <Input type="text" name="Email" disabled={true} onChange={(e) => handleChange(e)} value={mainData.User ? mainData.User.Email : ""}/>
@@ -223,71 +223,71 @@ export const UpdateOfficial: React.FC = () => {
                   <Section>
                     <h4>HOME ADDRESS</h4>
                   </Section>
-                  <FormData>
+                  <FormHolder>
                     <Label>STREET ADDRESS</Label>
-                    <Input type="text" name="StreetAddress"onChange={(e) => handleChange(e)} value={!inputObject.StreetAddress ?  mainData?.Address?.HomeAddress?.StreetAddress : inputObject.StreetAddress}/>
+                    <Input type="text" name="StreetAddress" required onChange={(e) => handleChange(e)} value={!inputObject.StreetAddress ?  mainData?.Address?.HomeAddress?.StreetAddress : inputObject.StreetAddress}/>
 
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>LOCAL GOVERNMENT</Label>
-                    <Input type="text" name="LocalGovt" onChange={(e) => handleChange(e)} value={!inputObject.LocalGovt ?  mainData?.Address?.HomeAddress?.LocalGovt : inputObject.LocalGovt}/>
-                  </FormData>
-                  <FormData>
+                    <Input type="text" name="LocalGovt" required onChange={(e) => handleChange(e)} value={!inputObject.LocalGovt ?  mainData?.Address?.HomeAddress?.LocalGovt : inputObject.LocalGovt}/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>STATE</Label>
-                    <Input type="text" name="State"onChange={(e) => handleChange(e)} value={!inputObject.State ?  mainData?.Address?.HomeAddress?.State : inputObject.State}/>
-                  </FormData>
-                  <FormData>
+                    <Input type="text" name="State" required onChange={(e) => handleChange(e)} value={!inputObject.State ?  mainData?.Address?.HomeAddress?.State : inputObject.State}/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>NEAREST BUSSTOP</Label>
-                    <Input type="text" name="NearestBusStop" onChange={(e) => handleChange(e)} value={!inputObject.NearestBusStop ?  mainData?.Address?.HomeAddress?.NearestBusStop : inputObject.NearestBusStop}/>
-                  </FormData>
+                    <Input type="text" name="NearestBusStop" required onChange={(e) => handleChange(e)} value={!inputObject.NearestBusStop ?  mainData?.Address?.HomeAddress?.NearestBusStop : inputObject.NearestBusStop}/>
+                  </FormHolder>
                 </Section>
                 <Section>
                   <Section>
                     <h4>SCHOOL ADDRESS</h4>
                   </Section>
-                  <FormData>
+                  <FormHolder>
                     <Label>STREET ADDRESS</Label>
-                    <Input type="text" name="SchoolAddress"onChange={(e) => handleChange(e)} value={!inputObject.SchoolAddress ?  mainData?.SchoolAddress?.StreetAddress : inputObject.SchoolAddress}/>
-                  </FormData>
-                  <FormData>
+                    <Input type="text" name="SchoolAddress" required onChange={(e) => handleChange(e)} value={!inputObject.SchoolAddress ?  mainData?.SchoolAddress?.StreetAddress : inputObject.SchoolAddress}/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>LOCAL GOVERNMENT</Label>
-                    <Input type="text" name="SchoolLocalGovt" onChange={(e) => handleChange(e)} value={!inputObject.SchoolLocalGovt ?  mainData?.SchoolAddress?.LocalGovt : inputObject.SchoolLocalGovt}/>
-                  </FormData>
-                  <FormData>
+                    <Input type="text" name="SchoolLocalGovt" required onChange={(e) => handleChange(e)} value={!inputObject.SchoolLocalGovt ?  mainData?.SchoolAddress?.LocalGovt : inputObject.SchoolLocalGovt}/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>STATE</Label>
-                    <Input type="text" name="SchoolState" onChange={(e) => handleChange(e)} value={!inputObject.SchoolState ?  mainData?.SchoolAddress?.State : inputObject.SchoolState}/>
-                  </FormData>
-                  <FormData>
+                    <Input type="text" name="SchoolState" required onChange={(e) => handleChange(e)} value={!inputObject.SchoolState ?  mainData?.SchoolAddress?.State : inputObject.SchoolState}/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>NEAREST BUSSTOP</Label>
-                    <Input type="text" name="SchoolNearestBusstop"onChange={(e) => handleChange(e)} value={!inputObject.SchoolNearestBusStop ?  mainData?.SchoolAddress?.NearestBusStop : inputObject.SchoolNearestBusStop}/>
-                  </FormData>
+                    <Input type="text" name="SchoolNearestBusstop" required onChange={(e) => handleChange(e)} value={!inputObject.SchoolNearestBusStop ?  mainData?.SchoolAddress?.NearestBusStop : inputObject.SchoolNearestBusStop}/>
+                  </FormHolder>
                 </Section>
                 <Section>
                   <Section>
                     <h4>NEXT OF KIN</h4>
                   </Section>
-                  <FormData>
+                  <FormHolder>
                     <Label>FULL NAME</Label>
-                    <Input type="text" name="FullNameOfKin" onChange={(e) => handleChange(e)} value={!inputObject.FullNameOfKin ?  mainData?.NextOfKin?.FullNameOfKin : inputObject.FullNameOfKin}/>
-                  </FormData>
-                  <FormData>
+                    <Input type="text" name="FullNameOfKin" required onChange={(e) => handleChange(e)} value={!inputObject.FullNameOfKin ?  mainData?.NextOfKin?.FullNameOfKin : inputObject.FullNameOfKin}/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>NEXT OF KIN RELATIONSHIP</Label>
-                    <Input type="text" name="KinRelationship" onChange={(e) => handleChange(e)} value={!inputObject.KinRelationship ?  mainData?.NextOfKin?.KinRelationship : inputObject.KinRelationship}/>
-                  </FormData>
-                  <FormData>
+                    <Input type="text" name="KinRelationship" required onChange={(e) => handleChange(e)} value={!inputObject.KinRelationship ?  mainData?.NextOfKin?.KinRelationship : inputObject.KinRelationship}/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>EMAIL</Label>
-                    <Input type="text" name="KinEmail" onChange={(e) => handleChange(e)} value={!inputObject.KinEmail ?  mainData?.NextOfKin?.KinContact?.Email : inputObject.KinEmail}/>
-                  </FormData>
-                  <FormData>
+                    <Input type="text" name="KinEmail" required onChange={(e) => handleChange(e)} value={!inputObject.KinEmail ?  mainData?.NextOfKin?.KinContact?.Email : inputObject.KinEmail}/>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>PHONE NUMBER</Label>
                     <Input type="text" 
                     name="KinPhone" 
-                    onChange={(e) => handleChange(e)} 
+                    onChange={(e) => handleChange(e)} required
                     value={inputObject.KinPhone ?  mainData?.NextOfKin?.KinContact?.PhoneNumber : inputObject.KinPhone}/>
-                  </FormData>
+                  </FormHolder>
                   <Section>
                     <Label>ADDRESS</Label>
-                    <Input type="text" name="kinAddress" onChange={(e) => handleChange(e)} value={inputObject.KinAddress ? mainData?.NextOfKin?.KinContact?.Address : inputObject.KinAddress}/>
+                    <Input type="text" name="kinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress ? mainData?.NextOfKin?.KinContact?.Address : inputObject.KinAddress}/>
                   </Section>
                 </Section>
                 <BtnDiv>
@@ -311,20 +311,20 @@ export const UpdateOfficial: React.FC = () => {
                   <Section>
                     <h4>MEDICAL RECORD</h4>
                   </Section>
-                  <FormData>
+                  <FormHolder>
                     <Label>GENOTYPE</Label>
                     <Input type="text" 
                     name="Genotype" 
                     onChange={(e) => handleChange(e)}
                     value={inputObject.Genotype ?  mainData?.MedicalRecord?.Genotype : inputObject.Genotype} />
-                  </FormData>
-                  <FormData>
+                  </FormHolder>
+                  <FormHolder>
                     <Label>BLOOD GROUP</Label>
                     <Input type="text" 
                     name="BloodGroup" 
                     onChange={(e) => handleChange(e)} 
                     value={inputObject.BloodGroup ?  mainData?.MedicalRecord?.BloodGroup : inputObject.BloodGroup} />
-                  </FormData>
+                  </FormHolder>
                   <Section>
                     <Label>ALLERGIES</Label>
                     <Input type="text" name="Allergies" 
@@ -342,22 +342,22 @@ export const UpdateOfficial: React.FC = () => {
             )}
             {activeTab === "tab3" ? (
               <Form onSubmit={editOfficial}>
-                <FormData>
+                <FormHolder>
                   <Label>MEDICAL CERTIFICATE</Label>
                   <Input type="file" name="MedicalCert" />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>SCHOOL ID</Label>
                   <Input type="file" name="SchoolId" />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>PASSPORT PHOTOGRAPH</Label>
                   <Input type="file" name="PassportPhotograph" />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>JAMB PHOTOGRAPH</Label>
                   <Input type="file" name="JambPhotograph" onChange={onImageChange}/>
-                </FormData>
+                </FormHolder>
               </Form>
             ) : (
               ""

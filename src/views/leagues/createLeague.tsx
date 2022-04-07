@@ -8,7 +8,7 @@ import {
   Container,
   Label,
   Content,
-  FormData,
+  FormHolder,
   Form,
   CreateBtn,
   BtnDiv,
@@ -59,38 +59,38 @@ export const AddLeague: React.FC = () => {
         <Tab>
           <Outlet>
             <Form onSubmit={submit}>
-              <FormData>
+              <FormHolder>
                 <Label>LEAGUE NAME </Label>
                 <Input
                   type="text"
-                  name="LeagueName"
+                  name="LeagueName" required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>ABBREVIATION</Label>
                 <Input
                   type="text"
-                  name="Abbreviation"
+                  name="Abbreviation" required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>STAGES</Label>
                 <Input
                   type="text"
-                  name="Stages"
+                  name="Stages" required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>SEASON</Label>
                 <Input
                   type="text"
-                  name="Seasons"
+                  name="Seasons" required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
+              </FormHolder>
               <BtnDiv>
                 <CreateBtn type="submit">SUBMIT</CreateBtn>
               </BtnDiv>

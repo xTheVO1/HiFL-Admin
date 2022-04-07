@@ -26,4 +26,7 @@ export const Content = styled.div`
     text-align: center;
     margin: 3rem auto;
   }
+  .table:hover{
+    cursor: pointer;
+  }
 `;

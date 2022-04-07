@@ -165,6 +165,26 @@ type LeagueAction = {
   type: string;
   payload: IOfficial[];
 };
+
+type IFileUpload = {
+  _id: string;
+  Etag: string,
+  Location: string,
+  key: string,
+  Bucket: string
+};
+
+interface FileUploadState {
+  file: any;
+  loading: boolean;
+  error: any;
+}
+
+type FileUploadAction = {
+  type: string;
+  payload: IFileUpload[];
+};
+
 type UserDispatchType = (args: UserAction) => UserAction;
 type TeamDispatchType = (args: TeamAction) => TeamAction;
 type PlayerDispatchType = (args: PlayerAction) => PlayerAction;
@@ -172,3 +192,4 @@ type OfficialDispatchType = (args: OfficialAction) => PlayerAction;
 type InstitutionDispatchType = (args: InstitutionAction) => InstitutionAction;
 type SeasonDispatchType = (args: SeasonAction) => SeasonAction;
 type LeagueDispatchType = (args: LeagueAction) => LeagueAction;
+type FileUploadDispatchType = (args: FileUploadAction) => FileUploadAction;

@@ -1,6 +1,8 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
+import FormData from "form-data";
+// import AWS from 'aws-sdk';
 
 // components
 import ContentHeader from "../../components/ContentHeader";
@@ -8,7 +10,7 @@ import {
   Container,
   Label,
   Content,
-  FormData,
+  FormHolder,
   Form,
   CreateBtn,
   BtnDiv,
@@ -23,18 +25,26 @@ import Button from "../../components/Button";
 //actions
 import { createPlayers } from "../../redux/actions/players";
 import { createOfficials } from "../../redux/actions/officials";
+import { postFile } from "../../redux/actions/fileUpload";
+import { RootState } from "../../redux/reducers";
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // states
+  // const [progress , setProgress] = useState(0);
+  const [selectedFile, setSelectedFile] = useState();
   const [object, setObject]: any = useState({});
   const [image, setImage] = useState();
   const hiddenFileInput: any = React.useRef(null);
   const pathname = window.location.pathname;
 
-  const handleClick = (event: any) => {
+  const data: any = sessionStorage.getItem("userData");
+  const user = JSON.parse(data);
+
+  const handleClick = (e: any) => {
+    e.preventDefault();
     hiddenFileInput.current.click();
   };
 
@@ -46,8 +56,15 @@ export const AddPlayer: React.FC = () => {
     });
   };
 
+  const file: any = sessionStorage.getItem("location");
+  if(file === undefined){
+
+    const userFile = JSON.parse(file);
+    console.log(userFile)
+  }
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem("Teamid");
+  
     e.preventDefault();
 
     const userData = {
@@ -59,6 +76,7 @@ export const AddPlayer: React.FC = () => {
     const playerData = {
       Team: teamId,
       Email: object.email,
+      CreatedBy: user._id,
       // Phonenumber: object.phone,
       MiddleName: object.Middlename,
       DateOfBirth: object.Dateofbirth,
@@ -79,16 +97,13 @@ export const AddPlayer: React.FC = () => {
           State: object.state,
           NearestBusStop: object.nearestBusstop,
         },
-      },
-      SchoolAddress: {
-        StreetAddress: object.schoolAddress,
-        LocalGovt: object.schLGA,
-        State: object.schoolState,
-        NearestBusStop: object.schBusstop,
-      },
-      DocumentUploads: {
-        PassportPhotograph: image,
-      },
+        SchoolAddress: {
+          StreetAddress: object.schoolAddress,
+          LocalGovt: object.schLGA,
+          State: object.schoolState,
+          NearestBusStop: object.schBusstop,
+        }
+      }
     };
     if (pathname === "/register-player") {
       dispatch(createPlayers({ userData, playerData, navigate }));
@@ -97,37 +112,6 @@ export const AddPlayer: React.FC = () => {
     }
   };
 
-  const onImageChange = (event: any) => {
-    if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
-      reader.onload = (e: any) => {
-        setImage(e.target.result);
-        // console.log(event.target.files, e.target.result )
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-    // };
-    // const blob = event.target.files[0];
-    // const params = { Body: blob,
-    //                  Bucket: `${Config.bucketName}`,
-    //                  Key: blob.name};
-    // Sending the file to the Spaces
-    //  S3.putObject(params)
-    //    .on('build', request => {
-    //      request.httpRequest.headers.Host = `${Config.digitalOceanSpaces}`;
-    //      request.httpRequest.headers['Content-Length'] = blob.size;
-    //      request.httpRequest.headers['Content-Type'] = blob.type;
-    //      request.httpRequest.headers['x-amz-acl'] = 'public-read';
-    //   })
-    //   .send((err) => {
-    //     if (err) errorCallback();
-    //     else {
-    //     // If there is no error updating the editor with the imageUrl
-    //     const imageUrl = `${Config.digitalOceanSpaces}` + blob.name
-    //     callback(imageUrl, blob.name)
-    //    }
-    // });
-  };
   return (
     <Container>
       <Content>
@@ -147,185 +131,204 @@ export const AddPlayer: React.FC = () => {
           <Outlet>
             <Form onSubmit={submit}>
               <Section>
-                <FormData>
+                <FormHolder>
                   <>{image ? <Image src={image} alt="players" /> : ""}</>
                   <button onClick={handleClick} className="file-btn">
                     {" "}
                     Upload Passport Photograph
                   </button>
-                  <input
+                  {/* <input
                     type="file"
-                    onChange={onImageChange}
+                    onChange={(e) =>onImageChange(e)}
                     ref={hiddenFileInput}
                     className="file"
                     id="group_image"
                     style={{ display: "none" }}
-                  />
-                </FormData>
+                  /> */}
+                </FormHolder>
               </Section>
-              <FormData>
+              <FormHolder>
                 <Label>FIRST NAME </Label>
                 <Input
                   type="text"
                   name="Firstname"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>LAST NAME</Label>
                 <Input
                   type="text"
                   name="Lastname"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>MIDDLE NAME</Label>
                 <Input
                   type="text"
                   name="Middlename"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>DATE OF BIRTH</Label>
                 <Input
                   type="date"
                   name="datOfBirth"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>EMAIL</Label>
                 <Input
                   type="text"
                   name="email"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
-              <FormData>
+              </FormHolder>
+              <FormHolder>
                 <Label>PHONE</Label>
                 <Input
                   type="text"
                   name="phone"
+                  required
                   onChange={(e) => handleChange(e)}
                 />
-              </FormData>
+              </FormHolder>
               <Section>
                 <Section>
                   <h4>HOME ADDRESS</h4>
                 </Section>
-                <FormData>
+                <FormHolder>
                   <Label>STREET ADDRESS</Label>
                   <Input
                     type="text"
                     name="streetAddress"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>LOCAL GOVERNMENT</Label>
                   <Input
                     type="text"
                     name="localGovt"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>STATE</Label>
                   <Input
                     type="text"
                     name="state"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>NEAREST BUSSTOP</Label>
                   <Input
                     type="text"
                     name="nearestBusstop"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
+                </FormHolder>
               </Section>
               <Section>
                 <Section>
                   <h4>SCHOOL ADDRESS</h4>
                 </Section>
-                <FormData>
+                <FormHolder>
                   <Label>STREET ADDRESS</Label>
                   <Input
                     type="text"
                     name="schoolAddress"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>LOCAL GOVERNMENT</Label>
                   <Input
                     type="text"
                     name="schLGA"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>STATE</Label>
                   <Input
                     type="text"
                     name="schoolState"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>NEAREST BUSSTOP</Label>
                   <Input
                     type="text"
                     name="schBusstop"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
+                </FormHolder>
               </Section>
               <Section>
                 <Section>
                   <h4>NEXT OF KIN</h4>
                 </Section>
-                <FormData>
+                <FormHolder>
                   <Label>FULL NAME</Label>
                   <Input
                     type="text"
                     name="FullNameOfKin"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>NEXT OF KIN RELATIONSHIP</Label>
                   <Input
                     type="text"
                     name="kinRelationship"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>EMAIL</Label>
                   <Input
                     type="text"
                     name="kinEmail"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
-                <FormData>
+                </FormHolder>
+                <FormHolder>
                   <Label>PHONE NUMBER</Label>
                   <Input
                     type="text"
                     name="kinPhone"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
-                </FormData>
+                </FormHolder>
                 <Section>
                   <Label>ADDRESS</Label>
                   <Input
                     type="text"
                     name="kinAddress"
+                    required
                     onChange={(e) => handleChange(e)}
                   />
                 </Section>
