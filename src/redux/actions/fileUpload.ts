@@ -29,13 +29,13 @@ export const postFile = (payload: any) => async (dispatch: Dispatch) => {
     }
     const response = await privateHttp({
       method: "post",
-      url: '/file/uploader/',
+      url: '/file/upload/',
       headers: headers,
       data: payload,
     })
     const { data } = response;
-    console.log(data)
-    return dispatch(postFileSuccess(data))
+    sessionStorage.setItem('location', JSON.stringify(data.data));
+    return dispatch(postFileSuccess(data.data))
   } catch (error: any) {
     return dispatch(postFileFailed(error.response))
   }

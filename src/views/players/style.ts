@@ -38,10 +38,9 @@ export const Input = styled.input`
     padding: 8px;
 `;
 export const Select = styled.select`
-    border-radius: 5px;
-    border: 1px solid grey !important;
+    border: 1px solid #C7C7C7;
     width: 100%;
-    padding: 15px;
+    padding: 8px;
     margin-top: 5px;
 `;
 

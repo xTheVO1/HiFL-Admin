@@ -34,18 +34,17 @@ export const AddPlayer: React.FC = () => {
 
   // states
   // const [progress , setProgress] = useState(0);
-  // const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState();
   const [object, setObject]: any = useState({});
   const [image, setImage] = useState();
   const hiddenFileInput: any = React.useRef(null);
   const pathname = window.location.pathname;
 
-  const store = useSelector((state: RootState) => state.files.file)
-  const loadaing = useSelector((state: RootState) => state.files.loading)
-  const fileData = store && store ? store : {};
+  const data: any = sessionStorage.getItem("userData");
+  const user = JSON.parse(data);
 
-
-  const handleClick = (event: any) => {
+  const handleClick = (e: any) => {
+    e.preventDefault();
     hiddenFileInput.current.click();
   };
 
@@ -57,8 +56,15 @@ export const AddPlayer: React.FC = () => {
     });
   };
 
+  const file: any = sessionStorage.getItem("location");
+  if(file === undefined){
+
+    const userFile = JSON.parse(file);
+    console.log(userFile)
+  }
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem("Teamid");
+  
     e.preventDefault();
 
     const userData = {
@@ -70,6 +76,7 @@ export const AddPlayer: React.FC = () => {
     const playerData = {
       Team: teamId,
       Email: object.email,
+      CreatedBy: user._id,
       // Phonenumber: object.phone,
       MiddleName: object.Middlename,
       DateOfBirth: object.Dateofbirth,
@@ -90,57 +97,19 @@ export const AddPlayer: React.FC = () => {
           State: object.state,
           NearestBusStop: object.nearestBusstop,
         },
-      },
-      SchoolAddress: {
-        StreetAddress: object.schoolAddress,
-        LocalGovt: object.schLGA,
-        State: object.schoolState,
-        NearestBusStop: object.schBusstop,
-      },
-      DocumentUploads: {
-        PassportPhotograph: image,
-      },
+        SchoolAddress: {
+          StreetAddress: object.schoolAddress,
+          LocalGovt: object.schLGA,
+          State: object.schoolState,
+          NearestBusStop: object.schBusstop,
+        }
+      }
     };
     if (pathname === "/register-player") {
       dispatch(createPlayers({ userData, playerData, navigate }));
     } else if (pathname === "/register-official") {
       dispatch(createOfficials({ userData, playerData, navigate }));
     }
-  };
-
-  const onImageChange = (event: any) => {
-    if (event.target.files && event.target.files[0]) {
-      let reader = new FileReader();
-      reader.onload = (e: any) => {
-        setImage(e.target.result);
-        const formData:any = new FormData();
-        if(formData){
-          console.log(event.target.name)
-
-          formData.append(
-            "file", 
-            event.target.files[0]
-          )
-          formData.append(
-            "folder", 
-            "passportphotograph"
-          )
-          formData.append(
-            "fileid", 
-            "passpo"
-          )
-
-          dispatch(postFile(formData))
-        // Display the key/value pairs
-        for (var pair of formData.entries()) {
-          console.log(pair[0]+ ', ' + pair[1]); 
-        }
-        }
-      };
-      reader.readAsDataURL(event.target.files[0]);
-    }
-    // };
-   
   };
 
   return (
@@ -168,14 +137,14 @@ export const AddPlayer: React.FC = () => {
                     {" "}
                     Upload Passport Photograph
                   </button>
-                  <input
+                  {/* <input
                     type="file"
                     onChange={(e) =>onImageChange(e)}
                     ref={hiddenFileInput}
                     className="file"
                     id="group_image"
                     style={{ display: "none" }}
-                  />
+                  /> */}
                 </FormHolder>
               </Section>
               <FormHolder>

@@ -9,7 +9,6 @@ import {
   Signout,
 } from "./styles";
 import logoImg from "../../assests/logo.png";
-import dashboard from "../../assests/dashboard.png";
 import { MdOutlineLogout, MdClose, MdMenu } from "react-icons/md";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -80,7 +79,6 @@ export default function Aside() {
             ))
           : ""}
       </MenuNavigator>
-
       <Signout>
         <MenuItemBottom onClick={logout}>
           <MdOutlineLogout />
