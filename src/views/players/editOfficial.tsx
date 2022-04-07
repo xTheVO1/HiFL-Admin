@@ -225,20 +225,20 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                   <FormHolder>
                     <Label>STREET ADDRESS</Label>
-                    <Input type="text" name="StreetAddress"onChange={(e) => handleChange(e)} value={!inputObject.StreetAddress ?  mainData?.Address?.HomeAddress?.StreetAddress : inputObject.StreetAddress}/>
+                    <Input type="text" name="StreetAddress" required onChange={(e) => handleChange(e)} value={!inputObject.StreetAddress ?  mainData?.Address?.HomeAddress?.StreetAddress : inputObject.StreetAddress}/>
 
                   </FormHolder>
                   <FormHolder>
                     <Label>LOCAL GOVERNMENT</Label>
-                    <Input type="text" name="LocalGovt" onChange={(e) => handleChange(e)} value={!inputObject.LocalGovt ?  mainData?.Address?.HomeAddress?.LocalGovt : inputObject.LocalGovt}/>
+                    <Input type="text" name="LocalGovt" required onChange={(e) => handleChange(e)} value={!inputObject.LocalGovt ?  mainData?.Address?.HomeAddress?.LocalGovt : inputObject.LocalGovt}/>
                   </FormHolder>
                   <FormHolder>
                     <Label>STATE</Label>
-                    <Input type="text" name="State"onChange={(e) => handleChange(e)} value={!inputObject.State ?  mainData?.Address?.HomeAddress?.State : inputObject.State}/>
+                    <Input type="text" name="State" required onChange={(e) => handleChange(e)} value={!inputObject.State ?  mainData?.Address?.HomeAddress?.State : inputObject.State}/>
                   </FormHolder>
                   <FormHolder>
                     <Label>NEAREST BUSSTOP</Label>
-                    <Input type="text" name="NearestBusStop" onChange={(e) => handleChange(e)} value={!inputObject.NearestBusStop ?  mainData?.Address?.HomeAddress?.NearestBusStop : inputObject.NearestBusStop}/>
+                    <Input type="text" name="NearestBusStop" required onChange={(e) => handleChange(e)} value={!inputObject.NearestBusStop ?  mainData?.Address?.HomeAddress?.NearestBusStop : inputObject.NearestBusStop}/>
                   </FormHolder>
                 </Section>
                 <Section>
@@ -247,19 +247,19 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                   <FormHolder>
                     <Label>STREET ADDRESS</Label>
-                    <Input type="text" name="SchoolAddress"onChange={(e) => handleChange(e)} value={!inputObject.SchoolAddress ?  mainData?.SchoolAddress?.StreetAddress : inputObject.SchoolAddress}/>
+                    <Input type="text" name="SchoolAddress" required onChange={(e) => handleChange(e)} value={!inputObject.SchoolAddress ?  mainData?.SchoolAddress?.StreetAddress : inputObject.SchoolAddress}/>
                   </FormHolder>
                   <FormHolder>
                     <Label>LOCAL GOVERNMENT</Label>
-                    <Input type="text" name="SchoolLocalGovt" onChange={(e) => handleChange(e)} value={!inputObject.SchoolLocalGovt ?  mainData?.SchoolAddress?.LocalGovt : inputObject.SchoolLocalGovt}/>
+                    <Input type="text" name="SchoolLocalGovt" required onChange={(e) => handleChange(e)} value={!inputObject.SchoolLocalGovt ?  mainData?.SchoolAddress?.LocalGovt : inputObject.SchoolLocalGovt}/>
                   </FormHolder>
                   <FormHolder>
                     <Label>STATE</Label>
-                    <Input type="text" name="SchoolState" onChange={(e) => handleChange(e)} value={!inputObject.SchoolState ?  mainData?.SchoolAddress?.State : inputObject.SchoolState}/>
+                    <Input type="text" name="SchoolState" required onChange={(e) => handleChange(e)} value={!inputObject.SchoolState ?  mainData?.SchoolAddress?.State : inputObject.SchoolState}/>
                   </FormHolder>
                   <FormHolder>
                     <Label>NEAREST BUSSTOP</Label>
-                    <Input type="text" name="SchoolNearestBusstop"onChange={(e) => handleChange(e)} value={!inputObject.SchoolNearestBusStop ?  mainData?.SchoolAddress?.NearestBusStop : inputObject.SchoolNearestBusStop}/>
+                    <Input type="text" name="SchoolNearestBusstop" required onChange={(e) => handleChange(e)} value={!inputObject.SchoolNearestBusStop ?  mainData?.SchoolAddress?.NearestBusStop : inputObject.SchoolNearestBusStop}/>
                   </FormHolder>
                 </Section>
                 <Section>
@@ -268,26 +268,26 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                   <FormHolder>
                     <Label>FULL NAME</Label>
-                    <Input type="text" name="FullNameOfKin" onChange={(e) => handleChange(e)} value={!inputObject.FullNameOfKin ?  mainData?.NextOfKin?.FullNameOfKin : inputObject.FullNameOfKin}/>
+                    <Input type="text" name="FullNameOfKin" required onChange={(e) => handleChange(e)} value={!inputObject.FullNameOfKin ?  mainData?.NextOfKin?.FullNameOfKin : inputObject.FullNameOfKin}/>
                   </FormHolder>
                   <FormHolder>
                     <Label>NEXT OF KIN RELATIONSHIP</Label>
-                    <Input type="text" name="KinRelationship" onChange={(e) => handleChange(e)} value={!inputObject.KinRelationship ?  mainData?.NextOfKin?.KinRelationship : inputObject.KinRelationship}/>
+                    <Input type="text" name="KinRelationship" required onChange={(e) => handleChange(e)} value={!inputObject.KinRelationship ?  mainData?.NextOfKin?.KinRelationship : inputObject.KinRelationship}/>
                   </FormHolder>
                   <FormHolder>
                     <Label>EMAIL</Label>
-                    <Input type="text" name="KinEmail" onChange={(e) => handleChange(e)} value={!inputObject.KinEmail ?  mainData?.NextOfKin?.KinContact?.Email : inputObject.KinEmail}/>
+                    <Input type="text" name="KinEmail" required onChange={(e) => handleChange(e)} value={!inputObject.KinEmail ?  mainData?.NextOfKin?.KinContact?.Email : inputObject.KinEmail}/>
                   </FormHolder>
                   <FormHolder>
                     <Label>PHONE NUMBER</Label>
                     <Input type="text" 
                     name="KinPhone" 
-                    onChange={(e) => handleChange(e)} 
+                    onChange={(e) => handleChange(e)} required
                     value={inputObject.KinPhone ?  mainData?.NextOfKin?.KinContact?.PhoneNumber : inputObject.KinPhone}/>
                   </FormHolder>
                   <Section>
                     <Label>ADDRESS</Label>
-                    <Input type="text" name="kinAddress" onChange={(e) => handleChange(e)} value={inputObject.KinAddress ? mainData?.NextOfKin?.KinContact?.Address : inputObject.KinAddress}/>
+                    <Input type="text" name="kinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress ? mainData?.NextOfKin?.KinContact?.Address : inputObject.KinAddress}/>
                   </Section>
                 </Section>
                 <BtnDiv>
