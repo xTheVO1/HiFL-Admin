@@ -42,7 +42,7 @@ export const Guidelines: React.FC = () => {
           <BtnCard>
             <CreateBtn
               target="_blank"
-              href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_GAME_REGULATIONS_2022.pdf;"
+              href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_GAME_REGULATIONS_2022.pdf"
             >
               HiFL 2022 Regulations
             </CreateBtn>{" "}
