@@ -33,11 +33,25 @@ export const Card = styled.p`
   }
 `;
 
-export const CreateBtn = styled.button`
+export const BtnCard = styled.p`
+  background: white;
+  font-weight: 700px;
+  font-size: 20px;
+  padding: 1.5rem 1rem 1.5rem 1rem;
+  margin: 0px 0px 23px 0px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.11);
+  :hover{
+    cursor: pointer;
+  }
+`;
+
+export const CreateBtn = styled.a`
   background: #000292;
   color: white;
   padding: 0.6rem 2rem;
   margin-left: 1rem;
+  margin-bottom: 1rem;
+  text-decoration: none;
 `;
 
 export const BtnDiv = styled.div`
