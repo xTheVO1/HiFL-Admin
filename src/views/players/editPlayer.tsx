@@ -2,9 +2,14 @@ import React, { useState, useLayoutEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
-// import AWS from 'aws-sdk';
 import FormData from "form-data";
+import {
+  POST_FILE_STARTED,
+  POST_FILE_SUCCESSFUL,
+  POST_FILE_FAILED
+} from "../../redux/actions/actionTypes";
 
+import { privateHttp } from "../../baseUrl";
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -39,11 +44,8 @@ export const UpdatePlayer: React.FC = () => {
   const [, setImage] = useState();
   const [files, setFileUpload] = useState({ MedicalCert: "", PassportPhotograph: "", JambPhotograph: "", SchoolId: "" });
   const [progress, setProgress] = useState(0);
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFileType, setSelectedFile] = useState();
 
-  const handleFileInput = (e: any) => {
-    setSelectedFile(e.target.files[0]);
-  }
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",
@@ -78,12 +80,13 @@ export const UpdatePlayer: React.FC = () => {
     MatricNumber: "",
     JambRegNumber: "",
     LatestCourseRegistration: "",
-    JambPhotograph:"",
-    JambResultSlip:"",
+    JambPhotograph: "",
+    JambResultSlip: "",
     SchoolPortalPassword: "",
     SchoolPortalID: "",
     Programme: "",
     CourseFaculty: "",
+    fileName:""
   });
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
@@ -131,10 +134,10 @@ export const UpdatePlayer: React.FC = () => {
         MedicalCert: DocumentUploads?.MedicalCert,
         SchoolID: AcademicRecord?.SchoolID,
         MatricNumber: AcademicRecord?.MatricNumber,
-        JambRegNumber : AcademicRecord?.JambRegNumber,
+        JambRegNumber: AcademicRecord?.JambRegNumber,
         CourseFaculty: AcademicRecord?.CourseFaculty,
         Programme: AcademicRecord?.Programme,
-        SchoolPortalID:AcademicRecord?.SchoolPortalID,
+        SchoolPortalID: AcademicRecord?.SchoolPortalID,
         SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword
       });
     }
@@ -157,10 +160,10 @@ export const UpdatePlayer: React.FC = () => {
         CourseLevel: inputObject.CourseLevel,
         CourseStudy: inputObject.CourseStudy,
         MatricNumber: inputObject.MatricNumber,
-        JambRegNumber : inputObject.JambRegNumber,
+        JambRegNumber: inputObject.JambRegNumber,
         CourseFaculty: inputObject.CourseFaculty,
         Programme: inputObject.Programme,
-        SchoolPortalID:inputObject.SchoolPortalID,
+        SchoolPortalID: inputObject.SchoolPortalID,
         SchoolPortalPassword: inputObject.SchoolPortalPassword
 
       },
@@ -215,42 +218,51 @@ export const UpdatePlayer: React.FC = () => {
     dispatch(getPlayerById(id));
   };
 
+  const positions = [
+    { type: "Forward", value: "FW" },
+    { type: "Midfielder", value: "MF" },
+    { type: "Defender", value: "DF" },
+    { type: "Goal Keeper", value: "GK" }
+  ]
+  const fileType = [
+    { type: "Latest Course Registration", value: "LaestCourseRegistration" },
+    { type: "Medical Certificate2", value: "MedicalCert" },
+    { type: "School ID", value: "SchoolId" },
+    { type: "Jamb Photograph", value: "JambPhotograph" }
+  ]
+
   const onImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (e: any) => {
-        setImage(e.target.result);
-        const formData:any = new FormData();
-        if(formData){
+        const formData: any = new FormData();
+        if (formData) {
           formData.append(
-            "file", 
+            "file",
             event.target.files[0]
-          )
-          formData.append(
-            "folder", 
-            "passportphotograph"
-          )
-          formData.append(
-            "fileid", 
-            "passpo"
-          )
+            )
+            formData.append(
+              "folder",
+              inputObject.fileName
+              )
+              formData.append(
+                "fileid",
+                "passpo"
+                )
 
           dispatch(postFile(formData))
-          
+
+          // Display the key/value pairs
+          for (var pair of formData.entries()) {
+            console.log(pair[0]+ ', ' + pair[1]); 
+          } 
         }
       };
       reader.readAsDataURL(event.target.files[0]);
     }
     // };
   };
-
-  const positions = [
-    {type:"Forward", value:"FW"},
-    {type: "Midfielder", value: "MF"},
-    {type: "Defender", value: "DF"},
-    {type: "Goal Keeper", value: "GK"}
-  ]
-
+  console.log(selectedFileType, postFile)
   return (
     <Container>
       <Content>
@@ -556,13 +568,13 @@ export const UpdatePlayer: React.FC = () => {
                       >
                         <option>Select a Position</option>
                         {positions.map(item => (
-                        <option value={item.value}>{item.type}</option>
+                          <option value={item.value}>{item.type}</option>
                         ))}
                       </Select>
                     </FormHolder>
                     <FormHolder>
                       <Label>JERSEY NUMBER</Label>
-                      <Input type="number" name="jerseyNumber" min="1" max="30"  />
+                      <Input type="number" name="jerseyNumber" min="1" max="30" />
                     </FormHolder>
                   </Section>
                   <Section>
@@ -623,88 +635,88 @@ export const UpdatePlayer: React.FC = () => {
                 <Form onSubmit={editPlayer}>
                   <FormHolder>
                     <Label>MATRICULATION NUMBER</Label>
-                    <Input type="text" 
-                    name="MatricNumber"
-                     onChange={(e) => handleChange(e)}
-                     value={
-                      !inputObject.MatricNumber
-                        ? mainData?.AcademicRecord?.MatricNumber
-                        : inputObject.MatricNumber
-                    }/>
-                  </FormHolder> 
+                    <Input type="text"
+                      name="MatricNumber"
+                      onChange={(e) => handleChange(e)}
+                      value={
+                        !inputObject.MatricNumber
+                          ? mainData?.AcademicRecord?.MatricNumber
+                          : inputObject.MatricNumber
+                      } />
+                  </FormHolder>
                   <FormHolder>
                     <Label>JAMB REGISTRATION NUMBER</Label>
                     <Input type="text"
-                     name="JambRegNumber"
+                      name="JambRegNumber"
                       onChange={(e) => handleChange(e)}
                       value={
                         !inputObject.JambRegNumber
                           ? mainData?.AcademicRecord?.JambRegNumber
                           : inputObject.JambRegNumber
-                      }/>
-                  </FormHolder> 
+                      } />
+                  </FormHolder>
                   <FormHolder>
                     <Label>COURSE LEVEL</Label>
-                    <Input type="text" 
-                    name="CourseLevel" 
-                    onChange={(e) => handleChange(e)} 
-                    value={
-                      !inputObject.CourseLevel
-                        ? mainData?.AcademicRecord?.CourseLevel
-                        : inputObject.CourseLevel
-                    }/>
+                    <Input type="text"
+                      name="CourseLevel"
+                      onChange={(e) => handleChange(e)}
+                      value={
+                        !inputObject.CourseLevel
+                          ? mainData?.AcademicRecord?.CourseLevel
+                          : inputObject.CourseLevel
+                      } />
                   </FormHolder>
                   <FormHolder>
                     <Label>SCHOOL PORTAL ID</Label>
-                    <Input type="text" 
-                    name="SchoolPortalID" 
-                    onChange={(e) => handleChange(e)}
-                    value={
-                      !inputObject.SchoolPortalID
-                        ? mainData?.AcademicRecord?.SchoolPortalID
-                        : inputObject.SchoolPortalID
-                    }/>
+                    <Input type="text"
+                      name="SchoolPortalID"
+                      onChange={(e) => handleChange(e)}
+                      value={
+                        !inputObject.SchoolPortalID
+                          ? mainData?.AcademicRecord?.SchoolPortalID
+                          : inputObject.SchoolPortalID
+                      } />
                   </FormHolder>
                   <FormHolder>
                     <Label>COURSE STUDY</Label>
                     <Input type="text"
-                     name="CourseStudy" 
-                     onChange={(e) => handleChange(e)}
-                     value={
-                      !inputObject.CourseStudy
-                        ? mainData?.AcademicRecord?.CourseStudy
-                        : inputObject.CourseStudy
-                    }
+                      name="CourseStudy"
+                      onChange={(e) => handleChange(e)}
+                      value={
+                        !inputObject.CourseStudy
+                          ? mainData?.AcademicRecord?.CourseStudy
+                          : inputObject.CourseStudy
+                      }
                     />
                   </FormHolder>
                   <FormHolder>
                     <Label>SCHOOL PORTAL PASSWORD</Label>
                     <Input type="text"
-                     name="SchoolPortalPassword" 
-                     onChange={(e) => handleChange(e)}
-                     value={
-                      !inputObject.SchoolPortalPassword
-                        ? mainData?.AcademicRecord?.SchoolPortalPassword
-                        : inputObject.SchoolPortalPassword
-                    }/>
+                      name="SchoolPortalPassword"
+                      onChange={(e) => handleChange(e)}
+                      value={
+                        !inputObject.SchoolPortalPassword
+                          ? mainData?.AcademicRecord?.SchoolPortalPassword
+                          : inputObject.SchoolPortalPassword
+                      } />
                   </FormHolder>
                   <FormHolder>
                     <Label>PROGRAMME</Label>
                     <Select onChange={(e) => handleChange(e)}>
-                    <option value="undergraduate">Undergraduate</option>
-                    <option value="postGraduate">Post-Graduate</option>
-                  </Select>
+                      <option value="undergraduate">Undergraduate</option>
+                      <option value="postGraduate">Post-Graduate</option>
+                    </Select>
                   </FormHolder>
                   <FormHolder>
                     <Label>COURSE FACULTY</Label>
-                    <Input type="text" 
-                    name="CourseFaculty"
-                     onChange={(e) => handleChange(e)}
-                     value={
-                      !inputObject.CourseFaculty
-                        ? mainData?.AcademicRecord?.CourseFaculty
-                        : inputObject.SchoolPortalID
-                    }/>
+                    <Input type="text"
+                      name="CourseFaculty"
+                      onChange={(e) => handleChange(e)}
+                      value={
+                        !inputObject.CourseFaculty
+                          ? mainData?.AcademicRecord?.CourseFaculty
+                          : inputObject.SchoolPortalID
+                      } />
                   </FormHolder>
                   <BtnDiv>
                     <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
@@ -719,45 +731,34 @@ export const UpdatePlayer: React.FC = () => {
               {activeTab === "tab4" ? (
                 <Form onSubmit={editPlayer}>
                   <FormHolder>
-                    <Label>MEDICAL CERTIFICATE</Label>
-                    <Input
-                      type="file"
-                      name="MedicalCert"
-                      onChange={(e) => onImageChange(e)}
-                    />
+                    <Label>File Name</Label>
+                    <Select
+                      name="fileName"
+                      onChange={(e) => handleChange(e)}
+                    >
+                      <option>Select File Name</option>
+                      {fileType.map(item => (
+                        <option value={item.value}>{item.type}</option>
+                      ))}
+                    </Select>
                   </FormHolder>
                   <FormHolder>
-                    <Label>SCHOOL ID</Label>
+                    <Label>File Type</Label>
                     <Input
                       type="file"
-                      name="SchoolId"
+                      name="fileType"
                       onChange={(e) => onImageChange(e)}
                     />
                   </FormHolder>
-                  <FormHolder>
-                    <Label>LATEST COURSE REGISTRATION</Label>
-                    <Input
-                      type="file"
-                      name="LaestCourseRegistration"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>JAMB PHOTOGRAPH</Label>
-                    <Input
-                      type="file"
-                      name="JambPhotograph"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>JAMB RESULT SLIP</Label>
-                    <Input
-                      type="file"
-                      name="JambPhotograph"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
+                  <Section>
+                    <CreateBtn type="submit">Upload File</CreateBtn>
+                  </Section>
+                  <BtnDiv>
+                    <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
+                    <CreateBtn className="submit">
+                      SUBMIT FOR ACCREDITATION
+                    </CreateBtn>
+                  </BtnDiv>
                 </Form>
               ) : (
                 ""
