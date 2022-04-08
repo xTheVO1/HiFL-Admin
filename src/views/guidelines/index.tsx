@@ -2,7 +2,7 @@ import * as React from "react";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
-import { Container, Content, Card, CreateBtn } from "./styles";
+import { Container, Content, Card, CreateBtn, BtnCard } from "./styles";
 
 export const Guidelines: React.FC = () => {
   return (
@@ -39,44 +39,34 @@ export const Guidelines: React.FC = () => {
             Support Issues will ONLY be treated via email to
             techsupport@hiflng.com
           </Card>
-
-          <Card>
+          <BtnCard>
             <CreateBtn
-              onClick={() =>
-                (window.location.href =
-                  "https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_GAME_REGULATIONS_2022.pdf;")
-              }
+              target="_blank"
+              href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_GAME_REGULATIONS_2022.pdf;"
             >
               HiFL 2022 Regulations
             </CreateBtn>{" "}
             <CreateBtn
-              onClick={() =>
-                (window.location.href =
-                  "https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_2022_Registration_Guidelines_v.05.pdf")
-              }
+            target="_blank"
+              href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_2022_Registration_Guidelines_v.05.pdf"
             >
               HiFL 2022 Registration Guidelines
             </CreateBtn>
-          </Card>
-          <Card>
-            <CreateBtn
-              onClick={() =>
-                (window.location.href =
-                  "https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HIFL_MEDICAL_CLEARANCE_FORM.pdf")
-              }
+          </BtnCard>
+          <BtnCard>
+            <CreateBtn 
+                href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HIFL_MEDICAL_CLEARANCE_FORM.pdf"
+                target="_blank"
             >
               Medical Clearance Template
             </CreateBtn>
 
-            <CreateBtn
-              onClick={() =>
-                (window.location.href =
-                  "https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_2022_Covid_Protocol.pdf")
-              }
+            <CreateBtn href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_2022_Covid_Protocol.pdf"
+            target="_blank"
             >
               HiFL 2022 COVID-19 Protocol
             </CreateBtn>
-          </Card>
+          </BtnCard>
         </div>
       </Content>
     </Container>
