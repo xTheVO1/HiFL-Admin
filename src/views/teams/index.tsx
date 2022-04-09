@@ -8,6 +8,7 @@ import { getTeams, getTeamsByQuery } from "../../redux/actions/teams";
 import ContentHeader from "../../components/ContentHeader";
 import TeamCard from "../../components/TeamCards";
 import Loader from "../../components/Loader";
+import { Table } from "reactstrap";
 
 function TeamManager() {
   const dispatch: Dispatch<any> = useDispatch();
@@ -40,7 +41,8 @@ function TeamManager() {
           <Loader />
         ) : mainDataResult.length === 0 ? (
           <h2 className="no-data">NO DATA FOUND</h2>
-        ) : (
+        ) : 
+        user.Role === "TeamManager" ? (
           mainDataResult &&
           mainDataResult?.map((item: any) => (
             <TeamCard
@@ -52,8 +54,31 @@ function TeamManager() {
               Category={item.Category}
               key={item._id}
             />
-          ))
-        )}
+          )))
+          : 
+          loading ? <Loader/> :(
+            <Table hover>
+              <thead>
+                  <tr>
+                      <th>#</th>
+                      <th>Team Name</th>
+                      <th>Abbreviation</th>
+                      <th>Institution Type</th>
+                  </tr>
+              </thead>
+              <tbody>
+              {mainDataResult && mainDataResult?.map((item: any, index: any) => (
+                  <tr key={index}>
+                      <th scope="row">{index + 1}</th>
+                      <td>{item.TeamName}</td>
+                      <td>{item.TeamAbbreviation}</td>
+                      <td>{item.Institution?.InstitutionName}</td>
+                  </tr>
+                  )) }
+              </tbody>
+            </Table>
+         )
+        }
       </Content>
     </Container>
   );

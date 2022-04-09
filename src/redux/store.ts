@@ -12,7 +12,7 @@ declare global {
 
 // ** init middleware
 const enhancers = [];
-const middleware:any = [thunk, createDebounce(), logger]
+const middleware:any = [thunk, createDebounce()]
 
 if (process.env.NODE_ENV === 'development') {
 /* eslint-disable import/no-extraneous-dependencies, global-require */
@@ -28,9 +28,7 @@ if (typeof __REDUX_DEVTOOLS_EXTENSION__ === 'function') {
 
 
 // ** Dev Tools
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION__ || compose
-
-const storeEnhancer =  composeEnhancers(applyMiddleware(...middleware), ...enhancers)
+const storeEnhancer =  compose(applyMiddleware(...middleware), ...enhancers)
 
 const giveStore = () => {
   const persistedState = loadState();
