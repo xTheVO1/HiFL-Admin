@@ -162,3 +162,12 @@ export const Content = styled.div`
         padding-bottom: 1rem;
     }
 `;
+
+export const FileHolder = styled.div`
+   width: 100%; 
+   font-weight: 500;
+   svg{
+       color: green;
+       font-size: 2rem;
+   }
+`;
