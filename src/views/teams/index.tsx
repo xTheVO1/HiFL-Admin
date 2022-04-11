@@ -9,10 +9,11 @@ import ContentHeader from "../../components/ContentHeader";
 import TeamCard from "../../components/TeamCards";
 import Loader from "../../components/Loader";
 import { Table } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 
 function TeamManager() {
   const dispatch: Dispatch<any> = useDispatch();
-
+  const navigate = useNavigate();
   const items = useSelector((state: any) => state.team);
   const loading = useSelector((state: any) => state.team.loading);
   const mainDataResult = items && items ? items.team : [];
@@ -31,8 +32,13 @@ function TeamManager() {
     // eslint-disable-next-line
   }, [dispatch]);
 
-  //    /teams
-  // sending User ID
+  const viewPlayers = ({name, id}: any) => {
+    sessionStorage.removeItem("Teamid");
+    sessionStorage.removeItem("Teamname");
+    sessionStorage.setItem("Teamid", id);
+    sessionStorage.setItem("Teamname", name);
+    navigate("/players");
+  };
   return (
     <Container>
       <ContentHeader title="Teams" children={""}></ContentHeader>
@@ -68,7 +74,7 @@ function TeamManager() {
               </thead>
               <tbody>
               {mainDataResult && mainDataResult?.map((item: any, index: any) => (
-                  <tr key={index}>
+                  <tr key={index} onClick={() => viewPlayers({name:item.TeamName, id:item._id})}>
                       <th scope="row">{index + 1}</th>
                       <td>{item.TeamName}</td>
                       <td>{item.TeamAbbreviation}</td>
