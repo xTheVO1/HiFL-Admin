@@ -1,7 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import FormData from "form-data";
 // import AWS from 'aws-sdk';
 
 // components
@@ -25,28 +24,18 @@ import Button from "../../components/Button";
 //actions
 import { createPlayers } from "../../redux/actions/players";
 import { createOfficials } from "../../redux/actions/officials";
-import { postFile } from "../../redux/actions/fileUpload";
-import { RootState } from "../../redux/reducers";
+
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   // states
-  // const [progress , setProgress] = useState(0);
-  const [selectedFile, setSelectedFile] = useState();
   const [object, setObject]: any = useState({});
-  const [image, setImage] = useState();
-  const hiddenFileInput: any = React.useRef(null);
   const pathname = window.location.pathname;
 
   const data: any = sessionStorage.getItem("userData");
   const user = JSON.parse(data);
-
-  const handleClick = (e: any) => {
-    e.preventDefault();
-    hiddenFileInput.current.click();
-  };
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -56,12 +45,7 @@ export const AddPlayer: React.FC = () => {
     });
   };
 
-  const file: any = sessionStorage.getItem("location");
-  if(file === undefined){
-
-    const userFile = JSON.parse(file);
-    console.log(userFile)
-  }
+  
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem("Teamid");
   
@@ -84,10 +68,10 @@ export const AddPlayer: React.FC = () => {
       NextOfKin: {
         FullNameOfKin: object.FullNameOfKin,
         KinRelationship: object.kinRelationship,
-        kinContact: {
-          PhoneNumber: object.kinPhone,
-          Email: object.kinEmail,
-          Address: object.kinAddress,
+        KinContact: {
+          PhoneNumber: object.KinPhone,
+          Email: object.KinEmail,
+          Address: object.KinAddress,
         },
       },
       Address: {
@@ -130,23 +114,6 @@ export const AddPlayer: React.FC = () => {
           </Nav>
           <Outlet>
             <Form onSubmit={submit}>
-              <Section>
-                <FormHolder>
-                  <>{image ? <Image src={image} alt="players" /> : ""}</>
-                  <button onClick={handleClick} className="file-btn">
-                    {" "}
-                    Upload Passport Photograph
-                  </button>
-                  {/* <input
-                    type="file"
-                    onChange={(e) =>onImageChange(e)}
-                    ref={hiddenFileInput}
-                    className="file"
-                    id="group_image"
-                    style={{ display: "none" }}
-                  /> */}
-                </FormHolder>
-              </Section>
               <FormHolder>
                 <Label>FIRST NAME </Label>
                 <Input
@@ -309,7 +276,7 @@ export const AddPlayer: React.FC = () => {
                   <Label>EMAIL</Label>
                   <Input
                     type="text"
-                    name="kinEmail"
+                    name="KinEmail"
                     required
                     onChange={(e) => handleChange(e)}
                   />
@@ -318,7 +285,7 @@ export const AddPlayer: React.FC = () => {
                   <Label>PHONE NUMBER</Label>
                   <Input
                     type="text"
-                    name="kinPhone"
+                    name="KinPhone"
                     required
                     onChange={(e) => handleChange(e)}
                   />
@@ -327,7 +294,7 @@ export const AddPlayer: React.FC = () => {
                   <Label>ADDRESS</Label>
                   <Input
                     type="text"
-                    name="kinAddress"
+                    name="KinAddress"
                     required
                     onChange={(e) => handleChange(e)}
                   />

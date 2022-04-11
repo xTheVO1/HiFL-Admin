@@ -13,13 +13,13 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
-.loader{
+.spinner{
   text-align: center;
 font-size: 2rem;
-width: 100%;
-margin: 0rem auto;
+width: 80% !important;
+margin: 0rem auto !important;
 padding: 6rem 0;
-color: #000279;
+color: #000279 !important;
 
 }
 .table{

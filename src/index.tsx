@@ -17,7 +17,7 @@ const LazyApp = lazy(() => import('./App'));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={giveStore()}>
-    <Suspense fallback={<Spinner className='loader'/>}>
+    <Suspense fallback={<Spinner />} >
       <BrowserRouter>
       <ThemeProvider>
           <LazyApp />

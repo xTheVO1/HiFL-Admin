@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect } from "react";
+import React, { useState, useLayoutEffect, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import {
   POST_FILE_SUCCESSFUL,
   POST_FILE_FAILED
 } from "../../redux/actions/actionTypes";
-
+import { MdCheck } from "react-icons/md";
 import { privateHttp } from "../../baseUrl";
 // components
 import ContentHeader from "../../components/ContentHeader";
@@ -23,28 +23,90 @@ import {
   Outlet,
   Section,
   Image,
-  Select
+  Select,
+  FileHolder
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import Player from "../../assests/player.png";
 import { getPlayerById, updatePlayer } from "../../redux/actions/players";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
-import { fileUpload } from "../../utils/file";
-import { postFile } from "../../redux/actions/fileUpload"
 
 
 export const UpdatePlayer: React.FC = () => {
-
   const navigate = useNavigate();
+  const dispatch: Dispatch<any> = useDispatch();
+  const { id } = useParams();
+
+  useEffect(() => {
+    const getOfficial = async () => {
+      dispatch(getPlayerById(id));
+    };
+
+    getOfficial();
+    const {
+      Address,
+      NextOfKin,
+      MedicalRecord,
+      DocumentUploads,
+      SportRecord,
+      AcademicRecord
+    } = mainData;
+
+    setObject({
+      ...inputObject,
+      FullNameOfKin: NextOfKin?.FullNameOfKin,
+      KinRelationship: NextOfKin?.KinRelationship,
+      KinPhone: NextOfKin?.KinContact?.PhoneNumber,
+      KinAddress: NextOfKin?.KinContact?.Address,
+      KinEmail: NextOfKin?.KinContact?.Email,
+      StreetAddress: Address?.HomeAddress?.StreetAddress,
+      LocalGovt: Address?.HomeAddress?.LocalGovt,
+      NearestBusStop: Address?.HomeAddress?.NearestBusStop,
+      State: Address?.HomeAddress?.LocalGovt,
+      SchoolAddress: Address?.SchoolAddress?.StreetAddress,
+      SchoolLocalGovt: Address?.SchoolAddress?.LocalGovt,
+      SchoolNearestBusStop: Address?.SchoolAddress?.NearestBusStop,
+      SchoolState: Address?.SchoolAddress?.LocalGovt,
+      Position: SportRecord?.Position,
+      JerseyNumber: SportRecord?.JerseyNumber,
+      Genotype: MedicalRecord?.Genotype,
+      BloodGroup: MedicalRecord?.BloodGroup,
+      AnyAllergies: MedicalRecord?.AnyAllergies,
+      MatricNumber: AcademicRecord?.MatricNumber,
+      JambRegNumber: AcademicRecord?.JambRegNumber,
+      CourseFaculty: AcademicRecord?.CourseFaculty,
+      Programme: AcademicRecord?.Programme,
+      SchoolPortalID: AcademicRecord?.SchoolPortalID,
+      SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword,
+      PassportPhotograph: DocumentUploads?.PassportPhotograph,
+      MedicalCert: DocumentUploads?.MedicalCert,
+      SchoolID: DocumentUploads?.SchoolID,
+      JambResultSlip: DocumentUploads?.JambResultSlip,
+      JambPhotograph: DocumentUploads?.JambPhotograph,
+      LatestCourseRegistration: DocumentUploads?.LatestCourseRegistration
+    });
+
+    setFileUpload({
+      ...files,
+      MedicalCert: mainData?.DocumentUploads?.MedicalCert,
+      PassportPhotograph: mainData?.DocumentUploads?.PassportPhotograph,
+      JambPhotograph: mainData?.DocumentUploads?.JambPhotograph,
+      SchoolID: mainData?.DocumentUploads?.SchoolID,
+      LatestCourseRegistration: mainData?.DocumentUploads?.LatestCourseRegistration,
+      JambResultSlip: mainData?.DocumentUploads?.JambResultSlip
+    })
+    // eslint-disable-next-line
+  }, [dispatch]);
+
+  const teamId = sessionStorage.getItem("Teamid");
   const [activeTab, setActiveTab] = useState("tab1");
-  const [, setImage] = useState();
-  const [files, setFileUpload] = useState({ MedicalCert: "", PassportPhotograph: "", JambPhotograph: "", SchoolId: "" });
-  const [progress, setProgress] = useState(0);
-  const [selectedFileType, setSelectedFile] = useState();
+  const [data, setData] = useState({ Location: "" });
+  const store = useSelector((state: RootState) => state.player);
+  const { loading, singlePlayer } = store;
+  const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
 
   const [inputObject, setObject] = useState({
     Firstname: "",
@@ -70,7 +132,7 @@ export const UpdatePlayer: React.FC = () => {
     Position: "",
     Genotype: "",
     BloodGroup: "",
-    Allergies: "",
+    AnyAllergies: "",
     PassportPhotograph: "",
     MedicalCert: "",
     SchoolID: "",
@@ -86,63 +148,17 @@ export const UpdatePlayer: React.FC = () => {
     SchoolPortalID: "",
     Programme: "",
     CourseFaculty: "",
-    fileName:""
+    fileName: ""
   });
-  const dispatch: Dispatch<any> = useDispatch();
-  const { id } = useParams();
-  const store = useSelector((state: RootState) => state.player);
-  const { loading, singlePlayer } = store;
-  const teamId = sessionStorage.getItem("Teamid");
-  const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
 
-  useLayoutEffect(() => {
-    const getOfficial = async () => {
-      dispatch(getPlayerById(id));
-    };
-    getOfficial();
-    const {
-      Address,
-      NextOfKin,
-      MedicalRecord,
-      DocumentUploads,
-      SportRecord,
-      AcademicRecord
-    } = mainData;
-
-    if (Address) {
-      setObject({
-        ...inputObject,
-        FullNameOfKin: NextOfKin?.FullNameOfKin,
-        KinRelationship: NextOfKin?.KinRelationship,
-        KinPhone: NextOfKin?.KinContact?.PhoneNumber,
-        KinAddress: NextOfKin?.KinContact?.Address,
-        KinEmail: NextOfKin?.KinContact?.Email,
-        StreetAddress: Address?.HomeAddress?.StreetAddress,
-        LocalGovt: Address?.HomeAddress?.LocalGovt,
-        NearestBusStop: Address?.HomeAddress?.NearestBusStop,
-        State: Address?.HomeAddress?.LocalGovt,
-        SchoolAddress: Address?.SchoolAddress?.StreetAddress,
-        SchoolLocalGovt: Address?.SchoolAddress?.LocalGovt,
-        SchoolNearestBusStop: Address?.SchoolAddress?.NearestBusStop,
-        SchoolState: Address?.SchoolAddress?.LocalGovt,
-        Position: SportRecord?.Position,
-        JerseyNumber: SportRecord?.JerseyNumber,
-        Genotype: MedicalRecord?.Genotype,
-        BloodGroup: MedicalRecord?.BloodGroup,
-        // AnyAllergies: MedicalRecord.AnyAllergies,
-        PassportPhotograph: DocumentUploads?.PassportPhotograph,
-        MedicalCert: DocumentUploads?.MedicalCert,
-        SchoolID: AcademicRecord?.SchoolID,
-        MatricNumber: AcademicRecord?.MatricNumber,
-        JambRegNumber: AcademicRecord?.JambRegNumber,
-        CourseFaculty: AcademicRecord?.CourseFaculty,
-        Programme: AcademicRecord?.Programme,
-        SchoolPortalID: AcademicRecord?.SchoolPortalID,
-        SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword
-      });
-    }
-    // eslint-disable-next-line
-  }, [dispatch]);
+  const [files, setFileUpload] = useState({
+    MedicalCert: "",
+    PassportPhotograph: "",
+    JambPhotograph: "",
+    SchoolID: "",
+    LatestCourseRegistration: "",
+    JambResultSlip: ""
+  });
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -152,37 +168,23 @@ export const UpdatePlayer: React.FC = () => {
     });
   };
 
-  const editPlayer = (e: any) => {
+  const editPlayer = async (e: any) => {
     e.preventDefault();
     const details = {
-      Team: teamId,
-      AcademicRecord: {
-        CourseLevel: inputObject.CourseLevel,
-        CourseStudy: inputObject.CourseStudy,
-        MatricNumber: inputObject.MatricNumber,
-        JambRegNumber: inputObject.JambRegNumber,
-        CourseFaculty: inputObject.CourseFaculty,
-        Programme: inputObject.Programme,
-        SchoolPortalID: inputObject.SchoolPortalID,
-        SchoolPortalPassword: inputObject.SchoolPortalPassword
-
-      },
-      SportRecord: {
-        Position: inputObject.Position,
-        JerseyNumber: inputObject.JerseyNumber,
-      },
-      // Phonenumber: object.phone,
-      DateOfBirth: inputObject.Dateofbirth,
-      Age: inputObject.Age,
-      TermsAndConditions: true,
-      NextOfKin: {
-        FullNameOfKin: inputObject.FullNameOfKin,
-        KinRelationship: inputObject.KinRelationship,
-        KinContact: {
-          PhoneNumber: inputObject.KinPhone,
-          Email: inputObject.KinEmail,
-          Address: inputObject.KinAddress,
-        },
+      params: {
+        Team: teamId,
+        DateOfBirth: inputObject.Dateofbirth,
+        Age: inputObject.Age,
+        TermsAndConditions: true,
+        NextOfKin: {
+          FullNameOfKin: inputObject.FullNameOfKin,
+          KinRelationship: inputObject.KinRelationship,
+          KinContact: {
+            PhoneNumber: inputObject.KinPhone,
+            Email: inputObject.KinEmail,
+            Address: inputObject.KinAddress,
+          },
+        }
       },
       Address: {
         HomeAddress: {
@@ -196,23 +198,10 @@ export const UpdatePlayer: React.FC = () => {
           LocalGovt: inputObject.SchoolLocalGovt,
           State: inputObject.SchoolState,
           NearestBusStop: inputObject.SchoolNearestBusStop,
-        },
-      },
-      MedicalRecord: {
-        Genotype: inputObject.Genotype,
-        BloodGroup: inputObject.BloodGroup,
-        AnyAllergies: inputObject.Allergies,
-      },
-      DocumentUploads: {
-        PassportPhotograph: inputObject.PassportPhotograph,
-        MedicalCert: inputObject.MedicalCert,
-        SchoolID: inputObject.SchoolID,
-        JambResultSlip: inputObject.JambResultSlip,
-        JambPhotograph: inputObject.JambPhotograph,
-        LatestCourseRegistration: inputObject.LatestCourseRegistration
-      },
-    };
+        }
+      }
 
+    };
     const payload = { _id: id, params: details };
     dispatch(updatePlayer(payload));
     dispatch(getPlayerById(id));
@@ -224,11 +213,14 @@ export const UpdatePlayer: React.FC = () => {
     { type: "Defender", value: "DF" },
     { type: "Goal Keeper", value: "GK" }
   ]
+
   const fileType = [
-    { type: "Latest Course Registration", value: "LaestCourseRegistration" },
-    { type: "Medical Certificate2", value: "MedicalCert" },
-    { type: "School ID", value: "SchoolId" },
-    { type: "Jamb Photograph", value: "JambPhotograph" }
+    { type: "Passport Photograph", value: "PassportPhotograph" },
+    { type: "Medical Certificate", value: "MedicalCert" },
+    { type: "School ID", value: "SchoolID" },
+    { type: "Jamb Photograph", value: "JambPhotograph" },
+    { type: "Jamb Result Slip", value: "JambResultSlip" },
+    { type: "Latest Course Registration", value: "LatestCourseRegistration" }
   ]
 
   const onImageChange = async (event: any) => {
@@ -240,29 +232,113 @@ export const UpdatePlayer: React.FC = () => {
           formData.append(
             "file",
             event.target.files[0]
-            )
-            formData.append(
-              "folder",
-              inputObject.fileName
-              )
-              formData.append(
-                "fileid",
-                "passpo"
-                )
-
+          )
+          formData.append(
+            "folder",
+            inputObject.fileName
+          )
+          formData.append(
+            "fileid",
+            "passpo"
+          )
+          const postFile = (playerData: any) => async (dispatch: Dispatch) => {
+            try {
+              dispatch({
+                type: POST_FILE_STARTED
+              });
+              const headers = {
+                "Authorization": `Bearer-Jwt ${sessionStorage.getItem('token')}`,
+                "Content-Type": "multipart/formdata"
+              }
+              const response = await privateHttp({
+                method: "post",
+                url: '/file/upload/',
+                headers: headers,
+                data: playerData
+              })
+              const { data } = response;
+              setData(data.data)
+              return dispatch({
+                type: POST_FILE_SUCCESSFUL,
+                payload: data,
+              });
+            } catch (error: any) {
+              return dispatch({
+                type: POST_FILE_FAILED,
+                payload: error
+              });
+            }
+          };
           dispatch(postFile(formData))
-
+          setFileUpload({
+            ...files,
+            [inputObject.fileName]: data.Location,
+          });
           // Display the key/value pairs
-          for (var pair of formData.entries()) {
-            console.log(pair[0]+ ', ' + pair[1]); 
-          } 
+          // for (var pair of formData.entries()) {
+          //   console.log(pair[0] + ', ' + pair[1]);
+          // }
         }
       };
       reader.readAsDataURL(event.target.files[0]);
     }
     // };
   };
-  console.log(selectedFileType, postFile)
+
+  const editAcademicInfo = (e: any) => {
+    e.preventDefault();
+    const details = {
+      AcademicRecord: {
+        CourseLevel: inputObject.CourseLevel,
+        CourseStudy: inputObject.CourseStudy,
+        MatricNumber: inputObject.MatricNumber,
+        JambRegNumber: inputObject.JambRegNumber,
+        CourseFaculty: inputObject.CourseFaculty,
+        Programme: inputObject.Programme,
+        SchoolPortalID: inputObject.SchoolPortalID,
+        SchoolPortalPassword: inputObject.SchoolPortalPassword
+      }
+    }
+    const payload = { _id: id, params: details };
+    dispatch(updatePlayer(payload));
+    dispatch(getPlayerById(id));
+  }
+
+  const editMedicalRecord = (e: any) => {
+    e.preventDefault();
+    const details = {
+      MedicalRecord: {
+        Genotype: inputObject.Genotype,
+        BloodGroup: inputObject.BloodGroup,
+        AnyAllergies: inputObject.AnyAllergies,
+      },
+      SportRecord: {
+        Position: inputObject.Position,
+        JerseyNumber: inputObject.JerseyNumber,
+      }
+    }
+    const payload = { _id: id, params: details };
+    dispatch(updatePlayer(payload));
+    dispatch(getPlayerById(id));
+  }
+
+  const uploadFile = (e: any) => {
+    e.preventDefault();
+    const details = {
+      DocumentUploads: {
+        PassportPhotograph: files.PassportPhotograph,
+        MedicalCert: files.MedicalCert,
+        SchoolID: files.SchoolID,
+        JambResultSlip: files.JambResultSlip,
+        JambPhotograph: files.JambPhotograph,
+        LatestCourseRegistration: files.LatestCourseRegistration
+      }
+    }
+    const payload = { _id: id, params: details };
+    dispatch(updatePlayer(payload));
+    dispatch(getPlayerById(id));
+  }
+
   return (
     <Container>
       <Content>
@@ -305,7 +381,7 @@ export const UpdatePlayer: React.FC = () => {
                   <Section>
                     <FormHolder>
                       {/* <Image src={!inputObject.PassportPhotograph ? `https://hifl-temp.herokuapp.com/api/v1/${mainData.DocumentUploads.PassportPhotograph}` : `https://hifl-temp.herokuapp.com/api/v1/${inputObject.PassportPhotograph}`} alt="players" /> */}
-                      <Image src={"https://prod-hiv.fra1.digitaloceanspaces.com/hifl-fileserver/jhaga/plojd_B6J340GJB5_.png"} alt="players" />
+                      {/* <Image src={"https://prod-hiv.fra1.digitaloceanspaces.com/hifl-fileserver/jhaga/plojd_B6J340GJB5_.png"} alt="players" /> */}
                     </FormHolder>
                   </Section>
                   <FormHolder>
@@ -314,8 +390,11 @@ export const UpdatePlayer: React.FC = () => {
                       type="text"
                       name="Firstname"
                       onChange={(e) => handleChange(e)}
-                      disabled={true}
-                      value={mainData.User ? mainData.User.Firstname : ""}
+                      value={
+                        !inputObject?.Firstname
+                          ? mainData?.User?.Firstname
+                          : inputObject?.Firstname
+                      }
                     />
                   </FormHolder>
                   <FormHolder>
@@ -324,8 +403,11 @@ export const UpdatePlayer: React.FC = () => {
                       type="text"
                       name="Lastname"
                       onChange={(e) => handleChange(e)}
-                      disabled={true}
-                      value={mainData.User ? mainData.User.Lastname : ""}
+                      value={
+                        !inputObject?.Lastname
+                          ? mainData?.User?.Lastname
+                          : inputObject?.Lastname
+                      }
                     />
                   </FormHolder>
                   <FormHolder>
@@ -334,8 +416,11 @@ export const UpdatePlayer: React.FC = () => {
                       type="text"
                       name="MiddleName"
                       onChange={(e) => handleChange(e)}
-                      disabled={true}
-                      value={mainData.MiddleName}
+                      value={
+                        !inputObject?.MiddleName
+                          ? mainData?.MiddleName
+                          : inputObject?.MiddleName
+                      }
                     />
                   </FormHolder>
                   <FormHolder>
@@ -343,7 +428,6 @@ export const UpdatePlayer: React.FC = () => {
                     <Input
                       type="date"
                       name="DateOfBirth"
-                      disabled={true}
                       onChange={(e) => handleChange(e)}
                     />
                   </FormHolder>
@@ -352,9 +436,12 @@ export const UpdatePlayer: React.FC = () => {
                     <Input
                       type="text"
                       name="Email"
-                      disabled={true}
                       onChange={(e) => handleChange(e)}
-                      value={mainData.User ? mainData.User.Email : ""}
+                      value={
+                        !inputObject?.Email
+                          ? mainData?.User?.Email
+                          : inputObject?.Email
+                      }
                     />
                   </Section>
                   <Section>
@@ -462,8 +549,9 @@ export const UpdatePlayer: React.FC = () => {
                       <Label>NEAREST BUSSTOP</Label>
                       <Input
                         type="text"
-                        name="SchoolNearestBusstop"
-                        onChange={(e) => handleChange(e)} required
+                        name="SchoolNearestBusStop"
+                        onChange={(e) => handleChange(e)} 
+                        required
                         value={
                           !inputObject.SchoolNearestBusStop
                             ? mainData?.Address?.SchoolAddress?.NearestBusStop
@@ -507,7 +595,8 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="KinEmail"
-                        onChange={(e) => handleChange(e)} required
+                        onChange={(e) => handleChange(e)} 
+                        required
                         value={
                           !inputObject.KinEmail
                             ? mainData?.NextOfKin?.KinContact?.Email
@@ -518,11 +607,12 @@ export const UpdatePlayer: React.FC = () => {
                     <FormHolder>
                       <Label>PHONE NUMBER</Label>
                       <Input
-                        type="text"
+                        type="number"
                         name="KinPhone"
-                        onChange={(e) => handleChange(e)} required
+                        onChange={(e) => handleChange(e)} 
+                        required
                         value={
-                          inputObject.KinPhone
+                          !inputObject.KinPhone
                             ? mainData?.NextOfKin?.KinContact?.PhoneNumber
                             : inputObject.KinPhone
                         }
@@ -533,18 +623,19 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="KinAddress"
-                        onChange={(e) => handleChange(e)} required
+                        onChange={(e) => handleChange(e)}
+                        required
                         value={
-                          inputObject.KinAddress
+                          !inputObject.KinAddress
                             ? mainData?.NextOfKin?.KinContact?.Address
-                            : inputObject.KinAddress
+                            : inputObject?.KinAddress
                         }
                       />
                     </Section>
                   </Section>
                   <BtnDiv>
                     <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
-                    <CreateBtn className="submit">
+                    <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
                     </CreateBtn>
                   </BtnDiv>
@@ -553,28 +644,40 @@ export const UpdatePlayer: React.FC = () => {
                 ""
               )}
               {activeTab === "tab2" ? (
-                <Form onSubmit={editPlayer}>
+                <Form onSubmit={editMedicalRecord}>
                   <Section>
                     <FormHolder>
                       <Label>POSITION</Label>
-                      <Select
-                        name="Position"
-                        onChange={(e) => handleChange(e)}
-                        value={
-                          inputObject.Position
-                            ? mainData?.Position
-                            : inputObject.Position
-                        }
-                      >
-                        <option>Select a Position</option>
-                        {positions.map(item => (
-                          <option value={item.value}>{item.type}</option>
-                        ))}
-                      </Select>
+                      {mainData?.Position ?
+                        <Select
+                          name="Position"
+                          onChange={(e) => handleChange(e)}
+                          value={
+                            inputObject.Position
+                              ? mainData?.Position
+                              : inputObject.Position
+                          }
+                        >
+                          <option>Select a Position</option>
+                          {positions.map(item => (
+                            <option value={item.value}>{item.type}</option>
+                          ))}
+                        </Select>
+                        :
+                        <Input name="Position"
+                          value={mainData?.SportRecord?.Position} disabled />
+                      }
                     </FormHolder>
                     <FormHolder>
                       <Label>JERSEY NUMBER</Label>
-                      <Input type="number" name="jerseyNumber" min="1" max="30" />
+                      <Input type="number"
+                        name="JerseyNumber"
+                        onChange={(e) => handleChange(e)}
+                        value={
+                          !inputObject.JerseyNumber
+                            ? mainData?.SportRecord?.JerseyNumber
+                            : inputObject.JerseyNumber
+                        } />
                     </FormHolder>
                   </Section>
                   <Section>
@@ -611,12 +714,12 @@ export const UpdatePlayer: React.FC = () => {
                       <Label>ALLERGIES</Label>
                       <Input
                         type="text"
-                        name="Allergies"
+                        name="AnyAllergies"
                         onChange={(e) => handleChange(e)}
                         value={
-                          !inputObject.Allergies
+                          !inputObject.AnyAllergies
                             ? mainData?.MedicalRecord?.AnyAllergies
-                            : inputObject.Allergies
+                            : inputObject.AnyAllergies
                         }
                       />
                     </Section>
@@ -632,7 +735,7 @@ export const UpdatePlayer: React.FC = () => {
                 ""
               )}
               {activeTab === "tab3" ? (
-                <Form onSubmit={editPlayer}>
+                <Form onSubmit={editAcademicInfo}>
                   <FormHolder>
                     <Label>MATRICULATION NUMBER</Label>
                     <Input type="text"
@@ -729,7 +832,15 @@ export const UpdatePlayer: React.FC = () => {
                 ""
               )}
               {activeTab === "tab4" ? (
-                <Form onSubmit={editPlayer}>
+                <Form onSubmit={uploadFile}>
+                  {/* <Section>
+                    <FileHolder> {mainData?.DocumentUploads?.SchoolID === "" ? "" : `School ID ${<MdCheck/>}` }</FileHolder>
+                    <FileHolder>Jamb Photograph {mainData?.DocumentUploads?.JambPhotograph === " " || undefined ? "" : <MdCheck/> }</FileHolder>
+                    <FileHolder>Jamb ResultSlip {mainData?.DocumentUploads?.JambResultSlip === "" ? "" : <MdCheck/> }</FileHolder>
+                    <FileHolder>Passport Photograph {mainData?.DocumentUploads?.PassportPhotograph === "" ? "" : <MdCheck/> }</FileHolder>
+                    <FileHolder>Medical Certificate {mainData?.DocumentUploads?.MedicalCert === " " ? "" : <MdCheck/>}</FileHolder>
+                    <FileHolder>Latest Course Registration {mainData?.DocumentUploads?.LatestCourseRegistration === "" ? "" : <MdCheck/>}</FileHolder>
+                  </Section> */}
                   <FormHolder>
                     <Label>File Name</Label>
                     <Select
@@ -738,24 +849,25 @@ export const UpdatePlayer: React.FC = () => {
                     >
                       <option>Select File Name</option>
                       {fileType.map(item => (
-                        <option value={item.value}>{item.type}</option>
+                        <option value={item.value} key={item.value}>{item.type}</option>
                       ))}
                     </Select>
                   </FormHolder>
-                  <FormHolder>
-                    <Label>File Type</Label>
-                    <Input
-                      type="file"
-                      name="fileType"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
+                  {inputObject.fileName === " " ? "" :
+                    <FormHolder>
+                      <Label>File Type</Label>
+                      <Input
+                        type="file"
+                        name="fileType"
+                        onChange={(e) => onImageChange(e)}
+                      />
+                    </FormHolder>
+                  }
                   <Section>
                     <CreateBtn type="submit">Upload File</CreateBtn>
                   </Section>
                   <BtnDiv>
-                    <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
-                    <CreateBtn className="submit">
+                    <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
                     </CreateBtn>
                   </BtnDiv>
