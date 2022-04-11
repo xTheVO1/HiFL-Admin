@@ -31,18 +31,19 @@ function Login() {
    
     return (
         <Container>
-            {message ? <Error>{message}</Error> : ""}
             <Logo>
                 <img src={logoimg} alt="HIFL"  />
             </Logo>
             <Form onSubmit={(e) => handleLogin(e)}>
                 <FormTitle>
-                   Enter
+                   Login
                 </FormTitle>
                 <Input onChange={(e) => setEmail(e.target.value)} required type="email" placeholder="exemplo@gmail.com"/>
                 <Input onChange={(e) => setPassword(e.target.value)} required type="password" />
                 <Button type="submit">{loading ? <Spinner/> : "Login"}</Button>
             </Form>
+            {message ? <Error>{message}</Error> : ""}
+
         </Container>
     );
 }

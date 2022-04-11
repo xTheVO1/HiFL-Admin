@@ -57,4 +57,5 @@ export const Error = styled.p`
    background: white;
    padding: 1rem;
    border-radius: 10px;
+   margin: 2rem 0;
 `;
