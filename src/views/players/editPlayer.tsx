@@ -437,7 +437,7 @@ export const UpdatePlayer: React.FC = () => {
                       value={
                         !inputObject?.DateOfBirth
                           ? mainData?.DateOfBirth
-                          : inputObject.DateOfBirth
+                          : inputObject?.DateOfBirth
                       }
                     />
                   </FormHolder>

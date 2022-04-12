@@ -63,7 +63,7 @@ export const AddPlayer: React.FC = () => {
       CreatedBy: user._id,
       // Phonenumber: object.phone,
       MiddleName: object.Middlename,
-      DateOfBirth: object.Dateofbirth,
+      DateOfBirth: object.DateOfBirth,
       TermsAndConditions: true,
       NextOfKin: {
         FullNameOfKin: object.FullNameOfKin,
@@ -150,14 +150,9 @@ export const AddPlayer: React.FC = () => {
                 />
               </FormHolder>
               <FormHolder>
-                <Label>DATE OF BIRTH</Label>
-                <Input
-                  type="date"
-                  name="datOfBirth"
-                  required
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
+                  <Label>DATE OF BIRTH</Label>
+                  <Input type="date" name="DateOfBirth" onChange={(e) => handleChange(e)}/>
+                </FormHolder>
               <FormHolder>
                 <Label>EMAIL</Label>
                 <Input
