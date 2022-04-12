@@ -24,6 +24,7 @@ import Button from "../../components/Button";
 //actions
 import { createPlayers } from "../../redux/actions/players";
 import { createOfficials } from "../../redux/actions/officials";
+import moment from "moment";
 
 
 export const AddPlayer: React.FC = () => {
@@ -48,22 +49,21 @@ export const AddPlayer: React.FC = () => {
   
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem("Teamid");
-  
+    const newAge = moment(object?.DateOfBirth).fromNow(true).split(" ")
     e.preventDefault();
-
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
       Email: object.email,
     };
-
     const playerData = {
       Team: teamId,
       Email: object.email,
       CreatedBy: user._id,
       // Phonenumber: object.phone,
       MiddleName: object.Middlename,
-      DateOfBirth: object.Dateofbirth,
+      DateOfBirth: object.DateOfBirth,
+      Age: parseInt(newAge[0]),
       TermsAndConditions: true,
       NextOfKin: {
         FullNameOfKin: object.FullNameOfKin,
@@ -87,6 +87,14 @@ export const AddPlayer: React.FC = () => {
           State: object.schoolState,
           NearestBusStop: object.schBusstop,
         }
+      }, 
+      DocumentUploads: {
+        PassportPhotograph: "",
+        MedicalCert: "",
+        SchoolID: "",
+        JambResultSlip: "",
+        JambPhotograph: "",
+        LatestCourseRegistration: ""
       }
     };
     if (pathname === "/register-player") {
@@ -142,14 +150,9 @@ export const AddPlayer: React.FC = () => {
                 />
               </FormHolder>
               <FormHolder>
-                <Label>DATE OF BIRTH</Label>
-                <Input
-                  type="date"
-                  name="datOfBirth"
-                  required
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
+                  <Label>DATE OF BIRTH</Label>
+                  <Input type="date" name="DateOfBirth" max="2006-01-01" min="1993-12-31" onChange={(e) => handleChange(e)}/>
+                </FormHolder>
               <FormHolder>
                 <Label>EMAIL</Label>
                 <Input
