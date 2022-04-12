@@ -50,6 +50,10 @@ export const Select = styled.select`
 export const Label = styled.label`
     display: block;
     font-weight: 500;
+    span{
+        color: green;
+        float: right;
+    }
 `;
 
 export const Outlet = styled.div`

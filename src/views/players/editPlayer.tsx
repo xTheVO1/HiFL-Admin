@@ -8,6 +8,7 @@ import {
   POST_FILE_SUCCESSFUL,
   POST_FILE_FAILED
 } from "../../redux/actions/actionTypes";
+import moment from "moment";
 import { MdCheck } from "react-icons/md";
 import { privateHttp } from "../../baseUrl";
 // components
@@ -88,7 +89,6 @@ export const UpdatePlayer: React.FC = () => {
       JambPhotograph: DocumentUploads?.JambPhotograph,
       LatestCourseRegistration: DocumentUploads?.LatestCourseRegistration
     });
-
     setFileUpload({
       ...files,
       MedicalCert: mainData?.DocumentUploads?.MedicalCert,
@@ -171,12 +171,13 @@ export const UpdatePlayer: React.FC = () => {
 
   const editPlayer = async (e: any) => {
     e.preventDefault();
+    const newAge = moment(inputObject?.DateOfBirth).fromNow(true).split(" ")
     const details = {
       _id: id,
       params: {
         Team: teamId,
         DateOfBirth: inputObject.DateOfBirth,
-        Age: inputObject.Age,
+        Age: parseInt(newAge[0]),
         TermsAndConditions: true,
         NextOfKin: {
           FullNameOfKin: inputObject.FullNameOfKin,
@@ -186,30 +187,57 @@ export const UpdatePlayer: React.FC = () => {
             Email: inputObject.KinEmail,
             Address: inputObject.KinAddress,
           },
-        }
-      },
-      Address: {
-        HomeAddress: {
-          StreetAddress: inputObject.StreetAddress,
-          LocalGovt: inputObject.LocalGovt,
-          State: inputObject.State,
-          NearestBusStop: inputObject.NearestBusStop,
         },
-        SchoolAddress: {
-          StreetAddress: inputObject.SchoolAddress,
-          LocalGovt: inputObject.SchoolLocalGovt,
-          State: inputObject.SchoolState,
-          NearestBusStop: inputObject.SchoolNearestBusStop,
-        }
-      },
-      YearApplied: [
-        {
-          Year: 2022
-        }
-      ],
-      CreatedBy:  mainData?.CreatedBy
+        Address: {
+          HomeAddress: {
+            StreetAddress: inputObject.StreetAddress,
+            LocalGovt: inputObject.LocalGovt,
+            State: inputObject.State,
+            NearestBusStop: inputObject.NearestBusStop,
+          },
+          SchoolAddress: {
+            StreetAddress: inputObject.SchoolAddress,
+            LocalGovt: inputObject.SchoolLocalGovt,
+            State: inputObject.SchoolState,
+            NearestBusStop: inputObject.SchoolNearestBusStop,
+          }
+        },
+        YearApplied: [
+          {
+            Year: 2022
+          }
+        ],
+        MedicalRecord: {
+          Genotype: inputObject.Genotype,
+          BloodGroup: inputObject.BloodGroup,
+          AnyAllergies: inputObject.AnyAllergies,
+        },
+        SportRecord: {
+          Position: inputObject.Position,
+          JerseyNumber: inputObject.JerseyNumber,
+        },
+        DocumentUploads: {
+          PassportPhotograph: files.PassportPhotograph,
+          MedicalCert: files.MedicalCert,
+          SchoolID: files.SchoolID,
+          JambResultSlip: files.JambResultSlip,
+          JambPhotograph: files.JambPhotograph,
+          LatestCourseRegistration: files.LatestCourseRegistration
+        },
+        AcademicRecord: {
+          CourseLevel: inputObject.CourseLevel,
+          CourseStudy: inputObject.CourseStudy,
+          MatricNumber: inputObject.MatricNumber,
+          JambRegNumber: inputObject.JambRegNumber,
+          CourseFaculty: inputObject.CourseFaculty,
+          Programme: inputObject.Programme,
+          SchoolPortalID: inputObject.SchoolPortalID,
+          SchoolPortalPassword: inputObject.SchoolPortalPassword
+        },
+        CreatedBy:  mainData?.CreatedBy
+      }
     };
-    dispatch(updatePlayer(details));
+   dispatch(updatePlayer(details));
     dispatch(getPlayerById(id));
   };
 
@@ -280,69 +308,12 @@ export const UpdatePlayer: React.FC = () => {
             ...files,
             [inputObject.fileName]: data.Location,
           });
-          // Display the key/value pairs
-          // for (var pair of formData.entries()) {
-          //   console.log(pair[0] + ', ' + pair[1]);
-          // }
         }
       };
       reader.readAsDataURL(event.target.files[0]);
     }
     // };
   };
-
-  const editAcademicInfo = (e: any) => {
-    e.preventDefault();
-    const details = {
-      AcademicRecord: {
-        CourseLevel: inputObject.CourseLevel,
-        CourseStudy: inputObject.CourseStudy,
-        MatricNumber: inputObject.MatricNumber,
-        JambRegNumber: inputObject.JambRegNumber,
-        CourseFaculty: inputObject.CourseFaculty,
-        Programme: inputObject.Programme,
-        SchoolPortalID: inputObject.SchoolPortalID,
-        SchoolPortalPassword: inputObject.SchoolPortalPassword
-      }
-    }
-    const payload = { _id: id, params: details };
-    dispatch(updatePlayer(payload));
-    dispatch(getPlayerById(id));
-  }
-
-  const editMedicalRecord = (e: any) => {
-    e.preventDefault();
-    const details = {
-      MedicalRecord: {
-        Genotype: inputObject.Genotype,
-        BloodGroup: inputObject.BloodGroup,
-        AnyAllergies: inputObject.AnyAllergies,
-      },
-      SportRecord: {
-        Position: inputObject.Position,
-        JerseyNumber: inputObject.JerseyNumber,
-      }
-    }
-    const payload = { _id: id, params: details };
-    dispatch(updatePlayer(payload));
-    dispatch(getPlayerById(id));
-  }
-
-  const uploadFile = (e: any) => {
-    e.preventDefault();
-    
-     const documentUploads = {
-        PassportPhotograph: files.PassportPhotograph,
-        MedicalCert: files.MedicalCert,
-        SchoolID: files.SchoolID,
-        JambResultSlip: files.JambResultSlip,
-        JambPhotograph: files.JambPhotograph,
-        LatestCourseRegistration: files.LatestCourseRegistration
-      }
-    const payload = { _id: id, DocumentUploads: documentUploads};
-    dispatch(updatePlayer(payload));
-    dispatch(getPlayerById(id));
-  }
 
   return (
     <Container>
@@ -373,12 +344,12 @@ export const UpdatePlayer: React.FC = () => {
               >
                 ACADEMIC
               </List>
-              <List
+              {/* <List
                 className={activeTab === "tab4" ? "active" : ""}
                 onClick={() => setActiveTab("tab4")}
               >
                 DOCUMENT UPLOADS
-              </List>
+              </List> */}
             </Nav>
             <Outlet>
               {activeTab === "tab1" ? (
@@ -429,18 +400,15 @@ export const UpdatePlayer: React.FC = () => {
                     />
                   </FormHolder>
                   <FormHolder>
-                    <Label>DATE OF BIRTH</Label>
+                    <Label>DATE OF BIRTH <span>{moment(mainData?.DateOfBirth).format("LL")}({mainData?.Age} Years)</span></Label>
                     <Input
                       type="date"
-                      name="DateOfBirth"
+                      name="DateOfBirth" max="2006-12-31" min="1993-01-01"
                       onChange={(e) => handleChange(e)}
-                      value={
-                        !inputObject?.DateOfBirth
-                          ? mainData?.DateOfBirth
-                          : inputObject?.DateOfBirth
-                      }
                     />
+                   
                   </FormHolder>
+                
                   <Section>
                     <Label>EMAIL</Label>
                     <Input
@@ -645,16 +613,16 @@ export const UpdatePlayer: React.FC = () => {
                   </Section>
                   <BtnDiv>
                     <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
-                    <CreateBtn className="submit" disabled={true}>
+                    {/* <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
-                    </CreateBtn>
+                    </CreateBtn> */}
                   </BtnDiv>
                 </Form>
               ) : (
                 ""
               )}
               {activeTab === "tab2" ? (
-                <Form onSubmit={editMedicalRecord}>
+                <Form onSubmit={editPlayer}>
                   <Section>
                     <FormHolder>
                       <Label>POSITION</Label>
@@ -732,16 +700,13 @@ export const UpdatePlayer: React.FC = () => {
                   </Section>
                   <BtnDiv>
                     <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
-                    <CreateBtn className="submit">
-                      SUBMIT FOR ACCREDITATION
-                    </CreateBtn>
                   </BtnDiv>
                 </Form>
               ) : (
                 ""
               )}
               {activeTab === "tab3" ? (
-                <Form onSubmit={editAcademicInfo}>
+                <Form onSubmit={editPlayer}>
                   <FormHolder>
                     <Label>MATRICULATION NUMBER</Label>
                     <Input type="text"
@@ -829,18 +794,15 @@ export const UpdatePlayer: React.FC = () => {
                   </FormHolder>
                   <BtnDiv>
                     <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
-                    <CreateBtn className="submit">
-                      SUBMIT FOR ACCREDITATION
-                    </CreateBtn>
                   </BtnDiv>
                 </Form>
               ) : (
                 ""
               )}
               {activeTab === "tab4" ? (
-                <Form onSubmit={uploadFile}>
+                <Form onSubmit={editPlayer}>
                   <Section>
-                    <h6>{!updatedData?.message ? "" : updatedData?.message}</h6>
+                    {/* <h6>{!updatedData?.message ? "" : updatedData?.message}</h6> */}
                     {/* <FileHolder> {mainData?.DocumentUploads?.SchoolID === "" ? "" : `School ID ${<MdCheck/>}` }</FileHolder> */}
                     {/* <FileHolder> Jamb Photograph {mainData?.DocumentUploads?.JambPhotograph !== " "  ? <MdCheck/> : ""}</FileHolder> */}
                     {/* <FileHolder> {mainData?.DocumentUploads?.JambResultSlip === "" ? "" : `Jamb ResultSlip  ${<MdCheck/>}` }</FileHolder>
@@ -870,13 +832,13 @@ export const UpdatePlayer: React.FC = () => {
                       />
                     </FormHolder>
                   }
+                  <BtnDiv>
                   <Section>
                     <CreateBtn type="submit">{loading ? "Loading" : "Upload File"}</CreateBtn>
                   </Section>
-                  <BtnDiv>
-                    <CreateBtn className="submit" disabled={true}>
+                    {/* <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
-                    </CreateBtn>
+                    </CreateBtn> */}
                   </BtnDiv>
                 </Form>
               ) : (
