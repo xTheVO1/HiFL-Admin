@@ -30,6 +30,9 @@ export const Section = styled.div`
     h4{
         color: black;
     }
+    h6{
+        color: green;
+    }
 `;
 export const Input = styled.input`
     border-radius: 5px;
@@ -47,6 +50,10 @@ export const Select = styled.select`
 export const Label = styled.label`
     display: block;
     font-weight: 500;
+    span{
+        color: green;
+        float: right;
+    }
 `;
 
 export const Outlet = styled.div`
