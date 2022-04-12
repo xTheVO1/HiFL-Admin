@@ -106,7 +106,7 @@ export const Players: React.FC = () => {
                 <PlayerCard
                   type="PLAYER"
                   _id={item._id}
-                  age={moment(item.DateOfBirth).fromNow(true)}
+                  age={!item.DateOfBirth ? "" :moment(item.DateOfBirth).fromNow(true)}
                   approval={false}
                   status={!item.isCompleted ? "" : item.isCompleted}
                   playerName={item.User.Firstname + " " + item.User.Lastname}

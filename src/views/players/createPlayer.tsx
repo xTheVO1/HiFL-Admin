@@ -304,7 +304,7 @@ export const AddPlayer: React.FC = () => {
                 </Section>
               </Section>
               <BtnDiv>
-                <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
+                <CreateBtn type="submit">SAVE</CreateBtn>
               </BtnDiv>
             </Form>
           </Outlet>
