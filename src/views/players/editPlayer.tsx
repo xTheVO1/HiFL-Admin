@@ -1,4 +1,4 @@
-import React, { useState, useLayoutEffect, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
@@ -33,7 +33,6 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
-import FileUpload from "./fileUpload";
 
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
@@ -90,12 +89,12 @@ export const UpdatePlayer: React.FC = () => {
     });
     setFileUpload({
       ...files,
-      MedicalCert: DocumentUploads?.MedicalCert,
-      PassportPhotograph: DocumentUploads?.PassportPhotograph,
-      JambPhotograph: DocumentUploads?.JambPhotograph,
-      SchoolID: DocumentUploads?.SchoolID,
-      LatestCourseRegistration: DocumentUploads?.LatestCourseRegistration,
-      JambResultSlip: DocumentUploads?.JambResultSlip
+      MedicalCert: !DocumentUploads?.MedicalCert ? "" : DocumentUploads?.MedicalCert,
+      PassportPhotograph: !DocumentUploads?.PassportPhotograph ? "" : DocumentUploads?.PassportPhotograph,
+      JambPhotograph: !DocumentUploads?.JambPhotograph ? "" : DocumentUploads?.JambPhotograph,
+      SchoolID: !DocumentUploads?.SchoolID ? "" : DocumentUploads?.SchoolID,
+      LatestCourseRegistration: !DocumentUploads?.LatestCourseRegistration ? "" : DocumentUploads?.LatestCourseRegistration,
+      JambResultSlip: !DocumentUploads?.JambResultSlip ? "" : DocumentUploads?.JambResultSlip
     })
     // eslint-disable-next-line
   }, [dispatch]);
@@ -106,6 +105,7 @@ export const UpdatePlayer: React.FC = () => {
   const store = useSelector((state: RootState) => state.player);
   const { loading, singlePlayer, player } = store;
   const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
+  const {DocumentUploads} = mainData;
   const updatedData = player && player ? player : {};
   
   const [inputObject, setObject] = useState({
@@ -236,8 +236,6 @@ export const UpdatePlayer: React.FC = () => {
         CreatedBy:  mainData?.CreatedBy
       }
     };
-  console.log(files, inputObject)
-
    dispatch(updatePlayer(details));
     dispatch(getPlayerById(id));
   };
@@ -345,12 +343,12 @@ export const UpdatePlayer: React.FC = () => {
               >
                 ACADEMIC
               </List>
-              {/* <List
+              <List
                 className={activeTab === "tab4" ? "active" : ""}
                 onClick={() => setActiveTab("tab4")}
               >
                 DOCUMENT UPLOADS
-              </List> */}
+              </List>
             </Nav>
             <Outlet>
               {activeTab === "tab1" ? (
@@ -612,7 +610,7 @@ export const UpdatePlayer: React.FC = () => {
                     </Section>
                   </Section>
                   <BtnDiv>
-                    <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
+                    <CreateBtn type="submit">SAVE</CreateBtn>
                     {/* <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
                     </CreateBtn> */}
@@ -640,7 +638,6 @@ export const UpdatePlayer: React.FC = () => {
                             <option value={item.value}>{item.type}</option>
                           ))}
                         </Select>
-                        
                     </FormHolder>
                     <FormHolder>
                       <Label>JERSEY NUMBER</Label>
@@ -801,15 +798,14 @@ export const UpdatePlayer: React.FC = () => {
               )}
               {activeTab === "tab4" ? (
                 <>
-                <FileHolder id={id}/>
                 <Form onSubmit={editPlayer}>
                    <Section>
-                    <FileHolder> {!mainData?.DocumentUploads?.SchoolID ? "" : `School ID ${<MdCheck/>}` }</FileHolder>
-                    <FileHolder> {!mainData?.DocumentUploads?.JambPhotograph ? "" :`Jamb Photograph ${<MdCheck/>}`  }</FileHolder>
-                    {/* <FileHolder>Jamb ResultSlip {mainData?.DocumentUploads?.JambResultSlip === "" ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Passport Photograph {mainData?.DocumentUploads?.PassportPhotograph === "" ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Medical Certificate {mainData?.DocumentUploads?.MedicalCert === " " ? "" : <MdCheck/>}</FileHolder>
-                    <FileHolder>Latest Course Registration {mainData?.DocumentUploads?.LatestCourseRegistration === "" ? "" : <MdCheck/>}</FileHolder> */}
+                    <FileHolder>School ID {!mainData?.DocumentUploads?.SchoolID ? "" :  <MdCheck/> }</FileHolder>
+                    <FileHolder> Jamb Photograph{!mainData?.DocumentUploads?.JambPhotograph ? "" : <MdCheck/>  }</FileHolder>
+                    {/* <FileHolder>Jamb ResultSlip {!DocumentUploads?.JambResultSlip ? "" : <MdCheck/> }</FileHolder> */}
+                    <FileHolder>Passport Photograph {!DocumentUploads?.PassportPhotograph ? "" : <MdCheck/> }</FileHolder>
+                    <FileHolder>Medical Certificate {!DocumentUploads?.MedicalCert ? "" : <MdCheck/>}</FileHolder>
+                    <FileHolder>Latest Course Registration {!DocumentUploads?.LatestCourseRegistration ? "" : <MdCheck/>}</FileHolder>
                   </Section>
                   <FormHolder>
                     <Label>File Name</Label>
