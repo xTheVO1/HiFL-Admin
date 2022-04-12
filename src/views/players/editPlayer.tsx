@@ -23,9 +23,8 @@ import {
   BtnDiv,
   Outlet,
   Section,
-  Image,
   Select,
-  FileHolder
+  FileHolder,
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
@@ -34,7 +33,7 @@ import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
-
+import FileUpload from "./fileUpload";
 
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
@@ -91,12 +90,12 @@ export const UpdatePlayer: React.FC = () => {
     });
     setFileUpload({
       ...files,
-      MedicalCert: mainData?.DocumentUploads?.MedicalCert,
-      PassportPhotograph: mainData?.DocumentUploads?.PassportPhotograph,
-      JambPhotograph: mainData?.DocumentUploads?.JambPhotograph,
-      SchoolID: mainData?.DocumentUploads?.SchoolID,
-      LatestCourseRegistration: mainData?.DocumentUploads?.LatestCourseRegistration,
-      JambResultSlip: mainData?.DocumentUploads?.JambResultSlip
+      MedicalCert: DocumentUploads?.MedicalCert,
+      PassportPhotograph: DocumentUploads?.PassportPhotograph,
+      JambPhotograph: DocumentUploads?.JambPhotograph,
+      SchoolID: DocumentUploads?.SchoolID,
+      LatestCourseRegistration: DocumentUploads?.LatestCourseRegistration,
+      JambResultSlip: DocumentUploads?.JambResultSlip
     })
     // eslint-disable-next-line
   }, [dispatch]);
@@ -107,8 +106,8 @@ export const UpdatePlayer: React.FC = () => {
   const store = useSelector((state: RootState) => state.player);
   const { loading, singlePlayer, player } = store;
   const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
-  const updatedData: any = player && player ? player : {};
-
+  const updatedData = player && player ? player : {};
+  
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",
@@ -237,6 +236,8 @@ export const UpdatePlayer: React.FC = () => {
         CreatedBy:  mainData?.CreatedBy
       }
     };
+  console.log(files, inputObject)
+
    dispatch(updatePlayer(details));
     dispatch(getPlayerById(id));
   };
@@ -408,7 +409,6 @@ export const UpdatePlayer: React.FC = () => {
                     />
                    
                   </FormHolder>
-                
                   <Section>
                     <Label>EMAIL</Label>
                     <Input
@@ -699,7 +699,7 @@ export const UpdatePlayer: React.FC = () => {
                     </Section>
                   </Section>
                   <BtnDiv>
-                    <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
+                    <CreateBtn type="submit">SAVE</CreateBtn>
                   </BtnDiv>
                 </Form>
               ) : (
@@ -793,21 +793,22 @@ export const UpdatePlayer: React.FC = () => {
                       } />
                   </FormHolder>
                   <BtnDiv>
-                    <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
+                    <CreateBtn type="submit">SAVE</CreateBtn>
                   </BtnDiv>
                 </Form>
               ) : (
                 ""
               )}
               {activeTab === "tab4" ? (
+                <>
+                <FileHolder id={id}/>
                 <Form onSubmit={editPlayer}>
-                  <Section>
-                    {/* <h6>{!updatedData?.message ? "" : updatedData?.message}</h6> */}
-                    {/* <FileHolder> {mainData?.DocumentUploads?.SchoolID === "" ? "" : `School ID ${<MdCheck/>}` }</FileHolder> */}
-                    {/* <FileHolder> Jamb Photograph {mainData?.DocumentUploads?.JambPhotograph !== " "  ? <MdCheck/> : ""}</FileHolder> */}
-                    {/* <FileHolder> {mainData?.DocumentUploads?.JambResultSlip === "" ? "" : `Jamb ResultSlip  ${<MdCheck/>}` }</FileHolder>
-                    <FileHolder> {mainData?.DocumentUploads?.PassportPhotograph === "" ? "" :`Passport Photograph  ${<MdCheck/>}` }</FileHolder> */}
-                    {/* <FileHolder>Medical Certificate {mainData?.DocumentUploads?.MedicalCert === " " ? "" : <MdCheck/>}</FileHolder>
+                   <Section>
+                    <FileHolder> {!mainData?.DocumentUploads?.SchoolID ? "" : `School ID ${<MdCheck/>}` }</FileHolder>
+                    <FileHolder> {!mainData?.DocumentUploads?.JambPhotograph ? "" :`Jamb Photograph ${<MdCheck/>}`  }</FileHolder>
+                    {/* <FileHolder>Jamb ResultSlip {mainData?.DocumentUploads?.JambResultSlip === "" ? "" : <MdCheck/> }</FileHolder>
+                    <FileHolder>Passport Photograph {mainData?.DocumentUploads?.PassportPhotograph === "" ? "" : <MdCheck/> }</FileHolder>
+                    <FileHolder>Medical Certificate {mainData?.DocumentUploads?.MedicalCert === " " ? "" : <MdCheck/>}</FileHolder>
                     <FileHolder>Latest Course Registration {mainData?.DocumentUploads?.LatestCourseRegistration === "" ? "" : <MdCheck/>}</FileHolder> */}
                   </Section>
                   <FormHolder>
@@ -841,6 +842,7 @@ export const UpdatePlayer: React.FC = () => {
                     </CreateBtn> */}
                   </BtnDiv>
                 </Form>
+                </>
               ) : (
                 ""
               )}
