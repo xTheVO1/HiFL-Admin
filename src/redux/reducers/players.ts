@@ -6,7 +6,10 @@ import { POST_PLAYER_FAILED,
         GET_PLAYERS_FAILED,
         GET_PLAYER_STARTED,
         GET_PLAYER_SUCCESSFUL,
-        GET_PLAYER_FAILED
+        GET_PLAYER_FAILED,
+        UPDATE_PLAYER_STARTED,
+        UPDATE_PLAYER_SUCCESSFUL,
+        UPDATE_PLAYER_FAILED
     } from "../actions/actionTypes";
 
 const  initialState = {
@@ -70,6 +73,23 @@ export const playerReducer = (state: PlayerState = initialState, action: any):Pl
             loading: false,
             error: action.payload
           }
+          case UPDATE_PLAYER_STARTED:
+            return {
+              ...state,
+              loading: true
+            }
+          case UPDATE_PLAYER_SUCCESSFUL: 
+            return {
+              ...state,
+              loading: false,
+              player: action.payload
+            }
+          case UPDATE_PLAYER_FAILED:
+            return {
+              ...state,
+              loading: false,
+              error: action.payload
+            }
     }
       return state;
 }

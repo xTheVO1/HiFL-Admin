@@ -105,8 +105,9 @@ export const UpdatePlayer: React.FC = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [data, setData] = useState({ Location: "" });
   const store = useSelector((state: RootState) => state.player);
-  const { loading, singlePlayer } = store;
+  const { loading, singlePlayer, player } = store;
   const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
+  const updatedData: any = player && player ? player : {};
 
   const [inputObject, setObject] = useState({
     Firstname: "",
@@ -122,7 +123,7 @@ export const UpdatePlayer: React.FC = () => {
     State: "",
     LocalGovt: "",
     SchLGA: "",
-    Dateofbirth: 0,
+    DateOfBirth: 0,
     Age: 0,
     FullNameOfKin: "",
     KinRelationship: "",
@@ -171,9 +172,10 @@ export const UpdatePlayer: React.FC = () => {
   const editPlayer = async (e: any) => {
     e.preventDefault();
     const details = {
+      _id: id,
       params: {
         Team: teamId,
-        DateOfBirth: inputObject.Dateofbirth,
+        DateOfBirth: inputObject.DateOfBirth,
         Age: inputObject.Age,
         TermsAndConditions: true,
         NextOfKin: {
@@ -199,11 +201,15 @@ export const UpdatePlayer: React.FC = () => {
           State: inputObject.SchoolState,
           NearestBusStop: inputObject.SchoolNearestBusStop,
         }
-      }
-
+      },
+      YearApplied: [
+        {
+          Year: 2022
+        }
+      ],
+      CreatedBy:  mainData?.CreatedBy
     };
-    const payload = { _id: id, params: details };
-    dispatch(updatePlayer(payload));
+    dispatch(updatePlayer(details));
     dispatch(getPlayerById(id));
   };
 
@@ -324,8 +330,8 @@ export const UpdatePlayer: React.FC = () => {
 
   const uploadFile = (e: any) => {
     e.preventDefault();
-    const details = {
-      DocumentUploads: {
+    
+     const documentUploads = {
         PassportPhotograph: files.PassportPhotograph,
         MedicalCert: files.MedicalCert,
         SchoolID: files.SchoolID,
@@ -333,8 +339,7 @@ export const UpdatePlayer: React.FC = () => {
         JambPhotograph: files.JambPhotograph,
         LatestCourseRegistration: files.LatestCourseRegistration
       }
-    }
-    const payload = { _id: id, params: details };
+    const payload = { _id: id, DocumentUploads: documentUploads};
     dispatch(updatePlayer(payload));
     dispatch(getPlayerById(id));
   }
@@ -429,6 +434,11 @@ export const UpdatePlayer: React.FC = () => {
                       type="date"
                       name="DateOfBirth"
                       onChange={(e) => handleChange(e)}
+                      value={
+                        !inputObject?.DateOfBirth
+                          ? mainData?.DateOfBirth
+                          : inputObject.DateOfBirth
+                      }
                     />
                   </FormHolder>
                   <Section>
@@ -437,10 +447,10 @@ export const UpdatePlayer: React.FC = () => {
                       type="text"
                       name="Email"
                       onChange={(e) => handleChange(e)}
+                      disabled={true}
                       value={
-                        !inputObject?.Email
-                          ? mainData?.User?.Email
-                          : inputObject?.Email
+                           mainData?.User?.Email ? mainData?.User?.Email
+                          : ""
                       }
                     />
                   </Section>
@@ -648,12 +658,11 @@ export const UpdatePlayer: React.FC = () => {
                   <Section>
                     <FormHolder>
                       <Label>POSITION</Label>
-                      {mainData?.Position ?
-                        <Select
+                          <Select
                           name="Position"
                           onChange={(e) => handleChange(e)}
                           value={
-                            inputObject.Position
+                            !inputObject.Position
                               ? mainData?.Position
                               : inputObject.Position
                           }
@@ -663,10 +672,7 @@ export const UpdatePlayer: React.FC = () => {
                             <option value={item.value}>{item.type}</option>
                           ))}
                         </Select>
-                        :
-                        <Input name="Position"
-                          value={mainData?.SportRecord?.Position} disabled />
-                      }
+                        
                     </FormHolder>
                     <FormHolder>
                       <Label>JERSEY NUMBER</Label>
@@ -818,7 +824,7 @@ export const UpdatePlayer: React.FC = () => {
                       value={
                         !inputObject.CourseFaculty
                           ? mainData?.AcademicRecord?.CourseFaculty
-                          : inputObject.SchoolPortalID
+                          : inputObject.CourseFaculty
                       } />
                   </FormHolder>
                   <BtnDiv>
@@ -833,14 +839,15 @@ export const UpdatePlayer: React.FC = () => {
               )}
               {activeTab === "tab4" ? (
                 <Form onSubmit={uploadFile}>
-                  {/* <Section>
-                    <FileHolder> {mainData?.DocumentUploads?.SchoolID === "" ? "" : `School ID ${<MdCheck/>}` }</FileHolder>
-                    <FileHolder>Jamb Photograph {mainData?.DocumentUploads?.JambPhotograph === " " || undefined ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Jamb ResultSlip {mainData?.DocumentUploads?.JambResultSlip === "" ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Passport Photograph {mainData?.DocumentUploads?.PassportPhotograph === "" ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Medical Certificate {mainData?.DocumentUploads?.MedicalCert === " " ? "" : <MdCheck/>}</FileHolder>
-                    <FileHolder>Latest Course Registration {mainData?.DocumentUploads?.LatestCourseRegistration === "" ? "" : <MdCheck/>}</FileHolder>
-                  </Section> */}
+                  <Section>
+                    <h6>{!updatedData?.message ? "" : updatedData?.message}</h6>
+                    {/* <FileHolder> {mainData?.DocumentUploads?.SchoolID === "" ? "" : `School ID ${<MdCheck/>}` }</FileHolder> */}
+                    {/* <FileHolder> Jamb Photograph {mainData?.DocumentUploads?.JambPhotograph !== " "  ? <MdCheck/> : ""}</FileHolder> */}
+                    {/* <FileHolder> {mainData?.DocumentUploads?.JambResultSlip === "" ? "" : `Jamb ResultSlip  ${<MdCheck/>}` }</FileHolder>
+                    <FileHolder> {mainData?.DocumentUploads?.PassportPhotograph === "" ? "" :`Passport Photograph  ${<MdCheck/>}` }</FileHolder> */}
+                    {/* <FileHolder>Medical Certificate {mainData?.DocumentUploads?.MedicalCert === " " ? "" : <MdCheck/>}</FileHolder>
+                    <FileHolder>Latest Course Registration {mainData?.DocumentUploads?.LatestCourseRegistration === "" ? "" : <MdCheck/>}</FileHolder> */}
+                  </Section>
                   <FormHolder>
                     <Label>File Name</Label>
                     <Select
@@ -864,7 +871,7 @@ export const UpdatePlayer: React.FC = () => {
                     </FormHolder>
                   }
                   <Section>
-                    <CreateBtn type="submit">Upload File</CreateBtn>
+                    <CreateBtn type="submit">{loading ? "Loading" : "Upload File"}</CreateBtn>
                   </Section>
                   <BtnDiv>
                     <CreateBtn className="submit" disabled={true}>

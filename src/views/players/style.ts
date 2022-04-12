@@ -30,6 +30,9 @@ export const Section = styled.div`
     h4{
         color: black;
     }
+    h6{
+        color: green;
+    }
 `;
 export const Input = styled.input`
     border-radius: 5px;

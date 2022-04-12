@@ -87,6 +87,14 @@ export const AddPlayer: React.FC = () => {
           State: object.schoolState,
           NearestBusStop: object.schBusstop,
         }
+      }, 
+      DocumentUploads: {
+        PassportPhotograph: "",
+        MedicalCert: "",
+        SchoolID: "",
+        JambResultSlip: "",
+        JambPhotograph: "",
+        LatestCourseRegistration: ""
       }
     };
     if (pathname === "/register-player") {
