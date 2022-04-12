@@ -8,6 +8,8 @@ import { Provider } from "react-redux"
 import giveStore from './redux/store';
 import { Spinner } from 'reactstrap';
 
+
+
 // ** Lazy load app
 const LazyApp = lazy(() => import('./App'));
 
@@ -15,7 +17,7 @@ const LazyApp = lazy(() => import('./App'));
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={giveStore()}>
-    <Suspense fallback={<Spinner className='loader'/>}>
+    <Suspense fallback={<Spinner />} >
       <BrowserRouter>
       <ThemeProvider>
           <LazyApp />

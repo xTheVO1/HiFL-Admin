@@ -28,7 +28,6 @@ export const getTeams = () => async (dispatch: Dispatch) => {
       url: `/teams/all/`,
     });
     const { data } = response;
-    // console.log(data);
     return dispatch(getTeamsSuccess(data.data));
   } catch (error: any) {
     return dispatch(getTeamsFailed(error.response));
@@ -43,7 +42,6 @@ export const getTeamsByQuery = (id: any) => async (dispatch: Dispatch) => {
       url: `/teams/all/?TeamManagers=${id}`
     });
     const { data } = response;
-    // console.log(data);
     return dispatch(getTeamsSuccess(data.data));
   } catch (error: any) {
     return dispatch(getTeamsFailed(error.response));

@@ -84,12 +84,11 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
 
     //appending user._id to player data
     playerData.User = data.data._id;
-
     // registers a player after creating a user on the app
     const playerResponse = await privateHttp({
       method: "post",
       url: `/players/player/register/`,
-      data: playerData,
+      data: playerData
     });
     const id = playerResponse.data.data._id;
     if (playerResponse) {
@@ -142,32 +141,3 @@ export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
     return dispatch(updatePlayerFailed(error.response));
   }
 };
-
-// AWS.config.update({ region: process.env.AWS_REGION })
-// const s3 = new AWS.S3()
-// const URL_EXPIRATION_SECONDS = 300
-
-// Main Lambda entry point
-// exports.handler = async (event: any) => {
-//   return await getUploadURL(event)
-// }
-
-// const getUploadURL = async function(event: any) {
-//   const randomID = "images"
-//   // const randomID = parseInt(Math.random() * 10000000)
-//   const Key = `${randomID}.jpg`
-
-//   // Get signed URL from S3
-//   const s3Params = {
-//     Bucket: process.env.UploadBucket,
-//     Key,
-//     Expires: URL_EXPIRATION_SECONDS,
-//     ContentType: 'image/jpeg'
-//   }
-
-//   const uploadURL = await s3.getSignedUrlPromise('putObject', s3Params)
-//   return JSON.stringify({
-//     uploadURL: uploadURL,
-//     Key
-//   })
-// }

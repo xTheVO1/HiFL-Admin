@@ -9,19 +9,19 @@ import { getSeason} from "../../redux/actions/seasons";
 import { CreateBtn } from '../players/style';
 import ContentHeader from '../../components/ContentHeader';
 import { Content } from '../institutions/styles';
-
+import {Card} from "../guidelines/styles"
 function ViewSeason() {
     const dispatch: Dispatch<any> = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
-    const store = useSelector((state: RootState) => state.player);
-    const { loading, singlePlayer } = store;
-
+    const items = useSelector((state: RootState) => state.seasons.season);
+    const loading = useSelector((state: any) => state.seasons.loading)
+    const mainDataResult = items && items ? items.season : {};
 
     useEffect(() => {
         dispatch(getSeason(id))
       }, [dispatch])
-
+console.log(mainDataResult)
     const back = ( ) => {
         navigate("/seasons")
     }
@@ -30,7 +30,12 @@ return (
         <ContentHeader title="Season">
             <CreateBtn onClick={back}>Go Back</CreateBtn>
             </ContentHeader>
-            <Content></Content>
+            <Content>
+                <Card>
+                    <h4>{mainDataResult?.SeasonName}</h4>
+                    <p>{mainDataResult?.SeasonYear}</p>
+                </Card>
+            </Content>
     </Container>
 );
 }

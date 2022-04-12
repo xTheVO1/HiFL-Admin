@@ -6,6 +6,7 @@ import { seasonReducer  } from './seasons';
 import { instituteReducer  } from './institutions';
 import { playerReducer } from './players';
 import { officialReducer } from './officials';
+import { fileUploadReducer } from './fileUpload';
 
 const reducers = combineReducers({
 auth: userReducer,
@@ -14,7 +15,8 @@ player: playerReducer,
 officials: officialReducer,
 institution: instituteReducer,
 seasons: seasonReducer,
-leagues: leagueReducer
+leagues: leagueReducer,
+files: fileUploadReducer
 });
 
 export default reducers;

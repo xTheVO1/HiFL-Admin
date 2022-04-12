@@ -84,7 +84,6 @@ export const getInstitution = () => async (dispatch: Dispatch) => {
 
 export const postInstitution = (payload: any) => async (dispatch: Dispatch) => {
  const {instituteData, navigate} = payload;
- console.log(instituteData)
   try {
       dispatch(postInstitutionStarted())
       const response = await privateHttp({

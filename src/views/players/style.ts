@@ -7,10 +7,10 @@ export const Container = styled.div`
 `;
 export const Image = styled.img`
    width: 170px;
-   height: 170px; 
+//    height: 170px; 
    img{
    object-fit: contain;
-
+    width: 100%;
    }
 `;
 export const Form = styled.form`
@@ -30,6 +30,9 @@ export const Section = styled.div`
     h4{
         color: black;
     }
+    h6{
+        color: green;
+    }
 `;
 export const Input = styled.input`
     border-radius: 5px;
@@ -38,16 +41,19 @@ export const Input = styled.input`
     padding: 8px;
 `;
 export const Select = styled.select`
-    border-radius: 5px;
-    border: 1px solid grey !important;
+    border: 1px solid #C7C7C7;
     width: 100%;
-    padding: 15px;
+    padding: 8px;
     margin-top: 5px;
 `;
 
 export const Label = styled.label`
     display: block;
     font-weight: 500;
+    span{
+        color: green;
+        float: right;
+    }
 `;
 
 export const Outlet = styled.div`
@@ -162,4 +168,13 @@ export const Content = styled.div`
         padding-top: 1.5rem;
         padding-bottom: 1rem;
     }
+`;
+
+export const FileHolder = styled.div`
+   width: 100%; 
+   font-weight: 500;
+   svg{
+       color: green;
+       font-size: 2rem;
+   }
 `;

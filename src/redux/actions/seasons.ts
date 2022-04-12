@@ -76,7 +76,7 @@ export const getSeason = (id: any) => async (dispatch: Dispatch) => {
           url: `/seasons/season/?_id=${id}`
         })
         const { data } = response;
-        return dispatch(getSeasonSuccess(data))
+        return dispatch(getSeasonSuccess(data.data))
       } catch (error: any) {
         return dispatch(getSeasonFailed(error.response))
       }
