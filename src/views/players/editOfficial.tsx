@@ -183,12 +183,12 @@ export const UpdateOfficial: React.FC = () => {
               SPORT & MEDICAL
             </List>
            
-            <List
+            {/* <List
               className={activeTab === "tab3" ? "active" : ""}
               onClick={() => setActiveTab("tab3")}
             >
               DOCUMENT UPLOADS
-            </List>
+            </List> */}
           </Nav>
           <Outlet>
             {activeTab === "tab1" ? (
@@ -291,8 +291,8 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                 </Section>
                 <BtnDiv>
-              <CreateBtn type="submit" >SAVE & CONTINUE</CreateBtn>
-              <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn>
+              <CreateBtn type="submit" >SAVE</CreateBtn>
+              {/* <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn> */}
             </BtnDiv>
               </Form>
             ) : (
@@ -333,8 +333,8 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                 </Section>
                 <BtnDiv>
-              <CreateBtn type="submit" >SAVE & CONTINUE</CreateBtn>
-              <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn>
+              <CreateBtn type="submit" >SAVE </CreateBtn>
+              {/* <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn> */}
             </BtnDiv>
               </Form>
             ) : (

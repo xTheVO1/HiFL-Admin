@@ -32,3 +32,7 @@ color: #000279 !important;
   text-align: left;
 
   }
+  a{
+    text-decoration: none !important;
+    color: white !important;
+  }
