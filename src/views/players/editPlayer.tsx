@@ -176,7 +176,7 @@ export const UpdatePlayer: React.FC = () => {
       params: {
         Team: teamId,
         DateOfBirth: inputObject.DateOfBirth,
-        Age: parseInt(newAge[0]),
+        // Age: parseInt(newAge[0]),
         TermsAndConditions: true,
         NextOfKin: {
           FullNameOfKin: inputObject.FullNameOfKin,
@@ -314,6 +314,12 @@ export const UpdatePlayer: React.FC = () => {
     // };
   };
 
+  const changeTab = (tab: any) => {
+    setActiveTab(tab)
+    dispatch(getPlayerById(id));
+
+  }
+
   return (
     <Container>
       <Content>
@@ -327,29 +333,30 @@ export const UpdatePlayer: React.FC = () => {
             <Nav>
               <List
                 className={activeTab === "tab1" ? "active" : ""}
-                onClick={() => setActiveTab("tab1")}
+                onClick={() => changeTab("tab1")}
               >
                 PERSONAL
               </List>
               <List
                 className={activeTab === "tab2" ? "active" : ""}
-                onClick={() => setActiveTab("tab2")}
+                onClick={() => changeTab("tab2")}
               >
                 SPORT & MEDICAL
               </List>
               <List
                 className={activeTab === "tab3" ? "active" : ""}
-                onClick={() => setActiveTab("tab3")}
+                onClick={() => changeTab("tab3")}
               >
                 ACADEMIC
               </List>
-              <List
+              {/* <List
                 className={activeTab === "tab4" ? "active" : ""}
-                onClick={() => setActiveTab("tab4")}
+                onClick={() => changeTab("tab4")}
               >
                 DOCUMENT UPLOADS
-              </List>
+              </List> */}
             </Nav>
+            {!mainData ? "" :
             <Outlet>
               {activeTab === "tab1" ? (
                 <Form onSubmit={editPlayer}>
@@ -843,6 +850,7 @@ export const UpdatePlayer: React.FC = () => {
                 ""
               )}
             </Outlet>
+}
           </Tab>
         )}
       </Content>
