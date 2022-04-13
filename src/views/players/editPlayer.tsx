@@ -88,7 +88,7 @@ export const UpdatePlayer: React.FC = () => {
     Programme: "",
     CourseFaculty: "",
     fileName: ""
-  });
+  }); 
 
   const [files, setFileUpload] = useState({
     MedicalCert: "",
@@ -112,20 +112,21 @@ export const UpdatePlayer: React.FC = () => {
 
   useEffect(() => {
   const data =  singlePlayer ? singlePlayer : {};
-
     const {
       Address,
       NextOfKin,
       MedicalRecord,
       DocumentUploads,
       SportRecord,
-      AcademicRecord, MiddleName, User
+      AcademicRecord, MiddleName, User, DateOfBirth, Age
     } = data;
     setObject({
       ...inputObject,
+      Age: Age,
       Firstname: User?.Firstname,
       Lastname: User?.Lastname,
       Email: User?.Email,
+      DateOfBirth: DateOfBirth,
       MiddleName: MiddleName,
       FullNameOfKin: NextOfKin?.FullNameOfKin,
       KinRelationship: NextOfKin?.KinRelationship,
@@ -167,6 +168,7 @@ export const UpdatePlayer: React.FC = () => {
     //   JambPhotograph: DocumentUploads?.JambPhotograph,
     //   LatestCourseRegistration: DocumentUploads?.LatestCourseRegistration
     // })
+
   }, [singlePlayer]);
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -401,15 +403,17 @@ export const UpdatePlayer: React.FC = () => {
                       type="text"
                       name="MiddleName"
                       onChange={(e) => handleChange(e)}
-                      value={ 
-                        inputObject?.MiddleName}
+                      value={inputObject?.MiddleName}
                     />
                   </FormHolder>
                   <FormHolder>
-                    <Label>DATE OF BIRTH <span>{moment(inputObject?.DateOfBirth).format("LL")}({mainData?.Age} Years)</span></Label>
+                    <Label>DATE OF BIRTH
+                      <span>{moment(inputObject?.DateOfBirth).format("LL")}({inputObject?.Age} Years)</span>
+                      </Label>
                     <Input
                       type="date"
-                      name="DateOfBirth" max="2006-12-31" min="1993-01-01"
+                      name="DateOfBirth"
+                      max="2006-01-01" min="1993-12-31" 
                       onChange={(e) => handleChange(e)}
                     />
                    
