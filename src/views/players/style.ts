@@ -62,7 +62,7 @@ export const Outlet = styled.div`
 `;
 
 export const CreateBtn = styled.button`
-    background: #000292;
+    background: #000229;
     color: white;
     padding: .6rem 2rem;
     margin-left: 1rem;
@@ -91,7 +91,7 @@ export const FormHolder = styled.div`
     }
     .file-btn{
         margin-left: 1.5rem;
-        color: #000292;
+        color: #000229;
         cursor: pointer;
         font-weight: 600;
         padding: .5rem .5rem;
@@ -136,7 +136,7 @@ export const Table = styled.div`
 
         p{
             font-weight: 500;
-           color:  #000292;
+           color:  #000229;
         }
         p:hover{
             cursor: pointer;
@@ -172,9 +172,18 @@ export const Content = styled.div`
 
 export const FileHolder = styled.div`
    width: 100%; 
+   display: flex;
+//    justify-content: space-around;
    font-weight: 500;
    svg{
        color: green;
-       font-size: 2rem;
+       font-size: 1.5rem;
    }
 `;
+
+export const Red = styled.span`
+   color: red;
+`
+export const Green = styled.div`
+   color: green;
+`

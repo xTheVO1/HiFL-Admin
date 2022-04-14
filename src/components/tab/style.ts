@@ -36,13 +36,13 @@ padding: .65rem 2rem;
 text-align: left;
   cursor: pointer;
   transition: all 0.7s;
-  background: #000292;
+  background: #000229;
   color: white;
   &:nth-child(2) {
     border-radius: 0;
   }
   &:hover {
-    background: #000292;
+    background: #000229;
   }
   &.active {
     background: #FFB422;

@@ -25,7 +25,7 @@ margin-left: 2rem;
 
 export const Controllers = styled.div`
     align-items: center;
-    color:#000292;
+    color:#000229;
     p{
         font-size: .8rem;
         font-weight: 400;
