@@ -29,7 +29,7 @@ export const postFile = (payload: any) => async (dispatch: Dispatch) => {
     }
     const response = await privateHttp({
       method: "post",
-      url: '/file/upload/',
+      url: '/players/player/docuploads/',
       headers: headers,
       data: payload,
     })
