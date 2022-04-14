@@ -24,15 +24,15 @@ color: #000279 !important;
 }
 .table{
   text-align: center;
-  color: #000279 !important;
+  /* color: #000279 !important; */
   /* border-color: #000279 !important; */
 }
 
 .table{
   text-align: left;
-
+  cursor: pointer;
   }
   a{
     text-decoration: none !important;
-    color: white !important;
+    /* color: rgb(54, 51, 51) !important; */
   }

@@ -7,7 +7,7 @@ type AsideTypeProps = {
 
 export const Container = styled.div<AsideTypeProps>`
     grid-area: AS;
-    background-color: #000292;
+    background-color: #000229;
     padding-left: 20px;
     border-right: 1px solid ${props => props.theme.colors.gray};
     position: relative;
@@ -66,7 +66,7 @@ export const MenuItemBottom = styled.button`
     padding: .5rem 1rem;
     &:hover {
      background: white;
-     color:#000292;
+     color:#000229;
  }
     transition: opacity .3s;
     > svg {
@@ -88,7 +88,7 @@ export const MenuItemLink = styled.a`
     transition: opacity .3s;
     &:hover {
         background: white;
-        color:#000292;
+        color:#000229;
     }
     > svg {
         margin-right: 5px;

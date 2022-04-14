@@ -18,31 +18,34 @@ import {
   Section,
   Select,
   FileHolder,
+  Red,
+  Green,
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
 import { getPlayerById, updatePlayer } from "../../redux/actions/players";
-import {postFile} from "../../redux/actions/fileUpload"
+import { postFile } from "../../redux/actions/fileUpload"
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
-import { MdCheck } from "react-icons/md";
-import { Spinner } from "reactstrap";
+import { MdCheck, MdFolder, MdCancel } from "react-icons/md";
+import { Spinner, Table } from "reactstrap";
+import { NavLink } from "react-router-dom";
 
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
   const store = useSelector((state: RootState) => state.player);
-  const { loading, singlePlayer, player } = store;
-
+  const fileStore = useSelector((state: RootState) => state.files);
+  const { loading, singlePlayer } = store;
+  const {file} = fileStore;
   const teamId = sessionStorage.getItem("Teamid");
   const [activeTab, setActiveTab] = useState("tab1");
-  const [data, setData] = useState({ Location: "" });
-  const updatedData = player && player ? player : {};
-  const mainData =  singlePlayer ? singlePlayer : {};
-  
+  const mainData = singlePlayer ? singlePlayer : {};
+
+  console.log(file)
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",
@@ -78,7 +81,7 @@ export const UpdatePlayer: React.FC = () => {
     Programme: "",
     CourseFaculty: "",
     fileName: ""
-  }); 
+  });
 
   const [files, setFileUpload] = useState({
     medicalcertificate: "",
@@ -95,12 +98,12 @@ export const UpdatePlayer: React.FC = () => {
     };
 
     getOfficial();
-   
+
     // eslint-disable-next-line
   }, [dispatch]);
 
   useEffect(() => {
-  const data =  singlePlayer ? singlePlayer : {};
+    const data = singlePlayer ? singlePlayer : {};
     const {
       Address,
       NextOfKin,
@@ -140,7 +143,9 @@ export const UpdatePlayer: React.FC = () => {
       CourseFaculty: AcademicRecord?.CourseFaculty,
       Programme: AcademicRecord?.Programme,
       SchoolPortalID: AcademicRecord?.SchoolPortalID,
-      SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword
+      SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword,
+      CourseLevel: AcademicRecord?.CourseLevel,
+      CourseStudy: AcademicRecord?.CourseStudy
     });
     setFileUpload({
       ...files,
@@ -219,11 +224,11 @@ export const UpdatePlayer: React.FC = () => {
           SchoolPortalID: inputObject.SchoolPortalID,
           SchoolPortalPassword: inputObject.SchoolPortalPassword
         },
-        
-        CreatedBy:  mainData?.CreatedBy
+
+        CreatedBy: mainData?.CreatedBy
       }
     };
-   dispatch(updatePlayer(details));
+    dispatch(updatePlayer(details));
     dispatch(getPlayerById(id));
   };
 
@@ -237,33 +242,35 @@ export const UpdatePlayer: React.FC = () => {
       )
       formData.append(
         "medicalcertificate",
-       files.medicalcertificate
+        files.medicalcertificate
       )
       formData.append(
         "passportphotograph",
-       files.passportphotograph
+        files.passportphotograph
       )
       formData.append(
         "latestcourseregistration",
-       files.latestcourseregistration
+        files.latestcourseregistration
       )
       formData.append(
         "schoolid",
-       files.schoolid
+        files.schoolid
       )
       formData.append(
         "jambslip",
-       files.jambslip
+        files.jambslip
       )
       formData.append(
         "jambphotograph",
-       files.jambphotograph
+        files.jambphotograph
       )
     }
-  //   for (var pair of formData.entries()) {
-  //     console.log(pair[0]+ ', ' + pair[1]); 
-  // }
+    //   for (var pair of formData.entries()) {
+    //     console.log(pair[0]+ ', ' + pair[1]); 
+    // }
     dispatch(postFile(formData))
+    dispatch(getPlayerById(id));
+
   }
   const positions = [
     { type: "Forward", value: "FW" },
@@ -280,12 +287,13 @@ export const UpdatePlayer: React.FC = () => {
           ...files,
           [event.target.name]: event.target.files[0]
         })
-       
+
       };
       reader.readAsDataURL(event.target.files[0]);
     }
     // };
   };
+
   const changeTab = (tab: any) => {
     setActiveTab(tab)
     dispatch(getPlayerById(id));
@@ -329,220 +337,220 @@ export const UpdatePlayer: React.FC = () => {
               </List>
             </Nav>
             {!mainData ? "" :
-            <Outlet>
-              {activeTab === "tab1" ? (
-                <Form onSubmit={editPlayer}>
-                  <Section>
+              <Outlet>
+                {activeTab === "tab1" ? (
+                  <Form onSubmit={editPlayer}>
+                    <Section>
+                      <FormHolder>
+                        {/* <Image src={!inputObject.PassportPhotograph ? `https://hifl-temp.herokuapp.com/api/v1/${mainData.DocumentUploads.PassportPhotograph}` : `https://hifl-temp.herokuapp.com/api/v1/${inputObject.PassportPhotograph}`} alt="players" /> */}
+                        {/* <Image src={"https://prod-hiv.fra1.digitaloceanspaces.com/hifl-fileserver/jhaga/plojd_B6J340GJB5_.png"} alt="players" /> */}
+                      </FormHolder>
+                    </Section>
                     <FormHolder>
-                      {/* <Image src={!inputObject.PassportPhotograph ? `https://hifl-temp.herokuapp.com/api/v1/${mainData.DocumentUploads.PassportPhotograph}` : `https://hifl-temp.herokuapp.com/api/v1/${inputObject.PassportPhotograph}`} alt="players" /> */}
-                      {/* <Image src={"https://prod-hiv.fra1.digitaloceanspaces.com/hifl-fileserver/jhaga/plojd_B6J340GJB5_.png"} alt="players" /> */}
+                      <Label>FIRST NAME </Label>
+                      <Input
+                        type="text"
+                        name="Firstname"
+                        onChange={(e) => handleChange(e)}
+                        value={
+                          inputObject?.Firstname}
+                      />
                     </FormHolder>
-                  </Section>
-                  <FormHolder>
-                    <Label>FIRST NAME </Label>
-                    <Input
-                      type="text"
-                      name="Firstname"
-                      onChange={(e) => handleChange(e)}
-                      value={
-                        inputObject?.Firstname}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>LAST NAME</Label>
-                    <Input
-                      type="text"
-                      name="Lastname"
-                      onChange={(e) => handleChange(e)}
-                      value={
-                        inputObject?.Lastname
-                      }
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>MIDDLE NAME</Label>
-                    <Input
-                      type="text"
-                      name="MiddleName"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.MiddleName}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>DATE OF BIRTH
-                      <span>{moment(inputObject?.DateOfBirth).format("LL")}({inputObject?.Age} Years)</span>
+                    <FormHolder>
+                      <Label>LAST NAME</Label>
+                      <Input
+                        type="text"
+                        name="Lastname"
+                        onChange={(e) => handleChange(e)}
+                        value={
+                          inputObject?.Lastname
+                        }
+                      />
+                    </FormHolder>
+                    <FormHolder>
+                      <Label>MIDDLE NAME</Label>
+                      <Input
+                        type="text"
+                        name="MiddleName"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject?.MiddleName}
+                      />
+                    </FormHolder>
+                    <FormHolder>
+                      <Label>DATE OF BIRTH
+                        <span>{moment(inputObject?.DateOfBirth).format("LL")}({inputObject?.Age} Years)</span>
                       </Label>
-                    <Input
-                      type="date"
-                      name="DateOfBirth"
-                      max="2006-01-01" min="1993-12-31" 
-                      onChange={(e) => handleChange(e)}
-                    />
-                   
-                  </FormHolder>
-                  <Section>
-                    <Label>EMAIL</Label>
-                    <Input
-                      type="text"
-                      name="Email"
-                      onChange={(e) => handleChange(e)}
-                      disabled={true}
-                      value={inputObject.Email}
-                    />
-                  </Section>
-                  <Section>
-                    <Section>
-                      <h4>HOME ADDRESS</h4>
-                    </Section>
-                    <FormHolder>
-                      <Label>STREET ADDRESS</Label>
                       <Input
-                        type="text"
-                        name="StreetAddress"
+                        type="date"
+                        name="DateOfBirth"
+                        max="2006-01-01" min="1993-12-31"
                         onChange={(e) => handleChange(e)}
-                        required
-                        value={inputObject.StreetAddress}
                       />
+
                     </FormHolder>
-                    <FormHolder>
-                      <Label>LOCAL GOVERNMENT</Label>
-                      <Input
-                        type="text"
-                        name="LocalGovt"
-                        onChange={(e) => handleChange(e)} required
-                        value={inputObject.LocalGovt}
-                      />
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>STATE</Label>
-                      <Input
-                        type="text"
-                        name="State"
-                        onChange={(e) => handleChange(e)}
-                        value={inputObject.State } required
-                      />
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>NEAREST BUSSTOP</Label>
-                      <Input
-                        type="text"
-                        name="NearestBusStop"
-                        onChange={(e) => handleChange(e)} required
-                        value={inputObject.NearestBusStop}
-                      />
-                    </FormHolder>
-                  </Section>
-                  <Section>
                     <Section>
-                      <h4>SCHOOL ADDRESS</h4>
-                    </Section>
-                    <FormHolder>
-                      <Label>STREET ADDRESS</Label>
-                      <Input
-                        type="text"
-                        name="SchoolAddress"
-                        onChange={(e) => handleChange(e)} required
-                        value={inputObject.SchoolAddress}
-                      />
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>LOCAL GOVERNMENT</Label>
-                      <Input
-                        type="text"
-                        name="SchoolLocalGovt"
-                        onChange={(e) => handleChange(e)} required
-                        value={inputObject.SchoolLocalGovt}
-                      />
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>STATE</Label>
-                      <Input
-                        type="text"
-                        name="SchoolState"
-                        onChange={(e) => handleChange(e)} required
-                        value={inputObject.SchoolState}
-                      />
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>NEAREST BUSSTOP</Label>
-                      <Input
-                        type="text"
-                        name="SchoolNearestBusStop"
-                        onChange={(e) => handleChange(e)} 
-                        required
-                        value={inputObject.SchoolNearestBusStop}
-                      />
-                    </FormHolder>
-                  </Section>
-                  <Section>
-                    <Section>
-                      <h4>NEXT OF KIN</h4>
-                    </Section>
-                    <FormHolder>
-                      <Label>FULL NAME</Label>
-                      <Input
-                        type="text"
-                        name="FullNameOfKin"
-                        onChange={(e) => handleChange(e)} required
-                        value={inputObject.FullNameOfKin}
-                      />
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>NEXT OF KIN RELATIONSHIP</Label>
-                      <Input
-                        type="text"
-                        name="KinRelationship"
-                        onChange={(e) => handleChange(e)} required
-                        value={inputObject.KinRelationship}
-                      />
-                    </FormHolder>
-                    <FormHolder>
                       <Label>EMAIL</Label>
                       <Input
                         type="text"
-                        name="KinEmail"
-                        onChange={(e) => handleChange(e)} 
-                        required
-                        value={inputObject.KinEmail}
-                      />
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>PHONE NUMBER</Label>
-                      <Input
-                        type="number"
-                        name="KinPhone"
-                        onChange={(e) => handleChange(e)} 
-                        required
-                        value={inputObject.KinPhone}
-                      />
-                    </FormHolder>
-                    <Section>
-                      <Label>ADDRESS</Label>
-                      <Input
-                        type="text"
-                        name="KinAddress"
+                        name="Email"
                         onChange={(e) => handleChange(e)}
-                        required
-                        value={inputObject.KinAddress}
+                        disabled={true}
+                        value={inputObject.Email}
                       />
                     </Section>
-                  </Section>
-                  <BtnDiv>
-                    <CreateBtn type="submit">SAVE</CreateBtn>
-                    {/* <CreateBtn className="submit" disabled={true}>
+                    <Section>
+                      <Section>
+                        <h4>HOME ADDRESS</h4>
+                      </Section>
+                      <FormHolder>
+                        <Label>STREET ADDRESS</Label>
+                        <Input
+                          type="text"
+                          name="StreetAddress"
+                          onChange={(e) => handleChange(e)}
+                          required
+                          value={inputObject.StreetAddress}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>LOCAL GOVERNMENT</Label>
+                        <Input
+                          type="text"
+                          name="LocalGovt"
+                          onChange={(e) => handleChange(e)} required
+                          value={inputObject.LocalGovt}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>STATE</Label>
+                        <Input
+                          type="text"
+                          name="State"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.State} required
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>NEAREST BUSSTOP</Label>
+                        <Input
+                          type="text"
+                          name="NearestBusStop"
+                          onChange={(e) => handleChange(e)} required
+                          value={inputObject.NearestBusStop}
+                        />
+                      </FormHolder>
+                    </Section>
+                    <Section>
+                      <Section>
+                        <h4>SCHOOL ADDRESS</h4>
+                      </Section>
+                      <FormHolder>
+                        <Label>STREET ADDRESS</Label>
+                        <Input
+                          type="text"
+                          name="SchoolAddress"
+                          onChange={(e) => handleChange(e)} required
+                          value={inputObject.SchoolAddress}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>LOCAL GOVERNMENT</Label>
+                        <Input
+                          type="text"
+                          name="SchoolLocalGovt"
+                          onChange={(e) => handleChange(e)} required
+                          value={inputObject.SchoolLocalGovt}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>STATE</Label>
+                        <Input
+                          type="text"
+                          name="SchoolState"
+                          onChange={(e) => handleChange(e)} required
+                          value={inputObject.SchoolState}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>NEAREST BUSSTOP</Label>
+                        <Input
+                          type="text"
+                          name="SchoolNearestBusStop"
+                          onChange={(e) => handleChange(e)}
+                          required
+                          value={inputObject.SchoolNearestBusStop}
+                        />
+                      </FormHolder>
+                    </Section>
+                    <Section>
+                      <Section>
+                        <h4>NEXT OF KIN</h4>
+                      </Section>
+                      <FormHolder>
+                        <Label>FULL NAME</Label>
+                        <Input
+                          type="text"
+                          name="FullNameOfKin"
+                          onChange={(e) => handleChange(e)} required
+                          value={inputObject.FullNameOfKin}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>NEXT OF KIN RELATIONSHIP</Label>
+                        <Input
+                          type="text"
+                          name="KinRelationship"
+                          onChange={(e) => handleChange(e)} required
+                          value={inputObject.KinRelationship}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>EMAIL</Label>
+                        <Input
+                          type="text"
+                          name="KinEmail"
+                          onChange={(e) => handleChange(e)}
+                          required
+                          value={inputObject.KinEmail}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>PHONE NUMBER</Label>
+                        <Input
+                          type="number"
+                          name="KinPhone"
+                          onChange={(e) => handleChange(e)}
+                          required
+                          value={inputObject.KinPhone}
+                        />
+                      </FormHolder>
+                      <Section>
+                        <Label>ADDRESS</Label>
+                        <Input
+                          type="text"
+                          name="KinAddress"
+                          onChange={(e) => handleChange(e)}
+                          required
+                          value={inputObject.KinAddress}
+                        />
+                      </Section>
+                    </Section>
+                    <BtnDiv>
+                      <CreateBtn type="submit">SAVE</CreateBtn>
+                      {/* <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
                     </CreateBtn> */}
-                  </BtnDiv>
-                </Form>
-              ) : (
-                ""
-              )}
-              {activeTab === "tab2" ? (
-                <Form onSubmit={editPlayer}>
-                  <Section>
-                    <FormHolder>
-                      <Label>POSITION</Label>
-                          <Select
+                    </BtnDiv>
+                  </Form>
+                ) : (
+                  ""
+                )}
+                {activeTab === "tab2" ? (
+                  <Form onSubmit={editPlayer}>
+                    <Section>
+                      <FormHolder>
+                        <Label>POSITION</Label>
+                        <Select
                           name="Position"
                           onChange={(e) => handleChange(e)}
                           value={inputObject.Position}
@@ -552,192 +560,238 @@ export const UpdatePlayer: React.FC = () => {
                             <option value={item.value}>{item.type}</option>
                           ))}
                         </Select>
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>JERSEY NUMBER</Label>
-                      <Input type="number"
-                        name="JerseyNumber"
-                        onChange={(e) => handleChange(e)}
-                        value={inputObject.JerseyNumber} />
-                    </FormHolder>
-                  </Section>
-                  <Section>
-                    <Section>
-                      <h4>MEDICAL RECORD</h4>
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>JERSEY NUMBER</Label>
+                        <Input type="number"
+                          name="JerseyNumber"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.JerseyNumber} />
+                      </FormHolder>
                     </Section>
-                    <FormHolder>
-                      <Label>GENOTYPE</Label>
-                      <Input
-                        type="text"
-                        name="Genotype"
-                        onChange={(e) => handleChange(e)}
-                        value={inputObject.Genotype}
-                      />
-                    </FormHolder>
-                    <FormHolder>
-                      <Label>BLOOD GROUP</Label>
-                      <Input
-                        type="text"
-                        name="BloodGroup"
-                        onChange={(e) => handleChange(e)}
-                        value={inputObject.BloodGroup}
-                      />
-                    </FormHolder>
                     <Section>
-                      <Label>ALLERGIES</Label>
-                      <Input
-                        type="text"
-                        name="AnyAllergies"
-                        onChange={(e) => handleChange(e)}
-                        value={inputObject.AnyAllergies}
-                      />
+                      <Section>
+                        <h4>MEDICAL RECORD</h4>
+                      </Section>
+                      <FormHolder>
+                        <Label>GENOTYPE</Label>
+                        <Input
+                          type="text"
+                          name="Genotype"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.Genotype}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>BLOOD GROUP</Label>
+                        <Input
+                          type="text"
+                          name="BloodGroup"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.BloodGroup}
+                        />
+                      </FormHolder>
+                      <Section>
+                        <Label>ALLERGIES</Label>
+                        <Input
+                          type="text"
+                          name="AnyAllergies"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.AnyAllergies}
+                        />
+                      </Section>
                     </Section>
-                  </Section>
-                  <BtnDiv>
-                    <CreateBtn type="submit">SAVE</CreateBtn>
-                  </BtnDiv>
-                </Form>
-              ) : (
-                ""
-              )}
-              {activeTab === "tab3" ? (
-                <Form onSubmit={editPlayer}>
-                  <FormHolder>
-                    <Label>MATRICULATION NUMBER</Label>
-                    <Input type="text"
-                      name="MatricNumber"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject.MatricNumber} />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>JAMB REGISTRATION NUMBER</Label>
-                    <Input type="text"
-                      name="JambRegNumber"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject.JambRegNumber} />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>COURSE LEVEL</Label>
-                    <Input type="text"
-                      name="CourseLevel"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject.CourseLevel} />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>SCHOOL PORTAL ID</Label>
-                    <Input type="text"
-                      name="SchoolPortalID"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject.SchoolPortalID} />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>COURSE STUDY</Label>
-                    <Input type="text"
-                      name="CourseStudy"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject.CourseStudy}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>SCHOOL PORTAL PASSWORD</Label>
-                    <Input type="text"
-                      name="SchoolPortalPassword"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject.SchoolPortalPassword} />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>PROGRAMME</Label>
-                    <Select onChange={(e) => handleChange(e)}>
-                      <option value="undergraduate">Undergraduate</option>
-                      <option value="postGraduate">Post-Graduate</option>
-                    </Select>
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>COURSE FACULTY</Label>
-                    <Input type="text"
-                      name="CourseFaculty"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject.CourseFaculty} />
-                  </FormHolder>
-                  <BtnDiv>
-                    <CreateBtn type="submit">SAVE</CreateBtn>
-                  </BtnDiv>
-                </Form>
-              ) : (
-                ""
-              )}
-              {activeTab === "tab4" ? (
-                <>
-                <Form onSubmit={uploadFiles}>
-                   <Section>
-                    <FileHolder>School ID {!files?.schoolid ? "" :  <MdCheck/> }</FileHolder>
-                    <FileHolder> Jamb Photograph{!files?.jambphotograph ? "" : <MdCheck/>  }</FileHolder>
-                    <FileHolder>Jamb ResultSlip {!files.jambslip ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Passport Photograph {!files?.passportphotograph ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Medical Certificate {!files?.medicalcertificate ? "" : <MdCheck/>}</FileHolder>
-                    <FileHolder>Latest Course Registration {!files?.latestcourseregistration ? "" : <MdCheck/>}</FileHolder>
-                  </Section>
+                    <BtnDiv>
+                      <CreateBtn type="submit">SAVE</CreateBtn>
+                    </BtnDiv>
+                  </Form>
+                ) : (
+                  ""
+                )}
+                {activeTab === "tab3" ? (
+                  <Form onSubmit={editPlayer}>
                     <FormHolder>
-                      <Label>Medical Certificate</Label>
-                      <Input
-                        type="file"
-                        name="medicalcertificate"
-                        onChange={(e) => onImageChange(e)}
+                      <Label>MATRICULATION NUMBER</Label>
+                      <Input type="text"
+                        name="MatricNumber"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject.MatricNumber} />
+                    </FormHolder>
+                    <FormHolder>
+                      <Label>JAMB REGISTRATION NUMBER</Label>
+                      <Input type="text"
+                        name="JambRegNumber"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject.JambRegNumber} />
+                    </FormHolder>
+                    <FormHolder>
+                      <Label>COURSE LEVEL</Label>
+                      <Input type="text"
+                        name="CourseLevel"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject.CourseLevel} />
+                    </FormHolder>
+                    <FormHolder>
+                      <Label>SCHOOL PORTAL ID</Label>
+                      <Input type="text"
+                        name="SchoolPortalID"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject.SchoolPortalID} />
+                    </FormHolder>
+                    <FormHolder>
+                      <Label>COURSE STUDY</Label>
+                      <Input type="text"
+                        name="CourseStudy"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject.CourseStudy}
                       />
                     </FormHolder>
                     <FormHolder>
-                    <Label>Passport Photograph</Label>
-                    <Input
-                      type="file"
-                      name="passportphotograph"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>Latest Course Registration</Label>
-                    <Input
-                      type="file"
-                      name="latestcourseregistration"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>School ID</Label>
-                    <Input
-                      type="file"
-                      name="schoolid"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>Jamb Result Slip</Label>
-                    <Input
-                      type="file"
-                      name="jambslip"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
-                  <FormHolder>
-                    <Label>Jamb Photograph</Label>
-                    <Input
-                      type="file"
-                      name="jambphotograph"
-                      onChange={(e) => onImageChange(e)}
-                    />
-                  </FormHolder>
-                  <BtnDiv>
-                  <Section>
-                    <CreateBtn type="submit">{loading ? <Spinner/> : "Upload Files"}</CreateBtn>
-                  </Section>
-                 
-                  </BtnDiv>
-                </Form>
-                </>
-              ) : (
-                ""
-              )}
-            </Outlet>
-}
+                      <Label>SCHOOL PORTAL PASSWORD</Label>
+                      <Input type="text"
+                        name="SchoolPortalPassword"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject.SchoolPortalPassword} />
+                    </FormHolder>
+                    <FormHolder>
+                      <Label>PROGRAMME</Label>
+                      <Select onChange={(e) => handleChange(e)} value={inputObject.Programme} name="Programme">
+                        <option >Select Programme</option>
+                        <option value="Undergraduate">Undergraduate</option>
+                        <option value="Post-Graduate">Post-Graduate</option>
+                      </Select>
+                    </FormHolder>
+                    <FormHolder>
+                      <Label>COURSE FACULTY</Label>
+                      <Input type="text"
+                        name="CourseFaculty"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject.CourseFaculty} />
+                    </FormHolder>
+                    <BtnDiv>
+                      <CreateBtn type="submit">SAVE</CreateBtn>
+                    </BtnDiv>
+                  </Form>
+                ) : (
+                  ""
+                )}
+                {activeTab === "tab4" ? (
+                  <>
+                    <Form onSubmit={uploadFiles}>
+                      <Section>
+                        <Table hover>
+                          <thead>
+                            <tr>
+                              <th></th>
+                              <th>#</th>
+                              <th>File Type</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <tr  >
+                              <th scope="row"></th>
+                              <td>{!mainData.DocumentUploads.JambPhotograph ? <MdFolder /> :<a href={mainData.DocumentUploads.JambPhotograph} target="_blank"><MdFolder /></a>}</td>
+                              <td>Jamb Photograph</td>
+                              <td>{!mainData.DocumentUploads.JambPhotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                            </tr>
+                            <tr  >
+                              <th scope="row"></th>
+                              <td>{!mainData.DocumentUploads.SchoolID ? <MdFolder /> : <a href={mainData.DocumentUploads.SchoolID} target="_blank"><MdFolder /></a>}</td>
+                              <td>School ID Card</td>
+                              <td>{!mainData.DocumentUploads?.SchoolID ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                            </tr>
+                            <tr  >
+                              <th scope="row"></th>
+                              <td>{!mainData.DocumentUploads.JambResultSlip ? <MdFolder /> :<a href={mainData.DocumentUploads.JambResultSlip} target="_blank"><MdFolder /></a> }</td>
+                              <td>Jamb Result Slip</td>
+                              <td>{!mainData.DocumentUploads.JambResultSlip ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                            </tr>
+                            <tr  >
+                              <th scope="row"></th>
+                              <td>{!mainData.DocumentUploads.PassportPhotograph ? <MdFolder /> :<a href={mainData.DocumentUploads.PassportPhotograph} target="_blank"><MdFolder /></a>}</td>
+                              <td>Passport Photograph</td>
+                              <td>{!mainData.DocumentUploads.PassportPhotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                            </tr>
+                            <tr  >
+                              <th scope="row"></th>
+                              <td>{!mainData.DocumentUploads.MedicalCert ? <MdFolder /> :<a href={mainData.DocumentUploads.MedicalCert} target="_blank"><MdFolder /></a>}</td>
+                              <td>Medical Certificate</td>
+                              <td>{!mainData.DocumentUploads?.MedicalCert ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                            </tr>
+                            <tr  >
+                              <th scope="row"></th>
+                              <td>{!mainData.DocumentUploads.LatestCourseRegistration ? <MdFolder /> :<a href={mainData.DocumentUploads.LatestCourseRegistration} target="_blank"><MdFolder /></a>}</td>
+                              <td>Latest Course Registration</td>
+                              <td>{!mainData.DocumentUploads.LatestCourseRegistration ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                            </tr>
+                          </tbody>
+                        </Table>
+                      </Section>
+                      <Section>
+                      <h3>Upload Documents</h3>
+                      </Section>
+                      <FormHolder>
+                        <Label>Medical Certificate</Label>
+                        <Input
+                          type="file"
+                          name="medicalcertificate"
+                          onChange={(e) => onImageChange(e)}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>Passport Photograph</Label>
+                        <Input
+                          type="file"
+                          name="passportphotograph"
+                          onChange={(e) => onImageChange(e)}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>Latest Course Registration</Label>
+                        <Input
+                          type="file"
+                          name="latestcourseregistration"
+                          onChange={(e) => onImageChange(e)}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>School ID</Label>
+                        <Input
+                          type="file"
+                          name="schoolid"
+                          onChange={(e) => onImageChange(e)}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>Jamb Result Slip</Label>
+                        <Input
+                          type="file"
+                          name="jambslip"
+                          onChange={(e) => onImageChange(e)}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>Jamb Photograph</Label>
+                        <Input
+                          type="file"
+                          name="jambphotograph"
+                          onChange={(e) => onImageChange(e)}
+                        />
+                      </FormHolder>
+                      <BtnDiv>
+                        <Section>
+                          <CreateBtn type="submit">{loading ? <Spinner /> : "Upload Files"}</CreateBtn>
+                        </Section>
+
+                      </BtnDiv>
+                    </Form>
+                  </>
+                ) : (
+                  ""
+                )}
+              </Outlet>
+            }
           </Tab>
         )}
       </Content>
