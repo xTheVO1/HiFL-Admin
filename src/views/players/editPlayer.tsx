@@ -715,13 +715,13 @@ export const UpdatePlayer: React.FC = () => {
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData.DocumentUploads.MedicalCert ? <MdCheck /> :<a href={mainData.DocumentUploads.MedicalCert} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!mainData.DocumentUploads.MedicalCert ? <MdFolder /> :<a href={mainData.DocumentUploads.MedicalCert} target="_blank"><MdFolder /></a>}</td>
                               <td>Medical Certificate</td>
                               <td>{!mainData.DocumentUploads?.MedicalCert ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData.DocumentUploads.LatestCourseRegistration ? <MdCheck /> :<a href={mainData.DocumentUploads.LatestCourseRegistration} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!mainData.DocumentUploads.LatestCourseRegistration ? <MdFolder /> :<a href={mainData.DocumentUploads.LatestCourseRegistration} target="_blank"><MdFolder /></a>}</td>
                               <td>Latest Course Registration</td>
                               <td>{!mainData.DocumentUploads.LatestCourseRegistration ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
