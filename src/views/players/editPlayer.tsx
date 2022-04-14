@@ -3,14 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
 import FormData from "form-data";
-import {
-  POST_FILE_STARTED,
-  POST_FILE_SUCCESSFUL,
-  POST_FILE_FAILED
-} from "../../redux/actions/actionTypes";
 import moment from "moment";
-import { MdCheck } from "react-icons/md";
-import { privateHttp } from "../../baseUrl";
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -29,10 +22,13 @@ import {
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
 import { getPlayerById, updatePlayer } from "../../redux/actions/players";
+import {postFile} from "../../redux/actions/fileUpload"
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
+import { MdCheck } from "react-icons/md";
+import { Spinner } from "reactstrap";
 
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
@@ -72,17 +68,11 @@ export const UpdatePlayer: React.FC = () => {
     Genotype: "",
     BloodGroup: "",
     AnyAllergies: "",
-    PassportPhotograph: "",
-    MedicalCert: "",
-    SchoolID: "",
     JerseyNumber: "",
     CourseStudy: "",
     CourseLevel: "",
     MatricNumber: "",
     JambRegNumber: "",
-    LatestCourseRegistration: "",
-    JambPhotograph: "",
-    JambResultSlip: "",
     SchoolPortalPassword: "",
     SchoolPortalID: "",
     Programme: "",
@@ -91,12 +81,12 @@ export const UpdatePlayer: React.FC = () => {
   }); 
 
   const [files, setFileUpload] = useState({
-    MedicalCert: "",
-    PassportPhotograph: "",
-    JambPhotograph: "",
-    SchoolID: "",
-    LatestCourseRegistration: "",
-    JambResultSlip: ""
+    medicalcertificate: "",
+    passportphotograph: "",
+    jambphotograph: "",
+    schoolid: "",
+    latestcourseregistration: "",
+    jambslip: ""
   });
 
   useEffect(() => {
@@ -105,7 +95,6 @@ export const UpdatePlayer: React.FC = () => {
     };
 
     getOfficial();
-    
    
     // eslint-disable-next-line
   }, [dispatch]);
@@ -151,25 +140,20 @@ export const UpdatePlayer: React.FC = () => {
       CourseFaculty: AcademicRecord?.CourseFaculty,
       Programme: AcademicRecord?.Programme,
       SchoolPortalID: AcademicRecord?.SchoolPortalID,
-      SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword,
-      PassportPhotograph: DocumentUploads?.PassportPhotograph,
-      MedicalCert: DocumentUploads?.MedicalCert,
-      SchoolID: DocumentUploads?.SchoolID,
-      JambResultSlip: DocumentUploads?.JambResultSlip,
-      JambPhotograph: DocumentUploads?.JambPhotograph,
-      LatestCourseRegistration: DocumentUploads?.LatestCourseRegistration
+      SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword
     });
-    // setFileUpload({
-    //   ...files,
-    //   PassportPhotograph: DocumentUploads?.PassportPhotograph,
-    //   MedicalCert: DocumentUploads?.MedicalCert,
-    //   SchoolID: DocumentUploads?.SchoolID,
-    //   JambResultSlip: DocumentUploads?.JambResultSlip,
-    //   JambPhotograph: DocumentUploads?.JambPhotograph,
-    //   LatestCourseRegistration: DocumentUploads?.LatestCourseRegistration
-    // })
+    setFileUpload({
+      ...files,
+      passportphotograph: DocumentUploads?.PassportPhotograph,
+      medicalcertificate: DocumentUploads?.MedicalCert,
+      schoolid: DocumentUploads?.SchoolID,
+      jambslip: DocumentUploads?.JambResultSlip,
+      jambphotograph: DocumentUploads?.JambPhotograph,
+      latestcourseregistration: DocumentUploads?.LatestCourseRegistration
+    })
 
   }, [singlePlayer]);
+
   const handleChange = (e: any) => {
     e.preventDefault();
     setObject({
@@ -225,14 +209,6 @@ export const UpdatePlayer: React.FC = () => {
           Position: inputObject.Position,
           JerseyNumber: inputObject.JerseyNumber,
         },
-        DocumentUploads: {
-          PassportPhotograph: files.PassportPhotograph,
-          MedicalCert: files.MedicalCert,
-          SchoolID: files.SchoolID,
-          JambResultSlip: files.JambResultSlip,
-          JambPhotograph: files.JambPhotograph,
-          LatestCourseRegistration: files.LatestCourseRegistration
-        },
         AcademicRecord: {
           CourseLevel: inputObject.CourseLevel,
           CourseStudy: inputObject.CourseStudy,
@@ -243,6 +219,7 @@ export const UpdatePlayer: React.FC = () => {
           SchoolPortalID: inputObject.SchoolPortalID,
           SchoolPortalPassword: inputObject.SchoolPortalPassword
         },
+        
         CreatedBy:  mainData?.CreatedBy
       }
     };
@@ -250,6 +227,44 @@ export const UpdatePlayer: React.FC = () => {
     dispatch(getPlayerById(id));
   };
 
+  const uploadFiles = (e: any) => {
+    e.preventDefault();
+    const formData: any = new FormData();
+    if (formData) {
+      formData.append(
+        "playerid",
+        id
+      )
+      formData.append(
+        "medicalcertificate",
+       files.medicalcertificate
+      )
+      formData.append(
+        "passportphotograph",
+       files.passportphotograph
+      )
+      formData.append(
+        "latestcourseregistration",
+       files.latestcourseregistration
+      )
+      formData.append(
+        "schoolid",
+       files.schoolid
+      )
+      formData.append(
+        "jambslip",
+       files.jambslip
+      )
+      formData.append(
+        "jambphotograph",
+       files.jambphotograph
+      )
+    }
+  //   for (var pair of formData.entries()) {
+  //     console.log(pair[0]+ ', ' + pair[1]); 
+  // }
+    dispatch(postFile(formData))
+  }
   const positions = [
     { type: "Forward", value: "FW" },
     { type: "Midfielder", value: "MF" },
@@ -257,73 +272,20 @@ export const UpdatePlayer: React.FC = () => {
     { type: "Goal Keeper", value: "GK" }
   ]
 
-  const fileType = [
-    { type: "Passport Photograph", value: "PassportPhotograph" },
-    { type: "Medical Certificate", value: "MedicalCert" },
-    { type: "School ID", value: "SchoolID" },
-    { type: "Jamb Photograph", value: "JambPhotograph" },
-    { type: "Jamb Result Slip", value: "JambResultSlip" },
-    { type: "Latest Course Registration", value: "LatestCourseRegistration" }
-  ]
-
   const onImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
       reader.onload = (e: any) => {
-        const formData: any = new FormData();
-        if (formData) {
-          formData.append(
-            "file",
-            event.target.files[0]
-          )
-          formData.append(
-            "folder",
-            inputObject.fileName
-          )
-          formData.append(
-            "fileid",
-            "passpo"
-          )
-          const postFile = (playerData: any) => async (dispatch: Dispatch) => {
-            try {
-              dispatch({
-                type: POST_FILE_STARTED
-              });
-              const headers = {
-                "Authorization": `Bearer-Jwt ${sessionStorage.getItem('token')}`,
-                "Content-Type": "multipart/formdata"
-              }
-              const response = await privateHttp({
-                method: "post",
-                url: '/file/upload/',
-                headers: headers,
-                data: playerData
-              })
-              const { data } = response;
-              setData(data.data)
-              return dispatch({
-                type: POST_FILE_SUCCESSFUL,
-                payload: data,
-              });
-            } catch (error: any) {
-              return dispatch({
-                type: POST_FILE_FAILED,
-                payload: error
-              });
-            }
-          };
-          dispatch(postFile(formData))
-          setFileUpload({
-            ...files,
-            [inputObject.fileName]: data.Location,
-          });
-        }
+        setFileUpload({
+          ...files,
+          [event.target.name]: event.target.files[0]
+        })
+       
       };
       reader.readAsDataURL(event.target.files[0]);
     }
     // };
   };
-
   const changeTab = (tab: any) => {
     setActiveTab(tab)
     dispatch(getPlayerById(id));
@@ -359,12 +321,12 @@ export const UpdatePlayer: React.FC = () => {
               >
                 ACADEMIC
               </List>
-              {/* <List
+              <List
                 className={activeTab === "tab4" ? "active" : ""}
                 onClick={() => changeTab("tab4")}
               >
                 DOCUMENT UPLOADS
-              </List> */}
+              </List>
             </Nav>
             {!mainData ? "" :
             <Outlet>
@@ -706,44 +668,70 @@ export const UpdatePlayer: React.FC = () => {
               )}
               {activeTab === "tab4" ? (
                 <>
-                {/* <Form onSubmit={editPlayer}>
+                <Form onSubmit={uploadFiles}>
                    <Section>
-                    <FileHolder>School ID {!mainData?.DocumentUploads?.SchoolID ? "" :  <MdCheck/> }</FileHolder>
-                    <FileHolder> Jamb Photograph{!mainData?.DocumentUploads?.JambPhotograph ? "" : <MdCheck/>  }</FileHolder>
-                    <FileHolder>Jamb ResultSlip {!DocumentUploads?.JambResultSlip ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Passport Photograph {!DocumentUploads?.PassportPhotograph ? "" : <MdCheck/> }</FileHolder>
-                    <FileHolder>Medical Certificate {!DocumentUploads?.MedicalCert ? "" : <MdCheck/>}</FileHolder>
-                    <FileHolder>Latest Course Registration {!DocumentUploads?.LatestCourseRegistration ? "" : <MdCheck/>}</FileHolder>
+                    <FileHolder>School ID {!files?.schoolid ? "" :  <MdCheck/> }</FileHolder>
+                    <FileHolder> Jamb Photograph{!files?.jambphotograph ? "" : <MdCheck/>  }</FileHolder>
+                    <FileHolder>Jamb ResultSlip {!files.jambslip ? "" : <MdCheck/> }</FileHolder>
+                    <FileHolder>Passport Photograph {!files?.passportphotograph ? "" : <MdCheck/> }</FileHolder>
+                    <FileHolder>Medical Certificate {!files?.medicalcertificate ? "" : <MdCheck/>}</FileHolder>
+                    <FileHolder>Latest Course Registration {!files?.latestcourseregistration ? "" : <MdCheck/>}</FileHolder>
                   </Section>
-                  <FormHolder>
-                    <Label>File Name</Label>
-                    <Select
-                      name="fileName"
-                      onChange={(e) => handleChange(e)}
-                    >
-                      <option>Select File Name</option>
-                      {fileType.map(item => (
-                        <option value={item.value} key={item.value}>{item.type}</option>
-                      ))}
-                    </Select>
-                  </FormHolder>
-                  {inputObject.fileName === " " ? "" :
                     <FormHolder>
-                      <Label>File Type</Label>
+                      <Label>Medical Certificate</Label>
                       <Input
                         type="file"
-                        name="fileType"
+                        name="medicalcertificate"
                         onChange={(e) => onImageChange(e)}
                       />
                     </FormHolder>
-                  }
+                    <FormHolder>
+                    <Label>Passport Photograph</Label>
+                    <Input
+                      type="file"
+                      name="passportphotograph"
+                      onChange={(e) => onImageChange(e)}
+                    />
+                  </FormHolder>
+                  <FormHolder>
+                    <Label>Latest Course Registration</Label>
+                    <Input
+                      type="file"
+                      name="latestcourseregistration"
+                      onChange={(e) => onImageChange(e)}
+                    />
+                  </FormHolder>
+                  <FormHolder>
+                    <Label>School ID</Label>
+                    <Input
+                      type="file"
+                      name="schoolid"
+                      onChange={(e) => onImageChange(e)}
+                    />
+                  </FormHolder>
+                  <FormHolder>
+                    <Label>Jamb Result Slip</Label>
+                    <Input
+                      type="file"
+                      name="jambslip"
+                      onChange={(e) => onImageChange(e)}
+                    />
+                  </FormHolder>
+                  <FormHolder>
+                    <Label>Jamb Photograph</Label>
+                    <Input
+                      type="file"
+                      name="jambphotograph"
+                      onChange={(e) => onImageChange(e)}
+                    />
+                  </FormHolder>
                   <BtnDiv>
                   <Section>
-                    <CreateBtn type="submit">{loading ? "Loading" : "Upload File"}</CreateBtn>
+                    <CreateBtn type="submit">{loading ? <Spinner/> : "Upload Files"}</CreateBtn>
                   </Section>
                  
                   </BtnDiv>
-                </Form> */}
+                </Form>
                 </>
               ) : (
                 ""
