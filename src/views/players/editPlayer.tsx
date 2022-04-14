@@ -39,8 +39,6 @@ export const UpdatePlayer: React.FC = () => {
 
   const teamId = sessionStorage.getItem("Teamid");
   const [activeTab, setActiveTab] = useState("tab1");
-  const [data, setData] = useState({ Location: "" });
-  const updatedData = player && player ? player : {};
   const mainData =  singlePlayer ? singlePlayer : {};
   
   const [inputObject, setObject] = useState({
@@ -140,7 +138,9 @@ export const UpdatePlayer: React.FC = () => {
       CourseFaculty: AcademicRecord?.CourseFaculty,
       Programme: AcademicRecord?.Programme,
       SchoolPortalID: AcademicRecord?.SchoolPortalID,
-      SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword
+      SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword,
+      CourseLevel: AcademicRecord?.CourseLevel,
+      CourseStudy: AcademicRecord?.CourseStudy
     });
     setFileUpload({
       ...files,
@@ -647,9 +647,10 @@ export const UpdatePlayer: React.FC = () => {
                   </FormHolder>
                   <FormHolder>
                     <Label>PROGRAMME</Label>
-                    <Select onChange={(e) => handleChange(e)}>
-                      <option value="undergraduate">Undergraduate</option>
-                      <option value="postGraduate">Post-Graduate</option>
+                    <Select onChange={(e) => handleChange(e)} value={inputObject.Programme} name="Programme">
+                      <option >Select Programme</option>
+                      <option value="Undergraduate">Undergraduate</option>
+                      <option value="Post-Graduate">Post-Graduate</option>
                     </Select>
                   </FormHolder>
                   <FormHolder>
