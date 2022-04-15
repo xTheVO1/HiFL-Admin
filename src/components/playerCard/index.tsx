@@ -1,11 +1,9 @@
-import { Dispatch, useState } from "react";
+import {  useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 
 // components
 import { Content, Card, Div, ImgCard, CardText, Btn, Small, SideText } from "./style";
 import Modal from "../DeleteModal";
-import { getPlayerById } from "../../redux/actions/players";
 import PlayerImage from "../../assests/dashboard .png";
 
 interface PropsType {
