@@ -11,6 +11,7 @@ import {
     POST_INSTITUTION_FAILED
 } from "./actionTypes";
 import {privateHttp} from "../../baseUrl";
+import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 
 const getInstitutionsStarted = () => ({
     type: GET_INSTITUTIONS_STARTED
@@ -92,9 +93,11 @@ export const postInstitution = (payload: any) => async (dispatch: Dispatch) => {
         data: instituteData
       })
       const { data } = response;
+      SuccessPopUp("Institution created Successfully")
       navigate("/institutions")
       return dispatch(postInstitutionSuccess(data))
     } catch (error: any) {
+      ErrorPopUp(error.response.data.message)
       return dispatch(postInstitutionFailed(error.response))
     }
 }

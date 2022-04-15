@@ -45,7 +45,6 @@ export const UpdatePlayer: React.FC = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const mainData = singlePlayer ? singlePlayer : {};
 
-  console.log(file)
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",

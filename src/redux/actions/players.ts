@@ -12,8 +12,12 @@ import {
   UPDATE_PLAYER_STARTED,
   UPDATE_PLAYER_SUCCESSFUL,
   UPDATE_PLAYER_FAILED,
+  DELETE_PLAYER_SUCCESSFUL,
+  DELETE_PLAYER_STARTED,
+  DELETE_PLAYER_FAILED
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
+import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 
 const start = () => ({
   type: POST_PLAYER_STARTED,
@@ -56,6 +60,7 @@ const getPlayersFailed = (data: any) => ({
   type: GET_PLAYERS_FAILED,
   payload: data,
 });
+
 const updatePlayerStarted = () => ({
   type: UPDATE_PLAYER_STARTED,
 });
@@ -67,6 +72,20 @@ const updatePlayerSuccess = (data: IPlayer) => ({
 
 const updatePlayerFailed = (data: any) => ({
   type: UPDATE_PLAYER_FAILED,
+  payload: data,
+});
+
+const deletePlayerStarted = () => ({
+  type: DELETE_PLAYER_STARTED,
+});
+
+const deletePlayerSuccess = (data: IPlayer) => ({
+  type: DELETE_PLAYER_SUCCESSFUL,
+  payload: data,
+});
+
+const deletePlayerFailed = (data: any) => ({
+  type: DELETE_PLAYER_FAILED,
   payload: data,
 });
 
@@ -94,8 +113,10 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
     if (playerResponse) {
       navigate(`/player/${id}`);
     }
+    SuccessPopUp("Player created Successfully")
     return dispatch(postPlayerSuccess(playerResponse.data));
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(postPlayerFailed(error.response));
   }
 };
@@ -136,8 +157,26 @@ export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
       data: playerData,
     });
     const { data } = response;
+    SuccessPopUp("Player details updated Successfully")
     return dispatch(updatePlayerSuccess(data));
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(updatePlayerFailed(error.response));
+  }
+};
+
+export const deletePlayerById = (id: any) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(deletePlayerStarted());
+    const response = await privateHttp({
+      method: "get",
+      url: `/players/player/remove/?_id=${id}`,
+    });
+    const { data } = response;
+    SuccessPopUp("Player details deleted Successfully")
+    return dispatch(deletePlayerSuccess(data.data));
+  } catch (error: any) {
+    ErrorPopUp(error.response.statusText)
+    return dispatch(deletePlayerFailed(error.response));
   }
 };

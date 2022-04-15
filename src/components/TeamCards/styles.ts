@@ -35,11 +35,16 @@ export const Card = styled.div`
     }
 `
 export const ImgCard = styled.div`
-    width: 80px;
-    height: 80px;
-    background: red;
+    width: 70px;
+    height: 70px;
     border-radius: 50%;
     margin-right: 1rem;
+    img{
+        width: 100%;
+        height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    }
 `
 export const SideText = styled.div`
     width: 69%;
@@ -47,6 +52,7 @@ export const SideText = styled.div`
 export const Img = styled.img`
     width: 100%;
     object-fit: cover;
+    border-radius: 50%;
     
 `
 
