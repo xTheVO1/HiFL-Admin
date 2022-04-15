@@ -12,6 +12,9 @@ import {
   UPDATE_PLAYER_STARTED,
   UPDATE_PLAYER_SUCCESSFUL,
   UPDATE_PLAYER_FAILED,
+  DELETE_PLAYER_SUCCESSFUL,
+  DELETE_PLAYER_STARTED,
+  DELETE_PLAYER_FAILED
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
 
@@ -56,6 +59,7 @@ const getPlayersFailed = (data: any) => ({
   type: GET_PLAYERS_FAILED,
   payload: data,
 });
+
 const updatePlayerStarted = () => ({
   type: UPDATE_PLAYER_STARTED,
 });
@@ -67,6 +71,20 @@ const updatePlayerSuccess = (data: IPlayer) => ({
 
 const updatePlayerFailed = (data: any) => ({
   type: UPDATE_PLAYER_FAILED,
+  payload: data,
+});
+
+const deletePlayerStarted = () => ({
+  type: DELETE_PLAYER_STARTED,
+});
+
+const deletePlayerSuccess = (data: IPlayer) => ({
+  type: DELETE_PLAYER_SUCCESSFUL,
+  payload: data,
+});
+
+const deletePlayerFailed = (data: any) => ({
+  type: DELETE_PLAYER_FAILED,
   payload: data,
 });
 
@@ -139,5 +157,19 @@ export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
     return dispatch(updatePlayerSuccess(data));
   } catch (error: any) {
     return dispatch(updatePlayerFailed(error.response));
+  }
+};
+
+export const deletePlayerById = (id: any) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(deletePlayerStarted());
+    const response = await privateHttp({
+      method: "get",
+      url: `/players/player/remove/?_id=${id}`,
+    });
+    const { data } = response;
+    return dispatch(deletePlayerSuccess(data.data));
+  } catch (error: any) {
+    return dispatch(deletePlayerFailed(error.response));
   }
 };

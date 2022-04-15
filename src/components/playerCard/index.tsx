@@ -1,9 +1,12 @@
-// import { useDispatch } from "react-redux"
+import { Dispatch, useState } from "react";
 import { useNavigate } from "react-router-dom";
-// import { Dispatch } from "redux"
+import { useDispatch } from "react-redux";
 
 // components
 import { Content, Card, Div, ImgCard, CardText, Btn, Small, SideText } from "./style";
+import Modal from "../DeleteModal";
+import { getPlayerById } from "../../redux/actions/players";
+import PlayerImage from "../../assests/dashboard .png";
 
 interface PropsType {
   _id: string;
@@ -13,39 +16,58 @@ age: string;
 position: string;
 approval: boolean;
 type: string;
+PlayerLogo: string;
 }
-export const PlayerCard = ({_id, age, type, position,approval, status, playerName}: PropsType) => {
-  // const dispatch: Dispatch<any> = useDispatch()
+
+export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, status, playerName}: PropsType) => {
+
   const navigate = useNavigate();
+  const [modal, setModal] =useState(false);
 
   const editPlayer = () => {
     navigate(`/player/${_id}`)
   }
+
   const editOfficial = () => {
     navigate(`/official/${_id}`)
   }
+
+  // Toggle for Modal
+  const toggleModal = () => {
+    setModal(!modal);
+  }
+  
   return (
+    <>
+    <Modal modal={modal} toggle={toggleModal} id={_id} />
       <Card key={playerName}>
-        <Content onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
-          <Div>
+        <Content >
+          <Div onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
             <ImgCard>
+            <img src={!PlayerLogo ? PlayerImage : PlayerLogo} alt={playerName} />
             </ImgCard>
             <SideText>
               <CardText>{playerName}</CardText>
               <Small><strong>AGE:</strong> {age} | <strong>POSITION:</strong> {!position ? "Player" : position}</Small>
             </SideText>
           </Div>
-          <div>
+          <div onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
             <Btn className={status === true ? "complete" : "incomplete"}>
              {status === true ? "COMPLETE" : "INCOMPLETE"}
             </Btn>
           </div>
-          <div>
+          <div  onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
             <Btn className={approval === false ? "incomplete" : "complete"}>
-            {approval ? "COMPLETE" : "INCOMPLETE"}
+            {approval ? "APPROVAL" : "PENDING"}
+            </Btn>
+          </div>
+          <div>
+            <Btn className="red" onClick={toggleModal}>
+            DELETE
             </Btn>
           </div>
         </Content>
       </Card>
+        </>
   )
 }

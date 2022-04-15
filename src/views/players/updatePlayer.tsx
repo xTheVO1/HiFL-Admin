@@ -103,7 +103,6 @@ class PlayerUpdate extends Component<PropsType, any>{
        this.setState({
             id:  url[2]
        }) 
-       console.log(url[2])
         this.props.getPlayerById(url[2])
     }
 
@@ -337,7 +336,6 @@ class PlayerUpdate extends Component<PropsType, any>{
         Programme,
         CourseFaculty } =  this.state;
         const {loading, singlePlayer, player} = this.props;
-        console.log(singlePlayer,this.state )
         return (
             <Container>
             <Content>
@@ -720,7 +718,6 @@ class PlayerUpdate extends Component<PropsType, any>{
 
 const mapStateToProps = (state: any) => {
     const {  loading, singlePlayer, player } = state.player;
-    console.log(singlePlayer, 718)
     return {
         loading, singlePlayer, player
     }

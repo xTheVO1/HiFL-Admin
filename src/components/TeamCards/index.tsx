@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import { Card, CardText, ImgCard, P, SideText } from "./styles";
+import TeamImage from "../../assests/dashboard .png";
 
 type TeamCardPropsType = {
   title: string;
@@ -30,7 +31,7 @@ function TeamCard({
   return (
     <Card onClick={viewPlayers}>
       <ImgCard>
-      {/* <img src={TeamLogo} alt={TeamName} /> */}
+      <img src={!TeamLogo ? TeamImage : TeamLogo} alt={TeamName} />
       </ImgCard>
       <SideText>
         <CardText>{title}</CardText>

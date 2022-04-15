@@ -4,7 +4,7 @@ import styled from "styled-components";
 export const Content = styled.div`
   display: flex;
   flex-wrap: wrap;
-  width: 80%;
+  width: 90%;
   justify-content: space-between;
   div .complete{
       background: #03A430;
@@ -14,6 +14,10 @@ export const Content = styled.div`
       background: #FFD583;
     color: black;
   }
+  div .red{
+    background: red;
+  color: white;
+}
 `;
 
 export const Container = styled.div`
@@ -33,11 +37,16 @@ export const Card = styled.div`
 `
 
 export const ImgCard = styled.div`
-    width: 70px;
-    height: 70px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
-    background: red;
     margin-right: 2rem;
+    img{
+        width: 100%;
+        height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    }
     @media(max-width: 700px) {
         margin-right: 1rem;
     }
@@ -57,6 +66,7 @@ export const Btn = styled.div`
     font-weight: 200;
     color: ${props => props.theme.colors.white};
    margin-top: 1.2rem;
+   cursor: pointer;
    @media(max-width: 930px) {
     display: none;
 }
