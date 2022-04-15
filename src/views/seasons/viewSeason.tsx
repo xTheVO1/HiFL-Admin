@@ -21,7 +21,6 @@ function ViewSeason() {
     useEffect(() => {
         dispatch(getSeason(id))
       }, [dispatch])
-console.log(mainDataResult)
     const back = ( ) => {
         navigate("/seasons")
     }

@@ -5,6 +5,7 @@ import {
   POST_FILE_FAILED
 } from "./actionTypes";
 import { privateHttp } from "../../baseUrl";
+import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 
 const postFileStarted = () => ({
   type: POST_FILE_STARTED
@@ -34,9 +35,10 @@ export const postFile = (payload: any) => async (dispatch: Dispatch) => {
       data: payload,
     })
     const { data } = response;
-    sessionStorage.setItem('location', JSON.stringify(data.data));
+    SuccessPopUp("File uploaded Successfully");
     return dispatch(postFileSuccess(data.data))
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(postFileFailed(error.response))
   }
 }

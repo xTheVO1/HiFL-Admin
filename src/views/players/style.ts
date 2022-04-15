@@ -118,7 +118,7 @@ export const Table = styled.div`
     padding-bottom: .5rem;
     width: 100%;
     .players-header{
-        width: 80%;
+        width: 90%;
         display: flex;
         justify-content: space-between;
 

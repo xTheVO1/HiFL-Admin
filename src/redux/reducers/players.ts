@@ -9,7 +9,10 @@ import { POST_PLAYER_FAILED,
         GET_PLAYER_FAILED,
         UPDATE_PLAYER_STARTED,
         UPDATE_PLAYER_SUCCESSFUL,
-        UPDATE_PLAYER_FAILED
+        UPDATE_PLAYER_FAILED,
+        DELETE_PLAYER_SUCCESSFUL,
+        DELETE_PLAYER_STARTED,
+        DELETE_PLAYER_FAILED
     } from "../actions/actionTypes";
 
 const  initialState = {
@@ -17,7 +20,8 @@ const  initialState = {
   players:[],
   singlePlayer: {},
   loading: false,
-  error: null
+  error: null,
+  deletedPlayer: {}
 }
 
 export const playerReducer = (state: PlayerState = initialState, action: any):PlayerState => {
@@ -85,6 +89,23 @@ export const playerReducer = (state: PlayerState = initialState, action: any):Pl
               player: action.payload
             }
           case UPDATE_PLAYER_FAILED:
+            return {
+              ...state,
+              loading: false,
+              error: action.payload
+            }
+            case DELETE_PLAYER_STARTED:
+            return {
+              ...state,
+              loading: true
+            }
+          case DELETE_PLAYER_SUCCESSFUL: 
+            return {
+              ...state,
+              loading: false,
+              deletedPlayer: action.payload
+            }
+          case DELETE_PLAYER_FAILED:
             return {
               ...state,
               loading: false,

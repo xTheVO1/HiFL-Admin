@@ -14,6 +14,7 @@ import {
   UPDATE_OFFICIAL_FAILED
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
+import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 
 const start = () => ({
   type: POST_OFFICIAL_STARTED
@@ -94,8 +95,10 @@ export const createOfficials = (data: any) => async (dispatch: Dispatch) => {
     })
     const id = officialResponse.data.data._id;
     navigate(`/official/${id}`)
+    SuccessPopUp("Official created Successfully")
     return dispatch(postOfficialSuccess(officialResponse.data))
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(postOfficialFailed(error.response))
   }
 }
@@ -137,8 +140,10 @@ export const updateOfficials = (officialData: any) => async (dispatch: Dispatch)
       data: officialData
     })
     const {data} = response;
+    SuccessPopUp("Official updated Successfully")
     return dispatch(updateOfficialSuccess(data))
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(updateOfficialFailed(error.response))
   }
 }

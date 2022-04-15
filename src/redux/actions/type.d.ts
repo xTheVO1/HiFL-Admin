@@ -60,6 +60,7 @@ interface PlayerState {
   singlePlayer: any;
   loading: boolean;
   error: any;
+  deletedPlayer: any;
 }
 
 type PlayerAction = {
