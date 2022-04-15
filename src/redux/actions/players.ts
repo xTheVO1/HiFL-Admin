@@ -17,6 +17,7 @@ import {
   DELETE_PLAYER_FAILED
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
+import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 
 const start = () => ({
   type: POST_PLAYER_STARTED,
@@ -112,8 +113,10 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
     if (playerResponse) {
       navigate(`/player/${id}`);
     }
+    SuccessPopUp("Player created Successfully")
     return dispatch(postPlayerSuccess(playerResponse.data));
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(postPlayerFailed(error.response));
   }
 };
@@ -154,8 +157,10 @@ export const updatePlayer = (playerData: any) => async (dispatch: Dispatch) => {
       data: playerData,
     });
     const { data } = response;
+    SuccessPopUp("Player details updated Successfully")
     return dispatch(updatePlayerSuccess(data));
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(updatePlayerFailed(error.response));
   }
 };
@@ -168,8 +173,10 @@ export const deletePlayerById = (id: any) => async (dispatch: Dispatch) => {
       url: `/players/player/remove/?_id=${id}`,
     });
     const { data } = response;
+    SuccessPopUp("Player details deleted Successfully")
     return dispatch(deletePlayerSuccess(data.data));
   } catch (error: any) {
+    ErrorPopUp(error.response.statusText)
     return dispatch(deletePlayerFailed(error.response));
   }
 };

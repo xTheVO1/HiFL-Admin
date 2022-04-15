@@ -5,6 +5,7 @@ import {
   GET_TEAMS_FAILED,
 } from "./actionTypes";
 import { privateHttp } from "../../baseUrl";
+import {ErrorPopUp, SuccessPopUp} from "../../utils/toastify";
 
 const start = () => ({
   type: GET_TEAMS_STARTED,
@@ -30,6 +31,7 @@ export const getTeams = () => async (dispatch: Dispatch) => {
     const { data } = response;
     return dispatch(getTeamsSuccess(data.data));
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(getTeamsFailed(error.response));
   }
 };
@@ -44,6 +46,7 @@ export const getTeamsByQuery = (id: any) => async (dispatch: Dispatch) => {
     const { data } = response;
     return dispatch(getTeamsSuccess(data.data));
   } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
     return dispatch(getTeamsFailed(error.response));
   }
 };
