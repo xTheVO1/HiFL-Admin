@@ -687,39 +687,39 @@ export const UpdatePlayer: React.FC = () => {
                           <tbody>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData.DocumentUploads?.JambPhotograph ? <MdFolder /> :<a href={mainData?.DocumentUploads?.JambPhotograph} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!mainData?.DocumentUploads?.JambPhotograph ? <MdFolder /> :<a href={mainData?.DocumentUploads?.JambPhotograph} target="_blank"><MdFolder /></a>}</td>
                               <td>Jamb Photograph</td>
-                              <td>{!mainData.DocumentUploads?.JambPhotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!mainData?.DocumentUploads?.JambPhotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData.DocumentUploads?.SchoolID ? <MdFolder /> : <a href={mainData?.DocumentUploads?.SchoolID} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!mainData?.DocumentUploads?.SchoolID ? <MdFolder /> : <a href={mainData?.DocumentUploads?.SchoolID} target="_blank"><MdFolder /></a>}</td>
                               <td>School ID Card</td>
-                              <td>{!mainData.DocumentUploads?.SchoolID ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!mainData?.DocumentUploads?.SchoolID ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData.DocumentUploads?.JambResultSlip ? <MdFolder /> :<a href={mainData.DocumentUploads.JambResultSlip} target="_blank"><MdFolder /></a> }</td>
+                              <td>{!mainData?.DocumentUploads?.JambResultSlip ? <MdFolder /> :<a href={mainData?.DocumentUploads?.JambResultSlip} target="_blank"><MdFolder /></a> }</td>
                               <td>Jamb Result Slip</td>
-                              <td>{!mainData.DocumentUploads?.JambResultSlip ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!mainData?.DocumentUploads?.JambResultSlip ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData.DocumentUploads?.PassportPhotograph ? <MdFolder /> :<a href={mainData.DocumentUploads?.PassportPhotograph} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!mainData?.DocumentUploads?.PassportPhotograph ? <MdFolder /> :<a href={mainData?.DocumentUploads?.PassportPhotograph} target="_blank"><MdFolder /></a>}</td>
                               <td>Passport Photograph</td>
-                              <td>{!mainData.DocumentUploads?.PassportPhotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!mainData?.DocumentUploads?.PassportPhotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData.DocumentUploads?.MedicalCert ? <MdFolder /> :<a href={mainData.DocumentUploads?.MedicalCert} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!mainData?.DocumentUploads?.MedicalCert ? <MdFolder /> :<a href={mainData?.DocumentUploads?.MedicalCert} target="_blank"><MdFolder /></a>}</td>
                               <td>Medical Certificate</td>
-                              <td>{!mainData.DocumentUploads?.MedicalCert ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!mainData?.DocumentUploads?.MedicalCert ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData.DocumentUploads?.LatestCourseRegistration ? <MdFolder /> :<a href={mainData.DocumentUploads?.LatestCourseRegistration} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!mainData?.DocumentUploads?.LatestCourseRegistration ? <MdFolder /> :<a href={mainData?.DocumentUploads?.LatestCourseRegistration} target="_blank"><MdFolder /></a>}</td>
                               <td>Latest Course Registration</td>
-                              <td>{!mainData.DocumentUploads?.LatestCourseRegistration ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!mainData?.DocumentUploads?.LatestCourseRegistration ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                           </tbody>
                         </Table>
