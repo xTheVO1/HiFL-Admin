@@ -144,6 +144,7 @@ type SeasonAction = {
   type: string;
   payload: IOfficial[];
 };
+
 type ILeague = {
   _id: string;
   InstitutionName: string;
@@ -177,7 +178,7 @@ type IFileUpload = {
 
 interface FileUploadState {
   file: any;
-  loading: boolean;
+  fileLoading: boolean;
   error: any;
 }
 

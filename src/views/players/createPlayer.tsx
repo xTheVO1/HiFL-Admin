@@ -31,7 +31,7 @@ export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store = useSelector((state: RootState) => state.player);
-  const { loading, player } = store;
+  const { loading } = store;
 
   // states
   const [object, setObject]: any = useState({});
@@ -152,10 +152,16 @@ export const AddPlayer: React.FC = () => {
               </FormHolder>
               <FormHolder>
                   <Label>DATE OF BIRTH</Label>
+                  {pathname === "/register-official" ?
+                  <Input type="date" 
+                  name="DateOfBirth"
+                  onChange={(e) => handleChange(e)}/>
+                  :
                   <Input type="date" 
                   name="DateOfBirth"
                    max="2006-01-01" min="1993-12-31" 
                   onChange={(e) => handleChange(e)}/>
+        }
                 </FormHolder>
               <FormHolder>
                 <Label>EMAIL</Label>
