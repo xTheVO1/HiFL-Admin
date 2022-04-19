@@ -23,7 +23,8 @@ export const Players: React.FC = () => {
   // Getting the team name and id
   const teamId = sessionStorage.getItem('Teamid');
   const teamName = sessionStorage.getItem('Teamname');
-
+  
+  
   // getting players and officials from redux store
   const store = useSelector((state: RootState) => state.player)
   const officialStore = useSelector((state: RootState) => state.officials)
@@ -55,6 +56,8 @@ export const Players: React.FC = () => {
 
 
   return (
+    <>
+
     <Container>
       <Content>
         <Table className="padding">
@@ -79,6 +82,7 @@ export const Players: React.FC = () => {
             <div className="players-header-flex">
               <p>PROFILE STATUS</p>
               <p>APPROVAL</p>
+              <p>ACTION</p>
             </div>
           </div>
         </Table>
@@ -89,7 +93,8 @@ export const Players: React.FC = () => {
             (officialData && officialData?.map((item: any) => (
               <PlayerCard
                 key={item._id}
-                type="OFFICIAL"
+                PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
+                type="OFFICIALS"
                 _id={item._id}
                 approval={false}
                 status={!item.isCompleted ? "" : item.isCompleted}
@@ -105,8 +110,9 @@ export const Players: React.FC = () => {
               mainData && mainData?.map((item: any) => (
                 <PlayerCard
                   type="PLAYER"
+                  PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
                   _id={item._id}
-                  age={moment(item.DateOfBirth).fromNow(true)}
+                  age={!item.DateOfBirth ? "" :moment(item.DateOfBirth).fromNow(true)}
                   approval={false}
                   status={!item.isCompleted ? "" : item.isCompleted}
                   playerName={item.User.Firstname + " " + item.User.Lastname}
@@ -118,5 +124,7 @@ export const Players: React.FC = () => {
 
       )}
     </Container>
+   
+    </>
   );
 };

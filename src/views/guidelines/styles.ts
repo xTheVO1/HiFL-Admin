@@ -46,7 +46,7 @@ export const BtnCard = styled.p`
 `;
 
 export const CreateBtn = styled.a`
-  background: #000292;
+  background: #000229;
   color: white;
   padding: 0.6rem 2rem;
   margin-left: 1rem;

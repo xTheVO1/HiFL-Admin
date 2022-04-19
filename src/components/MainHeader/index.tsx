@@ -25,13 +25,13 @@ export default function MainHeader() {
           <div className="profile-img">
             <h1>
               <span>
-                {user.Firstname.charAt(0) + " " + user.Lastname.charAt(0)}
+                {user?.Firstname?.charAt(0) + " " + user?.Lastname?.charAt(0)}
               </span>
             </h1>
           </div>
           <div className="details">
-            <h4>{user.Firstname + " " + user.Lastname}</h4>
-            <p>{user.Role}</p>
+            <h4>{user?.Firstname + " " + user?.Lastname}</h4>
+            <p>{user?.Role}</p>
           </div>
         </Username>
       </Profile>

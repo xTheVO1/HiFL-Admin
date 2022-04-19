@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import AWS from 'aws-sdk';
-
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -14,8 +13,7 @@ import {
   CreateBtn,
   BtnDiv,
   Outlet,
-  Section,
-  Image,
+  Section
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
@@ -24,11 +22,16 @@ import Button from "../../components/Button";
 //actions
 import { createPlayers } from "../../redux/actions/players";
 import { createOfficials } from "../../redux/actions/officials";
+import moment from "moment";
+import { RootState } from "../../redux/reducers";
+import { Spinner } from "reactstrap";
 
 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const store = useSelector((state: RootState) => state.player);
+  const { loading } = store;
 
   // states
   const [object, setObject]: any = useState({});
@@ -45,25 +48,23 @@ export const AddPlayer: React.FC = () => {
     });
   };
 
-  
   const submit = (e: any) => {
     const teamId = sessionStorage.getItem("Teamid");
-  
+    const newAge = moment(object?.DateOfBirth).fromNow(true).split(" ")
     e.preventDefault();
-
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
       Email: object.email,
     };
-
     const playerData = {
       Team: teamId,
       Email: object.email,
       CreatedBy: user._id,
       // Phonenumber: object.phone,
       MiddleName: object.Middlename,
-      DateOfBirth: object.Dateofbirth,
+      DateOfBirth: object.DateOfBirth,
+      Age: parseInt(newAge[0]),
       TermsAndConditions: true,
       NextOfKin: {
         FullNameOfKin: object.FullNameOfKin,
@@ -87,6 +88,14 @@ export const AddPlayer: React.FC = () => {
           State: object.schoolState,
           NearestBusStop: object.schBusstop,
         }
+      }, 
+      DocumentUploads: {
+        PassportPhotograph: "",
+        MedicalCert: "",
+        SchoolID: "",
+        JambResultSlip: "",
+        JambPhotograph: "",
+        LatestCourseRegistration: ""
       }
     };
     if (pathname === "/register-player") {
@@ -142,14 +151,18 @@ export const AddPlayer: React.FC = () => {
                 />
               </FormHolder>
               <FormHolder>
-                <Label>DATE OF BIRTH</Label>
-                <Input
-                  type="date"
-                  name="datOfBirth"
-                  required
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
+                  <Label>DATE OF BIRTH</Label>
+                  {pathname === "/register-official" ?
+                  <Input type="date" 
+                  name="DateOfBirth"
+                  onChange={(e) => handleChange(e)}/>
+                  :
+                  <Input type="date" 
+                  name="DateOfBirth"
+                   max="2006-01-01" min="1993-12-31" 
+                  onChange={(e) => handleChange(e)}/>
+        }
+                </FormHolder>
               <FormHolder>
                 <Label>EMAIL</Label>
                 <Input
@@ -301,7 +314,7 @@ export const AddPlayer: React.FC = () => {
                 </Section>
               </Section>
               <BtnDiv>
-                <CreateBtn type="submit">SAVE & CONTINUE</CreateBtn>
+                <CreateBtn type="submit">{loading ? <Spinner/> : "SAVE"}</CreateBtn>
               </BtnDiv>
             </Form>
           </Outlet>

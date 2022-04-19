@@ -8,7 +8,7 @@ import {
 
 const  initialState = {
   file: {},
-  loading: false,
+  fileLoading: false,
   error: {}
 }
 
@@ -17,18 +17,18 @@ export const fileUploadReducer = (state: FileUploadState = initialState, action:
       case  POST_FILE_STARTED:
         return {
           ...state,
-          loading: true
+          fileLoading: true
         }
       case POST_FILE_SUCCESSFUL: 
         return {
           ...state,
-          loading: false,
+          fileLoading: false,
           file: action.payload
         }
       case POST_FILE_FAILED:
         return {
           ...state,
-          loading: false,
+          fileLoading: false,
           error: action.payload
         }
     }

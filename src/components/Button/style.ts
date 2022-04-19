@@ -9,7 +9,7 @@ export const Container = styled.button`
     font-size: 14px;
     color: white;
     background-color: ${props => props.theme.colors.warning};
-    background:#000292;
+    background:#000229;
     transition: opacity .3s;
 
     &:hover {
