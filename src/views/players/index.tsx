@@ -94,7 +94,7 @@ export const Players: React.FC = () => {
               <PlayerCard
                 key={item._id}
                 PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
-                type="OFFICIAL"
+                type="OFFICIALS"
                 _id={item._id}
                 approval={false}
                 status={!item.isCompleted ? "" : item.isCompleted}
