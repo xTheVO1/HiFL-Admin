@@ -30,7 +30,6 @@ import Loader from "../../components/Loader";
 import Button from "../../components/Button";
 import { MdCheck, MdFolder, MdCancel } from "react-icons/md";
 import { Spinner, Table } from "reactstrap";
-import { NavLink } from "react-router-dom";
 
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
@@ -687,39 +686,39 @@ export const UpdatePlayer: React.FC = () => {
                           <tbody>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData?.DocumentUploads?.JambPhotograph ? <MdFolder /> :<a href={mainData?.DocumentUploads?.JambPhotograph} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!files?.jambphotograph ? <MdFolder /> :<a href={files?.jambphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>Jamb Photograph</td>
-                              <td>{!mainData?.DocumentUploads?.JambPhotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.jambphotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData?.DocumentUploads?.SchoolID ? <MdFolder /> : <a href={mainData?.DocumentUploads?.SchoolID} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>School ID Card</td>
-                              <td>{!mainData?.DocumentUploads?.SchoolID ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.schoolid  ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData?.DocumentUploads?.JambResultSlip ? <MdFolder /> :<a href={mainData?.DocumentUploads?.JambResultSlip} target="_blank"><MdFolder /></a> }</td>
+                              <td>{!files?.jambslip ? <MdFolder /> :<a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /></a> }</td>
                               <td>Jamb Result Slip</td>
-                              <td>{!mainData?.DocumentUploads?.JambResultSlip ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.jambslip ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData?.DocumentUploads?.PassportPhotograph ? <MdFolder /> :<a href={mainData?.DocumentUploads?.PassportPhotograph} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!files?.passportphotograph ? <MdFolder /> :<a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>Passport Photograph</td>
-                              <td>{!mainData?.DocumentUploads?.PassportPhotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.passportphotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData?.DocumentUploads?.MedicalCert ? <MdFolder /> :<a href={mainData?.DocumentUploads?.MedicalCert} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!files?.medicalcertificate ? <MdFolder /> :<a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>Medical Certificate</td>
-                              <td>{!mainData?.DocumentUploads?.MedicalCert ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.medicalcertificate ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!mainData?.DocumentUploads?.LatestCourseRegistration ? <MdFolder /> :<a href={mainData?.DocumentUploads?.LatestCourseRegistration} target="_blank"><MdFolder /></a>}</td>
+                              <td>{!files?.latestcourseregistration ? <MdFolder /> :<a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><MdFolder /></a>}</td>
                               <td>Latest Course Registration</td>
-                              <td>{!mainData?.DocumentUploads?.LatestCourseRegistration ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.latestcourseregistration ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                           </tbody>
                         </Table>
