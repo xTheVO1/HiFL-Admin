@@ -14,7 +14,7 @@ code {
     monospace;
 }
 .spinner{
-  text-align: center;
+  text-align: center !important;
 font-size: 2rem;
 width: 80% !important;
 margin: 0rem auto !important;

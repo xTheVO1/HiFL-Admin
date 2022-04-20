@@ -83,8 +83,7 @@ export const UpdateOfficial: React.FC = () => {
   const store = useSelector((state: RootState) => state.officials)
   const fileData = useSelector((state: RootState) => state.files)
   const { loading, official } = store;
-  const { fileLoading, file } = fileData;
-  const mainData = official && official ? official : {};
+  const { fileLoading } = fileData;
   const teamId = sessionStorage.getItem("Teamid");
 
   useEffect(() => {
