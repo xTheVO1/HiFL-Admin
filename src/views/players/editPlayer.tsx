@@ -30,6 +30,14 @@ import Loader from "../../components/Loader";
 import Button from "../../components/Button";
 import { MdCheck, MdFolder, MdCancel } from "react-icons/md";
 import { Spinner, Table } from "reactstrap";
+import {
+  POST_FILE_STARTED,
+  POST_FILE_SUCCESSFUL,
+  POST_FILE_FAILED
+} from "../../redux/actions/actionTypes";
+import { privateHttp } from "../../baseUrl";
+import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
+
 
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
@@ -39,6 +47,7 @@ export const UpdatePlayer: React.FC = () => {
   const { loading, singlePlayer } = store;
   const teamId = sessionStorage.getItem("Teamid");
   const [activeTab, setActiveTab] = useState("tab1");
+  const [fileLoading, setLoading] = useState(false);
   const mainData = singlePlayer ? singlePlayer : {};
 
   const [inputObject, setObject] = useState({
@@ -227,8 +236,9 @@ export const UpdatePlayer: React.FC = () => {
     dispatch(getPlayerById(id));
   };
 
-  const uploadFiles = (e: any) => {
+  const uploadFiles = async (e: any) => {
     e.preventDefault();
+    setLoading(true)
     const formData: any = new FormData();
     if (formData) {
       formData.append(
@@ -258,14 +268,50 @@ export const UpdatePlayer: React.FC = () => {
       formData.append(
         "jambphotograph",
         files.jambphotograph
-      )
-    }
+        )
+      }
     //   for (var pair of formData.entries()) {
     //     console.log(pair[0]+ ', ' + pair[1]); 
     // }
-    dispatch(postFile(formData))
-    dispatch(getPlayerById(id));
-
+    try {
+      dispatch({
+        type: POST_FILE_STARTED
+      })
+      const headers = {
+        "Authorization": `Bearer-Jwt ${sessionStorage.getItem('token')}`,
+        "Content-Type": "multipart/formdata"
+      }
+      const response = await privateHttp({
+        method: "post",
+        url: '/players/player/docuploads/',
+        headers: headers,
+        data: formData
+      })
+      const { data } = response;
+      const { DocumentUploads } = data.data;
+      setFileUpload({
+        ...files,
+        passportphotograph: DocumentUploads?.PassportPhotograph,
+        medicalcertificate: DocumentUploads?.MedicalCert,
+        schoolid: DocumentUploads?.SchoolID,
+        jambslip: DocumentUploads?.JambResultSlip,
+        jambphotograph: DocumentUploads?.JambPhotograph,
+        latestcourseregistration: DocumentUploads?.LatestCourseRegistration
+      })
+      setLoading(false);
+      SuccessPopUp("File uploaded Successfully");
+      return dispatch({
+        type: POST_FILE_SUCCESSFUL,
+        payload: data.data
+      })
+    } catch (error: any) {
+      setLoading(false);
+      ErrorPopUp(error.response.data.message)
+      return dispatch({
+        type: POST_FILE_FAILED,
+        payload: error
+      })
+    }
   }
   const positions = [
     { type: "Forward", value: "FW" },
@@ -776,7 +822,7 @@ export const UpdatePlayer: React.FC = () => {
                       </FormHolder>
                       <BtnDiv>
                         <Section>
-                          <CreateBtn type="submit">{loading ? <Spinner /> : "Upload Files"}</CreateBtn>
+                          <CreateBtn type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
                         </Section>
 
                       </BtnDiv>
