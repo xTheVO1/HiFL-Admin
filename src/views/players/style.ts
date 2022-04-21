@@ -36,12 +36,19 @@ export const Section = styled.div`
 `;
 export const Input = styled.input`
     border-radius: 5px;
-    border: 1px solid grey;
+    border: 1px solid ${props => props.theme.colors.gray};
     width: 100%;
     padding: 8px;
 `;
+export const FileInput = styled.input`
+    border: 1px solid ${props => props.theme.colors.gray};
+    width: 75%;
+    padding: 8px;
+   margin-right: 5%;
+  
+`;
 export const Select = styled.select`
-    border: 1px solid #C7C7C7;
+border: 1px solid ${props => props.theme.colors.gray};
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -99,6 +106,15 @@ export const FormHolder = styled.div`
    
 `;
 
+export const FilesHolder = styled.div`
+    width: 100%;
+    margin-bottom: 1.5rem;
+    span{
+        color: #FFB422;
+        font-weight: 700;
+        cursor: pointer;
+    }
+`
 export const BtnDiv = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -107,6 +123,9 @@ export const BtnDiv = styled.div`
   & .submit{
     background: #FFB422;
     color: black;
+}
+.disabled{
+    background: ${props => props.theme.colors.gray};
 }
 `;
 
