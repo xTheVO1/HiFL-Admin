@@ -80,7 +80,7 @@ export const Players: React.FC = () => {
           <div className="players-header">
             <p className="">DETAILS</p>
             <div className="players-header-flex">
-              <p>SUBMITTED</p>
+              <p >SUBMITTED</p>
               <p>APPROVAL</p>
               <p>ACTION</p>
             </div>

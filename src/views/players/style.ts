@@ -172,7 +172,12 @@ export const Table = styled.div`
         }
     }
     .players-flex-header p,  .players-flex-start p{
-        margin: 0 1rem;
+        margin: 0 .5rem;
+    }
+    @media(max-width: 930px) {
+        .players-header-flex{
+            display: none;
+        }
     }
 `;
 
