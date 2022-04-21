@@ -37,8 +37,6 @@ export default function Aside() {
         <TitleHeader>
                     ADMIN
                 </TitleHeader>
-
-
                 <SideImage>
                             <Image src={dashboard} alt="dashboard " />
                         </SideImage>

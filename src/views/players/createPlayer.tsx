@@ -88,7 +88,17 @@ export const AddPlayer: React.FC = () => {
           State: object.schoolState,
           NearestBusStop: object.schBusstop,
         }
-      }, 
+      },
+       AcademicRecord: {
+        CourseLevel: "",
+        CourseStudy: "",
+        MatricNumber: "",
+        JambRegNumber: "",
+        CourseFaculty: "",
+        Programme: "",
+        SchoolPortalID:"",
+        SchoolPortalPassword: ""
+      },
       DocumentUploads: {
         PassportPhotograph: "",
         MedicalCert: "",
