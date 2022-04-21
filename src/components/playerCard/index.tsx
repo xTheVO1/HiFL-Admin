@@ -46,12 +46,12 @@ export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, statu
             </ImgCard>
             <SideText>
               <CardText>{playerName}</CardText>
-              <Small><strong>AGE:</strong> {age} | <strong>POSITION:</strong>{type === "OFFICIALS" ? "Official" :(!position ? "Player" : position)}</Small>
+              <Small><strong>AGE:</strong> {age} | <strong>POSITION: </strong>{type === "OFFICIALS" ? "Official" :(!position ? "Player" : position)}</Small>
             </SideText>
           </Div>
           <div onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
             <Btn className={status === true ? "complete" : "incomplete"}>
-             {status === true ? "COMPLETE" : "INCOMPLETE"}
+             {status === true ? "YES" : "NO"}
             </Btn>
           </div>
           <div  onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>

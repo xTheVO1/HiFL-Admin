@@ -344,7 +344,7 @@ export const UpdatePlayer: React.FC = () => {
   return (
     <Container>
       <Content>
-        <ContentHeader title={"Player Profile"}>
+        <ContentHeader title={"Update Player Profile"}>
           <Button onClick={() => navigate("/players")}>Go Back</Button>
         </ContentHeader>
         {loading ? (
@@ -778,6 +778,7 @@ export const UpdatePlayer: React.FC = () => {
                           type="file"
                           name="medicalcertificate"
                           onChange={(e) => onImageChange(e)}
+                          accept=".png, .jpg, .jpeg .pdf"
                         />
                       </FormHolder>
                       <FormHolder>
@@ -786,6 +787,7 @@ export const UpdatePlayer: React.FC = () => {
                           type="file"
                           name="passportphotograph"
                           onChange={(e) => onImageChange(e)}
+                          accept=".png, .jpg, .jpeg"
                         />
                       </FormHolder>
                       <FormHolder>
@@ -793,6 +795,7 @@ export const UpdatePlayer: React.FC = () => {
                         <Input
                           type="file"
                           name="latestcourseregistration"
+                          accept=".pdf"
                           onChange={(e) => onImageChange(e)}
                         />
                       </FormHolder>
@@ -802,6 +805,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="file"
                           name="schoolid"
                           onChange={(e) => onImageChange(e)}
+                          accept=".pdf"
+
                         />
                       </FormHolder>
                       <FormHolder>
@@ -809,6 +814,7 @@ export const UpdatePlayer: React.FC = () => {
                         <Input
                           type="file"
                           name="jambslip"
+                          accept=".pdf"
                           onChange={(e) => onImageChange(e)}
                         />
                       </FormHolder>
@@ -818,13 +824,14 @@ export const UpdatePlayer: React.FC = () => {
                           type="file"
                           name="jambphotograph"
                           onChange={(e) => onImageChange(e)}
+                          accept=".pdf"
                         />
                       </FormHolder>
                       <BtnDiv>
                         <Section>
                           <CreateBtn type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
                         </Section>
-
+                        {/* <CreateBtn type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn> */}
                       </BtnDiv>
                     </Form>
                   </>
