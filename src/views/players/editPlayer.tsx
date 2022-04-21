@@ -37,8 +37,11 @@ import {
 } from "../../redux/actions/actionTypes";
 import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
-
-
+import { Btn } from "../../components/playerCard/style";
+import {
+  Modal, 
+  ModalHeader, ModalBody
+} from "reactstrap";
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
@@ -49,7 +52,8 @@ export const UpdatePlayer: React.FC = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [fileLoading, setLoading] = useState(false);
   const mainData = singlePlayer ? singlePlayer : {};
-
+  const [modal, setModal] =useState(false);
+  const [disable, setDisable] =useState(false);
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",
@@ -114,8 +118,9 @@ export const UpdatePlayer: React.FC = () => {
       MedicalRecord,
       DocumentUploads,
       SportRecord,
-      AcademicRecord, MiddleName, User, DateOfBirth, Age
+      AcademicRecord, MiddleName, User, DateOfBirth, Age, isCompleted
     } = data;
+    setDisable(isCompleted);
     setObject({
       ...inputObject,
       Age: Age,
@@ -236,6 +241,19 @@ export const UpdatePlayer: React.FC = () => {
     dispatch(getPlayerById(id));
   };
 
+  const submitPlayer = async (e: any) => {
+    e.preventDefault();
+    const details = {
+      _id: id,
+      params: {
+        isCompleted: true
+      }
+    };
+    setModal(!modal);
+    dispatch(updatePlayer(details));
+    // dispatch(getPlayerById(id));
+  };
+
   const uploadFiles = async (e: any) => {
     e.preventDefault();
     setLoading(true)
@@ -341,8 +359,36 @@ export const UpdatePlayer: React.FC = () => {
 
   }
 
+   // Toggle for Modal
+   const toggleModal = () => {
+    setModal(!modal);
+  }
+
   return (
     <Container>
+   <Modal isOpen={modal}
+                toggle={toggleModal}
+                modalTransition={{ timeout: 2000 }}>
+                    <ModalHeader>
+                       ACCREDITATION
+                    </ModalHeader>
+                <ModalBody style={{textAlign: "center"}}>
+                    <small>You are attempting to submit this player for accreditation.</small> <br></br>
+                    <small >Please <strong>note that you will no longer be able to edit this player information</strong>.</small> <br></br>
+                    <small>Do certify that all information are <strong>COMPLETE, CORRECT & VALID</strong>.</small>
+                <div style={{display: "flex", justifyContent:"center"}}>
+                    <Btn className="red" onClick={(e) => submitPlayer(e)} 
+                    style={{background: "green", color:"white", marginRight:"1rem"}} >
+                    PROCEED
+                    </Btn>
+                    <Btn className="green" 
+                    onClick={toggleModal} 
+                    style={{background: "red", color:"white", marginRight:"1rem", }}>
+                    CANCEL
+                    </Btn>
+                </div>
+                </ModalBody>
+            </Modal>
       <Content>
         <ContentHeader title={"Update Player Profile"}>
           <Button onClick={() => navigate("/players")}>Go Back</Button>
@@ -393,6 +439,7 @@ export const UpdatePlayer: React.FC = () => {
                         type="text"
                         name="Firstname"
                         onChange={(e) => handleChange(e)}
+                        disabled={disable}
                         value={
                           inputObject?.Firstname}
                       />
@@ -402,6 +449,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="Lastname"
+                        disabled={disable}
                         onChange={(e) => handleChange(e)}
                         value={
                           inputObject?.Lastname
@@ -413,17 +461,20 @@ export const UpdatePlayer: React.FC = () => {
                       <Input
                         type="text"
                         name="MiddleName"
+                        disabled={disable}
                         onChange={(e) => handleChange(e)}
                         value={inputObject?.MiddleName}
                       />
                     </FormHolder>
                     <FormHolder>
                       <Label>DATE OF BIRTH
+                        
                         <span>{moment(inputObject?.DateOfBirth).format("LL")}({inputObject?.Age} Years)</span>
                       </Label>
                       <Input
                         type="date"
                         name="DateOfBirth"
+                        disabled={disable}
                         max="2006-01-01" min="1993-12-31"
                         onChange={(e) => handleChange(e)}
                       />
@@ -446,7 +497,8 @@ export const UpdatePlayer: React.FC = () => {
                       <FormHolder>
                         <Label>STREET ADDRESS</Label>
                         <Input
-                          type="text"
+                        disabled={disable}
+                        type="text"
                           name="StreetAddress"
                           onChange={(e) => handleChange(e)}
                           required
@@ -460,6 +512,7 @@ export const UpdatePlayer: React.FC = () => {
                           name="LocalGovt"
                           onChange={(e) => handleChange(e)} required
                           value={inputObject.LocalGovt}
+                        disabled={disable}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -469,6 +522,8 @@ export const UpdatePlayer: React.FC = () => {
                           name="State"
                           onChange={(e) => handleChange(e)}
                           value={inputObject.State} required
+                        disabled={disable}
+
                         />
                       </FormHolder>
                       <FormHolder>
@@ -478,6 +533,8 @@ export const UpdatePlayer: React.FC = () => {
                           name="NearestBusStop"
                           onChange={(e) => handleChange(e)} required
                           value={inputObject.NearestBusStop}
+                        disabled={disable}
+
                         />
                       </FormHolder>
                     </Section>
@@ -491,7 +548,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="SchoolAddress"
                           onChange={(e) => handleChange(e)} required
-                          value={inputObject.SchoolAddress}
+                        disabled={disable}
+                        value={inputObject.SchoolAddress}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -500,7 +558,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="SchoolLocalGovt"
                           onChange={(e) => handleChange(e)} required
-                          value={inputObject.SchoolLocalGovt}
+                        disabled={disable}
+                        value={inputObject.SchoolLocalGovt}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -509,7 +568,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="SchoolState"
                           onChange={(e) => handleChange(e)} required
-                          value={inputObject.SchoolState}
+                        disabled={disable}
+                        value={inputObject.SchoolState}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -518,7 +578,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="SchoolNearestBusStop"
                           onChange={(e) => handleChange(e)}
-                          required
+                        disabled={disable}
+                        required
                           value={inputObject.SchoolNearestBusStop}
                         />
                       </FormHolder>
@@ -531,7 +592,8 @@ export const UpdatePlayer: React.FC = () => {
                         <Label>FULL NAME</Label>
                         <Input
                           type="text"
-                          name="FullNameOfKin"
+                        disabled={disable}
+                        name="FullNameOfKin"
                           onChange={(e) => handleChange(e)} required
                           value={inputObject.FullNameOfKin}
                         />
@@ -542,7 +604,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="KinRelationship"
                           onChange={(e) => handleChange(e)} required
-                          value={inputObject.KinRelationship}
+                        disabled={disable}
+                        value={inputObject.KinRelationship}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -551,7 +614,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="KinEmail"
                           onChange={(e) => handleChange(e)}
-                          required
+                        disabled={disable}
+                        required
                           value={inputObject.KinEmail}
                         />
                       </FormHolder>
@@ -561,7 +625,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="number"
                           name="KinPhone"
                           onChange={(e) => handleChange(e)}
-                          required
+                        disabled={disable}
+                        required
                           value={inputObject.KinPhone}
                         />
                       </FormHolder>
@@ -571,13 +636,14 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="KinAddress"
                           onChange={(e) => handleChange(e)}
-                          required
+                        disabled={disable}
+                        required
                           value={inputObject.KinAddress}
                         />
                       </Section>
                     </Section>
                     <BtnDiv>
-                      <CreateBtn type="submit">SAVE</CreateBtn>
+                      <CreateBtn type="submit" disabled={disable} className={disable ? "disabled" :"" }>SAVE</CreateBtn>
                       {/* <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
                     </CreateBtn> */}
@@ -620,7 +686,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="Genotype"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.Genotype}
+                        disabled={disable}
+                        value={inputObject.Genotype}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -629,7 +696,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="BloodGroup"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.BloodGroup}
+                        disabled={disable}
+                        value={inputObject.BloodGroup}
                         />
                       </FormHolder>
                       <Section>
@@ -638,12 +706,13 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="AnyAllergies"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.AnyAllergies}
+                        disabled={disable}
+                        value={inputObject.AnyAllergies}
                         />
                       </Section>
                     </Section>
                     <BtnDiv>
-                      <CreateBtn type="submit">SAVE</CreateBtn>
+                      <CreateBtn disabled={disable} className={disable ? "disabled" :"" } type="submit">SAVE</CreateBtn>
                     </BtnDiv>
                   </Form>
                 ) : (
@@ -656,12 +725,14 @@ export const UpdatePlayer: React.FC = () => {
                       <Input type="text"
                         name="MatricNumber"
                         onChange={(e) => handleChange(e)}
+                        disabled={disable}
                         value={inputObject.MatricNumber} />
                     </FormHolder>
                     <FormHolder>
                       <Label>JAMB REGISTRATION NUMBER</Label>
                       <Input type="text"
                         name="JambRegNumber"
+                        disabled={disable}
                         onChange={(e) => handleChange(e)}
                         value={inputObject.JambRegNumber} />
                     </FormHolder>
@@ -669,6 +740,7 @@ export const UpdatePlayer: React.FC = () => {
                       <Label>COURSE LEVEL</Label>
                       <Input type="text"
                         name="CourseLevel"
+                        disabled={disable}
                         onChange={(e) => handleChange(e)}
                         value={inputObject.CourseLevel} />
                     </FormHolder>
@@ -676,12 +748,14 @@ export const UpdatePlayer: React.FC = () => {
                       <Label>SCHOOL PORTAL ID</Label>
                       <Input type="text"
                         name="SchoolPortalID"
+                        disabled={disable}
                         onChange={(e) => handleChange(e)}
                         value={inputObject.SchoolPortalID} />
                     </FormHolder>
                     <FormHolder>
                       <Label>COURSE STUDY</Label>
                       <Input type="text"
+                        disabled={disable}
                         name="CourseStudy"
                         onChange={(e) => handleChange(e)}
                         value={inputObject.CourseStudy}
@@ -691,12 +765,15 @@ export const UpdatePlayer: React.FC = () => {
                       <Label>SCHOOL PORTAL PASSWORD</Label>
                       <Input type="text"
                         name="SchoolPortalPassword"
+                        disabled={disable}
                         onChange={(e) => handleChange(e)}
                         value={inputObject.SchoolPortalPassword} />
                     </FormHolder>
                     <FormHolder>
                       <Label>PROGRAMME</Label>
-                      <Select onChange={(e) => handleChange(e)} value={inputObject.Programme} name="Programme">
+                      <Select 
+                        disabled={disable}
+                      onChange={(e) => handleChange(e)} value={inputObject.Programme}  name="Programme">
                         <option >Select Programme</option>
                         <option value="Undergraduate">Undergraduate</option>
                         <option value="Post-Graduate">Post-Graduate</option>
@@ -705,12 +782,13 @@ export const UpdatePlayer: React.FC = () => {
                     <FormHolder>
                       <Label>COURSE FACULTY</Label>
                       <Input type="text"
+                        disabled={disable}
                         name="CourseFaculty"
                         onChange={(e) => handleChange(e)}
                         value={inputObject.CourseFaculty} />
                     </FormHolder>
                     <BtnDiv>
-                      <CreateBtn type="submit">SAVE</CreateBtn>
+                      <CreateBtn disabled={disable} className={disable ? "disabled" :"" } type="submit">SAVE</CreateBtn>
                     </BtnDiv>
                   </Form>
                 ) : (
@@ -829,11 +907,15 @@ export const UpdatePlayer: React.FC = () => {
                       </FormHolder>
                       <BtnDiv>
                         <Section>
-                          <CreateBtn type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
+                          <CreateBtn disabled={disable}  className={disable ? "disabled" :"" }type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
                         </Section>
-                        {/* <CreateBtn type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn> */}
                       </BtnDiv>
                     </Form>
+                    <BtnDiv>
+                       <CreateBtn className={disable ? "disabled" :"submit" } onClick={toggleModal} disabled={disable} >
+                      SUBMIT FOR ACCREDITATION
+                    </CreateBtn>
+                      </BtnDiv>
                   </>
                 ) : (
                   ""

@@ -31,7 +31,9 @@ export const Card = styled.div`
     border-radius: 5px;
     cursor: pointer;
     transition: opacity .3s;
-    margin-bottom: .5rem;
+    margin-bottom: .2rem;
+    box-shadow: 0 15px 30px 0 rgba(0, 0, 0, 0.11), 0 5px 15px 0 rgba(0, 0, 0, 0.08);
+
     &:hover{
     }
 `
@@ -88,6 +90,10 @@ export const Small = styled.p`
     `;
     export const Div = styled.div`
     display: flex;
+    width: 40%;
+    @media(max-width: 930px) {
+        width: 100%;
+    }
     `;
     export const SideText = styled.div`
     @media(max-width: 700px) {

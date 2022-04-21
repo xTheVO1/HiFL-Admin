@@ -20,7 +20,6 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import Player from "../../assests/player.png";
 import { getOfficialById, updateOfficials } from "../../redux/actions/officials";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
@@ -255,7 +254,7 @@ export const UpdateOfficial: React.FC = () => {
         payload: data.data
       })
     } catch (error: any) {
-      ErrorPopUp(error.response.data.message)
+      ErrorPopUp(error.response.data)
       return dispatch({
         type: POST_FILE_FAILED,
         payload: error

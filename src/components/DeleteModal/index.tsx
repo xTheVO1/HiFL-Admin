@@ -11,7 +11,7 @@ import { Btn } from '../playerCard/style';
   
 interface PropsType {
     toggle: any;
-    id: string;
+    id: any;
     modal: boolean;
 }
 function DeleteModal({toggle, id, modal}: PropsType) {
