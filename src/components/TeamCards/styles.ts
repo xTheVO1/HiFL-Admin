@@ -23,7 +23,7 @@ export const Card = styled.div`
     background: ${props => props.theme.colors.secondary};
     padding: 2.5rem .5rem;
     display: flex;
-    width: 31%;
+    width: 48%;
     border-radius: 5px;
     cursor: pointer;
     transition: opacity .3s;
