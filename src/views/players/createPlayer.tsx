@@ -52,6 +52,15 @@ export const AddPlayer: React.FC = () => {
     const teamId = sessionStorage.getItem("Teamid");
     const newAge = moment(object?.DateOfBirth).fromNow(true).split(" ")
     e.preventDefault();
+    function makeid(length: any) {
+      var result = [];
+      var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijlmnopqrstuvwxyz0123456789';
+      var charactersLength = characters.length;
+      for (var i = 0; i < length; i++) {
+        result.push(characters.charAt(Math.floor(Math.random() * charactersLength)));
+      }
+      return result.join('');
+    }
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
@@ -93,7 +102,7 @@ export const AddPlayer: React.FC = () => {
         CourseLevel: "",
         CourseStudy: "",
         MatricNumber: "",
-        JambRegNumber: "",
+        JambRegNumber:  makeid(6),
         CourseFaculty: "",
         Programme: "",
         SchoolPortalID:"",
@@ -298,7 +307,7 @@ export const AddPlayer: React.FC = () => {
                 <FormHolder>
                   <Label>EMAIL</Label>
                   <Input
-                    type="text"
+                    type="email"
                     name="KinEmail"
                     required
                     onChange={(e) => handleChange(e)}
