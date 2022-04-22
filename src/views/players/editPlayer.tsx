@@ -883,7 +883,7 @@ export const UpdatePlayer: React.FC = () => {
                           type="file"
                           name="schoolid"
                           onChange={(e) => onImageChange(e)}
-                          accept=".pdf"
+                          accept=".pdf .png, .jpg, .jpeg"
 
                         />
                       </FormHolder>
