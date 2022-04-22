@@ -902,7 +902,7 @@ export const UpdatePlayer: React.FC = () => {
                           type="file"
                           name="jambphotograph"
                           onChange={(e) => onImageChange(e)}
-                          accept=".pdf"
+                          accept=".pdf .png, .jpg, .jpeg"
                         />
                       </FormHolder>
                       <BtnDiv>
