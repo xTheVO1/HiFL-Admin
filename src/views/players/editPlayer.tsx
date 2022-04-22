@@ -251,6 +251,7 @@ export const UpdatePlayer: React.FC = () => {
     };
     setModal(!modal);
     dispatch(updatePlayer(details));
+    navigate("/players")
     // dispatch(getPlayerById(id));
   };
 
