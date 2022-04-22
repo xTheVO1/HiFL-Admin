@@ -251,6 +251,7 @@ export const UpdatePlayer: React.FC = () => {
     };
     setModal(!modal);
     dispatch(updatePlayer(details));
+    navigate("/players")
     // dispatch(getPlayerById(id));
   };
 
@@ -883,7 +884,7 @@ export const UpdatePlayer: React.FC = () => {
                           type="file"
                           name="schoolid"
                           onChange={(e) => onImageChange(e)}
-                          accept=".pdf"
+                          accept=".pdf .png, .jpg, .jpeg"
 
                         />
                       </FormHolder>
@@ -902,7 +903,7 @@ export const UpdatePlayer: React.FC = () => {
                           type="file"
                           name="jambphotograph"
                           onChange={(e) => onImageChange(e)}
-                          accept=".pdf"
+                          accept=".pdf .png, .jpg, .jpeg"
                         />
                       </FormHolder>
                       <BtnDiv>
