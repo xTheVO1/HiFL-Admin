@@ -16,6 +16,7 @@ import {
   Section,
   Red,
   Green,
+  FilesHolder,
 
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
@@ -90,7 +91,6 @@ export const UpdateOfficial: React.FC = () => {
       dispatch(getOfficialById(id));
     }
     getOfficial();
-
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -306,6 +306,14 @@ export const UpdateOfficial: React.FC = () => {
                         <Image src={Player} alt="players" />
                       </FormHolder>
                     </Section> */}
+                    <Section className="flex">
+                        <FilesHolder>
+                        {!files.passportphotograph ? <div className="no-files"><h3>PASSPORT</h3></div> : <img src={files.passportphotograph} alt="players"/>}
+                        </FilesHolder>
+                        <FilesHolder>
+                        {!files.schoolid ? <div className="no-files"><h3>SCHOOLID</h3></div> : <img src={files.schoolid} alt="School ID"/>}
+                        </FilesHolder>
+                    </Section>
                     <FormHolder>
                       <Label>FIRST NAME </Label>
                       <Input type="text" name="Firstname" onChange={(e) => handleChange(e)} required value={inputObject.Firstname} />

@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "../views/Login";
-import { Dashboard } from "../views/dashboard";
 import { PrivateRoute } from "./privateRoutes";
 import TeamManager from "../views/teams";
 import { Players } from "../views/players";
