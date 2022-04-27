@@ -19,11 +19,11 @@ import {
   Select,
   Red,
   Green,
+  FilesHolder,
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
 import { getPlayerById, updatePlayer } from "../../redux/actions/players";
-import { postFile } from "../../redux/actions/fileUpload"
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -39,9 +39,10 @@ import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 import { Btn } from "../../components/playerCard/style";
 import {
-  Modal, 
+  Modal,
   ModalHeader, ModalBody
 } from "reactstrap";
+
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
@@ -52,8 +53,8 @@ export const UpdatePlayer: React.FC = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [fileLoading, setLoading] = useState(false);
   const mainData = singlePlayer ? singlePlayer : {};
-  const [modal, setModal] =useState(false);
-  const [disable, setDisable] =useState(false);
+  const [modal, setModal] = useState(false);
+  const [disable, setDisable] = useState(false);
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",
@@ -287,8 +288,8 @@ export const UpdatePlayer: React.FC = () => {
       formData.append(
         "jambphotograph",
         files.jambphotograph
-        )
-      }
+      )
+    }
     //   for (var pair of formData.entries()) {
     //     console.log(pair[0]+ ', ' + pair[1]); 
     // }
@@ -360,36 +361,36 @@ export const UpdatePlayer: React.FC = () => {
 
   }
 
-   // Toggle for Modal
-   const toggleModal = () => {
+  // Toggle for Modal
+  const toggleModal = () => {
     setModal(!modal);
   }
 
   return (
     <Container>
-   <Modal isOpen={modal}
-                toggle={toggleModal}
-                modalTransition={{ timeout: 2000 }}>
-                    <ModalHeader>
-                       ACCREDITATION
-                    </ModalHeader>
-                <ModalBody style={{textAlign: "center"}}>
-                    <small>You are attempting to submit this player for accreditation.</small> <br></br>
-                    <small >Please <strong>note that you will no longer be able to edit this player information</strong>.</small> <br></br>
-                    <small>Do certify that all information are <strong>COMPLETE, CORRECT & VALID</strong>.</small>
-                <div style={{display: "flex", justifyContent:"center"}}>
-                    <Btn className="red" onClick={(e) => submitPlayer(e)} 
-                    style={{background: "green", color:"white", marginRight:"1rem"}} >
-                    PROCEED
-                    </Btn>
-                    <Btn className="green" 
-                    onClick={toggleModal} 
-                    style={{background: "red", color:"white", marginRight:"1rem", }}>
-                    CANCEL
-                    </Btn>
-                </div>
-                </ModalBody>
-            </Modal>
+      <Modal isOpen={modal}
+        toggle={toggleModal}
+        modalTransition={{ timeout: 2000 }}>
+        <ModalHeader>
+          ACCREDITATION
+        </ModalHeader>
+        <ModalBody style={{ textAlign: "center" }}>
+          <small>You are attempting to submit this player for accreditation.</small> <br></br>
+          <small >Please <strong>note that you will no longer be able to edit this player information</strong>.</small> <br></br>
+          <small>Do certify that all information are <strong>COMPLETE, CORRECT & VALID</strong>.</small>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Btn className="red" onClick={(e) => submitPlayer(e)}
+              style={{ background: "green", color: "white", marginRight: "1rem" }} >
+              PROCEED
+            </Btn>
+            <Btn className="green"
+              onClick={toggleModal}
+              style={{ background: "red", color: "white", marginRight: "1rem", }}>
+              CANCEL
+            </Btn>
+          </div>
+        </ModalBody>
+      </Modal>
       <Content>
         <ContentHeader title={"Update Player Profile"}>
           <Button onClick={() => navigate("/players")}>Go Back</Button>
@@ -428,11 +429,16 @@ export const UpdatePlayer: React.FC = () => {
               <Outlet>
                 {activeTab === "tab1" ? (
                   <Form onSubmit={editPlayer}>
-                    <Section>
-                      <FormHolder>
-                        {/* <Image src={!inputObject.PassportPhotograph ? `https://hifl-temp.herokuapp.com/api/v1/${mainData.DocumentUploads.PassportPhotograph}` : `https://hifl-temp.herokuapp.com/api/v1/${inputObject.PassportPhotograph}`} alt="players" /> */}
-                        {/* <Image src={"https://prod-hiv.fra1.digitaloceanspaces.com/hifl-fileserver/jhaga/plojd_B6J340GJB5_.png"} alt="players" /> */}
-                      </FormHolder>
+                    <Section className="flex">
+                        <FilesHolder>
+                        {!files.passportphotograph ? <div className="no-files"><h3>PASSPORT</h3></div> : <img src={files.passportphotograph} alt="players"/>}
+                        </FilesHolder>
+                        <FilesHolder>
+                        {!files.jambphotograph ? <div className="no-files"><h3>JAMB PHOTO</h3></div> : <img src={files.jambphotograph} alt="players"/>}
+                        </FilesHolder>
+                        <FilesHolder>
+                        {!files.schoolid ? <div className="no-files"><h3>SCHOOLID</h3></div> : <img src={files.schoolid} alt="players"/>}
+                        </FilesHolder>
                     </Section>
                     <FormHolder>
                       <Label>FIRST NAME </Label>
@@ -469,7 +475,6 @@ export const UpdatePlayer: React.FC = () => {
                     </FormHolder>
                     <FormHolder>
                       <Label>DATE OF BIRTH
-                        
                         <span>{moment(inputObject?.DateOfBirth).format("LL")}({inputObject?.Age} Years)</span>
                       </Label>
                       <Input
@@ -498,8 +503,8 @@ export const UpdatePlayer: React.FC = () => {
                       <FormHolder>
                         <Label>STREET ADDRESS</Label>
                         <Input
-                        disabled={disable}
-                        type="text"
+                          disabled={disable}
+                          type="text"
                           name="StreetAddress"
                           onChange={(e) => handleChange(e)}
                           required
@@ -513,7 +518,7 @@ export const UpdatePlayer: React.FC = () => {
                           name="LocalGovt"
                           onChange={(e) => handleChange(e)} required
                           value={inputObject.LocalGovt}
-                        disabled={disable}
+                          disabled={disable}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -523,7 +528,7 @@ export const UpdatePlayer: React.FC = () => {
                           name="State"
                           onChange={(e) => handleChange(e)}
                           value={inputObject.State} required
-                        disabled={disable}
+                          disabled={disable}
 
                         />
                       </FormHolder>
@@ -534,7 +539,7 @@ export const UpdatePlayer: React.FC = () => {
                           name="NearestBusStop"
                           onChange={(e) => handleChange(e)} required
                           value={inputObject.NearestBusStop}
-                        disabled={disable}
+                          disabled={disable}
 
                         />
                       </FormHolder>
@@ -549,8 +554,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="SchoolAddress"
                           onChange={(e) => handleChange(e)} required
-                        disabled={disable}
-                        value={inputObject.SchoolAddress}
+                          disabled={disable}
+                          value={inputObject.SchoolAddress}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -559,8 +564,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="SchoolLocalGovt"
                           onChange={(e) => handleChange(e)} required
-                        disabled={disable}
-                        value={inputObject.SchoolLocalGovt}
+                          disabled={disable}
+                          value={inputObject.SchoolLocalGovt}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -569,8 +574,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="SchoolState"
                           onChange={(e) => handleChange(e)} required
-                        disabled={disable}
-                        value={inputObject.SchoolState}
+                          disabled={disable}
+                          value={inputObject.SchoolState}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -579,8 +584,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="SchoolNearestBusStop"
                           onChange={(e) => handleChange(e)}
-                        disabled={disable}
-                        required
+                          disabled={disable}
+                          required
                           value={inputObject.SchoolNearestBusStop}
                         />
                       </FormHolder>
@@ -593,8 +598,8 @@ export const UpdatePlayer: React.FC = () => {
                         <Label>FULL NAME</Label>
                         <Input
                           type="text"
-                        disabled={disable}
-                        name="FullNameOfKin"
+                          disabled={disable}
+                          name="FullNameOfKin"
                           onChange={(e) => handleChange(e)} required
                           value={inputObject.FullNameOfKin}
                         />
@@ -605,8 +610,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="KinRelationship"
                           onChange={(e) => handleChange(e)} required
-                        disabled={disable}
-                        value={inputObject.KinRelationship}
+                          disabled={disable}
+                          value={inputObject.KinRelationship}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -615,8 +620,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="KinEmail"
                           onChange={(e) => handleChange(e)}
-                        disabled={disable}
-                        required
+                          disabled={disable}
+                          required
                           value={inputObject.KinEmail}
                         />
                       </FormHolder>
@@ -626,8 +631,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="number"
                           name="KinPhone"
                           onChange={(e) => handleChange(e)}
-                        disabled={disable}
-                        required
+                          disabled={disable}
+                          required
                           value={inputObject.KinPhone}
                         />
                       </FormHolder>
@@ -637,14 +642,14 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="KinAddress"
                           onChange={(e) => handleChange(e)}
-                        disabled={disable}
-                        required
+                          disabled={disable}
+                          required
                           value={inputObject.KinAddress}
                         />
                       </Section>
                     </Section>
                     <BtnDiv>
-                      <CreateBtn type="submit" disabled={disable} className={disable ? "disabled" :"" }>SAVE</CreateBtn>
+                      <CreateBtn type="submit" disabled={disable} className={disable ? "disabled" : ""}>SAVE</CreateBtn>
                       {/* <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
                     </CreateBtn> */}
@@ -687,8 +692,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="Genotype"
                           onChange={(e) => handleChange(e)}
-                        disabled={disable}
-                        value={inputObject.Genotype}
+                          disabled={disable}
+                          value={inputObject.Genotype}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -697,8 +702,8 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="BloodGroup"
                           onChange={(e) => handleChange(e)}
-                        disabled={disable}
-                        value={inputObject.BloodGroup}
+                          disabled={disable}
+                          value={inputObject.BloodGroup}
                         />
                       </FormHolder>
                       <Section>
@@ -707,13 +712,13 @@ export const UpdatePlayer: React.FC = () => {
                           type="text"
                           name="AnyAllergies"
                           onChange={(e) => handleChange(e)}
-                        disabled={disable}
-                        value={inputObject.AnyAllergies}
+                          disabled={disable}
+                          value={inputObject.AnyAllergies}
                         />
                       </Section>
                     </Section>
                     <BtnDiv>
-                      <CreateBtn disabled={disable} className={disable ? "disabled" :"" } type="submit">SAVE</CreateBtn>
+                      <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
                     </BtnDiv>
                   </Form>
                 ) : (
@@ -772,9 +777,9 @@ export const UpdatePlayer: React.FC = () => {
                     </FormHolder>
                     <FormHolder>
                       <Label>PROGRAMME</Label>
-                      <Select 
+                      <Select
                         disabled={disable}
-                      onChange={(e) => handleChange(e)} value={inputObject.Programme}  name="Programme">
+                        onChange={(e) => handleChange(e)} value={inputObject.Programme} name="Programme">
                         <option >Select Programme</option>
                         <option value="Undergraduate">Undergraduate</option>
                         <option value="Post-Graduate">Post-Graduate</option>
@@ -789,7 +794,7 @@ export const UpdatePlayer: React.FC = () => {
                         value={inputObject.CourseFaculty} />
                     </FormHolder>
                     <BtnDiv>
-                      <CreateBtn disabled={disable} className={disable ? "disabled" :"" } type="submit">SAVE</CreateBtn>
+                      <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
                     </BtnDiv>
                   </Form>
                 ) : (
@@ -811,45 +816,45 @@ export const UpdatePlayer: React.FC = () => {
                           <tbody>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!files?.jambphotograph ? <MdFolder /> :<a href={files?.jambphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>Jamb Photograph</td>
-                              <td>{!files?.jambphotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.jambphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
                               <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>School ID Card</td>
-                              <td>{!files?.schoolid  ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!files?.jambslip ? <MdFolder /> :<a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /></a> }</td>
+                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>Jamb Result Slip</td>
-                              <td>{!files?.jambslip ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.jambslip ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!files?.passportphotograph ? <MdFolder /> :<a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>Passport Photograph</td>
-                              <td>{!files?.passportphotograph ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.passportphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!files?.medicalcertificate ? <MdFolder /> :<a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>Medical Certificate</td>
-                              <td>{!files?.medicalcertificate ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.medicalcertificate ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row"></th>
-                              <td>{!files?.latestcourseregistration ? <MdFolder /> :<a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><MdFolder /></a>}</td>
+                              <td>{!files?.latestcourseregistration ? <MdFolder /> : <a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><MdFolder /></a>}</td>
                               <td>Latest Course Registration</td>
-                              <td>{!files?.latestcourseregistration ? <Red ><MdCancel/></Red> : <Green><MdCheck /></Green>}</td>
+                              <td>{!files?.latestcourseregistration ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                           </tbody>
                         </Table>
                       </Section>
                       <Section>
-                      <h3>Upload Documents</h3>
+                        <h3>Upload Documents</h3>
                       </Section>
                       <FormHolder>
                         <Label>Medical Certificate</Label>
@@ -908,15 +913,15 @@ export const UpdatePlayer: React.FC = () => {
                       </FormHolder>
                       <BtnDiv>
                         <Section>
-                          <CreateBtn disabled={disable}  className={disable ? "disabled" :"" }type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
+                          <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
                         </Section>
                       </BtnDiv>
                     </Form>
                     <BtnDiv>
-                       <CreateBtn className={disable ? "disabled" :"submit" } onClick={toggleModal} disabled={disable} >
-                      SUBMIT FOR ACCREDITATION
-                    </CreateBtn>
-                      </BtnDiv>
+                      <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
+                        SUBMIT FOR ACCREDITATION
+                      </CreateBtn>
+                    </BtnDiv>
                   </>
                 ) : (
                   ""
