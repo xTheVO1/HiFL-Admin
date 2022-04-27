@@ -42,6 +42,7 @@ import {
   Modal,
   ModalHeader, ModalBody
 } from "reactstrap";
+
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
