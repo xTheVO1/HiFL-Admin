@@ -90,6 +90,8 @@ export const UpdateOfficial: React.FC = () => {
   const fileData = useSelector((state: RootState) => state.files)
   const { loading, official } = store;
   const { fileLoading } = fileData;
+  const data: any = sessionStorage.getItem("userData");
+  const user = JSON.parse(data);
 
   useEffect(() => {
     const getOfficial = async () => {
@@ -346,6 +348,14 @@ const submitOfficial = async (e: any) => {
               >
                 DOCUMENT UPLOADS
               </List>
+              {user.Role === "Accreditor" ? 
+              <List
+                className={activeTab === "tab4" ? "active" : ""}
+                onClick={() => changeTab("tab4")}
+              >
+                ACCREDITATION
+              </List>
+              : ""}
             </Nav>
             <Outlet>
               {activeTab === "tab1" ? (
@@ -567,7 +577,11 @@ const submitOfficial = async (e: any) => {
               ) : (
                 ""
               )}
-
+              {activeTab === "tab4" ? 
+                  <div>
+                    <h4>Accredit Officials</h4>
+                  </div> 
+                  : ""}
             </Outlet>
           </Tab>
         }

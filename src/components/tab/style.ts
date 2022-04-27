@@ -58,6 +58,10 @@ text-align: left;
     font-size: .6rem;
      padding: .65rem 1.5rem;
   }
+  @media (min-width: 1111px) and (max-width: 1413px) {
+    font-size: .7rem;
+     padding: .65rem 1.5rem;
+  }
 `
 
 // export const List = styled.li`

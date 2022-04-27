@@ -12,7 +12,7 @@ import logoImg from "../../assests/logo.png";
 import { MdOutlineLogout, MdClose, MdMenu } from "react-icons/md";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { teamManagerMenu, AdminMenu, SuperAdminMenu } from "../../utils/menu";
+import { teamManagerMenu, AdminMenu, SuperAdminMenu, AccreditorMenu } from "../../utils/menu";
 
 export default function Aside() {
     const [toggleMenuOpened, setToggleMenuOpened] = useState<boolean>(false)
@@ -32,16 +32,6 @@ export default function Aside() {
           {toggleMenuOpened ? <MdClose /> : <MdMenu />}
         </ToggleMenu>
         <LogoImg src={logoImg} alt="Logo Application" />
-        {/*
-
-        <TitleHeader>
-                    ADMIN
-                </TitleHeader>
-                <SideImage>
-                            <Image src={dashboard} alt="dashboard " />
-                        </SideImage>
-
-                */}
       </Header>
       <MenuNavigator>
         {user.Role === "TeamManager" ? (
@@ -67,7 +57,16 @@ export default function Aside() {
               </MenuItemLink>
             ))
           : ""}
-        {user.Role === "SuperAdmin"
+        {user.Role === "Accreditor"
+          ? AccreditorMenu &&
+          AccreditorMenu.map((menu) => (
+              <MenuItemLink href={menu.href} key={menu.id}>
+                {menu.icon}
+                {menu.title}
+              </MenuItemLink>
+            ))
+          : ""}
+          {user.Role === "SuperAdmin"
           ? SuperAdminMenu &&
             SuperAdminMenu.map((menu) => (
               <MenuItemLink href={menu.href} key={menu.id}>
