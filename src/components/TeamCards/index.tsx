@@ -20,8 +20,6 @@ function TeamCard({
   TeamLogo,
 }: TeamCardPropsType) {
   const navigate = useNavigate();
-  const data: any = sessionStorage.getItem("userData");
-  const user = JSON.parse(data);
   
   const viewPlayers = () => {
     sessionStorage.removeItem("Teamid");

@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const Container = styled.div`
    width: 100%; 
    background: white;
@@ -49,7 +48,7 @@ export const FileInput = styled.input`
   
 `;
 export const Select = styled.select`
-border: 1px solid ${props => props.theme.colors.gray};
+    border: 1px solid ${props => props.theme.colors.gray};
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -135,8 +134,7 @@ export const BtnDiv = styled.div`
   margin-top: 2rem;
   & .submit{
     background: #FFB422;
-    color: black;
-    
+    color: black;   
 }
 .disabled{
     background: ${props => props.theme.colors.gray};

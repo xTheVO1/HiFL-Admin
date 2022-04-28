@@ -161,7 +161,7 @@ export const UpdateOfficial: React.FC = () => {
       NextOfKin: {
         FullNameOfKin: inputObject.FullNameOfKin,
         KinRelationship: inputObject.KinRelationship,
-        kinContact: {
+        KinContact: {
           PhoneNumber: inputObject.KinPhone,
           Email: inputObject.KinEmail,
           Address: inputObject.KinAddress
@@ -185,7 +185,6 @@ export const UpdateOfficial: React.FC = () => {
       }
     }
     }
-    
     dispatch(updateOfficials(details));
     dispatch(getOfficialById(id));
   }
@@ -458,7 +457,7 @@ const submitOfficial = async (e: any) => {
                       </FormHolder>
                       <Section>
                         <Label>ADDRESS</Label>
-                        <Input  disabled={disable} type="text" name="kinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress} />
+                        <Input  disabled={disable} type="text" name="KinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress} />
                       </Section>
                     </Section>
                     <BtnDiv>
@@ -527,19 +526,19 @@ const submitOfficial = async (e: any) => {
                       <tbody>
                         <tr  >
                           <th scope="row"></th>
-                          <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank"><MdFolder /></a>}</td>
+                          <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                           <td>School ID Card</td>
                           <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                         <tr  >
                           <th scope="row"></th>
-                          <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank"><MdFolder /></a>}</td>
+                          <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                           <td>Passport Photograph</td>
                           <td>{!files?.passportphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                         <tr  >
                           <th scope="row"></th>
-                          <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank"><MdFolder /></a>}</td>
+                          <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                           <td>Medical Certificate</td>
                           <td>{!files?.medicalcertificate ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
