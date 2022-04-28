@@ -62,7 +62,6 @@ export const UpdateOfficial: React.FC = () => {
     State: "",
     LocalGovt: "",
     SchLGA: "",
-    Dateofbirth: 0,
     Age: 0,
     FullNameOfKin: "",
     KinRelationship: "",
@@ -150,13 +149,16 @@ export const UpdateOfficial: React.FC = () => {
 
   const editOfficial = (e: any) => {
     e.preventDefault();
+
+    const newAge = moment(inputObject?.DateOfBirth).fromNow(true).split(" ")
+
     const details = {
       _id: id,
       params:{
       Position: inputObject.Position,
       // Phonenumber: object.phone,
-      DateOfBirth: inputObject.Dateofbirth,
-      Age: inputObject.Age,
+      DateOfBirth: inputObject.DateOfBirth,
+      Age: parseInt(newAge[0]),
       TermsAndConditions: true,
       NextOfKin: {
         FullNameOfKin: inputObject.FullNameOfKin,
