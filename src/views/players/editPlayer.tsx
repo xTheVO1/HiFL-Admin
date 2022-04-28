@@ -55,6 +55,9 @@ export const UpdatePlayer: React.FC = () => {
   const mainData = singlePlayer ? singlePlayer : {};
   const [modal, setModal] = useState(false);
   const [disable, setDisable] = useState(false);
+  const data: any = sessionStorage.getItem("userData");
+  const user = JSON.parse(data);
+
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",
@@ -105,9 +108,7 @@ export const UpdatePlayer: React.FC = () => {
     const getOfficial = async () => {
       dispatch(getPlayerById(id));
     };
-
     getOfficial();
-
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -424,6 +425,14 @@ export const UpdatePlayer: React.FC = () => {
               >
                 DOCUMENT UPLOADS
               </List>
+              {user.Role === "Accreditor" ? 
+              <List
+                className={activeTab === "tab5" ? "active" : ""}
+                onClick={() => changeTab("tab5")}
+              >
+                ACCREDITATION
+              </List>
+              : ""}
             </Nav>
             {!mainData ? "" :
               <Outlet>
@@ -926,6 +935,11 @@ export const UpdatePlayer: React.FC = () => {
                 ) : (
                   ""
                 )}
+                  {activeTab === "tab5" ? 
+                  <div>
+                    <h4>Accredit Players</h4>
+                  </div> 
+                  : ""}
               </Outlet>
             }
           </Tab>
