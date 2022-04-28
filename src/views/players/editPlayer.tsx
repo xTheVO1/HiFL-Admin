@@ -334,11 +334,17 @@ export const UpdatePlayer: React.FC = () => {
       })
     }
   }
+
   const positions = [
     { type: "Forward", value: "FW" },
     { type: "Midfielder", value: "MF" },
     { type: "Defender", value: "DF" },
     { type: "Goal Keeper", value: "GK" }
+  ]
+
+  const status = [
+    { type: "APPROVED", value: "Approved" },
+    { type: "DISAPPROVED", value: "Disapproved" }
   ]
 
   const onImageChange = async (event: any) => {
@@ -936,9 +942,34 @@ export const UpdatePlayer: React.FC = () => {
                   ""
                 )}
                   {activeTab === "tab5" ? 
-                  <div>
-                    <h4>Accredit Players</h4>
-                  </div> 
+                    <Form onSubmit={editPlayer}>
+                    <Section>
+                      <FormHolder>
+                        <Label>APPROVAL</Label>
+                        <Select
+                          name="Approval"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.Position}
+                        >
+                          <option>Select a status</option>
+                          {status.map(item => (
+                            <option value={item.value}>{item.type}</option>
+                          ))}
+                        </Select>
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>COMMENTS</Label>
+                        <Input
+                         type="text"
+                          name="JerseyNumber"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.JerseyNumber} />
+                      </FormHolder>
+                    </Section>
+                    <BtnDiv>
+                      <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
+                    </BtnDiv>
+                    </Form>
                   : ""}
               </Outlet>
             }

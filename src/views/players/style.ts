@@ -107,8 +107,8 @@ export const FormHolder = styled.div`
 `;
 
 export const FilesHolder = styled.div`
-    width: 30%;
-    height: 180px;
+    width: 250px;
+    height: 250px;
     margin-bottom: 1.5rem;
     img{
         width: 100%;
@@ -125,8 +125,11 @@ export const FilesHolder = styled.div`
         color: white;
         text-align: center;
         padding: 30% 0;
+        width: 250px;
+        height: 250px;
     }
 `
+
 export const BtnDiv = styled.div`
   display: flex;
   justify-content: flex-end;
