@@ -73,7 +73,7 @@ export const Players: React.FC = () => {
               {" "}MANAGE OFFICIALS</p>
           </div>
         </Table>
-        <ContentHeader title={activeTab === "OFFICIAL" ? "OFFICIAL" : "PLAYER"} >
+        <ContentHeader title={activeTab === "OFFICIAL" ? `OFFICIALS (${officialData.length})` : `PLAYERS (${mainData.length})`} >
           <CreateBtn onClick={activeTab === "OFFICIAL" ? addOfficial : addPlayer}>REGISTER {activeTab === "OFFICIAL" ? "OFFICIAL" : "PLAYER"}</CreateBtn>
         </ContentHeader>
         <Table>

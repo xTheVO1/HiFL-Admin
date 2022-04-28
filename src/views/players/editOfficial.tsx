@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-
+import {
+  Modal,
+  ModalHeader, ModalBody
+} from "reactstrap";
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -16,6 +19,7 @@ import {
   Section,
   Red,
   Green,
+  FilesHolder,
 
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
@@ -35,11 +39,14 @@ import {
 } from "../../redux/actions/actionTypes";
 import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
+import { Btn } from "../../components/playerCard/style";
 
 export const UpdateOfficial: React.FC = () => {
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState("tab1");
   const [, refresh] = useState("");
+  const [modal, setModal] = useState(false);
+  const [disable, setDisable] = useState(false);
   const [inputObject, setObject] = useState({
     Firstname: "",
     Lastname: "",
@@ -55,7 +62,6 @@ export const UpdateOfficial: React.FC = () => {
     State: "",
     LocalGovt: "",
     SchLGA: "",
-    Dateofbirth: 0,
     Age: 0,
     FullNameOfKin: "",
     KinRelationship: "",
@@ -83,14 +89,14 @@ export const UpdateOfficial: React.FC = () => {
   const fileData = useSelector((state: RootState) => state.files)
   const { loading, official } = store;
   const { fileLoading } = fileData;
-  const teamId = sessionStorage.getItem("Teamid");
+  const data: any = sessionStorage.getItem("userData");
+  const user = JSON.parse(data);
 
   useEffect(() => {
     const getOfficial = async () => {
       dispatch(getOfficialById(id));
     }
     getOfficial();
-
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -101,8 +107,9 @@ export const UpdateOfficial: React.FC = () => {
       NextOfKin,
       MedicalRecord,
       DocumentUploads,
-      SportRecord, MiddleName, User, DateOfBirth, Age
+      SportRecord, MiddleName, User, DateOfBirth, Age, isCompleted
     } = data;
+    setDisable(isCompleted);
     setObject({
       ...inputObject,
       Age: Age,
@@ -130,6 +137,7 @@ export const UpdateOfficial: React.FC = () => {
       BloodGroup: MedicalRecord?.BloodGroup,
       AnyAllergies: MedicalRecord?.AnyAllergies
     });
+    
     setFileUpload({
       ...files,
       passportphotograph: DocumentUploads?.PassportPhotograph,
@@ -141,17 +149,21 @@ export const UpdateOfficial: React.FC = () => {
 
   const editOfficial = (e: any) => {
     e.preventDefault();
+
+    const newAge = moment(inputObject?.DateOfBirth).fromNow(true).split(" ")
+
     const details = {
-      Team: teamId,
+      _id: id,
+      params:{
       Position: inputObject.Position,
       // Phonenumber: object.phone,
-      DateOfBirth: inputObject.Dateofbirth,
-      Age: inputObject.Age,
+      DateOfBirth: inputObject.DateOfBirth,
+      Age: parseInt(newAge[0]),
       TermsAndConditions: true,
       NextOfKin: {
         FullNameOfKin: inputObject.FullNameOfKin,
         KinRelationship: inputObject.KinRelationship,
-        kinContact: {
+        KinContact: {
           PhoneNumber: inputObject.KinPhone,
           Email: inputObject.KinEmail,
           Address: inputObject.KinAddress
@@ -174,8 +186,8 @@ export const UpdateOfficial: React.FC = () => {
         SchoolID: inputObject.SchoolID
       }
     }
-    const payload = { _id: id, params: details }
-    dispatch(updateOfficials(payload));
+    }
+    dispatch(updateOfficials(details));
     dispatch(getOfficialById(id));
   }
 
@@ -268,8 +280,49 @@ export const UpdateOfficial: React.FC = () => {
     refresh('')
   }
 
+// Toggle for Modal
+const toggleModal = () => {
+  setModal(!modal);
+}
+
+const submitOfficial = async (e: any) => {
+  e.preventDefault();
+  const details = {
+    _id: id,
+    params: {
+      isCompleted: true
+    }
+  };
+  setModal(!modal);
+  dispatch(updateOfficials(details));
+  // navigate("/players")
+  // dispatch(getPlayerById(id));
+};
   return (
     <Container>
+        <Modal isOpen={modal}
+        toggle={toggleModal}
+        modalTransition={{ timeout: 2000 }}>
+        <ModalHeader>
+          ACCREDITATION
+        </ModalHeader>
+        <ModalBody style={{ textAlign: "center" }}>
+          <small>You are attempting to submit this official for accreditation.</small> <br></br>
+          <small >Please <strong>note that you will no longer be able to edit this official information</strong>.</small> <br></br>
+          <small>Do certify that all information are <strong>COMPLETE, CORRECT & VALID</strong>.</small>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <Btn className="red" onClick={(e) => submitOfficial(e)}
+              style={{ background: "green", color: "white", marginRight: "1rem" }} >
+              PROCEED
+            </Btn>
+            <Btn className="green"
+              onClick={toggleModal}
+              style={{ background: "red", color: "white", marginRight: "1rem", }}>
+              CANCEL
+            </Btn>
+          </div>
+        </ModalBody>
+      </Modal>
       <Content>
         <ContentHeader
           title={"OFFICIAL PROFILE"}
@@ -296,37 +349,48 @@ export const UpdateOfficial: React.FC = () => {
               >
                 DOCUMENT UPLOADS
               </List>
+              {user.Role === "Accreditor" ? 
+              <List
+                className={activeTab === "tab4" ? "active" : ""}
+                onClick={() => changeTab("tab4")}
+              >
+                ACCREDITATION
+              </List>
+              : ""}
             </Nav>
             <Outlet>
               {activeTab === "tab1" ? (
                 loading ? <Loader /> :
                   <Form onSubmit={editOfficial}>
-                    {/* <Section>
-                      <FormHolder>
-                        <Image src={Player} alt="players" />
-                      </FormHolder>
-                    </Section> */}
+                    <Section className="flex">
+                        <FilesHolder>
+                        {!files.passportphotograph ? <div className="no-files"><h3>PASSPORT</h3></div> : <img src={files.passportphotograph} alt="players"/>}
+                        </FilesHolder>
+                        <FilesHolder>
+                        {!files.schoolid ? <div className="no-files"><h3>SCHOOLID</h3></div> : <img src={files.schoolid} alt="School ID"/>}
+                        </FilesHolder>
+                    </Section>
                     <FormHolder>
                       <Label>FIRST NAME </Label>
-                      <Input type="text" name="Firstname" onChange={(e) => handleChange(e)} required value={inputObject.Firstname} />
+                      <Input  disabled={disable} type="text" name="Firstname" onChange={(e) => handleChange(e)} required value={inputObject.Firstname} />
                     </FormHolder>
                     <FormHolder>
                       <Label>LAST NAME</Label>
-                      <Input type="text" name="Lastname" onChange={(e) => handleChange(e)} required value={inputObject.Lastname} />
+                      <Input  disabled={disable} type="text" name="Lastname" onChange={(e) => handleChange(e)} required value={inputObject.Lastname} />
                     </FormHolder>
                     <FormHolder>
                       <Label>MIDDLE NAME</Label>
-                      <Input type="text" name="MiddleName" onChange={(e) => handleChange(e)} required value={inputObject.MiddleName} />
+                      <Input  disabled={disable} type="text"  name="MiddleName" onChange={(e) => handleChange(e)} required value={inputObject.MiddleName} />
                     </FormHolder>
                     <FormHolder>
                       <Label>DATE OF BIRTH
                         <span>{moment(inputObject?.DateOfBirth).format("LL")}({inputObject?.Age} Years)</span>
                       </Label>
-                      <Input type="date" name="DateOfBirth" onChange={(e) => handleChange(e)} />
+                      <Input  disabled={disable} type="date" name="DateOfBirth" onChange={(e) => handleChange(e)} />
                     </FormHolder>
                     <Section>
                       <Label>EMAIL</Label>
-                      <Input type="text" name="Email" disabled={true} onChange={(e) => handleChange(e)} value={inputObject.Email} />
+                      <Input  disabled={true} type="email" name="Email" onChange={(e) => handleChange(e)} value={inputObject.Email} />
                     </Section>
                     <Section>
                       <Section>
@@ -334,19 +398,19 @@ export const UpdateOfficial: React.FC = () => {
                       </Section>
                       <FormHolder>
                         <Label>STREET ADDRESS</Label>
-                        <Input type="text" name="StreetAddress" onChange={(e) => handleChange(e)} value={inputObject.StreetAddress} />
+                        <Input  disabled={disable} type="text" name="StreetAddress" onChange={(e) => handleChange(e)} value={inputObject.StreetAddress} />
                       </FormHolder>
                       <FormHolder>
                         <Label>LOCAL GOVERNMENT</Label>
-                        <Input type="text" name="LocalGovt" required onChange={(e) => handleChange(e)} value={inputObject.LocalGovt} />
+                        <Input  disabled={disable} type="text" name="LocalGovt" required onChange={(e) => handleChange(e)} value={inputObject.LocalGovt} />
                       </FormHolder>
                       <FormHolder>
                         <Label>STATE</Label>
-                        <Input type="text" name="State" required onChange={(e) => handleChange(e)} value={inputObject.State} />
+                        <Input  disabled={disable} type="text" name="State" required onChange={(e) => handleChange(e)} value={inputObject.State} />
                       </FormHolder>
                       <FormHolder>
                         <Label>NEAREST BUSSTOP</Label>
-                        <Input type="text" name="NearestBusStop" required onChange={(e) => handleChange(e)} value={inputObject.NearestBusStop} />
+                        <Input  disabled={disable} type="text" name="NearestBusStop" required onChange={(e) => handleChange(e)} value={inputObject.NearestBusStop} />
                       </FormHolder>
                     </Section>
                     <Section>
@@ -355,19 +419,19 @@ export const UpdateOfficial: React.FC = () => {
                       </Section>
                       <FormHolder>
                         <Label>STREET ADDRESS</Label>
-                        <Input type="text" name="SchoolAddress" required onChange={(e) => handleChange(e)} value={inputObject.SchoolAddress} />
+                        <Input  disabled={disable} type="text" name="SchoolAddress" required onChange={(e) => handleChange(e)} value={inputObject.SchoolAddress} />
                       </FormHolder>
                       <FormHolder>
                         <Label>LOCAL GOVERNMENT</Label>
-                        <Input type="text" name="SchoolLocalGovt" required onChange={(e) => handleChange(e)} value={inputObject.SchoolLocalGovt} />
+                        <Input  disabled={disable} type="text" name="SchoolLocalGovt" required onChange={(e) => handleChange(e)} value={inputObject.SchoolLocalGovt} />
                       </FormHolder>
                       <FormHolder>
                         <Label>STATE</Label>
-                        <Input type="text" name="SchoolState" required onChange={(e) => handleChange(e)} value={inputObject.SchoolState} />
+                        <Input  disabled={disable} type="text" name="SchoolState" required onChange={(e) => handleChange(e)} value={inputObject.SchoolState} />
                       </FormHolder>
                       <FormHolder>
                         <Label>NEAREST BUSSTOP</Label>
-                        <Input type="text" name="SchoolNearestBusstop" required onChange={(e) => handleChange(e)} value={inputObject.SchoolNearestBusStop} />
+                        <Input  disabled={disable} type="text" name="SchoolNearestBusstop" required onChange={(e) => handleChange(e)} value={inputObject.SchoolNearestBusStop} />
                       </FormHolder>
                     </Section>
                     <Section>
@@ -376,30 +440,30 @@ export const UpdateOfficial: React.FC = () => {
                       </Section>
                       <FormHolder>
                         <Label>FULL NAME</Label>
-                        <Input type="text" name="FullNameOfKin" required onChange={(e) => handleChange(e)} value={inputObject.FullNameOfKin} />
+                        <Input  disabled={disable} type="text" name="FullNameOfKin" required onChange={(e) => handleChange(e)} value={inputObject.FullNameOfKin} />
                       </FormHolder>
                       <FormHolder>
                         <Label>NEXT OF KIN RELATIONSHIP</Label>
-                        <Input type="text" name="KinRelationship" required onChange={(e) => handleChange(e)} value={inputObject.KinRelationship} />
+                        <Input  disabled={disable} type="text" name="KinRelationship" required onChange={(e) => handleChange(e)} value={inputObject.KinRelationship} />
                       </FormHolder>
                       <FormHolder>
                         <Label>EMAIL</Label>
-                        <Input type="text" name="KinEmail" required onChange={(e) => handleChange(e)} value={inputObject.KinEmail} />
+                        <Input  disabled={disable} type="text" name="KinEmail" required onChange={(e) => handleChange(e)} value={inputObject.KinEmail} />
                       </FormHolder>
                       <FormHolder>
                         <Label>PHONE NUMBER</Label>
-                        <Input type="text"
+                        <Input  disabled={disable} type="text"
                           name="KinPhone"
                           onChange={(e) => handleChange(e)} required
                           value={inputObject.KinPhone} />
                       </FormHolder>
                       <Section>
                         <Label>ADDRESS</Label>
-                        <Input type="text" name="kinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress} />
+                        <Input  disabled={disable} type="text" name="KinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress} />
                       </Section>
                     </Section>
                     <BtnDiv>
-                      <CreateBtn type="submit" >SAVE</CreateBtn>
+                      <CreateBtn type="submit" className={disable ? "disabled" : ""}>SAVE</CreateBtn>
                       {/* <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn> */}
                     </BtnDiv>
                   </Form>
@@ -410,7 +474,7 @@ export const UpdateOfficial: React.FC = () => {
                 <Form onSubmit={editOfficial}>
                   <Section>
                     <Label>POSITION</Label>
-                    <Input type="text"
+                    <Input  disabled={disable} type="text"
                       name="Position"
                       onChange={(e) => handleChange(e)}
                       value={inputObject.Position} />
@@ -421,27 +485,27 @@ export const UpdateOfficial: React.FC = () => {
                     </Section>
                     <FormHolder>
                       <Label>GENOTYPE</Label>
-                      <Input type="text"
+                      <Input  disabled={disable} type="text"
                         name="Genotype"
                         onChange={(e) => handleChange(e)}
                         value={inputObject.Genotype} />
                     </FormHolder>
                     <FormHolder>
                       <Label>BLOOD GROUP</Label>
-                      <Input type="text"
+                      <Input  disabled={disable} type="text"
                         name="BloodGroup"
                         onChange={(e) => handleChange(e)}
                         value={inputObject.BloodGroup} />
                     </FormHolder>
                     <Section>
                       <Label>ALLERGIES</Label>
-                      <Input type="text" name="AnyAllergies"
+                      <Input  disabled={disable} type="text" name="AnyAllergies"
                         onChange={(e) => handleChange(e)}
                         value={inputObject.AnyAllergies} />
                     </Section>
                   </Section>
                   <BtnDiv>
-                    <CreateBtn type="submit" >SAVE </CreateBtn>
+                    <CreateBtn type="submit" className={disable ? "disabled" : ""} disabled={disable}>SAVE </CreateBtn>
                     {/* <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn> */}
                   </BtnDiv>
                 </Form>
@@ -449,6 +513,7 @@ export const UpdateOfficial: React.FC = () => {
                 ""
               )}
               {activeTab === "tab3" ? (
+                <>
                 <Form onSubmit={uploadFiles}>
                   <Section>
                     <Table hover>
@@ -457,25 +522,25 @@ export const UpdateOfficial: React.FC = () => {
                           <th></th>
                           <th>#</th>
                           <th>File Type</th>
-                          <th>Status</th>
+                          <th>Status</th> 
                         </tr>
                       </thead>
                       <tbody>
                         <tr  >
                           <th scope="row"></th>
-                          <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank"><MdFolder /></a>}</td>
+                          <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                           <td>School ID Card</td>
                           <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                         <tr  >
                           <th scope="row"></th>
-                          <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank"><MdFolder /></a>}</td>
+                          <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                           <td>Passport Photograph</td>
                           <td>{!files?.passportphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                         <tr  >
                           <th scope="row"></th>
-                          <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank"><MdFolder /></a>}</td>
+                          <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                           <td>Medical Certificate</td>
                           <td>{!files?.medicalcertificate ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
@@ -487,27 +552,37 @@ export const UpdateOfficial: React.FC = () => {
                   </Section>
                   <FormHolder>
                     <Label>MEDICAL CERTIFICATE</Label>
-                    <Input type="file" name="medicalcertificate" onChange={onImageChange} />
+                    <Input  disabled={disable} type="file" name="medicalcertificate" onChange={onImageChange} />
                   </FormHolder>
                   <FormHolder>
                     <Label>SCHOOL ID</Label>
-                    <Input type="file" name="schoolid" onChange={onImageChange} />
+                    <Input  disabled={disable} type="file" name="schoolid" onChange={onImageChange} />
                   </FormHolder>
                   <FormHolder>
                     <Label>PASSPORT PHOTOGRAPH</Label>
-                    <Input type="file" name="passportphotograph" onChange={onImageChange} />
+                    <Input  disabled={disable} type="file" name="passportphotograph" onChange={onImageChange} />
                   </FormHolder>
                   <BtnDiv>
                     <Section>
-                      <CreateBtn type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
+                      <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
                     </Section>
 
                   </BtnDiv>
                 </Form>
+                 <BtnDiv>
+                 <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
+                   SUBMIT FOR ACCREDITATION
+                 </CreateBtn>
+               </BtnDiv>
+                </>
               ) : (
                 ""
               )}
-
+              {activeTab === "tab4" ? 
+                  <div>
+                    <h4>Accredit Officials</h4>
+                  </div> 
+                  : ""}
             </Outlet>
           </Tab>
         }

@@ -95,3 +95,24 @@ export const SuperAdminMenu = [
     icon: <MdToggleOn />,
   },
 ];
+
+export const AccreditorMenu = [
+  {
+    id: "dashboard",
+    title: "DASHBOARD",
+    href: "/dashboard",
+    icon: <MdDashboard />,
+  },
+  {
+    id: "team",
+    title: "TEAMS",
+    href: "/teams",
+    icon: <MdOutlineSupervisorAccount />,
+  },
+  {
+    id: "guidelines",
+    title: "GUIDELINES",
+    href: "/guidelines",
+    icon: <MdInfo />,
+  },
+];

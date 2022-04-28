@@ -20,7 +20,7 @@ function TeamCard({
   TeamLogo,
 }: TeamCardPropsType) {
   const navigate = useNavigate();
-
+  
   const viewPlayers = () => {
     sessionStorage.removeItem("Teamid");
     sessionStorage.removeItem("Teamname");
@@ -28,6 +28,7 @@ function TeamCard({
     sessionStorage.setItem("Teamname", TeamName);
     navigate("/players");
   };
+  
   return (
     <Card onClick={viewPlayers}>
       <ImgCard>

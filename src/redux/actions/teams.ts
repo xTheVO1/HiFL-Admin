@@ -5,7 +5,7 @@ import {
   GET_TEAMS_FAILED,
 } from "./actionTypes";
 import { privateHttp } from "../../baseUrl";
-import {ErrorPopUp, SuccessPopUp} from "../../utils/toastify";
+import {ErrorPopUp} from "../../utils/toastify";
 
 const start = () => ({
   type: GET_TEAMS_STARTED,

@@ -31,6 +31,7 @@ export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store = useSelector((state: RootState) => state.player);
+  const officialLoading = useSelector((state: RootState) => state.officials.loading);
   const { loading } = store;
 
   // states
@@ -49,11 +50,17 @@ export const AddPlayer: React.FC = () => {
   };
 
   const submit = (e: any) => {
-    const teamId = sessionStorage.getItem("Teamid");
-    const newAge = moment(object?.DateOfBirth).fromNow(true).split(" ")
     e.preventDefault();
+    
+    const teamId = sessionStorage.getItem("Teamid");
+
+    // get age 
+    const newAge = moment(object?.DateOfBirth).fromNow(true).split(" ")
+
+    // generate random jamb reg numbers
     function makeid(length: any) {
       var result = [];
+      
       var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijlmnopqrstuvwxyz0123456789';
       var charactersLength = characters.length;
       for (var i = 0; i < length; i++) {
@@ -333,7 +340,8 @@ export const AddPlayer: React.FC = () => {
                 </Section>
               </Section>
               <BtnDiv>
-                <CreateBtn type="submit">{loading ? <Spinner/> : "SAVE"}</CreateBtn>
+                {pathname === "/register-official" ? <CreateBtn type="submit">{officialLoading ? <Spinner/> : "SAVE"}</CreateBtn> : ""}
+                {pathname === "/register-player" ? <CreateBtn type="submit">{loading ? <Spinner/> : "SAVE"}</CreateBtn> : ""}
               </BtnDiv>
             </Form>
           </Outlet>

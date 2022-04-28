@@ -98,7 +98,7 @@ export const createOfficials = (data: any) => async (dispatch: Dispatch) => {
     SuccessPopUp("Official created Successfully")
     return dispatch(postOfficialSuccess(officialResponse.data))
   } catch (error: any) {
-    ErrorPopUp(error.response.data.message)
+    ErrorPopUp(error.response.data)
     return dispatch(postOfficialFailed(error.response))
   }
 }

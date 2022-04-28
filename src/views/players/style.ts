@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const Container = styled.div`
    width: 100%; 
    background: white;
@@ -34,6 +33,7 @@ export const Section = styled.div`
         color: green;
     }
 `;
+
 export const Input = styled.input`
     border-radius: 5px;
     border: 1px solid ${props => props.theme.colors.gray};
@@ -48,7 +48,7 @@ export const FileInput = styled.input`
   
 `;
 export const Select = styled.select`
-border: 1px solid ${props => props.theme.colors.gray};
+    border: 1px solid ${props => props.theme.colors.gray};
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -107,12 +107,24 @@ export const FormHolder = styled.div`
 `;
 
 export const FilesHolder = styled.div`
-    width: 100%;
+    width: 30%;
+    height: 180px;
     margin-bottom: 1.5rem;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
     span{
         color: #FFB422;
         font-weight: 700;
         cursor: pointer;
+    }
+    .no-files{
+        background: ${props => props.theme.colors.gray};
+        color: white;
+        text-align: center;
+        padding: 30% 0;
     }
 `
 export const BtnDiv = styled.div`
@@ -122,7 +134,7 @@ export const BtnDiv = styled.div`
   margin-top: 2rem;
   & .submit{
     background: #FFB422;
-    color: black;
+    color: black;   
 }
 .disabled{
     background: ${props => props.theme.colors.gray};
