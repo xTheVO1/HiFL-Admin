@@ -20,6 +20,7 @@ import {
   Red,
   Green,
   FilesHolder,
+  Select,
 
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
@@ -280,24 +281,30 @@ export const UpdateOfficial: React.FC = () => {
     refresh('')
   }
 
-// Toggle for Modal
-const toggleModal = () => {
-  setModal(!modal);
-}
+  // Toggle for Modal
+  const toggleModal = () => {
+    setModal(!modal);
+  }
 
-const submitOfficial = async (e: any) => {
-  e.preventDefault();
-  const details = {
-    _id: id,
-    params: {
-      isCompleted: true
-    }
+  const submitOfficial = async (e: any) => {
+    e.preventDefault();
+    const details = {
+      _id: id,
+      params: {
+        isCompleted: true
+      }
+    };
+    setModal(!modal);
+    dispatch(updateOfficials(details));
+    // navigate("/players")
+    // dispatch(getPlayerById(id));
   };
-  setModal(!modal);
-  dispatch(updateOfficials(details));
-  // navigate("/players")
-  // dispatch(getPlayerById(id));
-};
+
+  const status = [
+    { type: "APPROVED", value: "Approved" },
+    { type: "DISAPPROVED", value: "Disapproved" }
+  ]
+
   return (
     <Container>
         <Modal isOpen={modal}
@@ -579,9 +586,34 @@ const submitOfficial = async (e: any) => {
                 ""
               )}
               {activeTab === "tab4" ? 
-                  <div>
-                    <h4>Accredit Officials</h4>
-                  </div> 
+                   <Form onSubmit={editOfficial}>
+                    <Section>
+                      <FormHolder>
+                        <Label>APPROVAL</Label>
+                        <Select
+                          name="Approval"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.Position}
+                        >
+                          <option>Select a status</option>
+                          {status.map(item => (
+                            <option value={item.value}>{item.type}</option>
+                          ))}
+                        </Select>
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>COMMENTS</Label>
+                        <Input
+                         type="text"
+                          name="JerseyNumber"
+                          onChange={(e) => handleChange(e)}
+                          value={""} />
+                      </FormHolder>
+                    </Section>
+                    <BtnDiv>
+                      <CreateBtn type="submit" className={disable ? "disabled" : ""}>SAVE</CreateBtn>
+                    </BtnDiv>
+                    </Form>
                   : ""}
             </Outlet>
           </Tab>
