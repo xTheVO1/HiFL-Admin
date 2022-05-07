@@ -11,7 +11,10 @@ import {
   GET_OFFICIALS_FAILED,
   UPDATE_OFFICIAL_STARTED,
   UPDATE_OFFICIAL_SUCCESSFUL,
-  UPDATE_OFFICIAL_FAILED
+  UPDATE_OFFICIAL_FAILED,
+  ACCREDIT_OFFICIAL_STARTED,
+  ACCREDIT_OFFICIAL_SUCCESSFUL,
+  ACCREDIT_OFFICIAL_FAILED
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
@@ -70,6 +73,20 @@ const updateOfficialSuccess = (data: IOfficial) => ({
 const updateOfficialFailed = (data: any) => ({
   type: UPDATE_OFFICIAL_FAILED,
   payload: data
+});
+
+const accredictOfficialStarted = () => ({
+  type: ACCREDIT_OFFICIAL_STARTED
+});
+
+const accredictOfficialSuccess = (data: IPlayer) => ({
+  type: ACCREDIT_OFFICIAL_SUCCESSFUL,
+  payload: data,
+});
+
+const accredictOfficialFailed = (data: any) => ({
+  type: ACCREDIT_OFFICIAL_FAILED,
+  payload: data,
 });
 
 export const createOfficials = (data: any) => async (dispatch: Dispatch) => {
@@ -145,5 +162,22 @@ export const updateOfficials = (officialData: any) => async (dispatch: Dispatch)
   } catch (error: any) {
     ErrorPopUp(error.response.data.message)
     return dispatch(updateOfficialFailed(error.response))
+  }
+}
+
+export const accredictOfficial = (officialData: any) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(accredictOfficialStarted())
+    const response = await privateHttp({
+      method: "patch",
+      url: `/officials/official/accredict/`,
+      data: officialData
+    })
+    const {data} = response;
+    SuccessPopUp("Official updated Successfully")
+    return dispatch(accredictOfficialSuccess(data))
+  } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
+    return dispatch(accredictOfficialFailed(error.response))
   }
 }
