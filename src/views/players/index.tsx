@@ -98,10 +98,10 @@ export const Players: React.FC = () => {
                 type="OFFICIALS"
                 _id={item._id}
                 approval={false}
-                status={!item.isCompleted ? "" : item.isCompleted}
-                playerName={item.User.Firstname + " " + item.User.Lastname}
-                age={moment(item.DateOfBirth).fromNow(true)}
-                position={!item.SportRecord ? "" : item.SportRecord.Position}
+                status={!item?.isCompleted ? "" : item?.isCompleted}
+                playerName={item?.User?.Firstname + " " + item?.User?.Lastname}
+                age={moment(item?.DateOfBirth).fromNow(true)}
+                position={!item?.SportRecord ? "" : item?.SportRecord?.Position}
               />
             )))
       ) : (
@@ -113,11 +113,11 @@ export const Players: React.FC = () => {
                   type="PLAYER"
                   PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
                   _id={item._id}
-                  age={!item.DateOfBirth ? "" :moment(item.DateOfBirth).fromNow(true)}
+                  age={!item?.DateOfBirth ? "" :moment(item?.DateOfBirth).fromNow(true)}
                   approval={false}
-                  status={!item.isCompleted ? "" : item.isCompleted}
-                  playerName={item.User.Firstname + " " + item.User.Lastname}
-                  position={!item.SportRecord ? "" : item.SportRecord.Position}
+                  status={!item?.isCompleted ? "" : item?.isCompleted}
+                  playerName={item?.User?.Firstname + " " + item?.User?.Lastname}
+                  position={!item?.SportRecord ? "" : item?.SportRecord?.Position}
                 />
               )))
           }
