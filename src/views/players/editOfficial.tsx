@@ -25,7 +25,7 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getOfficialById, updateOfficials } from "../../redux/actions/officials";
+import { getOfficialById, updateOfficials, accredictOfficial } from "../../redux/actions/officials";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -76,7 +76,9 @@ export const UpdateOfficial: React.FC = () => {
     PassportPhotograph: "",
     MedicalCert: "",
     SchoolID: "",
-    OfficialID: ""
+    OfficialID: "",
+    AccreditationComment: "",
+    Approval: ""
   });
   const [files, setFileUpload] = useState({
     medicalcertificate: "",
@@ -108,7 +110,7 @@ export const UpdateOfficial: React.FC = () => {
       NextOfKin,
       MedicalRecord,
       DocumentUploads,
-      SportRecord, MiddleName, User, DateOfBirth, Age, isCompleted
+       MiddleName, User, DateOfBirth, Age, isCompleted
     } = data;
     setDisable(isCompleted);
     setObject({
@@ -132,7 +134,7 @@ export const UpdateOfficial: React.FC = () => {
       SchoolLocalGovt: Address?.SchoolAddress?.LocalGovt,
       SchoolNearestBusStop: Address?.SchoolAddress?.NearestBusStop,
       SchoolState: Address?.SchoolAddress?.LocalGovt,
-      Position: SportRecord?.Position,
+      Position: data?.Position,
       // JerseyNumber: SportRecord?.JerseyNumber,
       Genotype: MedicalRecord?.Genotype,
       BloodGroup: MedicalRecord?.BloodGroup,
@@ -185,7 +187,7 @@ export const UpdateOfficial: React.FC = () => {
         PassportPhotograph: inputObject.PassportPhotograph,
         MedicalCert: inputObject.MedicalCert,
         SchoolID: inputObject.SchoolID
-      }
+    }
     }
     }
     dispatch(updateOfficials(details));
@@ -300,6 +302,22 @@ export const UpdateOfficial: React.FC = () => {
     // dispatch(getPlayerById(id));
   };
 
+  const accredict = async (e: any) => {
+    e.preventDefault();
+    const details = {
+      _id: id,
+      params: {
+        2022: {
+          AccreditationComment: inputObject.AccreditationComment,
+          Approval: inputObject.Approval
+        }
+      }
+    };
+    dispatch(accredictOfficial(details));
+    navigate("/players")
+    // dispatch(getPlayerById(id));
+  }
+
   const status = [
     { type: "APPROVED", value: "Approved" },
     { type: "DISAPPROVED", value: "Disapproved" }
@@ -356,14 +374,13 @@ export const UpdateOfficial: React.FC = () => {
               >
                 DOCUMENT UPLOADS
               </List>
-              {user.Role === "Accreditor" ? 
               <List
                 className={activeTab === "tab4" ? "active" : ""}
                 onClick={() => changeTab("tab4")}
               >
                 ACCREDITATION
               </List>
-              : ""}
+            
             </Nav>
             <Outlet>
               {activeTab === "tab1" ? (
@@ -586,7 +603,32 @@ export const UpdateOfficial: React.FC = () => {
                 ""
               )}
               {activeTab === "tab4" ? 
-                   <Form onSubmit={editOfficial}>
+              <>
+              {loading ? <Loader/> :(
+                    official?.AccreditationHistories?.length === 0 ? <div style={{ textAlign: "center"}}> <h3>PENDING</h3></div> :
+                    <Table hover>
+                      <thead>
+                          <tr>
+                            <th>#</th>
+                            <th>Year</th>
+                            <th>Status</th>
+                            <th>Accreditation Comment</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {official && official.AccreditationHistories?.map((item: any, index: any) => (
+                        <tr key={index}>
+                          <th scope="row">{index + 1}</th>
+                          <td>{item?.YearAccredicted}</td>
+                          <td>{item?.Approval}</td>
+                          <td>{item?.AccreditationComment}</td>
+                        </tr>
+                          )) }
+                      </tbody>
+                    </Table>
+                 )}
+              {user.Role === "Accreditor" ? 
+                   <Form onSubmit={accredict}>
                     <Section>
                       <FormHolder>
                         <Label>APPROVAL</Label>
@@ -605,15 +647,18 @@ export const UpdateOfficial: React.FC = () => {
                         <Label>COMMENTS</Label>
                         <Input
                          type="text"
-                          name="JerseyNumber"
+                          name="AccreditationComment"
                           onChange={(e) => handleChange(e)}
-                          value={""} />
+                          value={inputObject.AccreditationComment} />
                       </FormHolder>
                     </Section>
                     <BtnDiv>
-                      <CreateBtn type="submit" className={disable ? "disabled" : ""}>SAVE</CreateBtn>
+                      <CreateBtn type="submit" >SAVE</CreateBtn>
                     </BtnDiv>
                     </Form>
+                  : ""}
+                  
+                  </>
                   : ""}
             </Outlet>
           </Tab>

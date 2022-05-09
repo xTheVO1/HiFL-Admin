@@ -202,15 +202,15 @@ export const accredictPlayer = (playerData: any) => async (dispatch: Dispatch) =
   try {
     dispatch(accredictPlayerStarted());
     const response = await privateHttp({
-      method: "post",
-      url: `/accredict/player/`,
+      method: "patch",
+      url: `/players/player/accredit/`,
       data: playerData,
     });
     const { data } = response;
     SuccessPopUp("Player accredicted Successfully")
     return dispatch(accredictPlayerSuccess(data));
   } catch (error: any) {
-    ErrorPopUp(error.response.data.message)
-    return dispatch(accredictPlayerSuccess(error.response));
+    ErrorPopUp(error.response.data)
+    return dispatch(accredictPlayerFailed(error.response));
   }
 };
