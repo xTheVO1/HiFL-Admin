@@ -12,7 +12,7 @@ status: boolean;
 playerName: string;
 age: string;
 position: string;
-approval: boolean;
+approval: string;
 type: string;
 PlayerLogo: string;
 }
@@ -34,7 +34,6 @@ export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, statu
   const toggleModal = () => {
     setModal(!modal);
   }
-  
   return (
     <>
     <Modal modal={modal} toggle={toggleModal} id={_id} />
@@ -55,8 +54,8 @@ export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, statu
             </Btn>
           </div>
           <div  onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
-            <Btn className={approval === false ? "incomplete" : "complete"}>
-            {approval ? "APPROVAL" : "PENDING"}
+            <Btn className={approval === undefined ? "incomplete" : "complete"}>
+            {approval === undefined ? "PENDING" : (approval === "APPROVED" ? "APPROVED": "DISAPPROVED")}
             </Btn>
           </div>
           <div>

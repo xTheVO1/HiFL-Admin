@@ -19,11 +19,11 @@ import {
   Select,
   Red,
   Green,
-  FilesHolder,
+  FilesHolder,TextArea
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getPlayerById, updatePlayer } from "../../redux/actions/players";
+import { getPlayerById, updatePlayer, accredictPlayer } from "../../redux/actions/players";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -92,9 +92,12 @@ export const UpdatePlayer: React.FC = () => {
     SchoolPortalID: "",
     Programme: "",
     CourseFaculty: "",
-    fileName: ""
+    fileName: "",
+    AccreditationComment:"",
+    Approval: "",
+    Accredicted: "",
+    AccreditationHistories: []
   });
-
   const [files, setFileUpload] = useState({
     medicalcertificate: "",
     passportphotograph: "",
@@ -120,8 +123,9 @@ export const UpdatePlayer: React.FC = () => {
       MedicalRecord,
       DocumentUploads,
       SportRecord,
-      AcademicRecord, MiddleName, User, DateOfBirth, Age, isCompleted
+      AcademicRecord, MiddleName, User, DateOfBirth, Age, isCompleted, AccreditationHistories
     } = data;
+    // console.log(AccreditationHistories[0])
     setDisable(isCompleted);
     setObject({
       ...inputObject,
@@ -156,7 +160,12 @@ export const UpdatePlayer: React.FC = () => {
       SchoolPortalID: AcademicRecord?.SchoolPortalID,
       SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword,
       CourseLevel: AcademicRecord?.CourseLevel,
-      CourseStudy: AcademicRecord?.CourseStudy
+      CourseStudy: AcademicRecord?.CourseStudy,
+      AccreditationComment:"",
+      Approval: "",
+      // Accredicted: AccreditationHistories === [] ? "" : AccreditationHistories[0].Approval,
+      Accredicted : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.Approval
+
     });
     setFileUpload({
       ...files,
@@ -235,7 +244,6 @@ export const UpdatePlayer: React.FC = () => {
           SchoolPortalID: inputObject.SchoolPortalID,
           SchoolPortalPassword: inputObject.SchoolPortalPassword
         },
-
         CreatedBy: mainData?.CreatedBy
       }
     };
@@ -256,6 +264,36 @@ export const UpdatePlayer: React.FC = () => {
     navigate("/players")
     // dispatch(getPlayerById(id));
   };
+
+  const accredict = async (e: any) => {
+    e.preventDefault();
+    const details = {
+      _id: id,
+      params: {
+          YearAccredicted: 2022,
+          AccreditationComment: inputObject.AccreditationComment,
+          Approval: inputObject.Approval
+      }
+    };
+    dispatch(accredictPlayer(details));
+    dispatch(getPlayerById(id));
+    navigate("/players")
+    // dispatch(getPlayerById(id));
+  };
+
+  const changeStatus = async (e: any) => {
+    e.preventDefault();
+    const details = {
+      _id: id,
+      params: {
+        isCompleted: false
+      }
+    };
+    dispatch(updatePlayer(details));
+    dispatch(getPlayerById(id));
+    navigate("/players")
+  };
+
 
   const uploadFiles = async (e: any) => {
     e.preventDefault();
@@ -343,8 +381,8 @@ export const UpdatePlayer: React.FC = () => {
   ]
 
   const status = [
-    { type: "APPROVED", value: "Approved" },
-    { type: "DISAPPROVED", value: "Disapproved" }
+    { type: "APPROVED", value: "APPROVED" },
+    { type: "DISAPPROVED", value: "DISAPPROVED" }
   ]
 
   const onImageChange = async (event: any) => {
@@ -431,14 +469,13 @@ export const UpdatePlayer: React.FC = () => {
               >
                 DOCUMENT UPLOADS
               </List>
-              {user.Role === "Accreditor" ? 
               <List
                 className={activeTab === "tab5" ? "active" : ""}
                 onClick={() => changeTab("tab5")}
               >
                 ACCREDITATION
               </List>
-              : ""}
+             
             </Nav>
             {!mainData ? "" :
               <Outlet>
@@ -933,6 +970,11 @@ export const UpdatePlayer: React.FC = () => {
                       </BtnDiv>
                     </Form>
                     <BtnDiv>
+                      {user.Role === "SuperAdmin" ?
+                    <CreateBtn onClick={changeStatus} >
+                        CHANGE STATUS
+                      </CreateBtn>
+                      :""}
                       <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
                         SUBMIT FOR ACCREDITATION
                       </CreateBtn>
@@ -942,34 +984,59 @@ export const UpdatePlayer: React.FC = () => {
                   ""
                 )}
                   {activeTab === "tab5" ? 
-                    <Form onSubmit={editPlayer}>
+              user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
+
+                    <Form onSubmit={accredict}>
                     <Section>
-                      <FormHolder>
                         <Label>APPROVAL</Label>
                         <Select
                           name="Approval"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.Position}
+                          value={inputObject.Approval}
                         >
                           <option>Select a status</option>
                           {status.map(item => (
                             <option value={item.value}>{item.type}</option>
                           ))}
                         </Select>
-                      </FormHolder>
-                      <FormHolder>
+                      </Section>
+                      <Section>
                         <Label>COMMENTS</Label>
-                        <Input
-                         type="text"
-                          name="JerseyNumber"
+                        <TextArea
+                          name="AccreditationComment"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.JerseyNumber} />
-                      </FormHolder>
+                          value={inputObject.AccreditationComment} />
                     </Section>
                     <BtnDiv>
-                      <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
+                      <CreateBtn type="submit">SAVE</CreateBtn>
                     </BtnDiv>
                     </Form>
+
+                  : loading ? <Loader/> :(
+                    mainData.AccreditationHistories?.length === 0 ? <div style={{ textAlign: "center"}}> <h3>PENDING</h3></div> :
+                    <Table hover>
+                      <thead>
+                          <tr>
+                              <th>#</th>
+                              <th>Year</th>
+                              <th>Status</th>
+                              <th>Accreditation Comment</th>
+                              <th>Licence</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                      {mainData && mainData.AccreditationHistories?.map((item: any, index: any) => (
+                        <tr key={index}>
+                              <th scope="row">{index + 1}</th>
+                              <td>{item?.YearAccredicted}</td>
+                              <td>{item?.Approval}</td>
+                              <td>{item?.AccreditationComment}</td>
+                              <td>{item?.Approval === "DISAPPROVED" ? "" : "DOWNLOAD"}</td>
+                          </tr>
+                          )) }
+                      </tbody>
+                    </Table>
+                 )
                   : ""}
               </Outlet>
             }

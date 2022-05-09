@@ -40,6 +40,12 @@ export const Input = styled.input`
     width: 100%;
     padding: 8px;
 `;
+export const TextArea = styled.textarea`
+    border-radius: 5px;
+    border: 1px solid ${props => props.theme.colors.gray};
+    width: 100%;
+    padding: 8px;
+`;
 export const FileInput = styled.input`
     border: 1px solid ${props => props.theme.colors.gray};
     width: 75%;
@@ -107,8 +113,8 @@ export const FormHolder = styled.div`
 `;
 
 export const FilesHolder = styled.div`
-    width: 250px;
-    height: 250px;
+    width: 200px;
+    height: 200px;
     margin-bottom: 1.5rem;
     img{
         width: 100%;
@@ -125,8 +131,8 @@ export const FilesHolder = styled.div`
         color: white;
         text-align: center;
         padding: 30% 0;
-        width: 250px;
-        height: 250px;
+        width: 200px;
+        height: 200px;
     }
 `
 
