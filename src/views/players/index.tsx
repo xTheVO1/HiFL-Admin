@@ -23,8 +23,8 @@ export const Players: React.FC = () => {
   // Getting the team name and id
   const teamId = sessionStorage.getItem('Teamid');
   const teamName = sessionStorage.getItem('Teamname');
-  
-  
+
+
   // getting players and officials from redux store
   const store = useSelector((state: RootState) => state.player)
   const officialStore = useSelector((state: RootState) => state.officials)
@@ -49,7 +49,7 @@ export const Players: React.FC = () => {
     if (teamId === "") {
       navigate("/dashboard");
     }
-    
+
     dispatch(getPlayers(teamId));
     dispatch(getOfficials(teamId));
   }, [dispatch, teamId, navigate]);
@@ -58,74 +58,75 @@ export const Players: React.FC = () => {
   return (
     <>
 
-    <Container>
-      <Content>
-        <Table className="padding">
-          <div className="players-flex-start">
-            <p onClick={viewTeams}><MdSchool /> ALL TEAMS </p>
-            <p>|</p>
-            <p className="active"> <MdSchool />{teamName}</p></div>
-          <div className="players-flex-header">
-            <p className={activeTab === "PLAYERS" ? "active" : ""} onClick={() => setActiveTab("PLAYERS")} >
-              MANAGE PLAYERS </p>{" "}
-            |
-            <p className={activeTab === "OFFICIAL" ? "active" : ""} onClick={() => setActiveTab("OFFICIAL")}>
-              {" "}MANAGE OFFICIALS</p>
-          </div>
-        </Table>
-        <ContentHeader title={activeTab === "OFFICIAL" ? `OFFICIALS (${officialData.length})` : `PLAYERS (${mainData.length})`} >
-        {activeTab === "OFFICIAL" ? <CreateBtn onClick={addOfficial}>REGISTER OFFICIAL</CreateBtn>  : ""}
-        {activeTab === "PLAYERS" ? <CreateBtn onClick={addPlayer} disabled={mainData?.length === 30 ? true : false}>REGISTER PLAYER</CreateBtn> : ""}
-        </ContentHeader>
-        <Table>
-          <div className="players-header">
-            <p className="">DETAILS</p>
-            <div className="players-header-flex">
-              <p >SUBMITTED</p>
-              <p>APPROVAL</p>
-              <p>ACTION</p>
+        {loading ? <Loader /> :
+      <Container>
+        <Content>
+          <Table className="padding">
+            <div className="players-flex-start">
+              <p onClick={viewTeams}><MdSchool /> ALL TEAMS </p>
+              <p>|</p>
+              <p className="active"> <MdSchool />{teamName}</p></div>
+            <div className="players-flex-header">
+              <p className={activeTab === "PLAYERS" ? "active" : ""} onClick={() => setActiveTab("PLAYERS")} >
+                MANAGE PLAYERS </p>{" "}
+              |
+              <p className={activeTab === "OFFICIAL" ? "active" : ""} onClick={() => setActiveTab("OFFICIAL")}>
+                {" "}MANAGE OFFICIALS</p>
             </div>
-          </div>
-        </Table>
-      </Content>
-      {activeTab === "OFFICIAL" ? (
-        loading ? <Loader /> :
-          (officialData.length === 0) ? <NoData text="NO DATA FOUND" /> :
-            (officialData && officialData?.map((item: any) => (
-              <PlayerCard
-                key={item._id}
-                PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
-                type="OFFICIALS"
-                _id={item._id}
-                approval={false}
-                status={!item?.isCompleted ? "" : item?.isCompleted}
-                playerName={item?.User?.Firstname + " " + item?.User?.Lastname}
-                age={moment(item?.DateOfBirth).fromNow(true)}
-                position={!item?.SportRecord ? "" : item?.SportRecord?.Position}
-              />
-            )))
-      ) : (
-        <>
-          {loading ? <Loader /> :
-            (mainData.length === 0 ? <NoData text="NO DATA FOUND" /> :
-              mainData && mainData?.map((item: any) => (
+          </Table>
+          <ContentHeader title={activeTab === "OFFICIAL" ? `OFFICIALS (${officialData.length})` : `PLAYERS (${mainData.length})`} >
+            {activeTab === "OFFICIAL" ? <CreateBtn onClick={addOfficial}>REGISTER OFFICIAL</CreateBtn> : ""}
+            {activeTab === "PLAYERS" ? <CreateBtn onClick={addPlayer} disabled={mainData?.length === 30 ? true : false}>REGISTER PLAYER</CreateBtn> : ""}
+          </ContentHeader>
+          <Table>
+            <div className="players-header">
+              <p className="">DETAILS</p>
+              <div className="players-header-flex">
+                <p >SUBMITTED</p>
+                <p>APPROVAL</p>
+                <p>ACTION</p>
+              </div>
+            </div>
+          </Table>
+        </Content>
+        {activeTab === "OFFICIAL" ? (
+          loading ? <Loader /> :
+            (officialData.length === 0) ? <NoData text="NO DATA FOUND" /> :
+              (officialData && officialData?.map((item: any) => (
                 <PlayerCard
-                  type="PLAYER"
+                  key={item._id}
                   PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
+                  type="OFFICIALS"
                   _id={item._id}
-                  age={!item?.DateOfBirth ? "" :moment(item?.DateOfBirth).fromNow(true)}
-                  approval={false}
+                  approval={!item?.AccreditationHistories ? "PENDING" : item?.AccreditationHistories[0]?.Approval}
                   status={!item?.isCompleted ? "" : item?.isCompleted}
                   playerName={item?.User?.Firstname + " " + item?.User?.Lastname}
+                  age={moment(item?.DateOfBirth).fromNow(true)}
                   position={!item?.SportRecord ? "" : item?.SportRecord?.Position}
                 />
               )))
-          }
-        </>
+        ) : (
+          <>
+            {loading ? <Loader /> :
+              (mainData.length === 0 ? <NoData text="NO DATA FOUND" /> :
+                mainData && mainData?.map((item: any) => (
+                  <PlayerCard
+                    type="PLAYER"
+                    PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
+                    _id={item._id}
+                    age={!item?.Age ? "" : item?.Age}
+                    approval={item?.AccreditationHistories === [] ? "PENDING" : item?.AccreditationHistories[0]?.Approval}
+                    status={!item?.isCompleted ? "" : item?.isCompleted}
+                    playerName={item?.User?.Firstname + " " + item?.User?.Lastname}
+                    position={!item?.SportRecord ? "" : item?.SportRecord?.Position}
+                  />
+                )))
+            }
+          </>
 
-      )}
-    </Container>
-   
+        )}
+      </Container>
+}
     </>
   );
 };

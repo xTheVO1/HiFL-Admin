@@ -163,7 +163,9 @@ export const UpdatePlayer: React.FC = () => {
       CourseStudy: AcademicRecord?.CourseStudy,
       AccreditationComment:"",
       Approval: "",
-      // Accredicted: AccreditationHistories === [] ? "" : AccreditationHistories[0].Approval
+      // Accredicted: AccreditationHistories === [] ? "" : AccreditationHistories[0].Approval,
+      Accredicted : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.Approval
+
     });
     setFileUpload({
       ...files,
@@ -273,11 +275,25 @@ export const UpdatePlayer: React.FC = () => {
           Approval: inputObject.Approval
       }
     };
-    console.log(details)
     dispatch(accredictPlayer(details));
+    dispatch(getPlayerById(id));
     navigate("/players")
     // dispatch(getPlayerById(id));
   };
+
+  const changeStatus = async (e: any) => {
+    e.preventDefault();
+    const details = {
+      _id: id,
+      params: {
+        isCompleted: false
+      }
+    };
+    dispatch(updatePlayer(details));
+    dispatch(getPlayerById(id));
+    navigate("/players")
+  };
+
 
   const uploadFiles = async (e: any) => {
     e.preventDefault();
@@ -954,6 +970,11 @@ export const UpdatePlayer: React.FC = () => {
                       </BtnDiv>
                     </Form>
                     <BtnDiv>
+                      {user.Role === "SuperAdmin" ?
+                    <CreateBtn onClick={changeStatus} >
+                        CHANGE STATUS
+                      </CreateBtn>
+                      :""}
                       <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
                         SUBMIT FOR ACCREDITATION
                       </CreateBtn>
@@ -963,11 +984,10 @@ export const UpdatePlayer: React.FC = () => {
                   ""
                 )}
                   {activeTab === "tab5" ? 
-              user.Role === "Accreditor" ? 
+              user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
 
                     <Form onSubmit={accredict}>
                     <Section>
-                      <FormHolder>
                         <Label>APPROVAL</Label>
                         <Select
                           name="Approval"
@@ -979,17 +999,16 @@ export const UpdatePlayer: React.FC = () => {
                             <option value={item.value}>{item.type}</option>
                           ))}
                         </Select>
-                      </FormHolder>
-                      <FormHolder>
+                      </Section>
+                      <Section>
                         <Label>COMMENTS</Label>
                         <TextArea
                           name="AccreditationComment"
                           onChange={(e) => handleChange(e)}
                           value={inputObject.AccreditationComment} />
-                      </FormHolder>
                     </Section>
                     <BtnDiv>
-                      <CreateBtn  type="submit">SAVE</CreateBtn>
+                      <CreateBtn type="submit">SAVE</CreateBtn>
                     </BtnDiv>
                     </Form>
 
@@ -1002,6 +1021,7 @@ export const UpdatePlayer: React.FC = () => {
                               <th>Year</th>
                               <th>Status</th>
                               <th>Accreditation Comment</th>
+                              <th>Licence</th>
                           </tr>
                       </thead>
                       <tbody>
@@ -1011,6 +1031,7 @@ export const UpdatePlayer: React.FC = () => {
                               <td>{item?.YearAccredicted}</td>
                               <td>{item?.Approval}</td>
                               <td>{item?.AccreditationComment}</td>
+                              <td>{item?.Approval === "DISAPPROVED" ? "" : "DOWNLOAD"}</td>
                           </tr>
                           )) }
                       </tbody>
