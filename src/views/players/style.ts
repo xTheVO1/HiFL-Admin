@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const Container = styled.div`
    width: 100%; 
    background: white;
@@ -34,14 +33,28 @@ export const Section = styled.div`
         color: green;
     }
 `;
+
 export const Input = styled.input`
     border-radius: 5px;
-    border: 1px solid grey;
+    border: 1px solid ${props => props.theme.colors.gray};
     width: 100%;
     padding: 8px;
 `;
+export const TextArea = styled.textarea`
+    border-radius: 5px;
+    border: 1px solid ${props => props.theme.colors.gray};
+    width: 100%;
+    padding: 8px;
+`;
+export const FileInput = styled.input`
+    border: 1px solid ${props => props.theme.colors.gray};
+    width: 75%;
+    padding: 8px;
+   margin-right: 5%;
+  
+`;
 export const Select = styled.select`
-    border: 1px solid #C7C7C7;
+    border: 1px solid ${props => props.theme.colors.gray};
     width: 100%;
     padding: 8px;
     margin-top: 5px;
@@ -99,6 +112,30 @@ export const FormHolder = styled.div`
    
 `;
 
+export const FilesHolder = styled.div`
+    width: 200px;
+    height: 200px;
+    margin-bottom: 1.5rem;
+    img{
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+    span{
+        color: #FFB422;
+        font-weight: 700;
+        cursor: pointer;
+    }
+    .no-files{
+        background: ${props => props.theme.colors.gray};
+        color: white;
+        text-align: center;
+        padding: 30% 0;
+        width: 200px;
+        height: 200px;
+    }
+`
+
 export const BtnDiv = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -106,7 +143,10 @@ export const BtnDiv = styled.div`
   margin-top: 2rem;
   & .submit{
     background: #FFB422;
-    color: black;
+    color: black;   
+}
+.disabled{
+    background: ${props => props.theme.colors.gray};
 }
 `;
 
@@ -153,7 +193,12 @@ export const Table = styled.div`
         }
     }
     .players-flex-header p,  .players-flex-start p{
-        margin: 0 1rem;
+        margin: 0 .5rem;
+    }
+    @media(max-width: 930px) {
+        .players-header-flex{
+            display: none;
+        }
     }
 `;
 

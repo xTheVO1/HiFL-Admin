@@ -14,7 +14,10 @@ import {
   UPDATE_PLAYER_FAILED,
   DELETE_PLAYER_SUCCESSFUL,
   DELETE_PLAYER_STARTED,
-  DELETE_PLAYER_FAILED
+  DELETE_PLAYER_FAILED,
+  ACCREDIT_PLAYER_STARTED,
+  ACCREDIT_PLAYER_SUCCESSFUL,
+  ACCREDIT_PLAYER_FAILED
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
@@ -75,6 +78,20 @@ const updatePlayerFailed = (data: any) => ({
   payload: data,
 });
 
+const accredictPlayerStarted = () => ({
+  type: ACCREDIT_PLAYER_STARTED
+});
+
+const accredictPlayerSuccess = (data: IPlayer) => ({
+  type: ACCREDIT_PLAYER_SUCCESSFUL,
+  payload: data,
+});
+
+const accredictPlayerFailed = (data: any) => ({
+  type: ACCREDIT_PLAYER_FAILED,
+  payload: data,
+});
+
 const deletePlayerStarted = () => ({
   type: DELETE_PLAYER_STARTED,
 });
@@ -116,7 +133,7 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
     SuccessPopUp("Player created Successfully")
     return dispatch(postPlayerSuccess(playerResponse.data));
   } catch (error: any) {
-    ErrorPopUp(error.response.data.message)
+    ErrorPopUp(error.response.data)
     return dispatch(postPlayerFailed(error.response));
   }
 };
@@ -178,5 +195,22 @@ export const deletePlayerById = (id: any) => async (dispatch: Dispatch) => {
   } catch (error: any) {
     ErrorPopUp(error.response.statusText)
     return dispatch(deletePlayerFailed(error.response));
+  }
+};
+
+export const accredictPlayer = (playerData: any) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(accredictPlayerStarted());
+    const response = await privateHttp({
+      method: "patch",
+      url: `/players/player/accredit/`,
+      data: playerData,
+    });
+    const { data } = response;
+    SuccessPopUp("Player accredicted Successfully")
+    return dispatch(accredictPlayerSuccess(data));
+  } catch (error: any) {
+    ErrorPopUp(error.response.data)
+    return dispatch(accredictPlayerFailed(error.response));
   }
 };

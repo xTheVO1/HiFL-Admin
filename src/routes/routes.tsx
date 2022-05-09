@@ -1,6 +1,5 @@
 import { Routes, Route } from "react-router-dom";
 import Login from "../views/Login";
-import { Dashboard } from "../views/dashboard";
 import { PrivateRoute } from "./privateRoutes";
 import TeamManager from "../views/teams";
 import { Players } from "../views/players";
@@ -17,7 +16,7 @@ import { AddInstitution } from "../views/institutions/createInstitution";
 import { AddLeague } from "../views/leagues/createLeague";
 import { AddSeason } from "../views/seasons/createSeason";
 import ViewSeason from "../views/seasons/viewSeason";
-import PlayerUpdate from "../views/players/updatePlayer"
+
 function AppRoutes() {
   return (
     <Routes>
@@ -36,7 +35,6 @@ function AppRoutes() {
         <Route path="/guidelines" element={<Guidelines />} />
         <Route path="/official/:id" element={<UpdateOfficial />} />
         <Route path="/player/:id" element={<UpdatePlayer />} />
-        <Route path="/players/:id" element={<PlayerUpdate />} />
         <Route path="/players" element={<Players />} />
         <Route path="/dashboard" element={<Guidelines />} />
         <Route path="/teams" element={<TeamManager />} />

@@ -2,7 +2,7 @@ import GlobalStyles from "./styles/GlobalStyles"
 import { ThemeProvider } from 'styled-components'
 import { useTheme } from './hooks/theme'
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import Routes from "./routes/routes";
 

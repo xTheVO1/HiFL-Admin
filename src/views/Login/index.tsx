@@ -38,7 +38,7 @@ function Login() {
                 <FormTitle>
                    Login
                 </FormTitle>
-                <Input onChange={(e) => setEmail(e.target.value)} required type="email" placeholder="exemplo@gmail.com"/>
+                <Input onChange={(e) => setEmail(e.target.value)} required type="email" placeholder="example@gmail.com"/>
                 <Input onChange={(e) => setPassword(e.target.value)} required type="password" />
                 <Button type="submit">{loading ? <Spinner/> : "Login"}</Button>
             </Form>
