@@ -396,15 +396,15 @@ export const UpdateOfficial: React.FC = () => {
                     </Section>
                     <FormHolder>
                       <Label>FIRST NAME </Label>
-                      <Input  disabled={disable} type="text" name="Firstname" onChange={(e) => handleChange(e)} required value={inputObject.Firstname} />
+                      <Input  disabled={disable} type="text" name="Firstname" onChange={(e) => handleChange(e)} required value={inputObject?.Firstname?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>LAST NAME</Label>
-                      <Input  disabled={disable} type="text" name="Lastname" onChange={(e) => handleChange(e)} required value={inputObject.Lastname} />
+                      <Input  disabled={disable} type="text" name="Lastname" onChange={(e) => handleChange(e)} required value={inputObject.Lastname?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>MIDDLE NAME</Label>
-                      <Input  disabled={disable} type="text"  name="MiddleName" onChange={(e) => handleChange(e)} required value={inputObject.MiddleName} />
+                      <Input  disabled={disable} type="text"  name="MiddleName" onChange={(e) => handleChange(e)} required value={inputObject.MiddleName?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>DATE OF BIRTH
@@ -464,15 +464,15 @@ export const UpdateOfficial: React.FC = () => {
                       </Section>
                       <FormHolder>
                         <Label>FULL NAME</Label>
-                        <Input  disabled={disable} type="text" name="FullNameOfKin" required onChange={(e) => handleChange(e)} value={inputObject.FullNameOfKin} />
+                        <Input  disabled={disable} type="text" name="FullNameOfKin" required onChange={(e) => handleChange(e)} value={inputObject.FullNameOfKin?.toUpperCase()} />
                       </FormHolder>
                       <FormHolder>
                         <Label>NEXT OF KIN RELATIONSHIP</Label>
-                        <Input  disabled={disable} type="text" name="KinRelationship" required onChange={(e) => handleChange(e)} value={inputObject.KinRelationship} />
+                        <Input  disabled={disable} type="text" name="KinRelationship" required onChange={(e) => handleChange(e)} value={inputObject.KinRelationship?.toUpperCase()} />
                       </FormHolder>
                       <FormHolder>
                         <Label>EMAIL</Label>
-                        <Input  disabled={disable} type="text" name="KinEmail" required onChange={(e) => handleChange(e)} value={inputObject.KinEmail} />
+                        <Input  disabled={disable} type="text" name="KinEmail" required onChange={(e) => handleChange(e)} value={inputObject.KinEmail?.toUpperCase()} />
                       </FormHolder>
                       <FormHolder>
                         <Label>PHONE NUMBER</Label>
@@ -483,7 +483,7 @@ export const UpdateOfficial: React.FC = () => {
                       </FormHolder>
                       <Section>
                         <Label>ADDRESS</Label>
-                        <Input  disabled={disable} type="text" name="KinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress} />
+                        <Input  disabled={disable} type="text" name="KinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress?.toUpperCase()} />
                       </Section>
                     </Section>
                     <BtnDiv>
@@ -501,7 +501,7 @@ export const UpdateOfficial: React.FC = () => {
                     <Input  disabled={disable} type="text"
                       name="Position"
                       onChange={(e) => handleChange(e)}
-                      value={inputObject.Position} />
+                      value={inputObject.Position?.toUpperCase()} />
                   </Section>
                   <Section>
                     <Section>
@@ -512,20 +512,20 @@ export const UpdateOfficial: React.FC = () => {
                       <Input  disabled={disable} type="text"
                         name="Genotype"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.Genotype} />
+                        value={inputObject.Genotype?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>BLOOD GROUP</Label>
                       <Input  disabled={disable} type="text"
                         name="BloodGroup"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.BloodGroup} />
+                        value={inputObject.BloodGroup?.toUpperCase()} />
                     </FormHolder>
                     <Section>
                       <Label>ALLERGIES</Label>
                       <Input  disabled={disable} type="text" name="AnyAllergies"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.AnyAllergies} />
+                        value={inputObject.AnyAllergies?.toUpperCase()} />
                     </Section>
                   </Section>
                   <BtnDiv>
@@ -635,7 +635,7 @@ export const UpdateOfficial: React.FC = () => {
                         <Select
                           name="Approval"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.Position}
+                         
                         >
                           <option>Select a status</option>
                           {status.map(item => (
@@ -649,7 +649,7 @@ export const UpdateOfficial: React.FC = () => {
                          type="text"
                           name="AccreditationComment"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.AccreditationComment} />
+                           />
                       </FormHolder>
                     </Section>
                     <BtnDiv>

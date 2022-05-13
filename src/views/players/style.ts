@@ -34,6 +34,15 @@ export const Section = styled.div`
     }
 `;
 
+export const Download = styled.button`
+background:#000229;
+color: white;   
+font-size: .7rem;
+padding: .2rem 1rem;
+border: 0px;
+cursor: pointer;
+`;
+
 export const Input = styled.input`
     border-radius: 5px;
     border: 1px solid ${props => props.theme.colors.gray};
@@ -195,6 +204,7 @@ export const Table = styled.div`
     .players-flex-header p,  .players-flex-start p{
         margin: 0 .5rem;
     }
+   
     @media(max-width: 930px) {
         .players-header-flex{
             display: none;
