@@ -54,6 +54,7 @@ type IPlayer = {
   Age: string;
   NextOfKin: any;
 };
+
 interface PlayerState {
   players: any;
   player: any;

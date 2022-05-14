@@ -20,7 +20,7 @@ import {
   Select,
   Red,
   Green,
-  FilesHolder,TextArea, Download
+  FilesHolder,TextArea, Download, Small
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
@@ -419,14 +419,15 @@ export const UpdatePlayer: React.FC = () => {
     <Container>
       <Modal isOpen={modal}
         toggle={toggleModal}
-        modalTransition={{ timeout: 2000 }}>
+        modalTransition={{ timeout: 200 }}
+        size="xl" contentClassName="modal-box">
         <ModalHeader>
           ACCREDITATION
         </ModalHeader>
-        <ModalBody style={{ textAlign: "center" }}>
-          <small>You are attempting to submit this player for accreditation.</small> <br></br>
-          <small >Please <strong>note that you will no longer be able to edit this player information</strong>.</small> <br></br>
-          <small>Do certify that all information are <strong>COMPLETE, CORRECT & VALID</strong>.</small>
+        <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
+          <Small>You are attempting to submit this player for accreditation.</Small> <br></br>
+          <Small >Please <strong>note that you will no longer be able to edit this player information</strong>.</Small> <br></br>
+          <Small>Do certify that all information are <strong>COMPLETE, CORRECT & VALID</strong>.</Small>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Btn className="red" onClick={(e) => submitPlayer(e)}
               style={{ background: "green", color: "white", marginRight: "1rem" }} >
@@ -704,12 +705,12 @@ export const UpdatePlayer: React.FC = () => {
                         />
                       </Section>
                     </Section>
-                    <BtnDiv>
+                    {user.Role === "Accreditor" ?  "" : <BtnDiv>
                       <CreateBtn type="submit" disabled={disable} className={disable ? "disabled" : ""}>SAVE</CreateBtn>
                       {/* <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
                     </CreateBtn> */}
-                    </BtnDiv>
+                    </BtnDiv> }
                   </Form>
                 ) : (
                   ""
@@ -773,9 +774,9 @@ export const UpdatePlayer: React.FC = () => {
                         />
                       </Section>
                     </Section>
-                    <BtnDiv>
+                    {user.Role === "Accreditor" ?  "" :<BtnDiv>
                       <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
-                    </BtnDiv>
+                    </BtnDiv>}
                   </Form>
                 ) : (
                   ""
@@ -849,9 +850,9 @@ export const UpdatePlayer: React.FC = () => {
                         onChange={(e) => handleChange(e)}
                         value={inputObject.CourseFaculty?.toUpperCase()} />
                     </FormHolder>
-                    <BtnDiv>
+                    {user.Role === "Accreditor" ?  "" : <BtnDiv>
                       <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
-                    </BtnDiv>
+                    </BtnDiv>}
                   </Form>
                 ) : (
                   ""
@@ -982,9 +983,9 @@ export const UpdatePlayer: React.FC = () => {
                         CHANGE STATUS
                       </CreateBtn>
                       :""}
-                      <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
+                        {user.Role === "Accreditor" ?  "" : <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
                         SUBMIT FOR ACCREDITATION
-                      </CreateBtn>
+                      </CreateBtn>}
                     </BtnDiv>
                   </>
                 ) : (

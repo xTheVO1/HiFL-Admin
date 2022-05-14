@@ -327,7 +327,8 @@ export const UpdateOfficial: React.FC = () => {
     <Container>
         <Modal isOpen={modal}
         toggle={toggleModal}
-        modalTransition={{ timeout: 2000 }}>
+        modalTransition={{ timeout: 200 }}
+        size="xl">
         <ModalHeader>
           ACCREDITATION
         </ModalHeader>
@@ -486,10 +487,12 @@ export const UpdateOfficial: React.FC = () => {
                         <Input  disabled={disable} type="text" name="KinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress?.toUpperCase()} />
                       </Section>
                     </Section>
+                    {user?.Role === "Accreditor" ?  "" :
                     <BtnDiv>
                       <CreateBtn type="submit" className={disable ? "disabled" : ""}>SAVE</CreateBtn>
                       {/* <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn> */}
                     </BtnDiv>
+                    }
                   </Form>
               ) : (
                 ""
@@ -528,10 +531,12 @@ export const UpdateOfficial: React.FC = () => {
                         value={inputObject.AnyAllergies?.toUpperCase()} />
                     </Section>
                   </Section>
+                  {user.Role === "Accreditor" ?  "" :
                   <BtnDiv>
                     <CreateBtn type="submit" className={disable ? "disabled" : ""} disabled={disable}>SAVE </CreateBtn>
                     {/* <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn> */}
                   </BtnDiv>
+}
                 </Form>
               ) : (
                 ""
@@ -593,11 +598,13 @@ export const UpdateOfficial: React.FC = () => {
 
                   </BtnDiv>
                 </Form>
+                {user.Role === "Accreditor" ?  "" :
                  <BtnDiv>
                  <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
                    SUBMIT FOR ACCREDITATION
                  </CreateBtn>
-               </BtnDiv>
+                </BtnDiv>
+                }
                 </>
               ) : (
                 ""
@@ -634,8 +641,7 @@ export const UpdateOfficial: React.FC = () => {
                         <Label>APPROVAL</Label>
                         <Select
                           name="Approval"
-                          onChange={(e) => handleChange(e)}
-                         
+                          onChange={(e) => handleChange(e)}   
                         >
                           <option>Select a status</option>
                           {status.map(item => (
