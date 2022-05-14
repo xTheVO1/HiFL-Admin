@@ -3,6 +3,13 @@ import styled from "styled-components";
 export const Container = styled.div`
    width: 100%; 
    background: white;
+  & .modal-box{
+    background: red !important;
+   }
+`;
+export const Small= styled.small`
+ font-size: 1.7rem;
+
 `;
 export const Image = styled.img`
    width: 170px;
@@ -22,7 +29,10 @@ padding-top: 1rem;
 
 export const Section = styled.div`
     width:100%;
-    display: flex;
+    display: flex;  
+    & .disabled{
+        background: ${props => props.theme.colors.gray};
+    }
     flex-wrap: wrap;
     margin-bottom: 1rem; 
     justify-content: space-between;
@@ -32,6 +42,15 @@ export const Section = styled.div`
     h6{
         color: green;
     }
+`;
+
+export const Download = styled.button`
+background:#000229;
+color: white;   
+font-size: .7rem;
+padding: .2rem 1rem;
+border: 0px;
+cursor: pointer;
 `;
 
 export const Input = styled.input`
@@ -79,7 +98,7 @@ export const CreateBtn = styled.button`
     color: white;
     padding: .6rem 2rem;
     margin-left: 1rem;
-   
+ 
 `;
 
 export const FormHolder = styled.div`
@@ -195,6 +214,7 @@ export const Table = styled.div`
     .players-flex-header p,  .players-flex-start p{
         margin: 0 .5rem;
     }
+   
     @media(max-width: 930px) {
         .players-header-flex{
             display: none;
