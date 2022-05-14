@@ -1,0 +1,25 @@
+{
+    "folders": [
+        {
+            "path": "../../../../agencyos_web_dev"
+        },
+        {
+            "path": "../../../../../hiveapp"
+        },
+        {
+            "path": "../../../../hifl-web"
+        },
+        {
+            "path": "../../../../hifl-website"
+        },
+        {
+            "path": "../../../../file_upload"
+        },
+        {
+            "path": "../../../../credity"
+        },
+        {
+            "path": "../../../../HiFL-Admin"
+        }
+    ]
+}

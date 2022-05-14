@@ -3,7 +3,7 @@ import { Container, Content } from "./styles";
 import { Dispatch } from "redux"
 import { useDispatch, useSelector } from "react-redux"
 import { Table } from "reactstrap";
-import {getSeasons} from "../../redux/actions/seasons";
+import {getSeasons, updateSeason} from "../../redux/actions/seasons";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
@@ -24,42 +24,48 @@ function Seasons() {
     }, [dispatch])
 
    const addSeason = () => {
-    navigate("/create-season")
+    navigate("/create-season");
    }
 
    const viewSeason = (id:any) => {
-    navigate(`/seasons/${id}`)
+    navigate(`/seasons/${id}`);
    }
    
+   const closeRegistration = () => {
+       const payload = {} 
+       dispatch(updateSeason(payload))
+   }
+
 // sending User ID
     return (
         <Container>
            <ContentHeader title="Season">
+            <CreateBtn onClick={closeRegistration}>CLOSE REGISTRATION</CreateBtn>
             <CreateBtn onClick={addSeason}>CREATE SEASON</CreateBtn>
             </ContentHeader>
             <Content>
             {loading ? <Loader/>:
             mainDataResult.length === 0 ? <H2>NO DATA FOUND</H2> :
             <Table hover>
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Season Name</th>
-                            <th>Season Year</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    { mainDataResult && mainDataResult?.data?.map((item: any, index: any) => (
-                        <tr key={index} onClick={() => viewSeason(item._id)}>
-                            <th scope="row">{index + 1}</th>
-                            <td>{item.SeasonName}</td>
-                            <td>{item.SeasonYear}</td>
-                            <td>{item.InstitutionType}</td>
-                        </tr>
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Season Name</th>
+                        <th>Season Year</th>
+                        <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                { mainDataResult && mainDataResult?.data?.map((item: any, index: any) => (
+                    <tr key={index} onClick={() => viewSeason(item._id)}>
+                        <th scope="row">{index + 1}</th>
+                        <td>{item.SeasonName}</td>
+                        <td>{item.SeasonYear}</td>
+                        <td>{item.InstitutionType}</td>
+                    </tr>
 )) }
-                    </tbody>
-                </Table>
+                </tbody>
+            </Table>
 }
             </Content>
         </Container>

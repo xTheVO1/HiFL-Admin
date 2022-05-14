@@ -14,12 +14,15 @@ import { getOfficials } from "../../redux/actions/officials";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import NoData from "../../components/NoData";
+import { getleagues } from "../../redux/actions/leagues";
+const data: any = sessionStorage.getItem("userData");
+const user = JSON.parse(data);
 
 export const Players: React.FC = () => {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const [activeTab, setActiveTab] = useState("PLAYERS");
-
+  const [disable, setDisable] = useState(false);
   // Getting the team name and id
   const teamId = sessionStorage.getItem('Teamid');
   const teamName = sessionStorage.getItem('Teamname');
@@ -32,6 +35,9 @@ export const Players: React.FC = () => {
   const { officials } = officialStore;
   const mainData = players && players ? players : [];
   const officialData = officials && officials ? officials : [];
+  const items = useSelector((state: any) => state.leagues)
+  const leaguesLoading = useSelector((state: any) => state.leagues.loading)
+  const mainDataResult = items && items ? items.leagues: [];
 
   const addPlayer = () => {
     navigate("/register-player");
@@ -52,6 +58,8 @@ export const Players: React.FC = () => {
 
     dispatch(getPlayers(teamId));
     dispatch(getOfficials(teamId));
+    dispatch(getleagues());
+    
   }, [dispatch, teamId, navigate]);
 
 
@@ -67,7 +75,9 @@ export const Players: React.FC = () => {
               <p>|</p>
               <p className="active"> <MdSchool />{teamName}</p></div>
             <div className="players-flex-header">
-              <p className={activeTab === "PLAYERS" ? "active" : ""} onClick={() => setActiveTab("PLAYERS")} >
+              <p
+               className={activeTab === "PLAYERS" ? "active" : ""} 
+               onClick={() => setActiveTab("PLAYERS")} >
                 MANAGE PLAYERS </p>{" "}
               |
               <p className={activeTab === "OFFICIAL" ? "active" : ""} onClick={() => setActiveTab("OFFICIAL")}>
@@ -75,8 +85,23 @@ export const Players: React.FC = () => {
             </div>
           </Table>
           <ContentHeader title={activeTab === "OFFICIAL" ? `OFFICIALS (${officialData.length})` : `PLAYERS (${mainData.length})`} >
-            {activeTab === "OFFICIAL" ? <CreateBtn onClick={addOfficial}>REGISTER OFFICIAL</CreateBtn> : ""}
-            {activeTab === "PLAYERS" ? <CreateBtn onClick={addPlayer} disabled={mainData?.length === 30 ? true : false}>REGISTER PLAYER</CreateBtn> : ""}
+          {user.Role === "Accreditor" ?  "" :
+          <> 
+          {activeTab === "OFFICIAL" ?
+           <CreateBtn 
+           onClick={addOfficial} 
+           className={mainDataResult[0]?.Settings?.RegistrationOpen !== true ? "disabled" : "submit"}
+           disabled={mainDataResult[0]?.Settings?.RegistrationOpen !== true ? true : false}
+           >REGISTER OFFICIAL</CreateBtn> 
+           : ""}
+            {activeTab === "PLAYERS" ? 
+            <CreateBtn 
+            onClick={addPlayer} 
+            className={mainDataResult[0]?.Settings?.RegistrationOpen !== true ? "disabled" : "submit"}
+           disabled={mainDataResult[0]?.Settings?.RegistrationOpen !== true ||  mainData?.length === 30 ? true : false}
+            
+            >REGISTER PLAYER</CreateBtn> : ""}
+          </>}
           </ContentHeader>
           <Table>
             <div className="players-header">

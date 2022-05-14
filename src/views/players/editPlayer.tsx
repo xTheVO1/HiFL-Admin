@@ -4,6 +4,7 @@ import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
 import FormData from "form-data";
 import moment from "moment";
+
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -19,7 +20,7 @@ import {
   Select,
   Red,
   Green,
-  FilesHolder,TextArea
+  FilesHolder,TextArea, Download, Small
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
@@ -411,18 +412,22 @@ export const UpdatePlayer: React.FC = () => {
     setModal(!modal);
   }
 
+  const viewImage = () => {
+    
+  }
   return (
     <Container>
       <Modal isOpen={modal}
         toggle={toggleModal}
-        modalTransition={{ timeout: 2000 }}>
+        modalTransition={{ timeout: 200 }}
+        size="xl" contentClassName="modal-box">
         <ModalHeader>
           ACCREDITATION
         </ModalHeader>
-        <ModalBody style={{ textAlign: "center" }}>
-          <small>You are attempting to submit this player for accreditation.</small> <br></br>
-          <small >Please <strong>note that you will no longer be able to edit this player information</strong>.</small> <br></br>
-          <small>Do certify that all information are <strong>COMPLETE, CORRECT & VALID</strong>.</small>
+        <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
+          <Small>You are attempting to submit this player for accreditation.</Small> <br></br>
+          <Small >Please <strong>note that you will no longer be able to edit this player information</strong>.</Small> <br></br>
+          <Small>Do certify that all information are <strong>COMPLETE, CORRECT & VALID</strong>.</Small>
           <div style={{ display: "flex", justifyContent: "center" }}>
             <Btn className="red" onClick={(e) => submitPlayer(e)}
               style={{ background: "green", color: "white", marginRight: "1rem" }} >
@@ -500,7 +505,7 @@ export const UpdatePlayer: React.FC = () => {
                         onChange={(e) => handleChange(e)}
                         disabled={disable}
                         value={
-                          inputObject?.Firstname}
+                          inputObject?.Firstname?.toUpperCase()}
                       />
                     </FormHolder>
                     <FormHolder>
@@ -511,7 +516,7 @@ export const UpdatePlayer: React.FC = () => {
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
                         value={
-                          inputObject?.Lastname
+                          inputObject?.Lastname?.toUpperCase()
                         }
                       />
                     </FormHolder>
@@ -522,7 +527,7 @@ export const UpdatePlayer: React.FC = () => {
                         name="MiddleName"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject?.MiddleName}
+                        value={inputObject?.MiddleName?.toUpperCase()}
                       />
                     </FormHolder>
                     <FormHolder>
@@ -545,7 +550,7 @@ export const UpdatePlayer: React.FC = () => {
                         name="Email"
                         onChange={(e) => handleChange(e)}
                         disabled={true}
-                        value={inputObject.Email}
+                        value={inputObject.Email?.toUpperCase()}
                       />
                     </Section>
                     <Section>
@@ -653,7 +658,7 @@ export const UpdatePlayer: React.FC = () => {
                           disabled={disable}
                           name="FullNameOfKin"
                           onChange={(e) => handleChange(e)} required
-                          value={inputObject.FullNameOfKin}
+                          value={inputObject.FullNameOfKin?.toUpperCase()}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -674,7 +679,7 @@ export const UpdatePlayer: React.FC = () => {
                           onChange={(e) => handleChange(e)}
                           disabled={disable}
                           required
-                          value={inputObject.KinEmail}
+                          value={inputObject.KinEmail?.toUpperCase()}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -700,12 +705,12 @@ export const UpdatePlayer: React.FC = () => {
                         />
                       </Section>
                     </Section>
-                    <BtnDiv>
+                    {user.Role === "Accreditor" ?  "" : <BtnDiv>
                       <CreateBtn type="submit" disabled={disable} className={disable ? "disabled" : ""}>SAVE</CreateBtn>
                       {/* <CreateBtn className="submit" disabled={true}>
                       SUBMIT FOR ACCREDITATION
                     </CreateBtn> */}
-                    </BtnDiv>
+                    </BtnDiv> }
                   </Form>
                 ) : (
                   ""
@@ -718,7 +723,7 @@ export const UpdatePlayer: React.FC = () => {
                         <Select
                           name="Position"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.Position}
+                          value={inputObject.Position?.toUpperCase()}
                         >
                           <option>Select a Position</option>
                           {positions.map(item => (
@@ -745,7 +750,7 @@ export const UpdatePlayer: React.FC = () => {
                           name="Genotype"
                           onChange={(e) => handleChange(e)}
                           disabled={disable}
-                          value={inputObject.Genotype}
+                          value={inputObject.Genotype?.toUpperCase()}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -755,7 +760,7 @@ export const UpdatePlayer: React.FC = () => {
                           name="BloodGroup"
                           onChange={(e) => handleChange(e)}
                           disabled={disable}
-                          value={inputObject.BloodGroup}
+                          value={inputObject.BloodGroup?.toUpperCase()}
                         />
                       </FormHolder>
                       <Section>
@@ -765,13 +770,13 @@ export const UpdatePlayer: React.FC = () => {
                           name="AnyAllergies"
                           onChange={(e) => handleChange(e)}
                           disabled={disable}
-                          value={inputObject.AnyAllergies}
+                          value={inputObject?.AnyAllergies?.toUpperCase()}
                         />
                       </Section>
                     </Section>
-                    <BtnDiv>
+                    {user.Role === "Accreditor" ?  "" :<BtnDiv>
                       <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
-                    </BtnDiv>
+                    </BtnDiv>}
                   </Form>
                 ) : (
                   ""
@@ -792,7 +797,7 @@ export const UpdatePlayer: React.FC = () => {
                         name="JambRegNumber"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.JambRegNumber} />
+                        value={inputObject?.JambRegNumber?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>COURSE LEVEL</Label>
@@ -800,7 +805,7 @@ export const UpdatePlayer: React.FC = () => {
                         name="CourseLevel"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.CourseLevel} />
+                        value={inputObject.CourseLevel?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>SCHOOL PORTAL ID</Label>
@@ -808,7 +813,7 @@ export const UpdatePlayer: React.FC = () => {
                         name="SchoolPortalID"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.SchoolPortalID} />
+                        value={inputObject.SchoolPortalID?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>COURSE STUDY</Label>
@@ -816,7 +821,7 @@ export const UpdatePlayer: React.FC = () => {
                         disabled={disable}
                         name="CourseStudy"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.CourseStudy}
+                        value={inputObject.CourseStudy?.toUpperCase()}
                       />
                     </FormHolder>
                     <FormHolder>
@@ -825,13 +830,13 @@ export const UpdatePlayer: React.FC = () => {
                         name="SchoolPortalPassword"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.SchoolPortalPassword} />
+                        value={inputObject.SchoolPortalPassword?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>PROGRAMME</Label>
                       <Select
                         disabled={disable}
-                        onChange={(e) => handleChange(e)} value={inputObject.Programme} name="Programme">
+                        onChange={(e) => handleChange(e)} value={inputObject.Programme?.toUpperCase()} name="Programme">
                         <option >Select Programme</option>
                         <option value="Undergraduate">Undergraduate</option>
                         <option value="Post-Graduate">Post-Graduate</option>
@@ -843,11 +848,11 @@ export const UpdatePlayer: React.FC = () => {
                         disabled={disable}
                         name="CourseFaculty"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.CourseFaculty} />
+                        value={inputObject.CourseFaculty?.toUpperCase()} />
                     </FormHolder>
-                    <BtnDiv>
+                    {user.Role === "Accreditor" ?  "" : <BtnDiv>
                       <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
-                    </BtnDiv>
+                    </BtnDiv>}
                   </Form>
                 ) : (
                   ""
@@ -856,50 +861,52 @@ export const UpdatePlayer: React.FC = () => {
                   <>
                     <Form onSubmit={uploadFiles}>
                       <Section>
+                      <div id='uploadfile'>
+                    </div>
                         <Table hover>
                           <thead>
                             <tr>
-                              <th></th>
-                              <th>#</th>
-                              <th>File Type</th>
+                              <th>S/N</th>
+                              <th>Document Name</th>
+                              <th>Files</th>
                               <th>Status</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <tr  >
-                              <th scope="row"></th>
-                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                            <tr >
+                              <th scope="row">1</th>
                               <td>Jamb Photograph</td>
+                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer" download={false}><MdFolder /></a>}</td>
                               <td>{!files?.jambphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
-                              <th scope="row"></th>
-                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <th scope="row">2</th>
                               <td>School ID Card</td>
+                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
-                              <th scope="row"></th>
-                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <th scope="row">3</th>
                               <td>Jamb Result Slip</td>
+                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>{!files?.jambslip ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
-                              <th scope="row"></th>
-                              <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <th scope="row">4</th>
                               <td>Passport Photograph</td>
+                              <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer" download={false}><MdFolder /></a>}</td>
                               <td>{!files?.passportphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
-                              <th scope="row"></th>
-                              <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <th scope="row">5</th>
                               <td>Medical Certificate</td>
+                              <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
                               <td>{!files?.medicalcertificate ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
-                              <th scope="row"></th>
-                              <td>{!files?.latestcourseregistration ? <MdFolder /> : <a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><MdFolder /></a>}</td>
+                              <th scope="row">6</th>
                               <td>Latest Course Registration</td>
+                              <td>{!files?.latestcourseregistration ? <MdFolder /> : <a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><MdFolder /></a>}</td>
                               <td>{!files?.latestcourseregistration ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                           </tbody>
@@ -917,6 +924,7 @@ export const UpdatePlayer: React.FC = () => {
                           accept=".png, .jpg, .jpeg .pdf"
                         />
                       </FormHolder>
+
                       <FormHolder>
                         <Label>Passport Photograph</Label>
                         <Input
@@ -975,9 +983,9 @@ export const UpdatePlayer: React.FC = () => {
                         CHANGE STATUS
                       </CreateBtn>
                       :""}
-                      <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
+                        {user.Role === "Accreditor" ?  "" : <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
                         SUBMIT FOR ACCREDITATION
-                      </CreateBtn>
+                      </CreateBtn>}
                     </BtnDiv>
                   </>
                 ) : (
@@ -992,7 +1000,7 @@ export const UpdatePlayer: React.FC = () => {
                         <Select
                           name="Approval"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.Approval}
+                         
                         >
                           <option>Select a status</option>
                           {status.map(item => (
@@ -1005,7 +1013,7 @@ export const UpdatePlayer: React.FC = () => {
                         <TextArea
                           name="AccreditationComment"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.AccreditationComment} />
+                           />
                     </Section>
                     <BtnDiv>
                       <CreateBtn type="submit">SAVE</CreateBtn>
@@ -1030,8 +1038,8 @@ export const UpdatePlayer: React.FC = () => {
                               <th scope="row">{index + 1}</th>
                               <td>{item?.YearAccredicted}</td>
                               <td>{item?.Approval}</td>
-                              <td>{item?.AccreditationComment}</td>
-                              <td>{item?.Approval === "DISAPPROVED" ? "" : "DOWNLOAD"}</td>
+                              <td>{item?.AccreditationComment?.toUpperCase()}</td>
+                              <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" disabled={true}>DOWNLOAD</Download>}</td>
                           </tr>
                           )) }
                       </tbody>

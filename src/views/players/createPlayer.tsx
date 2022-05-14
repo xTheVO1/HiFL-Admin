@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 // import AWS from 'aws-sdk';
+
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -27,6 +28,7 @@ import { RootState } from "../../redux/reducers";
 import { Spinner } from "reactstrap";
 
 
+ 
 export const AddPlayer: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -75,7 +77,7 @@ export const AddPlayer: React.FC = () => {
     };
     const playerData = {
       Team: teamId,
-      Email: object.email,
+      Email: object.email?.toLowerCase(),
       CreatedBy: user._id,
       // Phonenumber: object.phone,
       MiddleName: object.Middlename,
