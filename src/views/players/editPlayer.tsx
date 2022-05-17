@@ -30,7 +30,7 @@ import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
 import { MdCheck, MdFolder, MdCancel } from "react-icons/md";
-import { Spinner, Table } from "reactstrap";
+import {  Table } from "reactstrap";
 import {
   POST_FILE_STARTED,
   POST_FILE_SUCCESSFUL,
@@ -52,7 +52,7 @@ export const UpdatePlayer: React.FC = () => {
   const { loading, singlePlayer } = store;
   const teamId = sessionStorage.getItem("Teamid");
   const [activeTab, setActiveTab] = useState("tab1");
-  const [fileLoading, setLoading] = useState(false);
+  const [, setLoading] = useState(false);
   const mainData = singlePlayer ? singlePlayer : {};
   const [modal, setModal] = useState(false);
   const [disable, setDisable] = useState(false);
@@ -993,7 +993,6 @@ export const UpdatePlayer: React.FC = () => {
                 )}
                   {activeTab === "tab5" ? 
               user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
-
                     <Form onSubmit={accredict}>
                     <Section>
                         <Label>APPROVAL</Label>
@@ -1019,7 +1018,6 @@ export const UpdatePlayer: React.FC = () => {
                       <CreateBtn type="submit">SAVE</CreateBtn>
                     </BtnDiv>
                     </Form>
-
                   : loading ? <Loader/> :(
                     mainData.AccreditationHistories?.length === 0 ? <div style={{ textAlign: "center"}}> <h3>PENDING</h3></div> :
                     <Table hover>

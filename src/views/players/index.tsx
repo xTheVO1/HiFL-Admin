@@ -58,7 +58,7 @@ export const Players: React.FC = () => {
 
     dispatch(getPlayers(teamId));
     dispatch(getOfficials(teamId));
-    dispatch(getleagues());
+    // dispatch(getleagues());
     
   }, [dispatch, teamId, navigate]);
 

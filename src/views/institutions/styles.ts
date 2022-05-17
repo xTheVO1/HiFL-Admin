@@ -22,7 +22,10 @@ export const Content = styled.div`
   width: 100%;
   padding: 1rem .5rem;
   text-align: center;
- 
+  & .header{
+    margin: 0 auto;
+    text-align: center;
+  }
 `;
 
 export const H2 = styled.h2`

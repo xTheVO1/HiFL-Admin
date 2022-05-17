@@ -162,6 +162,8 @@ interface LeagueState {
   newLeague: any;
   loading: boolean;
   error: any;
+  updatedLeague: any;
+  leagueStage: any;
 }
 
 type LeagueAction = {

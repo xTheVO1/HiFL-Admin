@@ -26,6 +26,7 @@
     "moment": "^2.29.1",
     "query-string": "^7.1.1",
     "react": "^17.0.2",
+    "react-bootstrap": "^2.4.0",
     "react-dom": "^17.0.2",
     "react-file-previewer-v2": "^0.6.3",
     "react-filepond": "^7.1.2",
