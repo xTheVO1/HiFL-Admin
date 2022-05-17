@@ -971,11 +971,11 @@ export const UpdatePlayer: React.FC = () => {
                           accept=".pdf .png, .jpg, .jpeg"
                         />
                       </FormHolder>
-                      <BtnDiv>
+                      {/* <BtnDiv>
                         <Section>
                           <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
                         </Section>
-                      </BtnDiv>
+                      </BtnDiv> */}
                     </Form>
                     <BtnDiv>
                       {user.Role === "SuperAdmin" ?
