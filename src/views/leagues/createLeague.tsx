@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
@@ -24,6 +24,7 @@ import {postLeague} from "../../redux/actions/leagues";
 export const AddLeague: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   // states
   const [object, setObject]: any = useState({});
@@ -43,8 +44,21 @@ export const AddLeague: React.FC = () => {
       LeagueName: object.LeagueName,
       Abbreviation: object.Abbreviation,
       Format: object.Format,
-      Stages: stages.push(object.stages),
-      Seasons: 2022
+      Seasons: id,
+      LeagueLogo: "string",
+      Sport: "string",
+      Settings: {
+        RegistrationOpen: true,
+        LeagueStatus: "OPEN",
+        "props": {}
+      },
+      Finalists: {
+        Winner: "",
+        SecondPlace:"",
+       ThirdPlace:"",
+       FourthPlace:""
+      }
+
      }
      dispatch(postLeague(data))
   }
@@ -54,7 +68,7 @@ export const AddLeague: React.FC = () => {
       <Content>
         <ContentHeader
           title="CREATE LEAGUE">
-          <Button onClick={() => navigate("/leagues")}>GO BACK</Button>
+          <Button onClick={() => navigate("/seasons")}>GO BACK</Button>
         </ContentHeader>
         <Tab>
           <Outlet>
@@ -72,22 +86,6 @@ export const AddLeague: React.FC = () => {
                 <Input
                   type="text"
                   name="Abbreviation" required
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
-              <FormHolder>
-                <Label>STAGES</Label>
-                <Input
-                  type="text"
-                  name="Stages" required
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
-              <FormHolder>
-                <Label>SEASON</Label>
-                <Input
-                  type="text"
-                  name="Seasons" required
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>

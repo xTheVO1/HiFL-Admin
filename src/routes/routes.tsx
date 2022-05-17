@@ -26,10 +26,10 @@ function AppRoutes() {
         <Route path="/users" element={<User />} />
         <Route path="/seasons" element={<Season />} />
         <Route path="/seasons/:id" element={<ViewSeason />} />
-        <Route path="/leagues" element={<Leagues />} />
+        <Route path="/leagues/:id" element={<Leagues />} />
         <Route path="/institutions" element={<Institution />} />
         <Route path="/create-institution" element={<AddInstitution />} />
-        <Route path="/create-league" element={<AddLeague />} />
+        <Route path="/create-league/:id" element={<AddLeague />} />
         <Route path="/create-season" element={<AddSeason />} />
         <Route path="/settings" element={<Setting />} />
         <Route path="/guidelines" element={<Guidelines />} />

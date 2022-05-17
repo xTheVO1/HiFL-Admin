@@ -122,7 +122,7 @@ export const updateSeason = (payload: any) => async (dispatch: Dispatch) => {
        dispatch(postSeasonStarted())
        const response = await privateHttp({
          method: "patch",
-         url: `/seasons/season/update/`,
+         url: `/leagues/league/update/`,
          data: seasonData
        })
        const { data } = response;
