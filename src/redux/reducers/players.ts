@@ -12,7 +12,10 @@ import { POST_PLAYER_FAILED,
         UPDATE_PLAYER_FAILED,
         DELETE_PLAYER_SUCCESSFUL,
         DELETE_PLAYER_STARTED,
-        DELETE_PLAYER_FAILED
+        DELETE_PLAYER_FAILED,
+        GET_PLAYER_LICENSE_STARTED,
+        GET_PLAYER_LICENSE_SUCCESSFUL,
+        GET_PLAYER_LICENSE_FAILED,
     } from "../actions/actionTypes";
 
 const  initialState = {
@@ -21,7 +24,8 @@ const  initialState = {
   singlePlayer: {},
   loading: false,
   error: null,
-  deletedPlayer: {}
+  deletedPlayer: {},
+  license: []
 }
 
 export const playerReducer = (state: PlayerState = initialState, action: any):PlayerState => {
@@ -77,6 +81,24 @@ export const playerReducer = (state: PlayerState = initialState, action: any):Pl
             loading: false,
             error: action.payload
           }
+          case GET_PLAYER_LICENSE_STARTED:
+            return {
+              ...state,
+              loading: true
+            
+            }
+            case GET_PLAYER_LICENSE_SUCCESSFUL: 
+              return {
+                ...state,
+                loading: false,
+                license: action.payload
+              }
+            case GET_PLAYER_LICENSE_FAILED:
+              return {
+                ...state,
+                loading: false,
+                error: action.payload
+              }
           case UPDATE_PLAYER_STARTED:
             return {
               ...state,
