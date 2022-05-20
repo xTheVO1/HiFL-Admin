@@ -1,21 +1,23 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Dispatch } from "redux"
-import { useDispatch, useSelector } from "react-redux"
-import { useNavigate } from "react-router-dom";
+import { useDispatch} from "react-redux"
 import Girl from "../../../assests/pic.jpeg"
 import "./license.css"
+import { getPlayerLicense } from "../../../redux/actions/players";
 
 // components
 
 function Institutions({user}: any) {
     const dispatch: Dispatch<any> = useDispatch()
-    const navigate = useNavigate();
     
-    console.log(user)
+    useEffect(() => {
+        // const getOfficial = async () => {
+          dispatch(getPlayerLicense({user}));
+        // };
+        // getOfficial();
     
-    const style = {
-        
-    }
+        // eslint-disable-next-line
+      }, [dispatch]);
     // sending User ID
     return (
         <div className="box" id="license">

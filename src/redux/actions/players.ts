@@ -233,11 +233,12 @@ export const accredictPlayer = (playerData: any) => async (dispatch: Dispatch) =
 };
 
 export const getPlayerLicense = (playerData: any) => async (dispatch: Dispatch) => {
+  const {player, team} = playerData
   try {
     dispatch(getPlayerLicenseStarted());
     const response = await privateHttp({
       method: "get",
-      url: `/players/player/license/`,
+      url: `/players/player/license/?player_id=${player}&team_id=${team}`,
       data: playerData,
     });
     const { data } = response;

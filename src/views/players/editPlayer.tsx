@@ -26,7 +26,7 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getPlayerById, updatePlayer, accredictPlayer } from "../../redux/actions/players";
+import { getPlayerById, updatePlayer, accredictPlayer, getPlayerLicense } from "../../redux/actions/players";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -45,7 +45,6 @@ import {
   Modal,
   ModalHeader, ModalBody
 } from "reactstrap";
-import Girl from "../../assests/pic.jpeg"
 import "./license/license.css"
 
 export const UpdatePlayer: React.FC = () => {
@@ -53,18 +52,22 @@ export const UpdatePlayer: React.FC = () => {
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
   const store = useSelector((state: RootState) => state.player);
-  const { loading, singlePlayer } = store;
+  const { loading, singlePlayer, license } = store;
   const teamId = sessionStorage.getItem("Teamid");
   const [activeTab, setActiveTab] = useState("tab1");
   const [, setLoading] = useState(false);
   const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
   const [modal, setModal] = useState(false);
+  const [userLicense, setLicense] = useState({});
   const [disable, setDisable] = useState(false);
   const data: any = sessionStorage.getItem("userData");
+  const team: any = sessionStorage.getItem("Teamid");
   const user = JSON.parse(data);
+  // const teamID = JSON.parse(team);
   const doc: any = new jsPDF();
 
   const [inputObject, setObject] = useState({
+    team: "",
     Firstname: "",
     Lastname: "",
     Email: "",
@@ -102,7 +105,11 @@ export const UpdatePlayer: React.FC = () => {
     AccreditationComment:"",
     Approval: "",
     Accredicted: "",
-    AccreditationHistories: []
+    AccreditationHistories: [],
+    licensePhotograph: "",
+    licenseName: "",
+    licenseCourse: "",
+    licenseTeam: ""
   });
 
   const [files, setFileUpload] = useState({
@@ -119,19 +126,27 @@ export const UpdatePlayer: React.FC = () => {
       dispatch(getPlayerById(id));
     };
     getOfficial();
+    const getLicense= async () => {
+      dispatch(getPlayerLicense({
+        player: id, 
+        team
+      }));
+    };
+    getLicense();
     // eslint-disable-next-line
   }, [dispatch]);
 
   useEffect(() => {
-    const data = singlePlayer ? singlePlayer : {};
+    const data = singlePlayer && singlePlayer ? singlePlayer : {};
     const {
       Address,
       NextOfKin,
       MedicalRecord,
       DocumentUploads,
       SportRecord,
-      AcademicRecord, MiddleName, User, DateOfBirth, Age, isCompleted, AccreditationHistories
+      AcademicRecord, MiddleName, User, DateOfBirth, Age, isCompleted,
     } = data;
+  const licenseData  = license && license.data ? license.data : {};
     // console.log(AccreditationHistories[0])
     setDisable(isCompleted);
     setObject({
@@ -171,8 +186,12 @@ export const UpdatePlayer: React.FC = () => {
       AccreditationComment:"",
       Approval: "",
       // Accredicted: AccreditationHistories === [] ? "" : AccreditationHistories[0].Approval,
-      Accredicted : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.Approval
-
+      Accredicted : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.Approval,
+      team: data?.team,
+      licensePhotograph: licenseData?.PassportPhotograph,
+      licenseName: licenseData?.Fullname,
+      licenseCourse: licenseData?.CourseDetail,
+      licenseTeam: licenseData?.Team
     });
     setFileUpload({
       ...files,
@@ -183,8 +202,11 @@ export const UpdatePlayer: React.FC = () => {
       jambphotograph: DocumentUploads?.JambPhotograph,
       latestcourseregistration: DocumentUploads?.LatestCourseRegistration
     })
-
-  }, [singlePlayer]);
+    setLicense({
+      player: id,
+      teamId: team
+    })
+  }, [singlePlayer, license]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -1017,7 +1039,7 @@ export const UpdatePlayer: React.FC = () => {
                   ""
                 )}
                   {activeTab === "tab5" ? 
-              user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
+                    user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
                     <Form onSubmit={accredict}>
                     <Section>
                         <Label>APPROVAL</Label>
@@ -1067,29 +1089,29 @@ export const UpdatePlayer: React.FC = () => {
                           )) }
                       </tbody>
                     </Table>
-                    <License user={mainData}/>
+                    {/* <License user={userLicense}/> */}
                     <div  style={{display: "none"}}>
                     <div className="box"id="divToPrint" >
                         <div className="header">
                         </div>
                         <div className="passport">
-                            <img src={Girl} alt="user"/>
+                            <img src={inputObject?.licensePhotograph} alt="user"/>
                         </div>
                         <div className="form-box">
                            <div className="name">
-                             <h2><span>{`${inputObject?.Firstname?.toUpperCase()}`}</span> {" "}{" "}  <span className="middle">{`${inputObject?.MiddleName?.toUpperCase()}`}</span>  {" "}{" "}   <span>{`${inputObject?.Lastname?.toUpperCase()} `}</span></h2></div> 
+                             <h2><span>{`${inputObject?.licenseName?.toUpperCase()}`}</span> {" "}{" "}</h2></div> 
                             <div className="form-control-box">
                                 <div className="form-group">
                                     <label>TEAM</label>
-                                    <input type="text" name="team" value="TEAM"/>
+                                    <input type="text" name="team" value={inputObject?.licenseTeam}/>
                                 </div>
                                 <div className="form-group">
-                                    <label>BLOOD GRP</label>
-                                    <input type="text" name="team" value={inputObject?.BloodGroup?.toUpperCase()}/>
+                                    <label>POSITION</label>
+                                    <input type="text" name="team" value={inputObject?.Position?.toUpperCase()}/>
                                 </div>
                                 <div className="form-group">
                                     <label>COURSE & LEVEL</label>
-                                    <input type="text" name="team" value={inputObject?.CourseLevel?.toUpperCase()}/>
+                                    <input type="text" name="team" value={inputObject?.licenseCourse?.toUpperCase()}/>
                                 </div>
                                 <div className="form-group">
                                     <label>MATRIC NO.</label>
