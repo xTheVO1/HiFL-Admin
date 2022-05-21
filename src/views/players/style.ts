@@ -91,6 +91,16 @@ export const Label = styled.label`
 export const Outlet = styled.div`
    background: #FCFCFC;
    padding: 1.5rem;
+   .user-table-head{
+    display: flex;
+    justify-content: space-around;
+    width: 90%;
+  }
+  .table-head{
+    display: flex;
+    justify-content: space-around;
+    width: 84%;
+  }
 `;
 
 export const CreateBtn = styled.button`

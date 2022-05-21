@@ -20,6 +20,15 @@
         },
         {
             "path": "../../../../HiFL-Admin"
+        },
+        {
+            "path": "../../../../HIFL"
+        },
+        {
+            "path": "../../../../Certificate"
         }
-    ]
+    ],
+    "settings": {
+        "liveServer.settings.multiRootWorkspaceName": "HIFL"
+    }
 }

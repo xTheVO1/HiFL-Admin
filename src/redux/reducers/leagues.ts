@@ -6,7 +6,13 @@ import {  POST_LEAGUE_STARTED,
           GET_LEAGUE_FAILED,
           GET_LEAGUES_STARTED,
           GET_LEAGUES_SUCCESSFUL,
-          GET_LEAGUES_FAILED
+          GET_LEAGUES_FAILED,
+          GET_LEAGUE_STAGE_STARTED,
+          GET_LEAGUE_STAGE_SUCCESSFUL,
+          GET_LEAGUE_STAGE_FAILED,
+          UPDATE_LEAGUE_STARTED,
+          UPDATE_LEAGUE_SUCCESSFUL,
+          UPDATE_LEAGUE_FAILED
     } from "../actions/actionTypes";
 
 const  initialState = {
@@ -14,7 +20,9 @@ const  initialState = {
   league: {},
   newLeague: {},
   loading: false,
-  error: {}
+  error: {},
+  updatedLeague: {},
+  leagueStage: []
 }
 
 export const leagueReducer = (state: LeagueState = initialState, action: any):LeagueState => {
@@ -31,6 +39,23 @@ export const leagueReducer = (state: LeagueState = initialState, action: any):Le
           newLeague: action.payload
         }
       case POST_LEAGUE_FAILED:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload
+        }
+      case UPDATE_LEAGUE_STARTED:
+        return {
+          ...state,
+          loading: true
+        }
+      case UPDATE_LEAGUE_SUCCESSFUL: 
+        return {
+          ...state,
+          loading: false,
+          updatedLeague: action.payload
+        }
+      case UPDATE_LEAGUE_FAILED:
         return {
           ...state,
           loading: false,
@@ -69,6 +94,23 @@ export const leagueReducer = (state: LeagueState = initialState, action: any):Le
             ...state,
             loading: false,
             error: action.payload
+          }
+        case GET_LEAGUE_STAGE_STARTED:
+          return {
+            ...state,
+            loading: true
+          }
+          case GET_LEAGUE_STAGE_SUCCESSFUL: 
+            return {
+              ...state,
+              loading: false,
+              leagueStage: action.payload
+          }
+          case GET_LEAGUE_STAGE_FAILED:
+            return {
+              ...state,
+              loading: false,
+              error: action.payload
           }
     }
       return state;

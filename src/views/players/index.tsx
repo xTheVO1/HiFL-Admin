@@ -38,13 +38,13 @@ export const Players: React.FC = () => {
   const leaguesLoading = useSelector((state: any) => state.leagues.loading);
   const mainDataResult = items && items ? items.leagues : [];
 
-  const addPlayer = () => {
-    navigate("/register-player");
-  };
+  // const addPlayer = () => {
+  //   navigate("/register-player");
+  // };
 
-  const addOfficial = () => {
-    navigate("/register-official");
-  };
+  // const addOfficial = () => {
+  //   navigate("/register-official");
+  // };
 
   const viewTeams = () => {
     navigate("/teams");
@@ -57,7 +57,8 @@ export const Players: React.FC = () => {
 
     dispatch(getPlayers(teamId));
     dispatch(getOfficials(teamId));
-    dispatch(getleagues());
+    // dispatch(getleagues());
+    
   }, [dispatch, teamId, navigate]);
 
   return (

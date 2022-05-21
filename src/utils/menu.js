@@ -77,12 +77,6 @@ export const SuperAdminMenu = [
     icon: <MdCalendarToday />,
   },
   {
-    id: "league",
-    title: "LEAGUES",
-    href: "/leagues",
-    icon: <MdSports />,
-  },
-  {
     id: "user",
     title: "USERS",
     href: "/users",

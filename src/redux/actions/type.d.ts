@@ -58,6 +58,7 @@ type IPlayer = {
 interface PlayerState {
   players: any;
   player: any;
+  license: any;
   singlePlayer: any;
   loading: boolean;
   error: any;
@@ -162,6 +163,8 @@ interface LeagueState {
   newLeague: any;
   loading: boolean;
   error: any;
+  updatedLeague: any;
+  leagueStage: any;
 }
 
 type LeagueAction = {

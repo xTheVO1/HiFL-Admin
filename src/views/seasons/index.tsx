@@ -15,11 +15,13 @@ import { useNavigate } from "react-router-dom";
 function Seasons() {
     const dispatch: Dispatch<any> = useDispatch()
     const navigate = useNavigate();
+
     const items = useSelector((state: any) => state.seasons)
     const loading = useSelector((state: any) => state.seasons.loading)
     const mainDataResult = items && items ? items.seasons: [];
 
     React.useEffect(() => {
+      dispatch(getSeasons())
       dispatch(getSeasons())
     }, [dispatch])
 
@@ -32,16 +34,22 @@ function Seasons() {
    }
    
    const closeRegistration = () => {
-       const payload = {} 
+       const payload = {
+           id: "",
+           params:{
+            Settings: {
+                RegistrationOpen: false
+              }
+           }
+       } 
        dispatch(updateSeason(payload))
    }
 
-// sending User ID
+   // sending User ID
     return (
         <Container>
            <ContentHeader title="Season">
-            <CreateBtn onClick={closeRegistration}>CLOSE REGISTRATION</CreateBtn>
-            <CreateBtn onClick={addSeason}>CREATE SEASON</CreateBtn>
+                <CreateBtn onClick={addSeason}>CREATE SEASON</CreateBtn>
             </ContentHeader>
             <Content>
             {loading ? <Loader/>:
