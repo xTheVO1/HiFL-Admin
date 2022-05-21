@@ -4,7 +4,9 @@ import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
 import FormData from "form-data";
 import moment from "moment";
-
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+import License from "./license/license";
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -24,7 +26,7 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getPlayerById, updatePlayer, accredictPlayer } from "../../redux/actions/players";
+import { getPlayerById, updatePlayer, accredictPlayer, getPlayerLicense } from "../../redux/actions/players";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -43,23 +45,29 @@ import {
   Modal,
   ModalHeader, ModalBody
 } from "reactstrap";
+import "./license/license.css"
 
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
   const store = useSelector((state: RootState) => state.player);
-  const { loading, singlePlayer } = store;
+  const { loading, singlePlayer, license } = store;
   const teamId = sessionStorage.getItem("Teamid");
   const [activeTab, setActiveTab] = useState("tab1");
   const [, setLoading] = useState(false);
-  const mainData = singlePlayer ? singlePlayer : {};
+  const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
   const [modal, setModal] = useState(false);
+  const [userLicense, setLicense] = useState({});
   const [disable, setDisable] = useState(false);
   const data: any = sessionStorage.getItem("userData");
+  const team: any = sessionStorage.getItem("Teamid");
   const user = JSON.parse(data);
+  // const teamID = JSON.parse(team);
+  const doc: any = new jsPDF();
 
   const [inputObject, setObject] = useState({
+    team: "",
     Firstname: "",
     Lastname: "",
     Email: "",
@@ -97,8 +105,13 @@ export const UpdatePlayer: React.FC = () => {
     AccreditationComment:"",
     Approval: "",
     Accredicted: "",
-    AccreditationHistories: []
+    AccreditationHistories: [],
+    licensePhotograph: "",
+    licenseName: "",
+    licenseCourse: "",
+    licenseTeam: ""
   });
+
   const [files, setFileUpload] = useState({
     medicalcertificate: "",
     passportphotograph: "",
@@ -113,19 +126,27 @@ export const UpdatePlayer: React.FC = () => {
       dispatch(getPlayerById(id));
     };
     getOfficial();
+    const getLicense= async () => {
+      dispatch(getPlayerLicense({
+        player: id, 
+        team
+      }));
+    };
+    getLicense();
     // eslint-disable-next-line
   }, [dispatch]);
 
   useEffect(() => {
-    const data = singlePlayer ? singlePlayer : {};
+    const data = singlePlayer && singlePlayer ? singlePlayer : {};
     const {
       Address,
       NextOfKin,
       MedicalRecord,
       DocumentUploads,
       SportRecord,
-      AcademicRecord, MiddleName, User, DateOfBirth, Age, isCompleted, AccreditationHistories
+      AcademicRecord, MiddleName, User, DateOfBirth, Age, isCompleted,
     } = data;
+  const licenseData  = license && license.data ? license.data : {};
     // console.log(AccreditationHistories[0])
     setDisable(isCompleted);
     setObject({
@@ -165,8 +186,12 @@ export const UpdatePlayer: React.FC = () => {
       AccreditationComment:"",
       Approval: "",
       // Accredicted: AccreditationHistories === [] ? "" : AccreditationHistories[0].Approval,
-      Accredicted : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.Approval
-
+      Accredicted : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.Approval,
+      team: data?.team,
+      licensePhotograph: licenseData?.PassportPhotograph,
+      licenseName: licenseData?.Fullname,
+      licenseCourse: licenseData?.CourseDetail,
+      licenseTeam: licenseData?.Team
     });
     setFileUpload({
       ...files,
@@ -177,8 +202,11 @@ export const UpdatePlayer: React.FC = () => {
       jambphotograph: DocumentUploads?.JambPhotograph,
       latestcourseregistration: DocumentUploads?.LatestCourseRegistration
     })
-
-  }, [singlePlayer]);
+    setLicense({
+      player: id,
+      teamId: team
+    })
+  }, [singlePlayer, license]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -277,9 +305,8 @@ export const UpdatePlayer: React.FC = () => {
       }
     };
     dispatch(accredictPlayer(details));
-    dispatch(getPlayerById(id));
     navigate("/players")
-    // dispatch(getPlayerById(id));
+    dispatch(getPlayerById(id));
   };
 
   const changeStatus = async (e: any) => {
@@ -412,9 +439,28 @@ export const UpdatePlayer: React.FC = () => {
     setModal(!modal);
   }
 
-  const viewImage = () => {
+  function printDocument() {
+    const page: any = document.getElementById('divToPrint')
+    html2canvas(page)
+      .then((canvas) => {
+        // const imgData = canvas.toDataURL('image/png');
+        const link = document.createElement('a');
+        const data = canvas.toDataURL('image/jpg');
+
+        if (typeof link.download === 'string') {
+          link.href = data;
+          link.download = 'image.jpg';
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          window.open(data);
+        }
+     
+      })
     
   }
+
   return (
     <Container>
       <Modal isOpen={modal}
@@ -876,37 +922,37 @@ export const UpdatePlayer: React.FC = () => {
                             <tr >
                               <th scope="row">1</th>
                               <td>Jamb Photograph</td>
-                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer" download={false}><MdFolder /></a>}</td>
+                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer" download={false}><span>View...</span></a>}</td>
                               <td>{!files?.jambphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">2</th>
                               <td>School ID Card</td>
-                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><span>View...</span></a>}</td>
                               <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">3</th>
                               <td>Jamb Result Slip</td>
-                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><span>View...</span></a>}</td>
                               <td>{!files?.jambslip ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">4</th>
                               <td>Passport Photograph</td>
-                              <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer" download={false}><MdFolder /></a>}</td>
+                              <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer" download={false}><span>View...</span></a>}</td>
                               <td>{!files?.passportphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">5</th>
                               <td>Medical Certificate</td>
-                              <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                              <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><span>View...</span></a>}</td>
                               <td>{!files?.medicalcertificate ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">6</th>
                               <td>Latest Course Registration</td>
-                              <td>{!files?.latestcourseregistration ? <MdFolder /> : <a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><MdFolder /></a>}</td>
+                              <td>{!files?.latestcourseregistration ? <MdFolder /> : <a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><span>View...</span></a>}</td>
                               <td>{!files?.latestcourseregistration ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                           </tbody>
@@ -924,7 +970,6 @@ export const UpdatePlayer: React.FC = () => {
                           accept=".png, .jpg, .jpeg .pdf"
                         />
                       </FormHolder>
-
                       <FormHolder>
                         <Label>Passport Photograph</Label>
                         <Input
@@ -983,23 +1028,24 @@ export const UpdatePlayer: React.FC = () => {
                         CHANGE STATUS
                       </CreateBtn>
                       :""}
-                        {user.Role === "Accreditor" ?  "" : <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
+                        {/* {user.Role === "Accreditor" ?  "" :  */}
+                        <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
                         SUBMIT FOR ACCREDITATION
-                      </CreateBtn>}
+                      </CreateBtn>
+                      {/* } */}
                     </BtnDiv>
                   </>
                 ) : (
                   ""
                 )}
                   {activeTab === "tab5" ? 
-              user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
+                    user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
                     <Form onSubmit={accredict}>
                     <Section>
                         <Label>APPROVAL</Label>
                         <Select
                           name="Approval"
-                          onChange={(e) => handleChange(e)}
-                         
+                          onChange={(e) => handleChange(e)} required
                         >
                           <option>Select a status</option>
                           {status.map(item => (
@@ -1011,7 +1057,7 @@ export const UpdatePlayer: React.FC = () => {
                         <Label>COMMENTS</Label>
                         <TextArea
                           name="AccreditationComment"
-                          onChange={(e) => handleChange(e)}
+                          onChange={(e) => handleChange(e)} required
                            />
                     </Section>
                     <BtnDiv>
@@ -1020,6 +1066,7 @@ export const UpdatePlayer: React.FC = () => {
                     </Form>
                   : loading ? <Loader/> :(
                     mainData.AccreditationHistories?.length === 0 ? <div style={{ textAlign: "center"}}> <h3>PENDING</h3></div> :
+                    <>
                     <Table hover>
                       <thead>
                           <tr>
@@ -1037,11 +1084,47 @@ export const UpdatePlayer: React.FC = () => {
                               <td>{item?.YearAccredicted}</td>
                               <td>{item?.Approval}</td>
                               <td>{item?.AccreditationComment?.toUpperCase()}</td>
-                              <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" disabled={true}>DOWNLOAD</Download>}</td>
+                              <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" onClick={printDocument}>DOWNLOAD</Download>}</td>
                           </tr>
                           )) }
                       </tbody>
                     </Table>
+                    {/* <License user={userLicense}/> */}
+                    <div  style={{display: "none"}}>
+                    <div className="box"id="divToPrint" >
+                        <div className="header">
+                        </div>
+                        <div className="passport">
+                            <img src={inputObject?.licensePhotograph} alt="user"/>
+                        </div>
+                        <div className="form-box">
+                           <div className="name">
+                             <h2><span>{`${inputObject?.licenseName?.toUpperCase()}`}</span> {" "}{" "}</h2></div> 
+                            <div className="form-control-box">
+                                <div className="form-group">
+                                    <label>TEAM</label>
+                                    <input type="text" name="team" value={inputObject?.licenseTeam}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>POSITION</label>
+                                    <input type="text" name="team" value={inputObject?.Position?.toUpperCase()}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>COURSE & LEVEL</label>
+                                    <input type="text" name="team" value={inputObject?.licenseCourse?.toUpperCase()}/>
+                                </div>
+                                <div className="form-group">
+                                    <label>MATRIC NO.</label>
+                                    <input type="text" name="team" value={inputObject?.MatricNumber?.toUpperCase()}/>
+                                </div>
+                            </div>
+                        </div>
+                        <p className="order">THIS LICENCE MUST BE PRESENTED IN COLOURED</p>
+                        <div className="footer">
+                        </div>
+                    </div>
+                    </div>
+                    </>
                  )
                   : ""}
               </Outlet>

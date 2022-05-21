@@ -58,6 +58,7 @@ type IPlayer = {
 interface PlayerState {
   players: any;
   player: any;
+  license: any;
   singlePlayer: any;
   loading: boolean;
   error: any;
