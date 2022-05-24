@@ -166,6 +166,7 @@ export const updateOfficials = (officialData: any) => async (dispatch: Dispatch)
 }
 
 export const accredictOfficial = (officialData: any) => async (dispatch: Dispatch) => {
+  console.log(officialData)
   try {
     dispatch(accredictOfficialStarted())
     const response = await privateHttp({

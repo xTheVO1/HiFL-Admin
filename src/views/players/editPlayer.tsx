@@ -260,10 +260,10 @@ export const UpdatePlayer: React.FC = () => {
             NearestBusStop: inputObject.SchoolNearestBusStop,
           }
         },
-        AccreditationHistories: AccreditationHistories.push({YearAccredited: "2022", 
-          AccreditationComment: inputObject?.AccreditationComment,
-          Approval: inputObject?.Approval
-        }),
+        // AccreditationHistories: AccreditationHistories.push({YearAccredited: "2022", 
+        //   AccreditationComment: inputObject?.AccreditationComment,
+        //   Approval: inputObject?.Approval
+        // }),
         MedicalRecord: {
           Genotype: inputObject.Genotype,
           BloodGroup: inputObject.BloodGroup,
@@ -465,6 +465,7 @@ export const UpdatePlayer: React.FC = () => {
   const action = (e: any) => {
 
   }
+
   function printDocument () {
     setLicenseModal(!licenseModal)
 
@@ -960,19 +961,19 @@ export const UpdatePlayer: React.FC = () => {
                             <tr >
                               <th scope="row">1</th>
                               <td>Jamb Photograph</td>
-                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer" download={false}><MdFolder /> <span>VIEW...</span></a>}</td>
+                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer" download={false}><MdFolder /> <span>View...</span></a>}</td>
                               <td>{!files?.jambphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">2</th>
                               <td>School ID Card</td>
-                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /> <span>VIEW...</span></a>}</td>
+                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /> <span>View...</span></a>}</td>
                               <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">3</th>
                               <td>Jamb Result Slip</td>
-                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /> <span>VIEW...</span></a>}</td>
+                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /> <span>View...</span></a>}</td>
                               <td>{!files?.jambslip ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
