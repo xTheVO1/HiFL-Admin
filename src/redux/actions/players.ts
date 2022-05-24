@@ -245,7 +245,7 @@ export const getPlayerLicense = (playerData: any) => async (dispatch: Dispatch) 
     // SuccessPopUp("Player details updated Successfully")
     return dispatch(getPlayerLicenseSuccess(data));
   } catch (error: any) {
-    ErrorPopUp(error.response.data.message)
+    // ErrorPopUp(error.response.data.message)
     return dispatch(getPlayerLicenseFailed(error.response));
   }
 };
