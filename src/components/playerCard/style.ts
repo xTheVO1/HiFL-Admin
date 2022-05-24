@@ -16,7 +16,11 @@ export const Content = styled.div`
   }
   div .red{
     background: rgb(201, 1, 1);
-  color: white;
+    color: white;
+  }   
+div .red{
+    background: rgb(201, 1, 1);
+    color: white;
 }
 `;
 

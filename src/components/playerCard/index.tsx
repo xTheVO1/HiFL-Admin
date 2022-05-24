@@ -54,7 +54,7 @@ export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, statu
             </Btn>
           </div>
           <div  onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
-            <Btn className={approval === undefined ? "incomplete" : "complete"}>
+            <Btn className={approval === undefined ? "incomplete" :(approval === "APPROVED" ? "complete" : "red")}>
             {approval === undefined ? "PENDING" : (approval === "APPROVED" ? "APPROVED": "DISAPPROVED")}
             </Btn>
           </div>
