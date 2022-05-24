@@ -6,7 +6,8 @@ import FormData from "form-data";
 import moment from "moment";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
-import License from "./license/license";
+// import License from "./license/license";
+
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
@@ -45,21 +46,27 @@ import {
   Modal,
   ModalHeader, ModalBody
 } from "reactstrap";
-import "./license/license.css"
+import "./license/license.css";
+
+import EditModal from "../../components/Modal";
 
 export const UpdatePlayer: React.FC = () => {
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
+  const [activeTab, setActiveTab] = useState("tab1");
+  const [isModal, setIsModal] = useState(false);
+  const [, setLoading] = useState(false);
+  const [, setLicense] = useState({});
+  const [disable, setDisable] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [licenseModal, setLicenseModal] = useState(false);
+  const [accredidationItem, setItem] = useState({});
+  const [show, setClass] = useState("none");
   const store = useSelector((state: RootState) => state.player);
   const { loading, singlePlayer, license } = store;
   const teamId = sessionStorage.getItem("Teamid");
-  const [activeTab, setActiveTab] = useState("tab1");
-  const [, setLoading] = useState(false);
   const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
-  const [modal, setModal] = useState(false);
-  const [userLicense, setLicense] = useState({});
-  const [disable, setDisable] = useState(false);
   const data: any = sessionStorage.getItem("userData");
   const team: any = sessionStorage.getItem("Teamid");
   const user = JSON.parse(data);
@@ -146,9 +153,10 @@ export const UpdatePlayer: React.FC = () => {
       SportRecord,
       AcademicRecord, MiddleName, User, DateOfBirth, Age, isCompleted,
     } = data;
-  const licenseData  = license && license.data ? license.data : {};
-    // console.log(AccreditationHistories[0])
+
+    const licenseData  = license && license.data ? license.data : {};
     setDisable(isCompleted);
+
     setObject({
       ...inputObject,
       Age: Age,
@@ -183,16 +191,16 @@ export const UpdatePlayer: React.FC = () => {
       SchoolPortalPassword: AcademicRecord?.SchoolPortalPassword,
       CourseLevel: AcademicRecord?.CourseLevel,
       CourseStudy: AcademicRecord?.CourseStudy,
-      AccreditationComment:"",
-      Approval: "",
-      // Accredicted: AccreditationHistories === [] ? "" : AccreditationHistories[0].Approval,
       Accredicted : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.Approval,
+      AccreditationComment : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.AccreditationComment,
+      Approval : !data?.AccreditationHistories ? false : data?.AccreditationHistories[0]?.Approval,
       team: data?.team,
       licensePhotograph: licenseData?.PassportPhotograph,
       licenseName: licenseData?.Fullname,
       licenseCourse: licenseData?.CourseDetail,
       licenseTeam: licenseData?.Team
     });
+
     setFileUpload({
       ...files,
       passportphotograph: DocumentUploads?.PassportPhotograph,
@@ -202,10 +210,12 @@ export const UpdatePlayer: React.FC = () => {
       jambphotograph: DocumentUploads?.JambPhotograph,
       latestcourseregistration: DocumentUploads?.LatestCourseRegistration
     })
+
     setLicense({
       player: id,
       teamId: team
     })
+
   }, [singlePlayer, license]);
 
   const handleChange = (e: any) => {
@@ -218,6 +228,7 @@ export const UpdatePlayer: React.FC = () => {
 
   const editPlayer = async (e: any) => {
     e.preventDefault();
+    const AccreditationHistories = [];
     const newAge = moment(inputObject?.DateOfBirth).fromNow(true).split(" ")
     const details = {
       _id: id,
@@ -249,11 +260,10 @@ export const UpdatePlayer: React.FC = () => {
             NearestBusStop: inputObject.SchoolNearestBusStop,
           }
         },
-        YearApplied: [
-          {
-            Year: 2022
-          }
-        ],
+        AccreditationHistories: AccreditationHistories.push({YearAccredited: "2022", 
+          AccreditationComment: inputObject?.AccreditationComment,
+          Approval: inputObject?.Approval
+        }),
         MedicalRecord: {
           Genotype: inputObject.Genotype,
           BloodGroup: inputObject.BloodGroup,
@@ -439,17 +449,35 @@ export const UpdatePlayer: React.FC = () => {
     setModal(!modal);
   }
 
-  function printDocument() {
+//   // Toggle for Modal
+  const toggle = (data: any) => {
+    setIsModal(!isModal);
+    setItem(data)
+  }
+
+  //   // Toggle for Modal
+  const toggleLicenseModal = (data: any) => {
+    setLicenseModal(!licenseModal);
+  
+  }
+
+
+  const action = (e: any) => {
+
+  }
+  function printDocument () {
+    setLicenseModal(!licenseModal)
+
     const page: any = document.getElementById('divToPrint')
     html2canvas(page)
       .then((canvas) => {
         // const imgData = canvas.toDataURL('image/png');
+        const data = canvas.toDataURL('image/png');
         const link = document.createElement('a');
-        const data = canvas.toDataURL('image/jpg');
 
         if (typeof link.download === 'string') {
           link.href = data;
-          link.download = 'image.jpg';
+          link.download = "HiFL-license.png"
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
@@ -458,7 +486,17 @@ export const UpdatePlayer: React.FC = () => {
         }
      
       })
-    
+    // const element: any = document.getElementById('divToPrint'),
+    // canvas = await html2canvas(element),
+    // data = canvas.toDataURL('image/jpg'),
+    // link = document.createElement('a');
+ 
+    // link.href = data;
+    // link.download = 'HiFL-License.jpg';
+ 
+    // document.body.appendChild(link);
+    // link.click();
+    // document.body.removeChild(link);
   }
 
   return (
@@ -835,7 +873,7 @@ export const UpdatePlayer: React.FC = () => {
                         name="MatricNumber"
                         onChange={(e) => handleChange(e)}
                         disabled={disable}
-                        value={inputObject.MatricNumber} />
+                        value={inputObject?.MatricNumber} />
                     </FormHolder>
                     <FormHolder>
                       <Label>JAMB REGISTRATION NUMBER</Label>
@@ -922,37 +960,37 @@ export const UpdatePlayer: React.FC = () => {
                             <tr >
                               <th scope="row">1</th>
                               <td>Jamb Photograph</td>
-                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer" download={false}><span>View...</span></a>}</td>
+                              <td>{!files?.jambphotograph ? <MdFolder /> : <a href={files?.jambphotograph} target="_blank" rel="noreferrer" download={false}><MdFolder /> <span>VIEW...</span></a>}</td>
                               <td>{!files?.jambphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">2</th>
                               <td>School ID Card</td>
-                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><span>View...</span></a>}</td>
+                              <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /> <span>VIEW...</span></a>}</td>
                               <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">3</th>
                               <td>Jamb Result Slip</td>
-                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><span>View...</span></a>}</td>
+                              <td>{!files?.jambslip ? <MdFolder /> : <a href={files?.jambslip} target="_blank" rel="noreferrer"><MdFolder /> <span>VIEW...</span></a>}</td>
                               <td>{!files?.jambslip ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">4</th>
                               <td>Passport Photograph</td>
-                              <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer" download={false}><span>View...</span></a>}</td>
+                              <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer" download={false}><MdFolder /> <span>VIEW...</span></a>}</td>
                               <td>{!files?.passportphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">5</th>
                               <td>Medical Certificate</td>
-                              <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><span>View...</span></a>}</td>
+                              <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /> <span>VIEW...</span></a>}</td>
                               <td>{!files?.medicalcertificate ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                             <tr  >
                               <th scope="row">6</th>
                               <td>Latest Course Registration</td>
-                              <td>{!files?.latestcourseregistration ? <MdFolder /> : <a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><span>View...</span></a>}</td>
+                              <td>{!files?.latestcourseregistration ? <MdFolder /> : <a href={files?.latestcourseregistration} rel="noreferrer" target="_blank"><MdFolder /> <span>VIEW...</span></a>}</td>
                               <td>{!files?.latestcourseregistration ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                             </tr>
                           </tbody>
@@ -1040,12 +1078,15 @@ export const UpdatePlayer: React.FC = () => {
                 )}
                   {activeTab === "tab5" ? 
                     user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
-                    <Form onSubmit={accredict}>
-                    <Section>
+                   (mainData && mainData.AccreditationHistories?.length === 0  ? 
+                   <>
+                    <Form onSubmit={inputObject?.Accredicted === "APPROVED" ? editPlayer : accredict}>
+                      <Section>
                         <Label>APPROVAL</Label>
                         <Select
                           name="Approval"
                           onChange={(e) => handleChange(e)} required
+                          value={inputObject?.Accredicted}
                         >
                           <option>Select a status</option>
                           {status.map(item => (
@@ -1058,14 +1099,19 @@ export const UpdatePlayer: React.FC = () => {
                         <TextArea
                           name="AccreditationComment"
                           onChange={(e) => handleChange(e)} required
+                          value={inputObject?.AccreditationComment}
                            />
-                    </Section>
-                    <BtnDiv>
-                      <CreateBtn type="submit">SAVE</CreateBtn>
-                    </BtnDiv>
+                      </Section>
+                      <BtnDiv>
+                        <CreateBtn type="submit">{inputObject?.Accredicted === "APPROVED" ? "EDIT & SAVE" : "SAVE"}</CreateBtn>
+                      </BtnDiv>
                     </Form>
-                  : loading ? <Loader/> :(
-                    mainData.AccreditationHistories?.length === 0 ? <div style={{ textAlign: "center"}}> <h3>PENDING</h3></div> :
+                    </>
+                    : "")
+                  : "" : ""}
+
+                   {loading ? <Loader/> :
+                  (mainData.AccreditationHistories?.length === 0 ? <div style={{ textAlign: "center"}}> <h3>PENDING</h3></div> :
                     <>
                     <Table hover>
                       <thead>
@@ -1084,49 +1130,68 @@ export const UpdatePlayer: React.FC = () => {
                               <td>{item?.YearAccredicted}</td>
                               <td>{item?.Approval}</td>
                               <td>{item?.AccreditationComment?.toUpperCase()}</td>
-                              <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" onClick={printDocument}>DOWNLOAD</Download>}</td>
+                              <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" onClick={toggleLicenseModal}>DOWNLOAD</Download>}</td>
+                              {/* <td>{ user.Role === "Accreditor" || user.Role === "SuperAdmin" ? <Download className="btn-download" onClick={() => toggle(item)}>EDIT</Download> : ""}</td> */}
                           </tr>
                           )) }
                       </tbody>
                     </Table>
-                    {/* <License user={userLicense}/> */}
-                    <div  style={{display: "none"}}>
-                    <div className="box"id="divToPrint" >
-                        <div className="header">
+                    <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData} accredictItem={accredidationItem}/>
+                    <Modal isOpen={licenseModal}
+                      toggle={toggleLicenseModal}
+                      modalTransition={{ timeout: 200 }}
+                      size="lg" contentClassName="modal-box">
+                      <ModalHeader>
+                        LICENSE
+                      </ModalHeader>
+                      <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
+                          <div className="box"id="divToPrint" >
+                              <div className="header">
+                              </div>
+                              <div className="passport">
+                                  <img src={inputObject?.licensePhotograph} alt="user"/>
+                              </div>
+                              <div className="form-box">
+                                <div className="name">
+                                  <h2><span>{`${inputObject?.licenseName?.toUpperCase()}`}</span> {" "}{" "}</h2></div> 
+                                  <div className="form-control-box">
+                                      <div className="form-group">
+                                          <label>TEAM</label>
+                                          <input type="text" name="team" value={inputObject?.licenseTeam}/>
+                                      </div>
+                                      <div className="form-group">
+                                          <label>POSITION</label>
+                                          <input type="text" name="team" value={inputObject?.Position?.toUpperCase()}/>
+                                      </div>
+                                      <div className="form-group">
+                                          <label>COURSE & LEVEL</label>
+                                          <input type="text" name="team" value={inputObject?.licenseCourse?.toUpperCase()}/>
+                                      </div>
+                                      <div className="form-group">
+                                          <label>MATRIC NO.</label>
+                                          <input type="text" name="team" value={inputObject?.MatricNumber?.toUpperCase()}/>
+                                      </div>
+                                  </div>
+                              </div>
+                              <p className="order">THIS LICENCE MUST BE PRESENTED IN COLOURED</p>
+                              <div className="footer">
+                              </div>
+                          </div>
+                        <div style={{ display: "flex", justifyContent: "center" }}>
+                          <Btn className="red" onClick={() => printDocument()}
+                            style={{ background: "green", color: "white", marginRight: "1rem" }} >
+                            PROCEED
+                          </Btn>
+                          <Btn className="green"
+                            onClick={toggleLicenseModal}
+                            style={{ background: "red", color: "white", marginRight: "1rem", }}>
+                            CANCEL
+                          </Btn>
                         </div>
-                        <div className="passport">
-                            <img src={inputObject?.licensePhotograph} alt="user"/>
-                        </div>
-                        <div className="form-box">
-                           <div className="name">
-                             <h2><span>{`${inputObject?.licenseName?.toUpperCase()}`}</span> {" "}{" "}</h2></div> 
-                            <div className="form-control-box">
-                                <div className="form-group">
-                                    <label>TEAM</label>
-                                    <input type="text" name="team" value={inputObject?.licenseTeam}/>
-                                </div>
-                                <div className="form-group">
-                                    <label>POSITION</label>
-                                    <input type="text" name="team" value={inputObject?.Position?.toUpperCase()}/>
-                                </div>
-                                <div className="form-group">
-                                    <label>COURSE & LEVEL</label>
-                                    <input type="text" name="team" value={inputObject?.licenseCourse?.toUpperCase()}/>
-                                </div>
-                                <div className="form-group">
-                                    <label>MATRIC NO.</label>
-                                    <input type="text" name="team" value={inputObject?.MatricNumber?.toUpperCase()}/>
-                                </div>
-                            </div>
-                        </div>
-                        <p className="order">THIS LICENCE MUST BE PRESENTED IN COLOURED</p>
-                        <div className="footer">
-                        </div>
-                    </div>
-                    </div>
+                      </ModalBody>
+                    </Modal>
                     </>
-                 )
-                  : ""}
+                 )}
               </Outlet>
             }
           </Tab>

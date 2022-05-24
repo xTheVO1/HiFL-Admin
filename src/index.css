@@ -40,3 +40,9 @@ color: #000279 !important;
   .Toastify__progress-bar--success {
     color: #000279 !important;
   }
+  .none{
+    display: none;
+  }
+  .show{
+    display:block;
+  }

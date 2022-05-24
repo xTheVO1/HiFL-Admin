@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+
 import {
   Modal,
   ModalHeader, ModalBody
@@ -41,6 +44,8 @@ import {
 import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 import { Btn } from "../../components/playerCard/style";
+import "./license/license.css"
+import { getPlayerLicense } from "../../redux/actions/players";
 
 export const UpdateOfficial: React.FC = () => {
   const navigate = useNavigate();
@@ -78,7 +83,11 @@ export const UpdateOfficial: React.FC = () => {
     SchoolID: "",
     OfficialID: "",
     AccreditationComment: "",
-    Approval: ""
+    Approval: "",
+    licensePhotograph: "",
+    licenseName: "",
+    licenseCourse: "",
+    licenseTeam: ""
   });
   const [files, setFileUpload] = useState({
     medicalcertificate: "",
@@ -94,12 +103,21 @@ export const UpdateOfficial: React.FC = () => {
   const { fileLoading } = fileData;
   const data: any = sessionStorage.getItem("userData");
   const user = JSON.parse(data);
+  const team: any = sessionStorage.getItem("Teamid");
+  const doc: any = new jsPDF();
 
   useEffect(() => {
     const getOfficial = async () => {
       dispatch(getOfficialById(id));
     }
     getOfficial();
+    const getLicense= async () => {
+      dispatch(getPlayerLicense({
+        player: id, 
+        team
+      }));
+    };
+    getLicense();
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -138,7 +156,11 @@ export const UpdateOfficial: React.FC = () => {
       // JerseyNumber: SportRecord?.JerseyNumber,
       Genotype: MedicalRecord?.Genotype,
       BloodGroup: MedicalRecord?.BloodGroup,
-      AnyAllergies: MedicalRecord?.AnyAllergies
+      AnyAllergies: MedicalRecord?.AnyAllergies,
+      licensePhotograph: "",
+      licenseName: "",
+      licenseCourse: "",
+      licenseTeam: ""
     });
     
     setFileUpload({
