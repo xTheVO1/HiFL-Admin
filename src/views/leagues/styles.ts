@@ -25,5 +25,5 @@ export const Content = styled.div`
   .no-data{
     text-align: center;
     margin: 3rem auto;
-  }
+  } 
 `;

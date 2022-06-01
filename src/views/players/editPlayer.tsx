@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
+import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
+
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
@@ -47,10 +49,10 @@ import {
   ModalHeader, ModalBody
 } from "reactstrap";
 import "./license/license.css";
-
 import EditModal from "../../components/Modal";
 
 export const UpdatePlayer: React.FC = () => {
+  const componentRef = useRef();
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();
   const { id } = useParams();
@@ -62,7 +64,7 @@ export const UpdatePlayer: React.FC = () => {
   const [modal, setModal] = useState(false);
   const [licenseModal, setLicenseModal] = useState(false);
   const [accredidationItem, setItem] = useState({});
-  const [show, setClass] = useState("none");
+  // const [show, setClass] = useState("none");
   const store = useSelector((state: RootState) => state.player);
   const { loading, singlePlayer, license } = store;
   const teamId = sessionStorage.getItem("Teamid");
@@ -466,42 +468,44 @@ export const UpdatePlayer: React.FC = () => {
 
   }
 
-  function printDocument () {
+ async function printDocument () {
     setLicenseModal(!licenseModal)
+    // const page: any = document.getElementById('divToPrint')
+    // html2canvas(page)
+      // .then((canvas) => {
+      //   // const imgData = canvas.toDataURL('image/png');
+      //   const data = canvas.toDataURL('image/png');
+      //   const link = document.createElement('a');
 
-    const page: any = document.getElementById('divToPrint')
-    html2canvas(page)
-      .then((canvas) => {
-        // const imgData = canvas.toDataURL('image/png');
-        const data = canvas.toDataURL('image/png');
-        const link = document.createElement('a');
-
-        if (typeof link.download === 'string') {
-          link.href = data;
-          link.download = "HiFL-license.png"
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        } else {
-          window.open(data);
-        }
+      //   if (typeof link.download === 'string') {
+      //     link.href = data;
+      //     link.download = "HiFL-license.png"
+      //     document.body.appendChild(link);
+      //     link.click();
+      //     document.body.removeChild(link);
+      //   } else {
+      //     window.open(data);
+      //   }
      
-      })
-    // const element: any = document.getElementById('divToPrint'),
-    // canvas = await html2canvas(element),
-    // data = canvas.toDataURL('image/jpg'),
-    // link = document.createElement('a');
- 
-    // link.href = data;
-    // link.download = 'HiFL-License.jpg';
- 
-    // document.body.appendChild(link);
-    // link.click();
-    // document.body.removeChild(link);
+      // })
+    const element: any = document.getElementById('divToPrint'),
+    canvas = await html2canvas(element),
+    data = canvas.toDataURL('image/jpg'),
+    link = document.createElement('a');
+    link.href = data;
+    link.download = 'HiFL-License.jpg';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
   }
+
+  // const ComponentToPrint = React.forwardRef((props, ref) => (
+  //   <div ref={ref}>Hello World</div>
+  // ));
 
   return (
     <Container>
+      
       <Modal isOpen={modal}
         toggle={toggleModal}
         modalTransition={{ timeout: 200 }}
@@ -1150,7 +1154,7 @@ export const UpdatePlayer: React.FC = () => {
                               <div className="header">
                               </div>
                               <div className="passport">
-                                  <img src={inputObject?.licensePhotograph} alt="user"/>
+                                  <img src={files?.passportphotograph} alt="user"/>
                               </div>
                               <div className="form-box">
                                 <div className="name">
@@ -1178,17 +1182,17 @@ export const UpdatePlayer: React.FC = () => {
                               <div className="footer">
                               </div>
                           </div>
-                        <div style={{ display: "flex", justifyContent: "center" }}>
-                          <Btn className="red" onClick={() => printDocument()}
-                            style={{ background: "green", color: "white", marginRight: "1rem" }} >
-                            PROCEED
-                          </Btn>
-                          <Btn className="green"
-                            onClick={toggleLicenseModal}
-                            style={{ background: "red", color: "white", marginRight: "1rem", }}>
-                            CANCEL
-                          </Btn>
-                        </div>
+                          <div style={{ display: "flex", justifyContent: "center" }}>
+                            <Btn className="red" onClick={() => printDocument()}
+                              style={{ background: "green", color: "white", marginRight: "1rem" }} >
+                              PROCEED
+                            </Btn>
+                            <Btn className="green"
+                              onClick={toggleLicenseModal}
+                              style={{ background: "red", color: "white", marginRight: "1rem", }}>
+                              CANCEL
+                            </Btn>
+                          </div>
                       </ModalBody>
                     </Modal>
                     </>
