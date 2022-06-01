@@ -71,10 +71,10 @@ function Seasons() {
                         <td>{item.SeasonYear}</td>
                         <td>{item.InstitutionType}</td>
                     </tr>
-)) }
+              )) }
                 </tbody>
             </Table>
-}
+            }
             </Content>
         </Container>
     );

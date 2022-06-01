@@ -1,8 +1,14 @@
-import React from "react";
+import React, {useState} from "react";
 import { Container, Content } from "./styles";
 import { Dispatch } from "redux";
 import { useDispatch, useSelector } from "react-redux";
-import { getTeams, getTeamsByQuery } from "../../redux/actions/teams";
+import { getTeams, getTeamsByQuery, postTeam } from "../../redux/actions/teams";
+import {
+  Modal,
+  ModalHeader, ModalBody,
+} from "reactstrap";
+import { getInstitutions} from "../../redux/actions/institutions";
+import { getSports} from "../../redux/actions/sport";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
@@ -10,6 +16,15 @@ import TeamCard from "../../components/TeamCards";
 import Loader from "../../components/Loader";
 import { Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
+import { Btn } from "../../components/playerCard/style";
+import {
+  Label,
+  Form,
+  CreateBtn,
+  Section,
+  Input,
+  Select
+} from "../players/style";
 
 function TeamManager() {
   const dispatch: Dispatch<any> = useDispatch();
@@ -17,10 +32,24 @@ function TeamManager() {
   const items = useSelector((state: any) => state.team);
   const loading = useSelector((state: any) => state.team.loading);
   const mainDataResult = items && items ? items.team : [];
+  const institutionData = useSelector((state: any) => state.institution)
+  const sportData = useSelector((state: any) => state.sports)
+  const sportLoading = useSelector((state: any) => state.sports.loading)
+  const sportResult = sportData && sportData ? sportData.sports : [];
+  const institutionLoading = useSelector((state: any) => state.institution.loading)
+  const institutionResult = institutionData && institutionData ? institutionData.institutions : [];
   const data:any = sessionStorage.getItem("userData");
   const user = JSON.parse(data);
 
+  const [modal, setModal] = useState(false);
+  const [inputObject, setObject] = useState({
+     TeamName: "", 
+     Overview: "", 
+     Category: '', 
+     Sport: "", 
+     InstitutionName: ""})
   // TeamManager
+
   React.useEffect(() => {
     if(user.Role === "TeamManager"){
       const id = user._id;
@@ -29,6 +58,8 @@ function TeamManager() {
     else{
       dispatch(getTeams());
     }
+    dispatch(getInstitutions());
+    dispatch(getSports());
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -39,9 +70,42 @@ function TeamManager() {
     sessionStorage.setItem("Teamname", name);
     navigate("/players");
   };
+  
+  //   // Toggle for Modal
+  const toggleModal = (data: any) => {
+    setModal(!modal);
+  }
+
+  const handleChange = (e: any) => {
+    e.preventDefault();
+    setObject({
+      ...inputObject,
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  const create = (e: any) => {
+    const details = {
+      TeamName: inputObject.TeamName, 
+      Overview: inputObject.Overview, 
+      Category: inputObject.Category, 
+      Sport: inputObject.Sport, 
+      Institution: inputObject.InstitutionName
+    }
+    dispatch(postTeam(details))
+  }
+
+  const category = [
+    {name: "Man"},
+    {name: "Woman"}
+  ]
+    
+  
   return (
     <Container>
-      <ContentHeader title="Teams" children={""}></ContentHeader>
+      <ContentHeader title="Teams" >
+      <CreateBtn onClick={toggleModal}>CREATE TEAM</CreateBtn>
+      </ContentHeader>
       <Content>
         {mainDataResult.length === 0 && loading ? (
           <Loader />
@@ -86,6 +150,81 @@ function TeamManager() {
          )
         }
       </Content>
+      <Modal isOpen={modal}
+                  toggle={toggleModal}
+                  modalTransition={{ timeout: 200 }}
+                  size="md" contentClassName="modal-box">
+                <ModalHeader>
+                  ACCREDITATION
+                </ModalHeader>
+                <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
+                  <Form>
+                  <Section>
+                        <Label>TEAM NAME</Label>
+                        <Input
+                          name="TeamName"
+                          onChange={(e) => handleChange(e)}
+                        />
+                    </Section>
+                    <Section>
+                        <Label>OVERVIEW</Label>
+                        <Input
+                          name="Overview"
+                          onChange={(e) => handleChange(e)}
+                        />
+                    </Section>
+                    <Section>
+                        <Label>CATEGORY</Label>
+                        <Select
+                          name="Category"
+                          onChange={(e) => handleChange(e)}
+                        >
+                          <option>Select a Category</option>
+                          {category.map((item: any) => (
+                            <option value={item.name} key={item.name}>{item?.name}</option>
+                          ))}
+                        </Select>
+                    </Section>
+                    <Section>
+                        <Label>SPORT</Label>
+                        <Select
+                          name="Sport"
+                          onChange={(e) => handleChange(e)}
+                        >
+                          <option>Select a Sport</option>
+                          {sportLoading ? Loader :
+                           sportResult &&  sportResult.map((item: any) => (
+                            <option value={item._id} key={item._id}>{item?.SportName}</option>
+                          ))}
+                        </Select>
+                    </Section>
+                    <Section>
+                        <Label>INSTITUTION NAME</Label>
+                        <Select
+                          name="InstitutionName"
+                          onChange={(e) => handleChange(e)}
+                        >
+                          <option>Select an Institution</option>
+                          {institutionLoading ? Loader :
+                           institutionResult &&  institutionResult.map((item: any) => (
+                            <option value={item._id} key={item._id}>{item?.InstitutionName}</option>
+                          ))}
+                        </Select>
+                    </Section>
+                  </Form>
+                  <div style={{ display: "flex", justifyContent: "center" }}>
+                    <Btn className="red" onClick={(e) => create(e)}
+                      style={{ background: "green", color: "white", marginRight: "1rem" }} >
+                      + ADD
+                    </Btn>
+                    <Btn className="green"
+                    onClick={toggleModal}
+                    style={{ background: "red", color: "white", marginRight: "1rem", }}>
+                    CANCEL
+                  </Btn>
+          </div>
+        </ModalBody>
+      </Modal>
     </Container>
   );
 }

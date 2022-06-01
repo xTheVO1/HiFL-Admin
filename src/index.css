@@ -46,3 +46,32 @@ color: #000279 !important;
   .show{
     display:block;
   }
+.white{
+  text-align: left;
+  padding: 2rem 1rem;
+}
+.accordion-item {
+border: 0px !important;
+border-bottom: 1px solid #FFB422 !important;
+}
+.stage-header{
+  border-bottom: 1px solid #CCCCCC;
+  display: flex;
+  justify-content: space-between;
+  padding: 0rem 1rem;
+}
+.stage-header button{
+  background: transparent;
+  border: 1px solid #03A430;
+  padding: .2rem 1rem;
+  color: #CCCCCC;
+  margin-left: 1rem;
+}
+.stage-header span{
+  color: #FFB422;
+}
+.stage-body{
+  display: flex;
+  justify-content: space-between;
+  padding: .5rem 1rem;
+}

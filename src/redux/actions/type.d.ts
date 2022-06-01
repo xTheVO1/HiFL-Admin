@@ -157,19 +157,46 @@ type ILeague = {
   Location: string;
   props: {};
 };
+
 interface LeagueState {
   leagues: any;
   league: any;
   newLeague: any;
+  newStage: any;
   loading: boolean;
   error: any;
   updatedLeague: any;
   leagueStage: any;
+  leagueStages: any;
+  leagueStageLoading: any,
+  leagueStagesLoading: any,
+  leaguesLoading: any
+  leagueLoading: any
 }
 
 type LeagueAction = {
   type: string;
   payload: IOfficial[];
+};
+
+type ISport = {
+  TeamName: string,
+  Overview: string,
+  Institution: string,
+  Category: string,
+  Sport: string,
+  TeamManagers: [] 
+}
+
+interface SportState {
+sports: any;
+loading: boolean;
+error: {}
+}
+
+type SportAction = {
+  type: string;
+  payload: ISport[];
 };
 
 type IFileUpload = {
@@ -199,3 +226,4 @@ type InstitutionDispatchType = (args: InstitutionAction) => InstitutionAction;
 type SeasonDispatchType = (args: SeasonAction) => SeasonAction;
 type LeagueDispatchType = (args: LeagueAction) => LeagueAction;
 type FileUploadDispatchType = (args: FileUploadAction) => FileUploadAction;
+type SportDispatchType = (args: SportAction) => SportAction;

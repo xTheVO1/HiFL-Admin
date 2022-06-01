@@ -93,12 +93,27 @@ export const Outlet = styled.div`
    padding: 1.5rem;
    .user-table-head{
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     width: 90%;
+    // text-align: left;
   }
+  .active{
+      padding: 0px 8px;
+      border-radius: 5px;
+      background: #03A430;
+      margin-right: .2rem;
+  }
+  .inactive{
+    padding: 0px 5px;
+    width: 18px;
+    height: 12px;
+    transform: rotate(90deg) scaleX(-1);
+    border-radius: 6px;
+    background: #EA1D24;
+}
   .table-head{
     display: flex;
-    justify-content: space-around;
+    justify-content: left;
     width: 84%;
   }
 `;
