@@ -27,7 +27,6 @@ import {
   Select
 } from "../players/style";
 import Inactive from "../../assests/inactive.svg";
-import { Btn } from "../../components/playerCard/style";
 import { getTeams } from "../../redux/actions/teams";
 
 function Leagues() {
@@ -42,13 +41,16 @@ function Leagues() {
   const stagesResult = items && items ? items.leagueStages : [];
   const singleStage = items && items ? items.leagueStage : {};
   const singleLeagueResult = items && items ? items.league : {};
-  const   {leagueStageLoading,
-            leagueStagesLoading,
-            leagueLoading} = items;
+  const { leagueStageLoading,
+    leagueStagesLoading,
+    leagueLoading } = items;
   const { id } = useParams();
   const [modal, setModal] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
+  const [deleteTeam, setDelete] = useState(false);
+  const [deleteItem, setDeleteItem] = useState();
   const [stageId, setStageId] = useState();
-  const [stageTeams, setStageTeams]:any = useState([]);
+  const [stageTeams, setStageTeams]: any = useState([]);
   const [inputObject, setObject] = useState({
     Abbreviation: "",
     LeagueName: "",
@@ -57,14 +59,17 @@ function Leagues() {
     SecondPlace: "",
     ThirdPlace: "",
     FourthPlace: "",
+   
+
+  })
+  const [stageItems, setStageItem]: any = useState({
     NoOfTeams: "",
     OrderNumber: "",
     StageName: "",
     Teams: [],
-    Fixtures: []
-
+    Fixtures: [],
+    ActiveStage: false,
   })
-
 
   useEffect(() => {
     dispatch(getleague(id));
@@ -81,14 +86,10 @@ function Leagues() {
       Winner: Finalists?.Winner,
       SecondPlace: Finalists?.SecondPlace,
       ThirdPlace: Finalists?.ThirdPlace,
-      FourthPlace: Finalists?.FourthPlace,
-      NoOfTeams: stagesResult?.NoOfTeams,
-      OrderNumber: stagesResult?.OrderNumber,
-      StageName: stagesResult.StageName,
-      Teams: stagesResult.Teams,
-      Fixtures: stagesResult.Fixtures
+      FourthPlace: Finalists?.FourthPlace
     })
   }, [singleLeagueResult, stagesResult]);
+
   const addLeague = () => {
     navigate(`/create-league-stage/${id}`)
   }
@@ -102,6 +103,10 @@ function Leagues() {
     e.preventDefault();
     setObject({
       ...inputObject,
+      [e.target.name]: e.target.value,
+    });
+    setStageItem({
+      ...stageItems,
       [e.target.name]: e.target.value,
     });
   };
@@ -132,33 +137,88 @@ function Leagues() {
     setStageId(item._id);
     setStageTeams(item.Teams);
     dispatch(getleagueStage(item._id));
-
   }
 
   // Toggle for Modal
-  const setActiveStage = (stageId: any) => {
-    dispatch(getleagueStage(stageId));
+  const toggleDeleteModal = (item: any) => {
+    setDeleteModal(!deleteModal);
+    setStageTeams(item.Teams);
   }
 
 
-  const update = (item: any) => {
-    const details = {
-      _id: stageId,
-      params: {
-        Teams: stageTeams.concat(inputObject.Teams)
+  // Toggle for Modal
+  const setActiveStage = (stage: any) => {
+    dispatch(getleagueStage(stage._id));
+    setDeleteItem(stage._id);
+    setStageTeams(stage.Teams);
+    setStageItem({
+      NoOfTeams: stage.NoOfTeams,
+      OrderNumber: stage.OrderNumber,
+      StageName: stage.StageName,
+      Teams: [],
+      ActiveStage: stage?.ActiveStage === true ? "OPENED" : "CLOSED",
+      Fixtures: [],
+
+    })
+  }
+
+
+  const update = (e: any) => {
+    e.preventDefault();
+    if (deleteTeam === true) {
+      const details = {
+        _id: deleteItem,
+        params: {
+          Teams: stageTeams
+        }
       }
+      dispatch(updateLeagueStage(details));
+      dispatch(getleagueStage(deleteItem));
+      setDelete(false)
+      setDeleteModal(!deleteModal);
+    } else {
+      const details = {
+        _id: stageId,
+        params: {
+          Teams: stageTeams.concat(stageItems.Teams)
+        }
+      }
+
+      dispatch(updateLeagueStage(details))
+      setModal(!modal);
+      dispatch(getleagueStage(stageId));
+      dispatch(getleagueStages(id));
     }
-    dispatch(updateLeagueStage(details))
-    dispatch(getleagueStages(id));
-    dispatch(getleagueStage(stageId));
-    setModal(!modal);
+  }
+
+  const updateStage = (e: any) => {
+    e.preventDefault();
+      const details = {
+        _id: deleteItem,
+        params: {
+          StageName: stageItems.StageName,
+          NoOfTeams : stageItems.NoOfTeams,
+          OrderNumber: stageItems.OrderNumber,
+          ActiveStage: stageItems?.ActiveStage === true ? "OPENED" : "CLOSED"
+        }
+      }
+      // dispatch(updateLeagueStage(details));
+      // dispatch(getleagueStage(deleteItem));
+    
+  }
+
+
+  const removeTeam = (id: any) => {
+    setDeleteModal(!deleteModal);
+    setDelete(true)
+    let newTeams = stageTeams?.splice(id, 1)
+    setStageTeams(newTeams)
   }
 
   // sending User ID
   return (
     <Container>
       <ContentHeader title="LEAGUE">
-        <CreateBtn onClick={addLeague}>CREATE STAGE</CreateBtn>
       </ContentHeader>
       <Content>
         {leagueLoading ? <Loader /> :
@@ -195,7 +255,7 @@ function Leagues() {
                   !singleLeagueResult ? <H2>NO DATA FOUND</H2> :
                     <>
                       <Form onSubmit={editLeague} className="white">
-                        <Section>
+                        <Section >
                           <FormHolder>
                             <Label>LEAGUE NAME</Label>
                             <Input type="text"
@@ -211,8 +271,8 @@ function Leagues() {
                               value={inputObject?.Abbreviation?.toUpperCase()} />
                           </FormHolder>
                         </Section>
-                        <Section>
-                          <h5>SETTINGS</h5>
+                        <Section className="form-header">
+                          <h5 >SETTINGS</h5>
                         </Section>
                         <FormHolder>
                           <Label>REGISTRATION STATUS</Label>
@@ -220,9 +280,9 @@ function Leagues() {
                             name="RegistrationOpen"
                             onChange={(e) => handleChange(e)}
                             value={inputObject.RegistrationOpen?.toUpperCase()} >
-                              <option value="OPENED">OPENED</option>
-                              <option value="CLOSED">CLOSED</option>
-                              </Select>
+                            <option value="OPENED">OPENED</option>
+                            <option value="CLOSED">CLOSED</option>
+                          </Select>
                         </FormHolder>
                         <FormHolder>
                           <Label>LEAGUE STATUS</Label>
@@ -231,38 +291,65 @@ function Leagues() {
                             onChange={(e) => handleChange(e)}
                             value={inputObject.RegistrationOpen?.toUpperCase()} />
                         </FormHolder>
-                        <Section>
+                        <Section className="form-header">
                           <h5>FINALIST</h5>
                         </Section>
 
                         <FormHolder>
                           <Label>WINNER</Label>
-                          <Input type="text"
-                            name="Winner"
-                            onChange={(e) => handleChange(e)}
-                            value={inputObject.Winner?.toUpperCase()} />
+                            <Select
+                                   name="Winner"
+                                   value={inputObject.Winner?.toUpperCase()}
+                                  onChange={(e) => handleChange(e)}
+                                >
+                                  <option>Select a Position</option>
+                                  {teamsLoader ? Loader :
+                                    mainDataResult && mainDataResult.map((item: any) => (
+                                      <option value={item._id} key={item._id}>{item.TeamName}</option>
+                                    ))}
+                                </Select>
                         </FormHolder>
                         <FormHolder>
                           <Label>SECOND POSITION</Label>
-                          <Input type="text"
-                            name="SecondPlace"
-                            onChange={(e) => handleChange(e)}
-                            value={inputObject.SecondPlace?.toUpperCase()}
-                          />
+                          <Select
+                                  name="SecondPlace"
+                                   value={inputObject.Winner?.toUpperCase()}
+                                  onChange={(e) => handleChange(e)}
+                                >
+                                  <option>Select a Position</option>
+                                  {teamsLoader ? Loader :
+                                    mainDataResult && mainDataResult.map((item: any) => (
+                                      <option value={item._id} key={item._id}>{item.TeamName}</option>
+                                    ))}
+                                </Select>
                         </FormHolder>
                         <FormHolder>
                           <Label>THIRD POSITION</Label>
-                          <Input type="text"
+                          <Select
                             name="ThirdPlace"
+                              value={inputObject.Winner?.toUpperCase()}
                             onChange={(e) => handleChange(e)}
-                            value={inputObject.ThirdPlace?.toUpperCase()} />
+                          >
+                            <option>Select a Position</option>
+                            {teamsLoader ? Loader :
+                              mainDataResult && mainDataResult.map((item: any) => (
+                                <option value={item._id} key={item._id}>{item.TeamName}</option>
+                              ))}
+                              </Select>
                         </FormHolder>
                         <FormHolder>
                           <Label>FOURTH POSITION</Label>
-                          <Input type="text"
-                            name="FourthPlace"
+                          <Select
+                             name="FourthPlace"
+                              value={inputObject.Winner?.toUpperCase()}
                             onChange={(e) => handleChange(e)}
-                            value={inputObject.FourthPlace?.toUpperCase()} />
+                          >
+                            <option>Select a Position</option>
+                            {teamsLoader ? Loader :
+                              mainDataResult && mainDataResult.map((item: any) => (
+                                <option value={item._id} key={item._id}>{item.TeamName}</option>
+                              ))}
+                              </Select>
                         </FormHolder>
                         <BtnDiv>
                           <CreateBtn type="submit">{loading ? <Loader /> : "UPDATE"}</CreateBtn>
@@ -275,63 +362,86 @@ function Leagues() {
 
               {activeTab === "tab2" ?
                 (
-                   leagueStagesLoading ? <Loader /> :
+                  leagueStagesLoading ? <Loader /> :
                     stagesResult.length === 0 ? <H2>NO DATA FOUND</H2> :
                       <>
-                        <div className='table-head'>
-                          <h6>NAME</h6>
-                        </div>
                         <Accordion>
                           {loading ? Loader :
-                          stagesResult && stagesResult?.map((item: any, index: any) => (
-                            <Accordion.Item eventKey={index} key={index} onClick={() => setActiveStage(item._id)}>
-                              <Accordion.Header >
-                                <div className='user-table-head ' >
-                                  <h6>{item?.StageName}</h6>
-                                  <h6>{item.ActiveStage === true ? <span> <span className="active"> </span> Active</span> : <span > <img src={Inactive} alt="alt" /> Inactive</span>}</h6>
-                                </div>
-                              </Accordion.Header>
-                              <Accordion.Body>
-                                <div className=''>
-                                  <Form onSubmit={editLeague} className="white">
-                                    <Section>
-                                      <FormHolder>
-                                        <Label>ACTIVE STAGE</Label>
-                                        <Input type="text"
-                                          name="LeagueName"
-                                          onChange={(e) => handleChange(e)}
-                                          value={item?.StageName?.toUpperCase()} />
-                                      </FormHolder>
-                                      <FormHolder>
-                                        <Label>NO OF TEAMS</Label>
-                                        <Input type="number"
-                                          name="NoOfTeams"
-                                          onChange={(e) => handleChange(e)}
-                                          value={item?.NoOfTeams}
-                                        />
-                                      </FormHolder>
-                                    </Section>
-                                  </Form>
-                                  <div className=" stage-header">
-                                    <p>TEAMS</p>
-                                    <div>
-                                      <span>{item?.Teams?.length} Teams Left</span>
-                                      <button onClick={() => toggleModal(item)}>+ Add Team</button>
-                                    </div>
+                            stagesResult && stagesResult?.map((item: any, index: any) => (
+                              <Accordion.Item eventKey={index} key={index} onClick={() => setActiveStage(item)}>
+                                <Accordion.Header >
+                                  <div className='user-table-head' >
+                                    <h6>{item?.StageName}</h6>
+                                    <h6>{item.ActiveStage === true ? <span className="active">Active </span> : <span > <img src={Inactive} alt="alt" /> In-Active</span>}</h6>
                                   </div>
-                                    {leagueStageLoading ? Loader :
-                                    singleStage.length === 0 ? <H2>NO TEAMS ADDED</H2> :
-                                      singleStage?.Teams?.map((item: any) => (
-                                        <div className="stage-body">
-                                        <p>{item.TeamName}</p>
-                                        <p>-</p>
-                                        </div>
-                                      )) 
-                                      }
-                                </div>
-                              </Accordion.Body>
-                            </Accordion.Item>
-                          ))}
+                                </Accordion.Header>
+                                <Accordion.Body>
+                                  <div >
+                                    <Form onSubmit={(e) =>updateStage(e)} className="white" style={{ marginBottom: "1.5rem" }}>
+                                      <Section>
+                                        <FormHolder>
+                                          <Label>STAGE</Label>
+                                          <Input type="text"
+                                            name="StageName"
+                                            onChange={(e) => handleChange(e)}
+                                            value={stageItems?.StageName?.toUpperCase()} />
+                                        </FormHolder>
+                                        <FormHolder>
+                                          <Label>NO OF TEAMS</Label>
+                                          <Input type="number"
+                                            name="NoOfTeams"
+                                            onChange={(e) => handleChange(e)}
+                                            value={stageItems?.NoOfTeams}
+                                          />
+                                        </FormHolder>
+                                        <FormHolder>
+                                          <Label>ORDER NUMBER</Label>
+                                          <Input type="number"
+                                            name="OrderNumber"
+                                            onChange={(e) => handleChange(e)}
+                                            value={stageItems?.OrderNumber}
+                                          />
+                                        </FormHolder>
+                                        <FormHolder>
+                                          <Label>STATUS</Label>
+                                          <Select
+                                            name="ActiveStage"
+                                            onChange={(e) => handleChange(e)}
+                                            value={stageItems?.ActiveStage}
+                                             >
+                                            <option value="OPENED">OPENED</option>
+                                            <option value="CLOSED">CLOSED</option>
+                                          </Select>
+                                        </FormHolder>
+                                      </Section>
+                                      <div>
+                                      <CreateBtn className="red" type="submit"
+                                      >
+                                      UPDATE
+                                    </CreateBtn>
+                                      </div>
+                                    </Form>
+                                    <div className=" stage-header">
+                                      <p>TEAMS</p>
+                                      <div>
+                                        <span>{item.NoOfTeams - item?.Teams?.length} Teams Left</span>
+                                        <button onClick={() => toggleModal(item)} disabled={item.NoOfTeams === item?.Teams?.length ? true : false}>+ Add Team</button>
+                                      </div>
+                                    </div>
+                                    {leagueStageLoading ? <Loader/> :
+                                      singleStage.length === 0 ? <H2>NO TEAMS ADDED</H2> :
+                                        singleStage?.Teams?.map((item: any, i: any) => (
+                                          <div className="stage-body">
+                                            <p>{item.TeamName}</p>
+                                            <p className="remove" onClick={() => removeTeam(i)}></p>
+                                          </div>
+                                        ))
+                                    }
+                                  </div>
+                                </Accordion.Body>
+                                
+                              </Accordion.Item>
+                            ))}
                         </Accordion>
                         <Modal isOpen={modal}
                           toggle={toggleModal}
@@ -356,26 +466,49 @@ function Leagues() {
                                 </Select>
                               </Section>
                             </Form>
-                            <div style={{ display: "flex", justifyContent: "center" }}>
-                              <Btn className="red" onClick={(e) => update(e)}
-                                style={{ background: "green", color: "white", marginRight: "1rem" }} >
-                                + ADD
-                              </Btn>
-                              <Btn className="green"
+                            <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
+                              <CreateBtn className="red" onClick={(e) => update(e)}
+                                style={{ background: "#000229", color: "white", marginRight: "1rem" }} >
+                                 ADD
+                              </CreateBtn>
+                              <CreateBtn className="green"
                                 onClick={toggleModal}
                                 style={{ background: "red", color: "white", marginRight: "1rem", }}>
                                 CANCEL
-                              </Btn>
+                              </CreateBtn>
                             </div>
                           </ModalBody>
                         </Modal>
+                        <Modal isOpen={deleteModal}
+                          toggle={toggleDeleteModal}
+                          modalTransition={{ timeout: 200 }}
+                          size="md" contentClassName="modal-box">
+                          <ModalHeader>
+                            DELETE TEAM
+                          </ModalHeader>
+                          <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
+                            <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
+                              <CreateBtn className="red" onClick={(e) => update(e)}
+                                style={{ background: "#000229", color: "white", marginRight: "1rem" }} >
+                                 CONFIRM
+                              </CreateBtn>
+                              <CreateBtn className="green"
+                                onClick={toggleDeleteModal}
+                                style={{ background: "red", color: "white", marginRight: "1rem", }}>
+                                CANCEL
+                              </CreateBtn>
+                            </div>
+                          </ModalBody>
+                        </Modal>
+                      <CreateBtn onClick={addLeague} style={{textAlign: "right", marginTop: "1rem" }}>CREATE STAGE</CreateBtn>
+
                       </>
 
                 )
                 : ""}
             </Outlet>
           </Tab>
-          } 
+        }
       </Content>
     </Container>
   );

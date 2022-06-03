@@ -25,6 +25,10 @@ justify-content: space-between;
 flex-wrap: wrap;
 padding: 0 .5rem;
 padding-top: 1rem;
+& .form-header{
+    border-bottom: 1px solid #C3C3C3;
+    margin-top: 2rem ;
+}
 `;
 
 export const Section = styled.div`
@@ -42,6 +46,7 @@ export const Section = styled.div`
     h6{
         color: green;
     }
+    
 `;
 
 export const Download = styled.button`
@@ -92,16 +97,19 @@ export const Outlet = styled.div`
    background: #FCFCFC;
    padding: 1.5rem;
    .user-table-head{
+        margin-top: .5rem;
     display: flex;
     justify-content: space-between;
     width: 90%;
     // text-align: left;
   }
   .active{
-      padding: 0px 8px;
-      border-radius: 5px;
+      padding: .1rem 1rem;
+      font-size: .8rem;
+      border-radius:10px;
       background: #03A430;
-      margin-right: .2rem;
+    color: white;
+
   }
   .inactive{
     padding: 0px 5px;
@@ -116,6 +124,9 @@ export const Outlet = styled.div`
     justify-content: left;
     width: 84%;
   }
+  .accordion-item {
+      margin-top: 1rem;
+  }
 `;
 
 export const CreateBtn = styled.button`
@@ -123,7 +134,9 @@ export const CreateBtn = styled.button`
     color: white;
     padding: .6rem 2rem;
     margin-left: 1rem;
- 
+  :hover{
+      background: #FFB422;
+  }
 `;
 
 export const FormHolder = styled.div`

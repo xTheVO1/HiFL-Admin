@@ -59,6 +59,16 @@ border-bottom: 1px solid #FFB422 !important;
   display: flex;
   justify-content: space-between;
   padding: 0rem 1rem;
+
+}
+.remove{
+    border-bottom: 1px solid red;
+    padding: 8px;
+    margin-top: -1rem;
+    
+}
+.remove:hover{
+  cursor:pointer;
 }
 .stage-header button{
   background: transparent;
