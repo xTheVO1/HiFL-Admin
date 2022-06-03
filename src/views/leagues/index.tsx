@@ -242,12 +242,6 @@ function Leagues() {
               >
                 FIXTURES
               </List>
-              <List
-                className={activeTab === "tab4" ? "active" : ""}
-                onClick={() => changeTab("tab4")}
-              >
-                UPLOADS
-              </List>
             </Nav>
             <Outlet>
               {activeTab === "tab1" ? (
