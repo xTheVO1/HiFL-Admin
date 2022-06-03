@@ -59,7 +59,7 @@ function Leagues() {
     SecondPlace: "",
     ThirdPlace: "",
     FourthPlace: "",
-   
+   LeagueStatus: ""
 
   })
   const [stageItems, setStageItem]: any = useState({
@@ -86,7 +86,8 @@ function Leagues() {
       Winner: Finalists?.Winner,
       SecondPlace: Finalists?.SecondPlace,
       ThirdPlace: Finalists?.ThirdPlace,
-      FourthPlace: Finalists?.FourthPlace
+      FourthPlace: Finalists?.FourthPlace,
+      LeagueStatus: singleLeagueResult?.LeagueStatus
     })
   }, [singleLeagueResult, stagesResult]);
 
@@ -118,7 +119,8 @@ function Leagues() {
         Abbreviation: inputObject.Abbreviation,
         LeagueName: inputObject.LeagueName,
         Settings: {
-          RegistrationOpen: inputObject.RegistrationOpen === "OPEN" ? true : false
+          RegistrationOpen: inputObject.RegistrationOpen === "OPEN" ? true : false,
+          LeagueStatus: inputObject.LeagueStatus
         },
         Finalists: {
           Winner: inputObject.Winner,
@@ -280,10 +282,13 @@ function Leagues() {
                         </FormHolder>
                         <FormHolder>
                           <Label>LEAGUE STATUS</Label>
-                          <Input type="text"
-                            name="RegistrationOpen"
+                          <Select
+                            name="LeagueStatus"
                             onChange={(e) => handleChange(e)}
-                            value={inputObject.RegistrationOpen?.toUpperCase()} />
+                            value={inputObject?.LeagueStatus?.toUpperCase()} >
+                            <option value="OPENED">OPENED</option>
+                            <option value="CLOSED">CLOSED</option>
+                          </Select>
                         </FormHolder>
                         <Section className="form-header">
                           <h5>FINALIST</h5>
