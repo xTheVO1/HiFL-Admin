@@ -96,8 +96,8 @@ function TeamManager() {
   }
 
   const category = [
-    {name: "Man"},
-    {name: "Woman"}
+    {name: "Men"},
+    {name: "Women"}
   ]
     
   

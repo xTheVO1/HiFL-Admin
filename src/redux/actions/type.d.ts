@@ -171,7 +171,8 @@ interface LeagueState {
   leagueStageLoading: any,
   leagueStagesLoading: any,
   leaguesLoading: any
-  leagueLoading: any
+  leagueLoading: any;
+  updatedLeagueStage: any
 }
 
 type LeagueAction = {

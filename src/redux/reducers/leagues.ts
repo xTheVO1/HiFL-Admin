@@ -18,7 +18,10 @@ import {  POST_LEAGUE_STARTED,
           GET_LEAGUE_STAGES_FAILED,
           UPDATE_LEAGUE_STARTED,
           UPDATE_LEAGUE_SUCCESSFUL,
-          UPDATE_LEAGUE_FAILED
+          UPDATE_LEAGUE_FAILED,
+          UPDATE_LEAGUE_STAGE_STARTED,
+          UPDATE_LEAGUE_STAGE_SUCCESSFUL,
+          UPDATE_LEAGUE_STAGE_FAILED
     } from "../actions/actionTypes";
 
 const  initialState = {
@@ -35,6 +38,7 @@ const  initialState = {
   leagueStagesLoading: false,
   leaguesLoading: false,
   leagueLoading: false,
+  updatedLeagueStage: {}
 }
 
 export const leagueReducer = (state: LeagueState = initialState, action: any):LeagueState => {
@@ -85,6 +89,23 @@ export const leagueReducer = (state: LeagueState = initialState, action: any):Le
           updatedLeague: action.payload
         }
       case UPDATE_LEAGUE_FAILED:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload
+        }
+        case UPDATE_LEAGUE_STAGE_STARTED:
+        return {
+          ...state,
+          loading: true
+        }
+      case UPDATE_LEAGUE_STAGE_SUCCESSFUL: 
+        return {
+          ...state,
+          loading: false,
+          updatedLeagueStage: action.payload
+        }
+      case UPDATE_LEAGUE_STAGE_FAILED:
         return {
           ...state,
           loading: false,

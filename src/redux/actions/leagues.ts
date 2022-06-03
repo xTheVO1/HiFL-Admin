@@ -20,7 +20,10 @@ import {
     GET_LEAGUE_STAGE_FAILED,
     UPDATE_LEAGUE_STARTED,
     UPDATE_LEAGUE_SUCCESSFUL,
-    UPDATE_LEAGUE_FAILED
+    UPDATE_LEAGUE_FAILED,
+    UPDATE_LEAGUE_STAGE_STARTED,
+    UPDATE_LEAGUE_STAGE_SUCCESSFUL,
+    UPDATE_LEAGUE_STAGE_FAILED
 } from "./actionTypes";
 import {privateHttp} from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
@@ -120,6 +123,20 @@ const postleagueFailed = (data: any) => ({
       type: UPDATE_LEAGUE_FAILED,
       payload: data
     });
+    const updateleagueStageStarted = () => ({
+      type: UPDATE_LEAGUE_STAGE_STARTED
+    })
+    
+    const updateleagueStageSuccess = (data: ILeague) => ({
+        type: UPDATE_LEAGUE_STAGE_SUCCESSFUL,
+        payload: data
+      })
+    
+    const updateleagueStageFailed = (data: any) => ({
+        type: UPDATE_LEAGUE_STAGE_FAILED,
+        payload: data
+      });
+
 
 export const getleagues = (id: any) => async (dispatch: Dispatch) => {
    try {
@@ -230,7 +247,7 @@ export const updateLeague = (payload: any) => async (dispatch: Dispatch) => {
 
 export const updateLeagueStage = (payload: any) => async (dispatch: Dispatch) => {
   try {
-          dispatch(updateleagueStarted())
+          dispatch(updateleagueStageStarted())
           const response = await privateHttp({
             method: "patch",
             url: `/leagues/league/stages/stage/update/`,
@@ -238,10 +255,10 @@ export const updateLeagueStage = (payload: any) => async (dispatch: Dispatch) =>
           })
           const { data } = response;
           SuccessPopUp("Stage Successfully Updated")
-          return dispatch(updateleagueSuccess(data))
+          return dispatch(updateleagueStageSuccess(data))
         } catch (error: any) {
       ErrorPopUp(error.response.data.message)
-          return dispatch(updateleagueFailed(error.response))
+          return dispatch(updateleagueStageFailed(error.response))
         }
 }
 
