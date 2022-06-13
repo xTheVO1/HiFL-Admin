@@ -1,6 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import { exportComponentAsJPEG, exportComponentAsPDF, exportComponentAsPNG } from 'react-component-export-image';
-
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import { useNavigate } from "react-router-dom";
@@ -8,21 +6,24 @@ import FormData from "form-data";
 import moment from "moment";
 import html2canvas from "html2canvas";
 import { jsPDF } from "jspdf";
+import {
+  MdCreate,MdRestoreFromTrash
+} from "react-icons/md";
 // import License from "./license/license";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
 import {
   Container,
-  Label,
   Content,
+  Label,
   Form,
   FormHolder,
+  Section,
+  Select,
   CreateBtn,
   BtnDiv,
   Outlet,
-  Section,
-  Select,
   Red,
   Green,
   FilesHolder,TextArea, Download, Small
@@ -50,6 +51,7 @@ import {
 } from "reactstrap";
 import "./license/license.css";
 import EditModal from "../../components/Modal";
+import DeleteModal from "../../components/DeleteModal";
 
 export const UpdatePlayer: React.FC = () => {
   const componentRef = useRef();
@@ -58,19 +60,22 @@ export const UpdatePlayer: React.FC = () => {
   const { id } = useParams();
   const [activeTab, setActiveTab] = useState("tab1");
   const [isModal, setIsModal] = useState(false);
+  const [deleteItem, setDeleteItem] = useState();
   const [, setLoading] = useState(false);
   const [, setLicense] = useState({});
   const [disable, setDisable] = useState(false);
   const [modal, setModal] = useState(false);
+  const [deleteModal, setDeleteModal]: any = useState(false);
   const [licenseModal, setLicenseModal] = useState(false);
   const [accredidationItem, setItem] = useState({});
+
   // const [show, setClass] = useState("none");
   const store = useSelector((state: RootState) => state.player);
   const { loading, singlePlayer, license } = store;
   const teamId = sessionStorage.getItem("Teamid");
   const mainData = singlePlayer && singlePlayer ? singlePlayer : {};
-  const data: any = sessionStorage.getItem("userData");
   const team: any = sessionStorage.getItem("Teamid");
+  const data: any = sessionStorage.getItem("userData");
   const user = JSON.parse(data);
   // const teamID = JSON.parse(team);
   const doc: any = new jsPDF();
@@ -334,7 +339,6 @@ export const UpdatePlayer: React.FC = () => {
     navigate("/players")
   };
 
-
   const uploadFiles = async (e: any) => {
     e.preventDefault();
     setLoading(true)
@@ -451,6 +455,10 @@ export const UpdatePlayer: React.FC = () => {
     setModal(!modal);
   }
 
+  const toggleDeleteModal = (index: any) => {
+    setDeleteModal(!deleteModal);
+    setDeleteItem(index)
+  }
 //   // Toggle for Modal
   const toggle = (data: any) => {
     setIsModal(!isModal);
@@ -499,13 +507,26 @@ export const UpdatePlayer: React.FC = () => {
     document.body.removeChild(link);
   }
 
-  // const ComponentToPrint = React.forwardRef((props, ref) => (
-  //   <div ref={ref}>Hello World</div>
-  // ));
+  const deleteAccredictItem = () => {
+    setDeleteModal(!deleteModal)
+    const accreditationList = mainData.AccreditationHistories;
+    let newArr = accreditationList?.splice(deleteItem, 1)
+    const details = {
+      _id: id,
+      params: {
+        AccreditationHistories: accreditationList
+    }
+  }
+    dispatch(updatePlayer(details));
+    dispatch(getPlayerById(id));
+  }
+
+  const editAccredictItem = () => { 
+  }
+
 
   return (
     <Container>
-      
       <Modal isOpen={modal}
         toggle={toggleModal}
         modalTransition={{ timeout: 200 }}
@@ -801,9 +822,9 @@ export const UpdatePlayer: React.FC = () => {
                     </CreateBtn> */}
                     </BtnDiv> }
                   </Form>
-                ) : (
+                ) : 
                   ""
-                )}
+                }
                 {activeTab === "tab2" ? (
                   <Form onSubmit={editPlayer}>
                     <Section>
@@ -867,9 +888,9 @@ export const UpdatePlayer: React.FC = () => {
                       <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
                     </BtnDiv>}
                   </Form>
-                ) : (
+                ) : 
                   ""
-                )}
+                }
                 {activeTab === "tab3" ? (
                   <Form onSubmit={editPlayer}>
                     <FormHolder>
@@ -943,9 +964,7 @@ export const UpdatePlayer: React.FC = () => {
                       <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
                     </BtnDiv>}
                   </Form>
-                ) : (
-                  ""
-                )}
+                ) : ""}
                 {activeTab === "tab4" ? (
                   <>
                     <Form onSubmit={uploadFiles}>
@@ -1083,7 +1102,103 @@ export const UpdatePlayer: React.FC = () => {
                 )}
                   {activeTab === "tab5" ? 
                     user.Role === "Accreditor" || user.Role === "SuperAdmin" ? 
-                   (mainData && mainData.AccreditationHistories?.length === 0  ? 
+                   <>
+                    <>
+                    {loading ? <Loader/> :
+                    (mainData.AccreditationHistories?.length === 0 ? "" :
+                      //  <div style={{ textAlign: "center"}}> <h3>PENDING</h3></div> :
+                      <>
+                      <Table hover>
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Year</th>
+                                <th>Status</th>
+                                <th>Accreditation Comment</th>
+                                <th>Licence</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        {mainData && mainData.AccreditationHistories?.map((item: any, index: any) => (
+                          <tr key={index}>
+                                <th scope="row">{index + 1}</th>
+                                <td>{item?.YearAccredicted}</td>
+                                <td>{item?.Approval}</td>
+                                <td>{item?.AccreditationComment?.toUpperCase()}</td>
+                                <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" onClick={toggleLicenseModal}>DOWNLOAD</Download>}</td>
+                                <td>{ user.Role === "Accreditor" || user.Role === "SuperAdmin" || user.Role === "Admin" ? 
+                                  <> 
+                                  <MdCreate style={{color: "green", marginRight: "1.5rem"}} onClick={() => toggle(item)}/>
+                                  <MdRestoreFromTrash onClick={() => toggleDeleteModal(index)} style={{color: "red"}} />
+                                  </> 
+                                  :
+                                   ""}</td>
+                                {/* <td>{ user.Role === "Accreditor" || user.Role === "SuperAdmin" ? <Download className="btn-download" onClick={() => toggle(item)}>EDIT</Download> : ""}</td> */}
+                            </tr>
+                        )) }
+                        </tbody>
+                      </Table>
+                      <DeleteModal modal={deleteModal} toggle={toggleDeleteModal} id={id} actionCall={deleteAccredictItem} />
+                      <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData?.AccreditationHistories} accredictItem={accredidationItem}/>
+                      <Modal isOpen={licenseModal}
+                        toggle={toggleLicenseModal}
+                        modalTransition={{ timeout: 200 }}
+                        size="lg" contentClassName="modal-box">
+                        <ModalHeader>
+                          LICENSE
+                        </ModalHeader>
+                        <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
+                            <div className="box"id="divToPrint" >
+                                <div className="header">
+                                </div>
+                                <div className="passport">
+                                    <img src={files?.passportphotograph} alt="user"/>
+                                </div>
+                                <div className="form-box">
+                                  <div className="name">
+                                    <h2><span>{`${inputObject?.licenseName?.toUpperCase()}`}</span> {" "}{" "}</h2></div> 
+                                    <div className="form-control-box">
+                                        <div className="form-group">
+                                            <label>TEAM</label>
+                                            <input type="text" name="team" value={inputObject?.licenseTeam}/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>POSITION</label>
+                                            <input type="text" name="team" value={inputObject?.Position?.toUpperCase()}/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>COURSE & LEVEL</label>
+                                            <input type="text" name="team" value={inputObject?.licenseCourse?.toUpperCase()}/>
+                                        </div>
+                                        <div className="form-group">
+                                            <label>MATRIC NO.</label>
+                                            <input type="text" name="team" value={inputObject?.MatricNumber?.toUpperCase()}/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p className="order">THIS LICENCE MUST BE PRESENTED IN COLOURED</p>
+                                <div className="footer">
+                                </div>
+                            </div>
+                            <div style={{ display: "flex", justifyContent: "center" }}>
+                              <Btn className="red" onClick={() => printDocument()}
+                                style={{ background: "green", color: "white", marginRight: "1rem" }} >
+                                PROCEED
+                              </Btn>
+                              <Btn className="green"
+                                onClick={toggleLicenseModal}
+                                style={{ background: "red", color: "white", marginRight: "1rem", }}>
+                                CANCEL
+                              </Btn>
+                            </div>
+                        </ModalBody>
+                      </Modal>
+                      </>
+                   )}
+                   </>
+                   {mainData && mainData.AccreditationHistories?.length === 0  ? 
+                   <>
                    <>
                     <Form onSubmit={inputObject?.Accredicted === "APPROVED" ? editPlayer : accredict}>
                       <Section>
@@ -1112,91 +1227,14 @@ export const UpdatePlayer: React.FC = () => {
                       </BtnDiv>
                     </Form>
                     </>
-                    : "")
+                   
+                     
+                     </>
+                    :
+                     ""
+                          }
+                 </>
                   : "" : ""}
-
-                   {loading ? <Loader/> :
-                  (mainData.AccreditationHistories?.length === 0 ? <div style={{ textAlign: "center"}}> <h3>PENDING</h3></div> :
-                    <>
-                    <Table hover>
-                      <thead>
-                          <tr>
-                              <th>#</th>
-                              <th>Year</th>
-                              <th>Status</th>
-                              <th>Accreditation Comment</th>
-                              <th>Licence</th>
-                          </tr>
-                      </thead>
-                      <tbody>
-                      {mainData && mainData.AccreditationHistories?.map((item: any, index: any) => (
-                        <tr key={index}>
-                              <th scope="row">{index + 1}</th>
-                              <td>{item?.YearAccredicted}</td>
-                              <td>{item?.Approval}</td>
-                              <td>{item?.AccreditationComment?.toUpperCase()}</td>
-                              <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" onClick={toggleLicenseModal}>DOWNLOAD</Download>}</td>
-                              {/* <td>{ user.Role === "Accreditor" || user.Role === "SuperAdmin" ? <Download className="btn-download" onClick={() => toggle(item)}>EDIT</Download> : ""}</td> */}
-                          </tr>
-                          )) }
-                      </tbody>
-                    </Table>
-                    <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData} accredictItem={accredidationItem}/>
-                    <Modal isOpen={licenseModal}
-                      toggle={toggleLicenseModal}
-                      modalTransition={{ timeout: 200 }}
-                      size="lg" contentClassName="modal-box">
-                      <ModalHeader>
-                        LICENSE
-                      </ModalHeader>
-                      <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
-                          <div className="box"id="divToPrint" >
-                              <div className="header">
-                              </div>
-                              <div className="passport">
-                                  <img src={files?.passportphotograph} alt="user"/>
-                              </div>
-                              <div className="form-box">
-                                <div className="name">
-                                  <h2><span>{`${inputObject?.licenseName?.toUpperCase()}`}</span> {" "}{" "}</h2></div> 
-                                  <div className="form-control-box">
-                                      <div className="form-group">
-                                          <label>TEAM</label>
-                                          <input type="text" name="team" value={inputObject?.licenseTeam}/>
-                                      </div>
-                                      <div className="form-group">
-                                          <label>POSITION</label>
-                                          <input type="text" name="team" value={inputObject?.Position?.toUpperCase()}/>
-                                      </div>
-                                      <div className="form-group">
-                                          <label>COURSE & LEVEL</label>
-                                          <input type="text" name="team" value={inputObject?.licenseCourse?.toUpperCase()}/>
-                                      </div>
-                                      <div className="form-group">
-                                          <label>MATRIC NO.</label>
-                                          <input type="text" name="team" value={inputObject?.MatricNumber?.toUpperCase()}/>
-                                      </div>
-                                  </div>
-                              </div>
-                              <p className="order">THIS LICENCE MUST BE PRESENTED IN COLOURED</p>
-                              <div className="footer">
-                              </div>
-                          </div>
-                          <div style={{ display: "flex", justifyContent: "center" }}>
-                            <Btn className="red" onClick={() => printDocument()}
-                              style={{ background: "green", color: "white", marginRight: "1rem" }} >
-                              PROCEED
-                            </Btn>
-                            <Btn className="green"
-                              onClick={toggleLicenseModal}
-                              style={{ background: "red", color: "white", marginRight: "1rem", }}>
-                              CANCEL
-                            </Btn>
-                          </div>
-                      </ModalBody>
-                    </Modal>
-                    </>
-                 )}
               </Outlet>
             }
           </Tab>

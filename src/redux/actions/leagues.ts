@@ -139,7 +139,7 @@ const postleagueFailed = (data: any) => ({
 
 
 export const getleagues = (id: any) => async (dispatch: Dispatch) => {
-   try {
+  try {
        dispatch(getleaguesStarted())
        const response = await privateHttp({
          method: "get",

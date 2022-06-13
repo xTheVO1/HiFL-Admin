@@ -35,6 +35,7 @@ type ITeam = {
 
 interface TeamState {
   teams: any;
+  singleTeam: any;
   team: ITeam[];
   loading: boolean;
   error: any;
@@ -145,6 +146,28 @@ interface SeasonState {
 type SeasonAction = {
   type: string;
   payload: IOfficial[];
+};
+
+type ISetting = {
+    CurrentSeason:	string;
+    CurrentLeague:	string;
+    CurrentStage:	string;
+}
+
+interface SettingState {
+  settings: any;
+  loading: boolean;
+  postLoading: boolean;
+  updatedSetting: any;
+  newSetting: any;
+  error: any;
+  selectedItem: any;
+  getItem: any;
+}
+
+type SettingAction = {
+  type: string;
+  payload: ISport[];
 };
 
 type ILeague = {

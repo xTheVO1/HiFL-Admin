@@ -3,7 +3,7 @@ import { Container, Content } from "./styles";
 import { Dispatch } from "redux"
 import { useDispatch, useSelector } from "react-redux"
 import { Table } from "reactstrap";
-import {getSeasons, updateSeason} from "../../redux/actions/seasons";
+import {getSeasons} from "../../redux/actions/seasons";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
@@ -22,7 +22,6 @@ function Seasons() {
 
     React.useEffect(() => {
       dispatch(getSeasons())
-      dispatch(getSeasons())
     }, [dispatch])
 
    const addSeason = () => {
@@ -31,18 +30,6 @@ function Seasons() {
 
    const viewSeason = (id:any) => {
     navigate(`/seasons/${id}`);
-   }
-   
-   const closeRegistration = () => {
-       const payload = {
-           id: "",
-           params:{
-            Settings: {
-                RegistrationOpen: false
-              }
-           }
-       } 
-       dispatch(updateSeason(payload))
    }
 
    // sending User ID

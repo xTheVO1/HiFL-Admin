@@ -209,7 +209,6 @@ function Leagues() {
     
   }
 
-
   const removeTeam = (id: any) => {
     setDeleteModal(!deleteModal);
     setDelete(true)
@@ -371,7 +370,7 @@ function Leagues() {
                                 <Accordion.Header >
                                   <div className='user-table-head' >
                                     <h6>{item?.StageName}</h6>
-                                    <h6>{item.ActiveStage === true ? <span className="active">Active </span> : <span > <img src={Inactive} alt="alt" /> In-Active</span>}</h6>
+                                    <h6>{item.ActiveStage === true ? <span className="active">Active </span> : <span className="inactive" > In-Active</span>}</h6>
                                   </div>
                                 </Accordion.Header>
                                 <Accordion.Body>
@@ -408,17 +407,17 @@ function Leagues() {
                                             onChange={(e) => handleChange(e)}
                                             value={stageItems?.ActiveStage}
                                              >
-                                            <option value="OPENED">OPENED</option>
-                                            <option value="CLOSED">CLOSED</option>
+                                            <option value="OPENED">ACTIVE</option>
+                                            <option value="CLOSED">INACTIVE</option>
                                           </Select>
                                         </FormHolder>
                                       </Section>
-                                      <div>
+                                      <BtnDiv style={{marginBottom: "2rem"}}>
                                       <CreateBtn className="red" type="submit"
                                       >
                                       UPDATE
                                     </CreateBtn>
-                                      </div>
+                                      </BtnDiv>
                                     </Form>
                                     <div className=" stage-header">
                                       <p>TEAMS</p>
@@ -499,8 +498,9 @@ function Leagues() {
                             </div>
                           </ModalBody>
                         </Modal>
+                        <BtnDiv>
                       <CreateBtn onClick={addLeague} style={{textAlign: "right", marginTop: "1rem" }}>CREATE STAGE</CreateBtn>
-
+                      </BtnDiv>
                       </>
 
                 )

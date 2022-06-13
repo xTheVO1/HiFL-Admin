@@ -71,12 +71,13 @@ const updateSeasonFailed = (data: any) => ({
     type: UPDATE_SEASON_FAILED,
     payload: data
   })
+  
 export const getSeasons = () => async (dispatch: Dispatch) => {
    try {
        dispatch(getSeasonsStarted())
        const response = await privateHttp({
          method: "get",
-         url: `/seasons/`
+         url: `/leagues/seasons/`
        })
        const { data } = response;
        return dispatch(getSeasonsSuccess(data))
@@ -90,7 +91,7 @@ export const getSeason = (id: any) => async (dispatch: Dispatch) => {
         dispatch(getSeasonStarted())
         const response = await privateHttp({
           method: "get",
-          url: `/seasons/season/?_id=${id}`
+          url: `/leagus/seasons/season/?_id=${id}`
         })
         const { data } = response;
         return dispatch(getSeasonSuccess(data.data))
@@ -105,7 +106,7 @@ export const postSeason = (payload: any) => async (dispatch: Dispatch) => {
       dispatch(postSeasonStarted())
       const response = await privateHttp({
         method: "post",
-        url: `/seasons/create/`,
+        url: `/leagues/seasons/create/`,
         data: seasonData
       })
       const { data } = response;
@@ -119,15 +120,15 @@ export const postSeason = (payload: any) => async (dispatch: Dispatch) => {
 export const updateSeason = (payload: any) => async (dispatch: Dispatch) => {
   const {seasonData} = payload;
    try {
-       dispatch(postSeasonStarted())
+       dispatch(updateSeasonStarted())
        const response = await privateHttp({
          method: "patch",
          url: `/leagues/league/update/`,
          data: seasonData
        })
        const { data } = response;
-       return dispatch(postSeasonSuccess(data.data))
+       return dispatch(updateSeasonSuccess(data.data))
      } catch (error: any) {
-       return dispatch(postSeasonFailed(error.response))
+       return dispatch(updateSeasonFailed(error.response))
      }
 }

@@ -50,7 +50,6 @@ export const AddLeague: React.FC = () => {
   
   const submit = (e: any) => {
     e.preventDefault();
-    const stages = [];
      const data = {
       LeagueName: object.LeagueName,
       Abbreviation: object.Abbreviation,
@@ -61,7 +60,7 @@ export const AddLeague: React.FC = () => {
       Settings: {
         RegistrationOpen: true,
         LeagueStatus: "OPEN",
-        "props": {}
+        props: {}
       },
       Finalists: {
         Winner: "",
@@ -72,8 +71,8 @@ export const AddLeague: React.FC = () => {
 
      }
      dispatch(postLeague(data));
-     dispatch(getleagues(id))
      navigate(`/seasons/${id}`);
+     dispatch(getleagues(id))
   }
 
   return (

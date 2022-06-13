@@ -16,7 +16,6 @@ import TeamCard from "../../components/TeamCards";
 import Loader from "../../components/Loader";
 import { Table } from "reactstrap";
 import { useNavigate } from "react-router-dom";
-import { Btn } from "../../components/playerCard/style";
 import {
   Label,
   Form,
@@ -40,7 +39,6 @@ function TeamManager() {
   const institutionResult = institutionData && institutionData ? institutionData.institutions : [];
   const data:any = sessionStorage.getItem("userData");
   const user = JSON.parse(data);
-
   const [modal, setModal] = useState(false);
   const [inputObject, setObject] = useState({
      TeamName: "", 
@@ -133,7 +131,7 @@ function TeamManager() {
                       <th>#</th>
                       <th>Team Name</th>
                       <th>Abbreviation</th>
-                      <th>Institution Type</th>
+                      <th>Institution</th>
                   </tr>
               </thead>
               <tbody>
@@ -155,7 +153,7 @@ function TeamManager() {
                   modalTransition={{ timeout: 200 }}
                   size="md" contentClassName="modal-box">
                 <ModalHeader>
-                  ACCREDITATION
+                 CREATE TEAM
                 </ModalHeader>
                 <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
                   <Form>
@@ -213,15 +211,15 @@ function TeamManager() {
                     </Section>
                   </Form>
                   <div style={{ display: "flex", justifyContent: "center" }}>
-                    <Btn className="red" onClick={(e) => create(e)}
-                      style={{ background: "green", color: "white", marginRight: "1rem" }} >
-                      + ADD
-                    </Btn>
-                    <Btn className="green"
+                    <CreateBtn className="red" onClick={(e) => create(e)}
+                      style={{ color: "white", marginRight: "1rem" }} >
+                       ADD
+                    </CreateBtn>
+                    <CreateBtn className="green"
                     onClick={toggleModal}
                     style={{ background: "red", color: "white", marginRight: "1rem", }}>
                     CANCEL
-                  </Btn>
+                  </CreateBtn>
           </div>
         </ModalBody>
       </Modal>
