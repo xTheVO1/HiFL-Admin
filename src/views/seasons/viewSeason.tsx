@@ -47,10 +47,6 @@ return (
         <CreateBtn onClick={back}>Go Back</CreateBtn>
         </ContentHeader>
             <Content>
-                <div className='header'>
-                    <h2>{mainDataResult?.SeasonName}</h2>
-                    <p>{mainDataResult?.SeasonYear}</p>
-                </div>
                 {leagueLoader ? <Loader/> :
                 dataResult.length === 0 ? <H2>NO LEAGUE FOUND</H2> :
                 <Table hover>

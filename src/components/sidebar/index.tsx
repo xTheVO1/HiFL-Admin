@@ -4,12 +4,11 @@ import {
   LogoImg,
   MenuNavigator,
   MenuItemLink,
-  MenuItemBottom,
   ToggleMenu,
-  Signout,
+  // Signout,
 } from "./styles";
 import logoImg from "../../assests/logo.png";
-import { MdOutlineLogout, MdClose, MdMenu } from "react-icons/md";
+import { MdClose, MdMenu } from "react-icons/md";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { teamManagerMenu, AdminMenu, SuperAdminMenu, AccreditorMenu } from "../../utils/menu";
@@ -25,6 +24,9 @@ export default function Aside() {
         navigate('/')
     }
 
+    const empty = () => {
+     
+  }
   return (
     <Container menuIsOpen={toggleMenuOpened}>
       <Header>
@@ -39,7 +41,7 @@ export default function Aside() {
             {" "}
             {teamManagerMenu &&
               teamManagerMenu.map((menu) => (
-                <MenuItemLink href={menu.href} key={menu.id}>
+                <MenuItemLink href={menu.href} key={menu.id} onClick={menu.title === "LOGOUT" ? logout : empty}>
                   {menu.icon}
                   {menu.title}
                 </MenuItemLink>
@@ -51,7 +53,7 @@ export default function Aside() {
         {user.Role === "Admin"
           ? AdminMenu &&
             AdminMenu.map((menu) => (
-              <MenuItemLink href={menu.href} key={menu.id}>
+              <MenuItemLink href={menu.href} key={menu.id} onClick={menu.title === "LOGOUT" ? logout : empty}>
                 {menu.icon}
                 {menu.title}
               </MenuItemLink>
@@ -60,7 +62,7 @@ export default function Aside() {
         {user.Role === "Accreditor"
           ? AccreditorMenu &&
           AccreditorMenu.map((menu) => (
-              <MenuItemLink href={menu.href} key={menu.id}>
+              <MenuItemLink href={menu.href} key={menu.id} onClick={menu.title === "LOGOUT" ? logout : empty} >
                 {menu.icon}
                 {menu.title}
               </MenuItemLink>
@@ -69,19 +71,19 @@ export default function Aside() {
           {user.Role === "SuperAdmin"
           ? SuperAdminMenu &&
             SuperAdminMenu.map((menu) => (
-              <MenuItemLink href={menu.href} key={menu.id}>
+              <MenuItemLink onClick={menu.title === "LOGOUT" ? logout : empty} href={menu.href} key={menu.id} >
                 {menu.icon}
                 {menu.title}
-              </MenuItemLink>
+              </MenuItemLink> 
             ))
           : ""}
       </MenuNavigator>
-      <Signout>
+      {/* <Signout>
         <MenuItemBottom onClick={logout}>
           <MdOutlineLogout />
           LOGOUT
         </MenuItemBottom>
-      </Signout>
+      </Signout> */}
     </Container>
   );
 }

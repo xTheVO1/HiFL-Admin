@@ -55,6 +55,7 @@ export const AddLeagueStage: React.FC = () => {
      const data = {
       StageName: object.StageName,
       League: id,
+      // Season: ,
       NoOfTeams: object.NoOfTeams,
       OrderNumber: object.OrderNumber,
       Teams : Team.concat(object.Teams),

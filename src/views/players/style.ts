@@ -104,20 +104,19 @@ export const Outlet = styled.div`
     // text-align: left;
   }
   .active{
-      padding: .1rem 1rem;
+      padding: .5rem 1rem;
       font-size: .8rem;
-      border-radius:10px;
+      border-radius:15px;
       background: #03A430;
     color: white;
 
   }
   .inactive{
-    padding: 0px 5px;
-    width: 18px;
-    height: 12px;
-    transform: rotate(90deg) scaleX(-1);
-    border-radius: 6px;
+    padding: .4rem 1rem;
     background: #EA1D24;
+    font-size: .8rem;
+    border-radius:15px;
+    color: white;
 }
   .table-head{
     display: flex;
@@ -229,7 +228,7 @@ export const Table = styled.div`
     .players-flex-header, .players-flex-start{
         display: flex;
         justify-content: flex-end;
-        width: 50%;
+        width: 70%;
 
         p{
             font-weight: 500;
@@ -243,6 +242,7 @@ export const Table = styled.div`
         }
     }
     .players-flex-start{
+        width:40%;
         justify-content: flex-start;
         svg{
             font-size: 1.5rem;

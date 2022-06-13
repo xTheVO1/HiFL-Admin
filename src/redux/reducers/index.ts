@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import { userReducer  } from './auth';
 import { teamReducer  } from './team';
+import { settingsReducer  } from './settings';
 import { leagueReducer } from './leagues';
 import { seasonReducer  } from './seasons';
 import { instituteReducer  } from './institutions';
@@ -18,7 +19,8 @@ institution: instituteReducer,
 seasons: seasonReducer,
 leagues: leagueReducer,
 files: fileUploadReducer,
-sports: SportReducer
+sports: SportReducer,
+settings: settingsReducer
 });
 
 export default reducers;
