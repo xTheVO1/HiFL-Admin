@@ -250,7 +250,7 @@ export const updateLeagueStage = (payload: any) => async (dispatch: Dispatch) =>
           dispatch(updateleagueStageStarted())
           const response = await privateHttp({
             method: "patch",
-            url: `/leagues/league/stages/stage/update/`,
+            url: `/leagues/league/stage/update/`,
             data: payload
           })
           const { data } = response;

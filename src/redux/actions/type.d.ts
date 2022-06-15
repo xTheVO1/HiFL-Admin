@@ -242,6 +242,29 @@ type FileUploadAction = {
   payload: IFileUpload[];
 };
 
+type IFixture = {
+  TeamName: string,
+  Overview: string,
+  Institution: string,
+  Category: string,
+  Sport: string,
+  TeamManagers: [] 
+}
+
+interface FixtureState {
+fixtures: any;
+fixture: any;
+updatedFixture: any;
+newFixture: any;
+loading: boolean;
+error: {}
+}
+
+type FixureAction = {
+  type: string;
+  payload: IFixture[];
+};
+
 type UserDispatchType = (args: UserAction) => UserAction;
 type TeamDispatchType = (args: TeamAction) => TeamAction;
 type PlayerDispatchType = (args: PlayerAction) => PlayerAction;
@@ -251,3 +274,4 @@ type SeasonDispatchType = (args: SeasonAction) => SeasonAction;
 type LeagueDispatchType = (args: LeagueAction) => LeagueAction;
 type FileUploadDispatchType = (args: FileUploadAction) => FileUploadAction;
 type SportDispatchType = (args: SportAction) => SportAction;
+type FixtureDispatchType = (args: FixtureAction) => FixtureAction;
