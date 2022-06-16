@@ -35,6 +35,7 @@ type ITeam = {
 
 interface TeamState {
   teams: any;
+  singleTeam: any;
   team: ITeam[];
   loading: boolean;
   error: any;
@@ -147,6 +148,28 @@ type SeasonAction = {
   payload: IOfficial[];
 };
 
+type ISetting = {
+    CurrentSeason:	string;
+    CurrentLeague:	string;
+    CurrentStage:	string;
+}
+
+interface SettingState {
+  settings: any;
+  loading: boolean;
+  postLoading: boolean;
+  updatedSetting: any;
+  newSetting: any;
+  error: any;
+  selectedItem: any;
+  getItem: any;
+}
+
+type SettingAction = {
+  type: string;
+  payload: ISport[];
+};
+
 type ILeague = {
   _id: string;
   InstitutionName: string;
@@ -157,19 +180,47 @@ type ILeague = {
   Location: string;
   props: {};
 };
+
 interface LeagueState {
   leagues: any;
   league: any;
   newLeague: any;
+  newStage: any;
   loading: boolean;
   error: any;
   updatedLeague: any;
   leagueStage: any;
+  leagueStages: any;
+  leagueStageLoading: any,
+  leagueStagesLoading: any,
+  leaguesLoading: any
+  leagueLoading: any;
+  updatedLeagueStage: any
 }
 
 type LeagueAction = {
   type: string;
   payload: IOfficial[];
+};
+
+type ISport = {
+  TeamName: string,
+  Overview: string,
+  Institution: string,
+  Category: string,
+  Sport: string,
+  TeamManagers: [] 
+}
+
+interface SportState {
+sports: any;
+loading: boolean;
+error: {}
+}
+
+type SportAction = {
+  type: string;
+  payload: ISport[];
 };
 
 type IFileUpload = {
@@ -191,6 +242,29 @@ type FileUploadAction = {
   payload: IFileUpload[];
 };
 
+type IFixture = {
+  TeamName: string,
+  Overview: string,
+  Institution: string,
+  Category: string,
+  Sport: string,
+  TeamManagers: [] 
+}
+
+interface FixtureState {
+fixtures: any;
+fixture: any;
+updatedFixture: any;
+newFixture: any;
+loading: boolean;
+error: {}
+}
+
+type FixureAction = {
+  type: string;
+  payload: IFixture[];
+};
+
 type UserDispatchType = (args: UserAction) => UserAction;
 type TeamDispatchType = (args: TeamAction) => TeamAction;
 type PlayerDispatchType = (args: PlayerAction) => PlayerAction;
@@ -199,3 +273,5 @@ type InstitutionDispatchType = (args: InstitutionAction) => InstitutionAction;
 type SeasonDispatchType = (args: SeasonAction) => SeasonAction;
 type LeagueDispatchType = (args: LeagueAction) => LeagueAction;
 type FileUploadDispatchType = (args: FileUploadAction) => FileUploadAction;
+type SportDispatchType = (args: SportAction) => SportAction;
+type FixtureDispatchType = (args: FixtureAction) => FixtureAction;

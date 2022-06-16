@@ -6,7 +6,7 @@ import {
   MdSchool,
   MdSports,
   MdCalendarToday,
-  MdInfo,
+  MdInfo,MdOutlineLogout
 } from "react-icons/md";
 
 export const teamManagerMenu = [
@@ -28,6 +28,12 @@ export const teamManagerMenu = [
     href: "/guidelines",
     icon: <MdInfo />,
   },
+  {
+    id:"logout",
+    title: "LOGOUT",
+    href: "",
+    icon: <MdOutlineLogout/>
+  }
 ];
 
 export const AdminMenu = [
@@ -49,6 +55,12 @@ export const AdminMenu = [
     href: "/institution",
     icon: <MdSchool />,
   },
+  {
+    id:"logout",
+    title: "LOGOUT",
+    href: "",
+    icon: <MdOutlineLogout/>
+  }
 ];
 
 export const SuperAdminMenu = [
@@ -88,6 +100,12 @@ export const SuperAdminMenu = [
     href: "/settings",
     icon: <MdToggleOn />,
   },
+  {
+    id:"logout",
+    title: "LOGOUT",
+    href: "",
+    icon: <MdOutlineLogout/>
+  }
 ];
 
 export const AccreditorMenu = [
@@ -109,4 +127,10 @@ export const AccreditorMenu = [
     href: "/guidelines",
     icon: <MdInfo />,
   },
+  {
+    id:"logout",
+    title: "LOGOUT",
+    href: "",
+    icon: <MdOutlineLogout/>
+  }
 ];

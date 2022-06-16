@@ -18,7 +18,7 @@ function ViewSeason() {
     const navigate = useNavigate();
     const { id } = useParams();
     const items = useSelector((state: RootState) => state.seasons.season);
-    const loading = useSelector((state: any) => state.seasons.loading)
+    // const loading = useSelector((state: any) => state.seasons.loading)
     const mainDataResult = items && items ? items.season : {};
     const leagues = useSelector((state: any) => state.leagues)
     const leagueLoader = useSelector((state: any) => state.leagues.loading)
@@ -47,12 +47,8 @@ return (
         <CreateBtn onClick={back}>Go Back</CreateBtn>
         </ContentHeader>
             <Content>
-                <div className='header'>
-                    <h2>{mainDataResult?.SeasonName}</h2>
-                    <p>{mainDataResult?.SeasonYear}</p>
-                </div>
                 {leagueLoader ? <Loader/> :
-                dataResult.length === 0 ? <H2>NO DATA FOUND</H2> :
+                dataResult.length === 0 ? <H2>NO LEAGUE FOUND</H2> :
                 <Table hover>
                     <thead>
                         <tr>

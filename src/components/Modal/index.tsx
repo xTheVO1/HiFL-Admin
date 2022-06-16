@@ -9,12 +9,13 @@ import { Dispatch } from "redux";
 import { BtnDiv, CreateBtn, Form, Label, Section, Select, TextArea } from "../../views/players/style";
 import { Btn } from "../playerCard/style";
 import {getPlayerById, updatePlayer } from "../../redux/actions/players";
+
 interface ModalProps {
-    isModal: boolean;
-    toggle: any;
-    action: (e:any) => void;
-    user: {};
-    accredictItem: any;
+    isModal?: boolean;
+    toggle?: any;
+    action?: (e:any) => void;
+    user?: any;
+    accredictItem?: any;
 }
 
 export default function Content ({
@@ -29,7 +30,13 @@ export default function Content ({
     const [inputObject, setObject] = useState({AccreditationComment: "",
                                                Approval: ""
                                             });
-
+             
+   useEffect(() => {
+      setObject({AccreditationComment: accredictItem?.AccreditationComment,
+                Approval: accredictItem?.Approval
+              })
+   },[accredictItem]);
+   
     const changeStatus = (e: any) => {
     const AccreditationHistories: any = [];
     const details = {
@@ -74,6 +81,7 @@ export default function Content ({
             <Select
                 name="Approval"
               onChange={(e) => handleChange(e)} required
+              value={inputObject.Approval}
             >
                 <option>Select a status</option>
                 {status.map(item => (
@@ -86,7 +94,7 @@ export default function Content ({
             <TextArea
                 name="AccreditationComment"
               onChange={(e) => handleChange(e)} required
-            value={accredictItem?.AccreditationComment}
+            value={inputObject?.AccreditationComment}
                 />
             </Section>
             <BtnDiv>

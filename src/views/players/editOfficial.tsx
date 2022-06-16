@@ -24,6 +24,7 @@ import {
   Green,
   FilesHolder,
   Select,
+  TextArea,
 
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
@@ -329,15 +330,15 @@ export const UpdateOfficial: React.FC = () => {
     const details = {
       _id: id,
       params: {
-        2022: {
+          YearAccredicted: 2022,
           AccreditationComment: inputObject.AccreditationComment,
           Approval: inputObject.Approval
-        }
+       
       }
     };
     dispatch(accredictOfficial(details));
     navigate("/players")
-    // dispatch(getPlayerById(id));
+    // dispatch(getOfficialById(id));
   }
 
   const status = [
@@ -570,29 +571,29 @@ export const UpdateOfficial: React.FC = () => {
                     <Table hover>
                       <thead>
                         <tr>
-                          <th></th>
-                          <th>#</th>
-                          <th>File Type</th>
+                          <th>S/N</th>
+                          <th>Document Name</th>
+                          <th>Files</th> 
                           <th>Status</th> 
                         </tr>
                       </thead>
                       <tbody>
                         <tr  >
-                          <th scope="row"></th>
-                          <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                          <th scope="row">1</th>
                           <td>School ID Card</td>
+                          <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /> <span> View...</span></a>}</td>
                           <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                         <tr  >
-                          <th scope="row"></th>
-                          <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                          <th scope="row">2</th>
                           <td>Passport Photograph</td>
+                          <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /> <span>View...</span></a>}</td>
                           <td>{!files?.passportphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                         <tr  >
-                          <th scope="row"></th>
-                          <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                          <th scope="row">3</th>
                           <td>Medical Certificate</td>
+                          <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /> <span>View...</span></a>}</td>
                           <td>{!files?.medicalcertificate ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                       </tbody>
@@ -658,7 +659,6 @@ export const UpdateOfficial: React.FC = () => {
               {user.Role === "Accreditor" ? 
                    <Form onSubmit={accredict}>
                     <Section>
-                      <FormHolder>
                         <Label>APPROVAL</Label>
                         <Select
                           name="Approval"
@@ -669,15 +669,13 @@ export const UpdateOfficial: React.FC = () => {
                             <option value={item.value}>{item.type}</option>
                           ))}
                         </Select>
-                      </FormHolder>
-                      <FormHolder>
+                      </Section>
+                      <Section>
                         <Label>COMMENTS</Label>
-                        <Input
-                         type="text"
+                        <TextArea
                           name="AccreditationComment"
                           onChange={(e) => handleChange(e)}
                            />
-                      </FormHolder>
                     </Section>
                     <BtnDiv>
                       <CreateBtn type="submit" >SAVE</CreateBtn>
