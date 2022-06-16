@@ -106,7 +106,7 @@ export const postFixture = (payload: any) => async (dispatch: Dispatch) => {
         dispatch(postFixtureStarted())
         const response = await privateHttp({
             method: "post",
-            url: `/leagues/create/`,
+            url: `/leagues/season/fixture/create/`,
             data: payload
         })
         const { data } = response;

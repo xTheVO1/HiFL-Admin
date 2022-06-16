@@ -73,9 +73,9 @@ export const Players: React.FC = () => {
     InstitutionName: "",
     TeamAbbreviation:""})
 
-  // const addPlayer = () => {
-  //   navigate("/register-player");
-  // };
+  const addPlayer = () => {
+    navigate("/register-player");
+  };
 
   // const addOfficial = () => {
   //   navigate("/register-official");
@@ -207,7 +207,6 @@ export const Players: React.FC = () => {
                       onChange={(e) => handleChange(e)}
                       value={inputObject?.TeamAbbreviation}
                     />
-                    
                     </FormHolder>
                   </Section>
                   <Section>
@@ -302,18 +301,18 @@ export const Players: React.FC = () => {
                   )}
                   {activeTab === "PLAYERS" ? (
                     <CreateBtn
-                      // onClick={addPlayer}
+                      onClick={addPlayer}
                       className={
                         mainDataResult[0]?.Settings?.RegistrationOpen !== true
                           ? "disabled"
                           : "disabled"
                       }
-                      disabled={
-                        mainDataResult[0]?.Settings?.RegistrationOpen !==
-                          true || mainData?.length === 30
-                          ? true
-                          : false
-                      }
+                      // disabled={
+                      //   mainDataResult[0]?.Settings?.RegistrationOpen !==
+                      //     true || mainData?.length === 30
+                      //     ? true
+                      //     : false
+                      // }
                     >
                       REGISTER PLAYER
                     </CreateBtn>

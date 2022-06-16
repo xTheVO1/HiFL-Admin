@@ -94,3 +94,6 @@ border-bottom: 1px solid #FFB422 !important;
   justify-content: space-between;
   padding: .5rem 1rem;
 }
+label{
+  text-align: left;
+}
