@@ -81,7 +81,7 @@ function Leagues() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(getFixtures(id));
+    // dispatch(getFixtures(id));
    
   }, [dispatch]);
 
@@ -518,7 +518,7 @@ function Leagues() {
                   leagueStagesLoading ? <Loader /> :
                     stagesResult.length === 0 ? <H2>NO DATA FOUND</H2> :
                       <>
-                        <Fixture fixtures={fixtureItem} itemLoading={fixtureLoading} team={mainDataResult} teamLoader={teamsLoader}/>
+                        <Fixture  team={mainDataResult} teamLoader={teamsLoader}/>
                         <Modal isOpen={deleteModal}
                           toggle={toggleDeleteModal}
                           modalTransition={{ timeout: 200 }}

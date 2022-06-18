@@ -43,6 +43,30 @@ export const postFile = (payload: any) => async (dispatch: Dispatch) => {
   }
 }
 
+export const postFiles = (payload: any) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(postFileStarted())
+    const headers = {
+      "Authorization": `Bearer-Jwt ${sessionStorage.getItem('token')}`,
+      "Content-Type": "multipart/formdata"
+    }
+    
+    const response = await privateHttp({
+      method: "post",
+      url: '/file/upload/',
+      headers: headers,
+      data: payload,
+    })
+    const { data } = response;
+    console.log(data)
+    SuccessPopUp("File uploaded Successfully");
+    return dispatch(postFileSuccess(data.data))
+  } catch (error: any) {
+    ErrorPopUp(error.response.data.message)
+    return dispatch(postFileFailed(error.response))
+  }
+}
+
 export const postOffcialFile = (payload: any) => async (dispatch: Dispatch) => {
   try {
     dispatch(postFileStarted())

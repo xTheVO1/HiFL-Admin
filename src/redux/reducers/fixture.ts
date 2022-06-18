@@ -67,7 +67,7 @@ export const FixtureReducer = (state: FixtureState = initialState, action: any):
             return {
                 ...state,
                 loading: false,
-                fixtures: action.payload
+                newFixture: action.payload
             }
         case POST_FIXTURE_FAILED:
             return {

@@ -78,7 +78,7 @@ export const getFixtures = (id: any) => async (dispatch: Dispatch) => {
         dispatch(getFixturesStarted())
         const response = await privateHttp({
             method: "get",
-            url: `/leagues/season/fixtures/?League=${id}`
+            url: `/leagues/season/fixtures/?Stage=${id}`
         })
         const { data } = response;
         return dispatch(getFixturesSuccess(data.data))
