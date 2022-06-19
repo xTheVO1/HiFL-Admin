@@ -54,12 +54,15 @@ export const Players: React.FC = () => {
   // getting players and officials from redux store
   const store = useSelector((state: RootState) => state.player);
   const officialStore = useSelector((state: RootState) => state.officials);
+  const fileStore = useSelector((state: RootState) => state.files.file);
   const { loading, players } = store;
   const { officials } = officialStore;
   const mainData = players && players ? players : [];
   const officialData = officials && officials ? officials : [];
+  const fileData = fileStore && fileStore ? fileStore : {};
   const [modal, setModal] =useState(false)
   const [Loading, setLoading] =useState(false)
+  const [uploadFile, setFile] =useState({})
   const items = useSelector((state: any) => state.leagues);
   const leaguesLoading = useSelector((state: any) => state.leagues.loading);
   const mainDataResult = items && items ? items.leagues : [];
@@ -194,53 +197,44 @@ export const Players: React.FC = () => {
   const onImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
+      const formData: any = new FormData();
       reader.onload = (e: any) => {
         setFileUpload({
           ...files,
           [event.target.name]: event.target.files[0]
         })
-
+      
       };
       reader.readAsDataURL(event.target.files[0]);
-      const formData: any = new FormData();
-    // if (formData) {
-    //   formData.append(
-    //     "fileid",
-    //     teamId
-    //   ),
-    //   formData.append(
-    //     "folder",
-    //     event.target.name
-    //   ),
-    //   formData.append(
-    //     "file",
-    //     event.target.files[0]
-    //   )
-    // }
-    // dispatch(postFiles(formData))
+      const details = {fileid: teamId, folder: "Logo", file: event.target.files[0]}
+      if (formData) {
+        formData.append(
+          "fileid",
+          teamId
+        )
+        // formData.append(
+        //   "folder",
+        //   // event.target.name
+        // )
+      //   formData.append(
+      //     "file",
+      //     // event.target.files[0]
+      //   )
+      }
+      dispatch(postFiles(formData))
+      setFile(fileData)
+      console.log(fileData)
   }
     // };
   };
 
+  const upload = () => {
+  
+  }
   // const uploadFiles = async (e: any) => {
   //   e.preventDefault();
   //   setLoading(true)
-  //   const formData: any = new FormData();
-  //   if (formData) {
-  //     formData.append(
-  //       "playerid",
-  //       id
-  //     )
-      
-  //     formData.append(
-  //       "jambslip",
-  //       files.jambslip
-  //     )
-  //     formData.append(
-  //       "jambphotograph",
-  //       files.jambphotograph
-  //     )
-  //   }
+   
   //   //   for (var pair of formData.entries()) {
   //   //     console.log(pair[0]+ ', ' + pair[1]); 
   //   // }

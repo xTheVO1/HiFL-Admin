@@ -1,3 +1,4 @@
+import { Console } from "console";
 import { Dispatch } from "redux";
 import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
@@ -102,6 +103,7 @@ export const getFixture = (id: any) => async (dispatch: Dispatch) => {
 }
 
 export const postFixture = (payload: any) => async (dispatch: Dispatch) => {
+    console.log(payload)
     try {
         dispatch(postFixtureStarted())
         const response = await privateHttp({
@@ -110,7 +112,7 @@ export const postFixture = (payload: any) => async (dispatch: Dispatch) => {
             data: payload
         })
         const { data } = response;
-        SuccessPopUp("League Successfully Created")
+        SuccessPopUp("Fixtures Successfully Created")
         return dispatch(postFixtureSuccess(data))
     } catch (error: any) {
         ErrorPopUp(error.response.data.message)
@@ -123,11 +125,11 @@ export const updateFixture = (payload: any) => async (dispatch: Dispatch) => {
         dispatch(updateFixtureStarted())
         const response = await privateHttp({
             method: "patch",
-            url: `/leagues/league/update/`,
+            url: `/leagues/season/fixture/update/`,
             data: payload
         })
         const { data } = response;
-        SuccessPopUp("League Successfully Updated")
+        SuccessPopUp("Fixture Successfully Updated")
         return dispatch(updateFixtureSuccess(data))
     } catch (error: any) {
         ErrorPopUp(error.response.data.message)

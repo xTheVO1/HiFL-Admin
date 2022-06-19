@@ -257,7 +257,8 @@ fixture: any;
 updatedFixture: any;
 newFixture: any;
 loading: boolean;
-error: {}
+error: {},
+updateLoading: boolean,
 }
 
 type FixureAction = {

@@ -44,6 +44,7 @@ export const postFile = (payload: any) => async (dispatch: Dispatch) => {
 }
 
 export const postFiles = (payload: any) => async (dispatch: Dispatch) => {
+  console.log(payload)
   try {
     dispatch(postFileStarted())
     const headers = {
