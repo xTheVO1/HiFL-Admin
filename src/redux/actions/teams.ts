@@ -120,7 +120,6 @@ export const postTeam = (payload: any) => async (dispatch: Dispatch) => {
 };
 
 export const updateTeam = (payload: any) => async (dispatch: Dispatch) => {
-  console.log(payload)
   try {
     dispatch(updateTeamStart());
     const response = await privateHttp({

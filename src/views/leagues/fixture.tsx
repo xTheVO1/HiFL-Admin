@@ -21,12 +21,14 @@ import moment from "moment";
 import {getleagueStage} from "../../redux/actions/leagues";
 import {postFixture, getFixtures, updateFixture} from "../../redux/actions/fixtures";
 import { Form } from "./styles";
+import { isAnyArrayBuffer } from "util/types";
 
-const Fixture = ({ itemLoading, team, teamLoader}: any) => {
+const Fixture = ({ teamLoader}: any) => {
     const dispatch: Dispatch<any> = useDispatch()
     const { id } = useParams();
     const navigate = useNavigate();
     const fixtureItem = useSelector((state: any) => state.fixtures.fixtures);
+    const UpdatedFixtureItem = useSelector((state: any) => state.fixtures.newFixture);
     const FixtureLoading = useSelector((state: any) => state.fixtures.loading);
     const fixtureLoading = useSelector((state: any) => state.fixtures.updateLoading);
     const items = useSelector((state: any) => state.leagues)
@@ -36,6 +38,7 @@ const Fixture = ({ itemLoading, team, teamLoader}: any) => {
     const mainDataResult = teamsData && teamsData ? teamsData.team : [];
     const stagesResult = items && items ? items.leagueStages : [];
     const fixtures = fixtureItem && fixtureItem ? fixtureItem : [];
+    const updateFixture =  UpdatedFixtureItem &&  UpdatedFixtureItem ?  UpdatedFixtureItem : [];
     const [modal, setModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [activeItem, setActiveItem]: any = useState({ 
@@ -117,9 +120,8 @@ const Fixture = ({ itemLoading, team, teamLoader}: any) => {
     };
 
     const toggleModal = (item: any) => {
-        console.log(item)
         setModal(!modal);
-        setActiveItem(item)
+        setActiveItem(item);
         // setStageId(item._id);
         // setStageTeams(item.Teams);
         // dispatch(getleagueStage(item._id));
@@ -130,21 +132,30 @@ const Fixture = ({ itemLoading, team, teamLoader}: any) => {
         setActiveItem(item)
     }
 
-    const createFixture = (e: any) => {
+    const createFixture =  (e: any) => {
         e.preventDefault();
         const details = {
-            Season: activeItem?.Season?._id,
+            Season: activeItem?.Season,
             League: activeItem?.League,
-            Stage: activeItem?.Stage?._id,
+            Stage: activeItem?._id,
             HomeTeam: inputObject.HomeTeam,
             AwayTeam: inputObject.AwayTeam,
             MatchVenue: inputObject.MatchVenue,
             MatchTime: inputObject.MatchTime,
         }
-        dispatch(postFixture(details))
-        setEditModal(!modal)
+        dispatch(postFixture(details));
+        // if(updateFixtures !== {})
+        // setModal(!modal)
+        // setActiveItem({...activeItem, updateFixtures})
 
     }
+
+    
+    const closeCreateModal = () => {
+        setEditModal(!editModal);
+        window.location.reload()
+    }
+
     
     const updateFixtureItem = (e: any) => {
         e.preventDefault();
@@ -198,7 +209,10 @@ const Fixture = ({ itemLoading, team, teamLoader}: any) => {
                             </Accordion.Header>
                             <Accordion.Body>
                                 <div >
-                                   
+                                    <div className=" fixture-header">
+                                        <p></p>
+                                        <CreateBtn onClick={() => toggleModal(item)} className="">+ Add Fixture</CreateBtn>
+                                    </div>
                                     {FixtureLoading ? <div><Loader/></div> : 
                                     <Table hover>
                                         <thead>
@@ -283,7 +297,7 @@ const Fixture = ({ itemLoading, team, teamLoader}: any) => {
                             {FixtureLoading ? <Spinner/> : "ADD" }
                         </CreateBtn>
                         <CreateBtn className="green"
-                            onClick={toggleModal}
+                            onClick={closeCreateModal}
                             style={{ background: "red", color: "white", marginRight: "1rem", }}>
                             CANCEL
                         </CreateBtn>

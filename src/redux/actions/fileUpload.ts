@@ -44,7 +44,6 @@ export const postFile = (payload: any) => async (dispatch: Dispatch) => {
 }
 
 export const postFiles = (payload: any) => async (dispatch: Dispatch) => {
-  console.log(payload)
   try {
     dispatch(postFileStarted())
     const headers = {
@@ -59,7 +58,6 @@ export const postFiles = (payload: any) => async (dispatch: Dispatch) => {
       data: payload,
     })
     const { data } = response;
-    console.log(data)
     SuccessPopUp("File uploaded Successfully");
     return dispatch(postFileSuccess(data.data))
   } catch (error: any) {

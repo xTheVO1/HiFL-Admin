@@ -223,7 +223,6 @@ export const Players: React.FC = () => {
       }
       dispatch(postFiles(formData))
       setFile(fileData)
-      console.log(fileData)
   }
     // };
   };
@@ -273,7 +272,6 @@ export const Players: React.FC = () => {
   //     })
   //   }
   // }
-  console.log(files)
   return (
     <>
       {loading ? (

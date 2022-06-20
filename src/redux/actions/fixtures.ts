@@ -1,4 +1,3 @@
-import { Console } from "console";
 import { Dispatch } from "redux";
 import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
@@ -103,7 +102,6 @@ export const getFixture = (id: any) => async (dispatch: Dispatch) => {
 }
 
 export const postFixture = (payload: any) => async (dispatch: Dispatch) => {
-    console.log(payload)
     try {
         dispatch(postFixtureStarted())
         const response = await privateHttp({
