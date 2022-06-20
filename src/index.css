@@ -65,7 +65,7 @@ border-bottom: 1px solid #FFB422 !important;
 .fixture-header{
   display: flex;
   justify-content: space-between;
-  padding: 0rem 1rem;
+  padding: 1rem 1rem;
 
 }
 

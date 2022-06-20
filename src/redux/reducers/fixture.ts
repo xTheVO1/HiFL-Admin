@@ -19,6 +19,7 @@ const initialState = {
     updatedFixture: {},
     newFixture: {},
     loading: false,
+    updateLoading: false,
     error: {}
 }
 
@@ -67,7 +68,7 @@ export const FixtureReducer = (state: FixtureState = initialState, action: any):
             return {
                 ...state,
                 loading: false,
-                fixtures: action.payload
+                newFixture: action.payload
             }
         case POST_FIXTURE_FAILED:
             return {
@@ -78,18 +79,18 @@ export const FixtureReducer = (state: FixtureState = initialState, action: any):
         case UPDATE_FIXTURE_STARTED:
             return {
                 ...state,
-                loading: true
+                updateLoading: true
             }
         case UPDATE_FIXTURE_SUCCESSFUL:
             return {
                 ...state,
-                loading: false,
-                fixtures: action.payload
+                updateLoading: false,
+                updatedFixture: action.payload
             }
         case UPDATE_FIXTURE_FAILED:
             return {
                 ...state,
-                loading: false,
+                updateLoading: false,
                 error: action.payload
             }
     }

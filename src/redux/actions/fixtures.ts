@@ -78,7 +78,7 @@ export const getFixtures = (id: any) => async (dispatch: Dispatch) => {
         dispatch(getFixturesStarted())
         const response = await privateHttp({
             method: "get",
-            url: `/leagues/season/fixtures/?League=${id}`
+            url: `/leagues/season/fixtures/?Stage=${id}`
         })
         const { data } = response;
         return dispatch(getFixturesSuccess(data.data))
@@ -110,7 +110,7 @@ export const postFixture = (payload: any) => async (dispatch: Dispatch) => {
             data: payload
         })
         const { data } = response;
-        SuccessPopUp("League Successfully Created")
+        SuccessPopUp("Fixtures Successfully Created")
         return dispatch(postFixtureSuccess(data))
     } catch (error: any) {
         ErrorPopUp(error.response.data.message)
@@ -123,11 +123,11 @@ export const updateFixture = (payload: any) => async (dispatch: Dispatch) => {
         dispatch(updateFixtureStarted())
         const response = await privateHttp({
             method: "patch",
-            url: `/leagues/league/update/`,
+            url: `/leagues/season/fixture/update/`,
             data: payload
         })
         const { data } = response;
-        SuccessPopUp("League Successfully Updated")
+        SuccessPopUp("Fixture Successfully Updated")
         return dispatch(updateFixtureSuccess(data))
     } catch (error: any) {
         ErrorPopUp(error.response.data.message)
