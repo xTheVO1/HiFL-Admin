@@ -9,6 +9,9 @@ import {
   GET_PLAYER_STARTED,
   GET_PLAYER_SUCCESSFUL,
   GET_PLAYER_FAILED,
+  GET_PLAYER_LICENSE_STARTED,
+  GET_PLAYER_LICENSE_SUCCESSFUL,
+  GET_PLAYER_LICENSE_FAILED,
   UPDATE_PLAYER_STARTED,
   UPDATE_PLAYER_SUCCESSFUL,
   UPDATE_PLAYER_FAILED,
@@ -64,6 +67,20 @@ const getPlayersFailed = (data: any) => ({
   payload: data,
 });
 
+const getPlayerLicenseStarted = () => ({
+  type: GET_PLAYER_LICENSE_STARTED,
+});
+
+const getPlayerLicenseSuccess = (data: ITeam) => ({
+  type: GET_PLAYER_LICENSE_SUCCESSFUL,
+  payload: data,
+});
+
+const getPlayerLicenseFailed = (data: any) => ({
+  type: GET_PLAYER_LICENSE_FAILED,
+  payload: data,
+})
+
 const updatePlayerStarted = () => ({
   type: UPDATE_PLAYER_STARTED,
 });
@@ -117,9 +134,8 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
       data: userData,
     });
     const { data } = response;
-
     //appending user._id to player data
-    playerData.User = data.data._id;
+    playerData.User = data?.data?.User._id;
     // registers a player after creating a user on the app
     const playerResponse = await privateHttp({
       method: "post",
@@ -210,7 +226,25 @@ export const accredictPlayer = (playerData: any) => async (dispatch: Dispatch) =
     SuccessPopUp("Player accredicted Successfully")
     return dispatch(accredictPlayerSuccess(data));
   } catch (error: any) {
-    ErrorPopUp(error.response.data)
+    ErrorPopUp(error.response.data.message)
     return dispatch(accredictPlayerFailed(error.response));
+  }
+};
+
+export const getPlayerLicense = (playerData: any) => async (dispatch: Dispatch) => {
+  const {player, team} = playerData
+  try {
+    dispatch(getPlayerLicenseStarted());
+    const response = await privateHttp({
+      method: "get",
+      url: `/players/player/license/?player_id=${player}&team_id=${team}`,
+      data: playerData,
+    });
+    const { data } = response;
+    // SuccessPopUp("Player details updated Successfully")
+    return dispatch(getPlayerLicenseSuccess(data));
+  } catch (error: any) {
+    // ErrorPopUp(error.response.data.message)
+    return dispatch(getPlayerLicenseFailed(error.response));
   }
 };

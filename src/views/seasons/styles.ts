@@ -29,4 +29,5 @@ export const Content = styled.div`
   .table:hover{
     cursor: pointer;
   }
+ 
 `;

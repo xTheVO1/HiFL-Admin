@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector  } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
 
 // components
 import ContentHeader from "../../components/ContentHeader";
@@ -12,22 +12,34 @@ import {
   Form,
   CreateBtn,
   BtnDiv,
-  Outlet
+  Outlet,
+  Select,
+  Section
 } from "../players/style";
 import { Tab } from "../../components/tab/style";
 import Input from "../../components/Input";
 import Button from "../../components/Button";
+import Loader from "../../components/Loader";
 
 //actions
-import {postLeague} from "../../redux/actions/leagues";
+import {postLeague, getleagues} from "../../redux/actions/leagues";
+import { getSports} from "../../redux/actions/sport";
 
 export const AddLeague: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const { id } = useParams();
 
   // states
   const [object, setObject]: any = useState({});
+  const sportData = useSelector((state: any) => state.sports)
+  const sportLoading = useSelector((state: any) => state.sports.loading)
+  const sportResult = sportData && sportData ? sportData.sports : [];
 
+  React.useEffect(() => {
+    dispatch(getSports());
+
+  }, [dispatch]);
   const handleChange = (e: any) => {
     e.preventDefault();
     setObject({
@@ -38,15 +50,29 @@ export const AddLeague: React.FC = () => {
   
   const submit = (e: any) => {
     e.preventDefault();
-    const stages = [];
      const data = {
       LeagueName: object.LeagueName,
       Abbreviation: object.Abbreviation,
       Format: object.Format,
-      Stages: stages.push(object.stages),
-      Seasons: 2022
+      Season: id,
+      LeagueLogo: "string",
+      Sport: object.Sport,
+      Settings: {
+        RegistrationOpen: true,
+        LeagueStatus: "OPEN",
+        props: {}
+      },
+      Finalists: {
+        Winner: "",
+        SecondPlace:"",
+       ThirdPlace:"",
+       FourthPlace:""
+      }
+
      }
-     dispatch(postLeague(data))
+     dispatch(postLeague(data));
+     navigate(`/seasons/${id}`);
+     dispatch(getleagues(id))
   }
 
   return (
@@ -54,7 +80,7 @@ export const AddLeague: React.FC = () => {
       <Content>
         <ContentHeader
           title="CREATE LEAGUE">
-          <Button onClick={() => navigate("/leagues")}>GO BACK</Button>
+          <Button onClick={() => navigate("/seasons")}>GO BACK</Button>
         </ContentHeader>
         <Tab>
           <Outlet>
@@ -75,22 +101,19 @@ export const AddLeague: React.FC = () => {
                   onChange={(e) => handleChange(e)}
                 />
               </FormHolder>
-              <FormHolder>
-                <Label>STAGES</Label>
-                <Input
-                  type="text"
-                  name="Stages" required
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
-              <FormHolder>
-                <Label>SEASON</Label>
-                <Input
-                  type="text"
-                  name="Seasons" required
-                  onChange={(e) => handleChange(e)}
-                />
-              </FormHolder>
+              <Section>
+                  <Label>SPORT</Label>
+                  <Select
+                    name="Sport"
+                    onChange={(e) => handleChange(e)}
+                  >
+                    <option>Select a Sport</option>
+                    {sportLoading ? Loader :
+                      sportResult &&  sportResult.map((item: any) => (
+                      <option value={item._id} key={item._id}>{item?.SportName}</option>
+                    ))}
+                  </Select>
+                    </Section>
               <BtnDiv>
                 <CreateBtn type="submit">SUBMIT</CreateBtn>
               </BtnDiv>

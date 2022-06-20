@@ -5,6 +5,9 @@ import { useNavigate } from "react-router-dom";
 import { Content, Card, Div, ImgCard, CardText, Btn, Small, SideText } from "./style";
 import Modal from "../DeleteModal";
 import PlayerImage from "../../assests/dashboard .png";
+import { deletePlayerById } from '../../redux/actions/players';
+import { Dispatch } from "redux";
+import { useDispatch } from "react-redux";
 
 interface PropsType {
   _id: string;
@@ -18,7 +21,7 @@ PlayerLogo: string;
 }
 
 export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, status, playerName}: PropsType) => {
-
+  const dispatch: Dispatch<any> = useDispatch();
   const navigate = useNavigate();
   const [modal, setModal] =useState(false);
 
@@ -34,9 +37,15 @@ export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, statu
   const toggleModal = () => {
     setModal(!modal);
   }
+
+  const deletePlayer = () => {
+      dispatch(deletePlayerById(_id))
+      navigate('/players')
+  }
+
   return (
     <>
-    <Modal modal={modal} toggle={toggleModal} id={_id} />
+    <Modal modal={modal} toggle={toggleModal} actionCall={deletePlayer} id={_id} />
       <Card key={playerName}>
         <Content >
           <Div onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
@@ -54,7 +63,7 @@ export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, statu
             </Btn>
           </div>
           <div  onClick={type === "OFFICIALS" ? editOfficial :editPlayer}>
-            <Btn className={approval === undefined ? "incomplete" : "complete"}>
+            <Btn className={approval === undefined ? "incomplete" :(approval === "APPROVED" ? "complete" : "red")}>
             {approval === undefined ? "PENDING" : (approval === "APPROVED" ? "APPROVED": "DISAPPROVED")}
             </Btn>
           </div>

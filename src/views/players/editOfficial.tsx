@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
+import html2canvas from "html2canvas";
+import { jsPDF } from "jspdf";
+
 import {
   Modal,
   ModalHeader, ModalBody
@@ -21,6 +24,7 @@ import {
   Green,
   FilesHolder,
   Select,
+  TextArea,
 
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
@@ -41,6 +45,8 @@ import {
 import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 import { Btn } from "../../components/playerCard/style";
+import "./license/license.css"
+import { getPlayerLicense } from "../../redux/actions/players";
 
 export const UpdateOfficial: React.FC = () => {
   const navigate = useNavigate();
@@ -78,7 +84,11 @@ export const UpdateOfficial: React.FC = () => {
     SchoolID: "",
     OfficialID: "",
     AccreditationComment: "",
-    Approval: ""
+    Approval: "",
+    licensePhotograph: "",
+    licenseName: "",
+    licenseCourse: "",
+    licenseTeam: ""
   });
   const [files, setFileUpload] = useState({
     medicalcertificate: "",
@@ -94,12 +104,21 @@ export const UpdateOfficial: React.FC = () => {
   const { fileLoading } = fileData;
   const data: any = sessionStorage.getItem("userData");
   const user = JSON.parse(data);
+  const team: any = sessionStorage.getItem("Teamid");
+  const doc: any = new jsPDF();
 
   useEffect(() => {
     const getOfficial = async () => {
       dispatch(getOfficialById(id));
     }
     getOfficial();
+    const getLicense= async () => {
+      dispatch(getPlayerLicense({
+        player: id, 
+        team
+      }));
+    };
+    getLicense();
     // eslint-disable-next-line
   }, [dispatch]);
 
@@ -138,7 +157,11 @@ export const UpdateOfficial: React.FC = () => {
       // JerseyNumber: SportRecord?.JerseyNumber,
       Genotype: MedicalRecord?.Genotype,
       BloodGroup: MedicalRecord?.BloodGroup,
-      AnyAllergies: MedicalRecord?.AnyAllergies
+      AnyAllergies: MedicalRecord?.AnyAllergies,
+      licensePhotograph: "",
+      licenseName: "",
+      licenseCourse: "",
+      licenseTeam: ""
     });
     
     setFileUpload({
@@ -307,15 +330,15 @@ export const UpdateOfficial: React.FC = () => {
     const details = {
       _id: id,
       params: {
-        2022: {
+          YearAccredicted: 2022,
           AccreditationComment: inputObject.AccreditationComment,
           Approval: inputObject.Approval
-        }
+       
       }
     };
     dispatch(accredictOfficial(details));
     navigate("/players")
-    // dispatch(getPlayerById(id));
+    // dispatch(getOfficialById(id));
   }
 
   const status = [
@@ -327,7 +350,8 @@ export const UpdateOfficial: React.FC = () => {
     <Container>
         <Modal isOpen={modal}
         toggle={toggleModal}
-        modalTransition={{ timeout: 2000 }}>
+        modalTransition={{ timeout: 200 }}
+        size="xl">
         <ModalHeader>
           ACCREDITATION
         </ModalHeader>
@@ -396,15 +420,15 @@ export const UpdateOfficial: React.FC = () => {
                     </Section>
                     <FormHolder>
                       <Label>FIRST NAME </Label>
-                      <Input  disabled={disable} type="text" name="Firstname" onChange={(e) => handleChange(e)} required value={inputObject.Firstname} />
+                      <Input  disabled={disable} type="text" name="Firstname" onChange={(e) => handleChange(e)} required value={inputObject?.Firstname?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>LAST NAME</Label>
-                      <Input  disabled={disable} type="text" name="Lastname" onChange={(e) => handleChange(e)} required value={inputObject.Lastname} />
+                      <Input  disabled={disable} type="text" name="Lastname" onChange={(e) => handleChange(e)} required value={inputObject.Lastname?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>MIDDLE NAME</Label>
-                      <Input  disabled={disable} type="text"  name="MiddleName" onChange={(e) => handleChange(e)} required value={inputObject.MiddleName} />
+                      <Input  disabled={disable} type="text"  name="MiddleName" onChange={(e) => handleChange(e)} required value={inputObject.MiddleName?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>DATE OF BIRTH
@@ -464,15 +488,15 @@ export const UpdateOfficial: React.FC = () => {
                       </Section>
                       <FormHolder>
                         <Label>FULL NAME</Label>
-                        <Input  disabled={disable} type="text" name="FullNameOfKin" required onChange={(e) => handleChange(e)} value={inputObject.FullNameOfKin} />
+                        <Input  disabled={disable} type="text" name="FullNameOfKin" required onChange={(e) => handleChange(e)} value={inputObject.FullNameOfKin?.toUpperCase()} />
                       </FormHolder>
                       <FormHolder>
                         <Label>NEXT OF KIN RELATIONSHIP</Label>
-                        <Input  disabled={disable} type="text" name="KinRelationship" required onChange={(e) => handleChange(e)} value={inputObject.KinRelationship} />
+                        <Input  disabled={disable} type="text" name="KinRelationship" required onChange={(e) => handleChange(e)} value={inputObject.KinRelationship?.toUpperCase()} />
                       </FormHolder>
                       <FormHolder>
                         <Label>EMAIL</Label>
-                        <Input  disabled={disable} type="text" name="KinEmail" required onChange={(e) => handleChange(e)} value={inputObject.KinEmail} />
+                        <Input  disabled={disable} type="text" name="KinEmail" required onChange={(e) => handleChange(e)} value={inputObject.KinEmail?.toUpperCase()} />
                       </FormHolder>
                       <FormHolder>
                         <Label>PHONE NUMBER</Label>
@@ -483,13 +507,15 @@ export const UpdateOfficial: React.FC = () => {
                       </FormHolder>
                       <Section>
                         <Label>ADDRESS</Label>
-                        <Input  disabled={disable} type="text" name="KinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress} />
+                        <Input  disabled={disable} type="text" name="KinAddress" required onChange={(e) => handleChange(e)} value={inputObject.KinAddress?.toUpperCase()} />
                       </Section>
                     </Section>
+                    {user?.Role === "Accreditor" ?  "" :
                     <BtnDiv>
                       <CreateBtn type="submit" className={disable ? "disabled" : ""}>SAVE</CreateBtn>
                       {/* <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn> */}
                     </BtnDiv>
+                    }
                   </Form>
               ) : (
                 ""
@@ -501,7 +527,7 @@ export const UpdateOfficial: React.FC = () => {
                     <Input  disabled={disable} type="text"
                       name="Position"
                       onChange={(e) => handleChange(e)}
-                      value={inputObject.Position} />
+                      value={inputObject.Position?.toUpperCase()} />
                   </Section>
                   <Section>
                     <Section>
@@ -512,26 +538,28 @@ export const UpdateOfficial: React.FC = () => {
                       <Input  disabled={disable} type="text"
                         name="Genotype"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.Genotype} />
+                        value={inputObject.Genotype?.toUpperCase()} />
                     </FormHolder>
                     <FormHolder>
                       <Label>BLOOD GROUP</Label>
                       <Input  disabled={disable} type="text"
                         name="BloodGroup"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.BloodGroup} />
+                        value={inputObject.BloodGroup?.toUpperCase()} />
                     </FormHolder>
                     <Section>
                       <Label>ALLERGIES</Label>
                       <Input  disabled={disable} type="text" name="AnyAllergies"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.AnyAllergies} />
+                        value={inputObject.AnyAllergies?.toUpperCase()} />
                     </Section>
                   </Section>
+                  {user.Role === "Accreditor" ?  "" :
                   <BtnDiv>
                     <CreateBtn type="submit" className={disable ? "disabled" : ""} disabled={disable}>SAVE </CreateBtn>
                     {/* <CreateBtn className="submit">SUBMIT FOR ACCREDITATION</CreateBtn> */}
                   </BtnDiv>
+}
                 </Form>
               ) : (
                 ""
@@ -543,29 +571,29 @@ export const UpdateOfficial: React.FC = () => {
                     <Table hover>
                       <thead>
                         <tr>
-                          <th></th>
-                          <th>#</th>
-                          <th>File Type</th>
+                          <th>S/N</th>
+                          <th>Document Name</th>
+                          <th>Files</th> 
                           <th>Status</th> 
                         </tr>
                       </thead>
                       <tbody>
                         <tr  >
-                          <th scope="row"></th>
-                          <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                          <th scope="row">1</th>
                           <td>School ID Card</td>
+                          <td>{!files?.schoolid ? <MdFolder /> : <a href={files?.schoolid} target="_blank" rel="noreferrer"><MdFolder /> <span> View...</span></a>}</td>
                           <td>{!files?.schoolid ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                         <tr  >
-                          <th scope="row"></th>
-                          <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                          <th scope="row">2</th>
                           <td>Passport Photograph</td>
+                          <td>{!files?.passportphotograph ? <MdFolder /> : <a href={files?.passportphotograph} target="_blank" rel="noreferrer"><MdFolder /> <span>View...</span></a>}</td>
                           <td>{!files?.passportphotograph ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                         <tr  >
-                          <th scope="row"></th>
-                          <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /></a>}</td>
+                          <th scope="row">3</th>
                           <td>Medical Certificate</td>
+                          <td>{!files?.medicalcertificate ? <MdFolder /> : <a href={files?.medicalcertificate} target="_blank" rel="noreferrer"><MdFolder /> <span>View...</span></a>}</td>
                           <td>{!files?.medicalcertificate ? <Red ><MdCancel /></Red> : <Green><MdCheck /></Green>}</td>
                         </tr>
                       </tbody>
@@ -586,18 +614,19 @@ export const UpdateOfficial: React.FC = () => {
                     <Label>PASSPORT PHOTOGRAPH</Label>
                     <Input  disabled={disable} type="file" name="passportphotograph" onChange={onImageChange} />
                   </FormHolder>
-                  <BtnDiv>
+                  {/* <BtnDiv>
                     <Section>
                       <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
                     </Section>
-
-                  </BtnDiv>
+                  </BtnDiv> */}
                 </Form>
+                {user.Role === "Accreditor" ?  "" :
                  <BtnDiv>
                  <CreateBtn className={disable ? "disabled" : "submit"} onClick={toggleModal} disabled={disable} >
                    SUBMIT FOR ACCREDITATION
                  </CreateBtn>
-               </BtnDiv>
+                </BtnDiv>
+                }
                 </>
               ) : (
                 ""
@@ -630,27 +659,23 @@ export const UpdateOfficial: React.FC = () => {
               {user.Role === "Accreditor" ? 
                    <Form onSubmit={accredict}>
                     <Section>
-                      <FormHolder>
                         <Label>APPROVAL</Label>
                         <Select
                           name="Approval"
-                          onChange={(e) => handleChange(e)}
-                          value={inputObject.Position}
+                          onChange={(e) => handleChange(e)}   
                         >
                           <option>Select a status</option>
                           {status.map(item => (
                             <option value={item.value}>{item.type}</option>
                           ))}
                         </Select>
-                      </FormHolder>
-                      <FormHolder>
+                      </Section>
+                      <Section>
                         <Label>COMMENTS</Label>
-                        <Input
-                         type="text"
+                        <TextArea
                           name="AccreditationComment"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.AccreditationComment} />
-                      </FormHolder>
+                           />
                     </Section>
                     <BtnDiv>
                       <CreateBtn type="submit" >SAVE</CreateBtn>

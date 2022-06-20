@@ -11,6 +11,9 @@ export const Container = styled.div`
     background: white;
     padding: .9rem 0rem .6rem 0rem;
     border-bottom: 6px solid #F8F8F8;
+    & .disabled{
+        background: ${props => props.theme.colors.gray};
+    }
 `;
 
 export const Title = styled.div<TitleContainerTypeProps>`

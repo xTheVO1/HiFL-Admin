@@ -1,12 +1,15 @@
 import { combineReducers } from 'redux';
 import { userReducer  } from './auth';
 import { teamReducer  } from './team';
+import { settingsReducer  } from './settings';
 import { leagueReducer } from './leagues';
 import { seasonReducer  } from './seasons';
 import { instituteReducer  } from './institutions';
 import { playerReducer } from './players';
 import { officialReducer } from './officials';
 import { fileUploadReducer } from './fileUpload';
+import { SportReducer} from "./sport";
+import { FixtureReducer } from './fixture';
 
 const reducers = combineReducers({
 auth: userReducer,
@@ -16,7 +19,10 @@ officials: officialReducer,
 institution: instituteReducer,
 seasons: seasonReducer,
 leagues: leagueReducer,
-files: fileUploadReducer
+files: fileUploadReducer,
+sports: SportReducer,
+settings: settingsReducer,
+fixtures: FixtureReducer
 });
 
 export default reducers;
