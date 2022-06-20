@@ -257,7 +257,7 @@ export const updateLeagueStage = (payload: any) => async (dispatch: Dispatch) =>
           SuccessPopUp("Stage Successfully Updated")
           return dispatch(updateleagueStageSuccess(data))
         } catch (error: any) {
-      ErrorPopUp(error.response.data.message)
+          ErrorPopUp(error.response.data.message)
           return dispatch(updateleagueStageFailed(error.response))
         }
 }

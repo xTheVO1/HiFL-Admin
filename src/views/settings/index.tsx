@@ -88,7 +88,6 @@ function Setting() {
       ...inputObject,
       [e.target.name]: e.target.value,
     });
-    console.log(inputObject)
     dispatch(getleagues(inputObject?.CurrentSeason));
   };
 
@@ -114,7 +113,6 @@ function Setting() {
         LeagueName: inputObject.LeagueName,
         Sport: inputObject.Sport
       }}
-      console.log( details, "edit")
       // dispatch(postSettings(details));
     }else {
     const details = {
@@ -124,7 +122,6 @@ function Setting() {
       LeagueName: inputObject.LeagueName,
       Sport: inputObject.Sport
     }
-    console.log(details)
     dispatch(postSettings(details));
   }
   }
@@ -132,7 +129,6 @@ function Setting() {
   const goBack = () => {
     navigate("/settings")
   }
-
 
 
   //    /teams
@@ -208,18 +204,17 @@ function Setting() {
                 </Select>
               </FormHolder>
               <FormHolder>
-                <Label>SPORT</Label>{window.location.pathname === "/edit-setting" ? <span>{inputObject?.Sport}</span> : ""}
-                <Select
-                  name="Sport"
-                  onChange={(e) => handleChange(e)}
-                >
-                  <option>Select a Sport</option>
-                  {/* {sportLoading ? <Loader /> :
-                 sportResult?.length === 0 || sportResult === [] ? "" :
-                sportResult?.map((item: any) => (
-                    <option value={item._id} key={item.SportName}>{item.SportName}</option>
-                  ))} */}
-                </Select>
+              <Label>SPORT</Label>
+                        <Select
+                          name="Sport"
+                          onChange={(e) => handleChange(e)}
+                        >
+                          <option>Select a Sport</option>
+                          {sportLoading ? Loader :
+                           sportResult &&  sportResult.map((item: any) => (
+                            <option value={item._id} key={item._id}>{item?.SportName}</option>
+                          ))}
+                        </Select>
               </FormHolder>
             </Section>
             <BtnDiv style={{ marginBottom: "2rem" }}>

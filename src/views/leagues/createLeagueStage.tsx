@@ -33,12 +33,14 @@ export const AddLeagueStage: React.FC = () => {
   // states
   const [object, setObject]: any = useState({});
   const teamData = useSelector((state: any) => state.team)
+  const leagueData = useSelector((state: any) => state.leagues)
   const teamLoading = useSelector((state: any) => state.sports.loading)
   const teamResult = teamData && teamData ? teamData.team : [];
+  const singleLeagueResult = leagueData && leagueData ? leagueData.league : {};
 
   React.useEffect(() => {
     dispatch(getTeams());
-
+    dispatch(getleague(id));
   }, [dispatch]);
 
   const handleChange = (e: any) => {
@@ -55,7 +57,7 @@ export const AddLeagueStage: React.FC = () => {
      const data = {
       StageName: object.StageName,
       League: id,
-      // Season: ,
+      Season: singleLeagueResult?.Season?._id,
       NoOfTeams: object.NoOfTeams,
       OrderNumber: object.OrderNumber,
       Teams : Team.concat(object.Teams),
@@ -71,7 +73,7 @@ export const AddLeagueStage: React.FC = () => {
     <Container>
       <Content>
         <ContentHeader
-          title="CREATE LEAGUE">
+          title="CREATE LEAGUE STAGE">
           <Button onClick={() => navigate(`/leagues/${id}`)}>GO BACK</Button>
         </ContentHeader>
         <Tab>

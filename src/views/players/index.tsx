@@ -1,9 +1,16 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import { MdSchool } from "react-icons/md";
+import { MdSchool, MdCamera, MdCameraAlt } from "react-icons/md";
 import moment from "moment";
+import {
+  POST_FILE_STARTED,
+  POST_FILE_SUCCESSFUL,
+  POST_FILE_FAILED
+} from "../../redux/actions/actionTypes";
+import { privateHttp } from "../../baseUrl";
+import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 
 // components and styles
 import ContentHeader from "../../components/ContentHeader";
@@ -18,7 +25,8 @@ import {
   Select,
   CreateBtn,
   BtnDiv,
-  TextArea, } from "./style";
+  TextArea,
+  FilesHolder, } from "./style";
 import { PlayerCard } from "../../components/playerCard";
 import { getPlayers } from "../../redux/actions/players";
 import { getOfficials } from "../../redux/actions/officials";
@@ -29,12 +37,14 @@ import Input from "../../components/Input";
 import { getTeamById, updateTeam } from "../../redux/actions/teams";
 import { getInstitutions} from "../../redux/actions/institutions";
 import { getSports} from "../../redux/actions/sport";
-
+import {postFiles} from "../../redux/actions/fileUpload"
 const data: any = sessionStorage.getItem("userData");
 const user = JSON.parse(data);
 
 export const Players: React.FC = () => {
   const navigate = useNavigate();
+  const myRef: any = useRef();
+  const logoRef: any = useRef();
   const dispatch: Dispatch<any> = useDispatch();
   
   // Getting the team name and id
@@ -44,11 +54,15 @@ export const Players: React.FC = () => {
   // getting players and officials from redux store
   const store = useSelector((state: RootState) => state.player);
   const officialStore = useSelector((state: RootState) => state.officials);
+  const fileStore = useSelector((state: RootState) => state.files.file);
   const { loading, players } = store;
   const { officials } = officialStore;
   const mainData = players && players ? players : [];
   const officialData = officials && officials ? officials : [];
+  const fileData = fileStore && fileStore ? fileStore : {};
   const [modal, setModal] =useState(false)
+  const [Loading, setLoading] =useState(false)
+  const [uploadFile, setFile] =useState({})
   const items = useSelector((state: any) => state.leagues);
   const leaguesLoading = useSelector((state: any) => state.leagues.loading);
   const mainDataResult = items && items ? items.leagues : [];
@@ -61,22 +75,41 @@ export const Players: React.FC = () => {
   const sportResult = sportData && sportData ? sportData.sports : [];
   const institutionLoading = useSelector((state: any) => state.institution.loading)
   const institutionResult = institutionData && institutionData ? institutionData.institutions : [];
-  
-
   const [activeTab, setActiveTab] = useState("PLAYERS");
-  const [disable, setDisable] = useState(false);
-  const [inputObject, setObject] = useState({
+  const [files, setFileUpload] = useState({
+    Logo: "",
+    CoverImage: ""
+  });
+  const [inputObject, setObject]: any = useState({
     TeamName: "", 
     Overview: "", 
     Category: '', 
     Sport: "", 
     InstitutionName: "",
-    TeamAbbreviation:""})
+    InstitutionId: "",
+    TeamAbbreviation:"",
+    Slug: "",
+    Logo: "",
+    CoverImage: "",
+    SocialMediaAssets: [],
+    Facebook: "",
+    Twitter: "",
+    Instagram: ""
+})
 
   const addPlayer = () => {
     navigate("/register-player");
   };
 
+ const handleClick = (event: any) => {
+    event.preventDefault();
+   myRef.current.click()
+  };
+
+  const logoClick = (event: any) => {
+    event.preventDefault();
+   myRef.current.click()
+  };
   // const addOfficial = () => {
   //   navigate("/register-official");
   // };
@@ -84,18 +117,6 @@ export const Players: React.FC = () => {
   const viewTeams = () => {
     navigate("/teams");
   };
-
-
-  useEffect(() => {
-    const {TeamAbbreviation, TeamName } = teamDataResult;
-    setObject({
-      TeamAbbreviation: TeamAbbreviation,
-      TeamName: TeamName, 
-      Overview: teamDataResult?.Overview, 
-      Category: teamDataResult?.Category, 
-      Sport: teamDataResult?.Sport, 
-      InstitutionName: teamDataResult?.Institution?.InstitutionName})
-  },[dispatch])
 
   useEffect(() => {
     if (teamId === "") {
@@ -108,6 +129,27 @@ export const Players: React.FC = () => {
     dispatch(getSports());
     dispatch(getTeamById(teamId));
   }, [dispatch, teamId, navigate]);
+
+
+  useEffect(() => {
+    const {TeamAbbreviation, TeamName, SocialMediaAssets } = teamDataResult;
+    setObject({
+      TeamAbbreviation: TeamAbbreviation,
+      TeamName: TeamName, 
+      Overview: teamDataResult?.Overview, 
+      Category: teamDataResult?.Category, 
+      Sport: teamDataResult?.Sport, 
+      InstitutionName: teamDataResult?.Institution?.InstitutionName,
+      InstitutionId: teamDataResult?.Institution?._id,
+      Slug: teamDataResult?.Slug,
+      Logo: teamDataResult?.Logo,
+      CoverImage: teamDataResult?.CoverImage,
+      SocialMediaAssets:teamDataResult?.SocialMediaAssets,
+  
+      // Instagram: SocialMediaAssets?.Instagram
+    })
+  },[teamDataResult])
+
 
 
   const handleChange = (e: any) => {
@@ -125,6 +167,7 @@ export const Players: React.FC = () => {
 
   const update = (e: any) => {
     e.preventDefault();
+    const SocialMediaAssets: any = [];
     const details = {
       _id: teamId,
       params:{
@@ -132,7 +175,15 @@ export const Players: React.FC = () => {
         Overview: inputObject.Overview, 
         Category: inputObject.Category, 
         Sport: inputObject.Sport, 
-        Institution: inputObject.InstitutionName
+        Institution: inputObject.InstitutionId,
+        Slug: inputObject?.Slug,
+        SocialMediaAssets: [...SocialMediaAssets, 
+          {key:inputObject?.Facebook, value:"FACEBOOK"}, 
+          {key: inputObject?.Twitter, value: "TWITTER"},
+          {key: inputObject?.Instagram, value: "INSTAGRAM"}
+        ],
+        // Logo: inputObject?.Logo,
+        // CoverImage: inputObject?.CoverImage,
       }
     }
     dispatch(updateTeam(details))
@@ -143,6 +194,84 @@ export const Players: React.FC = () => {
     setModal(!modal);
   }
 
+  const onImageChange = async (event: any) => {
+    if (event.target.files && event.target.files[0]) {
+      let reader = new FileReader();
+      const formData: any = new FormData();
+      reader.onload = (e: any) => {
+        setFileUpload({
+          ...files,
+          [event.target.name]: event.target.files[0]
+        })
+      
+      };
+      reader.readAsDataURL(event.target.files[0]);
+      const details = {fileid: teamId, folder: "Logo", file: event.target.files[0]}
+      if (formData) {
+        formData.append(
+          "fileid",
+          teamId
+        )
+        // formData.append(
+        //   "folder",
+        //   // event.target.name
+        // )
+      //   formData.append(
+      //     "file",
+      //     // event.target.files[0]
+      //   )
+      }
+      dispatch(postFiles(formData))
+      setFile(fileData)
+  }
+    // };
+  };
+
+  const upload = () => {
+  
+  }
+  // const uploadFiles = async (e: any) => {
+  //   e.preventDefault();
+  //   setLoading(true)
+   
+  //   //   for (var pair of formData.entries()) {
+  //   //     console.log(pair[0]+ ', ' + pair[1]); 
+  //   // }
+  //   try {
+  //     dispatch({
+  //       type: POST_FILE_STARTED
+  //     })
+  //     const headers = {
+  //       "Authorization": `Bearer-Jwt ${sessionStorage.getItem('token')}`,
+  //       "Content-Type": "multipart/formdata"
+  //     }
+  //     const response = await privateHttp({
+  //       method: "post",
+  //       url: '/players/player/docuploads/',
+  //       headers: headers,
+  //       data: formData
+  //     })
+  //     const { data } = response;
+  //     const { DocumentUploads } = data.data;
+  //     setFileUpload({
+  //       ...files
+       
+  //     })
+  //     setLoading(false);
+  //     SuccessPopUp("File uploaded Successfully");
+  //     return dispatch({
+  //       type: POST_FILE_SUCCESSFUL,
+  //       payload: data.data
+  //     })
+  //   } catch (error: any) {
+  //     setLoading(false);
+  //     ErrorPopUp(error.response.data.message)
+  //     return dispatch({
+  //       type: POST_FILE_FAILED,
+  //       payload: error
+  //     })
+  //   }
+  // }
   return (
     <>
       {loading ? (
@@ -191,6 +320,29 @@ export const Players: React.FC = () => {
               <div>
                 {teamLoading ? <Loader/> :
                 <Form onSubmit={(e) => update(e)}>
+                    <div style={{display: "flex"}}>
+                        <FilesHolder style={{marginRight: "3rem"}}>
+                        {!inputObject?.Logo ?
+                         <div className="no-files">
+                          <div>
+                            {/* <input type="file"ref={logoRef} name="Logo" style={{display: "none"}}/> */}
+                            {/* <MdCameraAlt onClick={(e) => handleClick(e)} style={{cursor: "pointer"}}/> */}
+                            </div>
+                          <h3>LOGO</h3>
+                          </div> 
+                         : <img src={inputObject?.Logo} alt="teams-logo"/>}
+                        </FilesHolder>
+                        <FilesHolder>
+                        {!inputObject?.CoverImage ? 
+                        <div className="no-files">
+                          <div>
+                            {/* <input type="file" ref={myRef} name="Logo" style={{display: "none"}}/> */}
+                            {/* <MdCameraAlt onClick={(e) => logoClick(e)} style={{cursor: "pointer"}}/> */}
+                            </div>
+                          <h3>COVER <br></br>IMAGE</h3>
+                          </div> : <img src={inputObject?.CoverImage}  alt="team "/>}
+                        </FilesHolder>
+                    </div>
                   <Section>
                     <FormHolder>
                     <Label>TEAM NAME</Label>
@@ -201,12 +353,33 @@ export const Players: React.FC = () => {
                     />
                     </FormHolder>
                     <FormHolder>
+                    <Label>SLUG</Label>
+                    <Input
+                      name="Slug"
+                      onChange={(e) => handleChange(e)}
+                      value={inputObject?.Slug}
+                    />
+                    </FormHolder>
+                    <FormHolder>
                     <Label>TEAM ABBREVIATION</Label>
                     <Input
                       name="TeamAbbreviation"
                       onChange={(e) => handleChange(e)}
                       value={inputObject?.TeamAbbreviation}
                     />
+                    </FormHolder>
+                    <FormHolder>
+                    <Label>INSTITUTION NAME <span style={{color: "green"}}>{inputObject?.InstitutionName}</span></Label>
+                    <Select
+                      name="InstitutionId"
+                      onChange={(e) => handleChange(e)}
+                    >
+                      <option>Select an Institution</option>
+                      {institutionLoading ? Loader :
+                        institutionResult && institutionResult.map((item: any) => (
+                          <option value={item._id} key={item._id}>{item?.InstitutionName}</option>
+                        ))}
+                    </Select>
                     </FormHolder>
                   </Section>
                   <Section>
@@ -237,21 +410,9 @@ export const Players: React.FC = () => {
                         ))}
                     </Select>
                       </FormHolder>
+                    
                   </Section>
-                  <Section>
-                    <Label>INSTITUTION NAME</Label><span style={{color: "green"}}>{inputObject?.InstitutionName}</span>
-                    <Select
-                      name="InstitutionName"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.InstitutionName}
-                    >
-                      <option>Select an Institution</option>
-                      {institutionLoading ? Loader :
-                        institutionResult && institutionResult.map((item: any) => (
-                          <option value={item._id} key={item._id}>{item?.InstitutionName}</option>
-                        ))}
-                    </Select>
-                    </Section>
+                 
                     <Section>
                     
                     <Label>OVERVIEW</Label>
@@ -260,6 +421,53 @@ export const Players: React.FC = () => {
                       onChange={(e) => handleChange(e)}
                       value={inputObject?.Overview}
                     />
+
+                    </Section>
+                    <Section>
+                  <FormHolder>  
+                    <Label>Logo</Label>
+                   <Input name="Logo" type="file" alt="Team logo" onChange={onImageChange}/>
+                      </FormHolder>
+                  <FormHolder>
+                    <Label>COVER IMAGE</Label>
+                    <Input name="CoverImage" type="file" onChange={onImageChange} alt="Team Cover Image"/>
+                  </FormHolder>
+                  </Section>
+                    <Section>
+                      {/* {inputObject.SocialMediaAssets?.map((item: any) => (
+                      <FormHolder>
+                      <Label>{item?.value}</Label>
+                      <Input
+                        name={item.value}
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject?.Facebook}
+                      />
+                      </FormHolder>
+                      ))} */}
+                     <FormHolder>
+                      <Label>FACEBOOK</Label>
+                      <Input
+                        name="Facebook"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject?.Facebook}
+                      />
+                      </FormHolder>
+                      <FormHolder>
+                      <Label>TWITTER</Label>
+                      <Input
+                        name="Twitter"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject?.Facebook}
+                      />
+                      </FormHolder>
+                      <FormHolder>
+                      <Label>INSTAGRAM</Label>
+                      <Input
+                        name="Instagram"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject?.Facebook}
+                      />
+                      </FormHolder>
                     </Section>
                   <BtnDiv style={{paddingBottom: "3rem"}}>
                     <CreateBtn type="submit" >{loading ? <Loader /> : "UPDATE"}</CreateBtn>
