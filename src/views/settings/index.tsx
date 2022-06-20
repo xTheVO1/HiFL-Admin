@@ -21,6 +21,7 @@ import {
 } from "../players/style";
 import { postSettings, getSelectedItem } from "../../redux/actions/settings";
 import { getSports } from "../../redux/actions/sport";
+import { Spinner } from "reactstrap";
 
 
 function Setting() {
@@ -30,7 +31,7 @@ function Setting() {
   // Seasons
   const items = useSelector((state: any) => state.seasons);
   const selected = useSelector((state: any) => state.settings.getItem);
-  const loading = useSelector((state: any) => state.seasons.loading);
+  const seasonLoading = useSelector((state: any) => state.seasons.loading);
   const mainSeasonResult = items && items ? items.seasons : [];
   const leaguesItem = useSelector((state: any) => state.leagues);
   const leaguesResult = leaguesItem && leaguesItem ? leaguesItem.leagues : {};
@@ -51,7 +52,7 @@ function Setting() {
     id: ""
   });
 
-
+console.log(sportResult, mainSeasonResult)
   useEffect(() => {
     dispatch(getSeasons());
     dispatch(getSports());
@@ -71,8 +72,6 @@ function Setting() {
 
     }
   }, [dispatch]);
-
-
 
   useEffect(() => {
     dispatch(getleagues(activeSeason));
@@ -113,7 +112,7 @@ function Setting() {
         LeagueName: inputObject.LeagueName,
         Sport: inputObject.Sport
       }}
-      // dispatch(postSettings(details));
+      dispatch(postSettings(details));
     }else {
     const details = {
       CurrentSeason: activeSeason,
@@ -141,10 +140,9 @@ function Setting() {
         </CreateBtn>
       </ContentHeader>
       <Content>
-        {loading ? <Loader /> :
+        {seasonLoading ? <div style={{margin:"3rem auto", textAlign: "center",fontSize: "2rem" }}><Spinner /> </div> :
           <Form>
             <Section>
-              
               <Label>LEAGUE NAME</Label>
               {window.location.pathname === "/edit-setting" ?
                 <Input
@@ -169,7 +167,7 @@ function Setting() {
                   onChange={(e) => seasonHandleChange(e)}
                 >
                   <option>Select a Season</option>
-                  {loading ? <Loader /> :
+                  {seasonLoading ? <Spinner /> :
                     mainSeasonResult?.length === 0 || mainSeasonResult === undefined ? "" :
                       mainSeasonResult && mainSeasonResult?.data.map((item: any) => (
                         <option value={item._id} key={item.SeasonName}>{item?.SeasonName}</option>
@@ -183,7 +181,7 @@ function Setting() {
                   onChange={(e) => leagueHandleChange(e)}
                 >
                   <option>Select a League</option>
-                  {leaguesLoading ? <Loader /> :
+                  {leaguesLoading ? <Spinner /> :
                     leaguesResult?.map((item: any) => (
                       <option value={item._id} key={item.LeagueName}>{item?.LeagueName}</option>
                     ))}
@@ -210,10 +208,10 @@ function Setting() {
                           onChange={(e) => handleChange(e)}
                         >
                           <option>Select a Sport</option>
-                          {sportLoading ? Loader :
+                          {/* {sportLoading ? Loader :
                            sportResult &&  sportResult.map((item: any) => (
                             <option value={item._id} key={item._id}>{item?.SportName}</option>
-                          ))}
+                          ))} */}
                         </Select>
               </FormHolder>
             </Section>

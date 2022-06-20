@@ -306,14 +306,17 @@ export const Players: React.FC = () => {
                   {" "}
                   MANAGE OFFICIALS
                 </p>
-                |
+               {user.Role === "SuperAdmin" ? 
+               <>
+               |
                 <p
                   className={activeTab === "TEAM" ? "active" : ""}
                   onClick={() => setActiveTab("TEAM")}
                 >
                   {" "}
-                  MANAGE TEAMS
+                  MANAGE TEAM
                 </p>
+                </> : "" }
               </div>
             </Table>
             {activeTab === "TEAM" ?
