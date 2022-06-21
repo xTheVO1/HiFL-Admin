@@ -101,15 +101,15 @@ export const Players: React.FC = () => {
     navigate("/register-player");
   };
 
- const handleClick = (event: any) => {
-    event.preventDefault();
-   myRef.current.click()
-  };
+//  const handleClick = (event: any) => {
+//     event.preventDefault();
+//    myRef.current.click()
+//   };
 
-  const logoClick = (event: any) => {
-    event.preventDefault();
-   myRef.current.click()
-  };
+//   const logoClick = (event: any) => {
+//     event.preventDefault();
+//    myRef.current.click()
+//   };
   // const addOfficial = () => {
   //   navigate("/register-official");
   // };
@@ -142,11 +142,12 @@ export const Players: React.FC = () => {
       InstitutionName: teamDataResult?.Institution?.InstitutionName,
       InstitutionId: teamDataResult?.Institution?._id,
       Slug: teamDataResult?.Slug,
-      Logo: teamDataResult?.Logo,
-      CoverImage: teamDataResult?.CoverImage,
       SocialMediaAssets:teamDataResult?.SocialMediaAssets,
-  
       // Instagram: SocialMediaAssets?.Instagram
+    })
+    setFileUpload({
+      Logo: teamDataResult?.TeamLogo,
+      CoverImage: teamDataResult?.TeamCoverPhoto
     })
   },[teamDataResult])
 
@@ -187,6 +188,7 @@ export const Players: React.FC = () => {
       }
     }
     dispatch(updateTeam(details))
+    dispatch(getTeamById(teamId));
   }
   
   // Toggle for Modal
@@ -197,7 +199,6 @@ export const Players: React.FC = () => {
   const onImageChange = async (event: any) => {
     if (event.target.files && event.target.files[0]) {
       let reader = new FileReader();
-      const formData: any = new FormData();
       reader.onload = (e: any) => {
         setFileUpload({
           ...files,
@@ -206,72 +207,35 @@ export const Players: React.FC = () => {
       
       };
       reader.readAsDataURL(event.target.files[0]);
-      const details = {fileid: teamId, folder: "Logo", file: event.target.files[0]}
-      if (formData) {
-        formData.append(
-          "fileid",
-          teamId
-        )
-        // formData.append(
-        //   "folder",
-        //   // event.target.name
-        // )
-      //   formData.append(
-      //     "file",
-      //     // event.target.files[0]
-      //   )
-      }
-      dispatch(postFiles(formData))
-      setFile(fileData)
+    
   }
     // };
   };
 
-  const upload = () => {
-  
+  const upload = (e: any) => {
+    e.preventDefault();
+    const formData: any = new FormData();
+    if (formData) {
+      formData.append(
+        "teamid",
+        teamId
+      )
+      formData.append(
+        "TeamLogo",
+        files.Logo
+      )
+      formData.append(
+        "TeamCoverPhoto",
+        files.CoverImage
+      )
+    }
+    //     for (var pair of formData.entries()) {
+    //     console.log(pair[0]+ ', ' + pair[1]); 
+    // }`  `
+    dispatch(postFiles(formData))
+    // setFile(fileData)
   }
-  // const uploadFiles = async (e: any) => {
-  //   e.preventDefault();
-  //   setLoading(true)
-   
-  //   //   for (var pair of formData.entries()) {
-  //   //     console.log(pair[0]+ ', ' + pair[1]); 
-  //   // }
-  //   try {
-  //     dispatch({
-  //       type: POST_FILE_STARTED
-  //     })
-  //     const headers = {
-  //       "Authorization": `Bearer-Jwt ${sessionStorage.getItem('token')}`,
-  //       "Content-Type": "multipart/formdata"
-  //     }
-  //     const response = await privateHttp({
-  //       method: "post",
-  //       url: '/players/player/docuploads/',
-  //       headers: headers,
-  //       data: formData
-  //     })
-  //     const { data } = response;
-  //     const { DocumentUploads } = data.data;
-  //     setFileUpload({
-  //       ...files
-       
-  //     })
-  //     setLoading(false);
-  //     SuccessPopUp("File uploaded Successfully");
-  //     return dispatch({
-  //       type: POST_FILE_SUCCESSFUL,
-  //       payload: data.data
-  //     })
-  //   } catch (error: any) {
-  //     setLoading(false);
-  //     ErrorPopUp(error.response.data.message)
-  //     return dispatch({
-  //       type: POST_FILE_FAILED,
-  //       payload: error
-  //     })
-  //   }
-  // }
+
   return (
     <>
       {loading ? (
@@ -306,23 +270,26 @@ export const Players: React.FC = () => {
                   {" "}
                   MANAGE OFFICIALS
                 </p>
-                |
+               {user.Role === "SuperAdmin" ? 
+               <>
+               |
                 <p
                   className={activeTab === "TEAM" ? "active" : ""}
                   onClick={() => setActiveTab("TEAM")}
                 >
                   {" "}
-                  MANAGE TEAMS
+                  MANAGE TEAM
                 </p>
+                </> : "" }
               </div>
             </Table>
             {activeTab === "TEAM" ?
               <div>
                 {teamLoading ? <Loader/> :
-                <Form onSubmit={(e) => update(e)}>
+                <Form >
                     <div style={{display: "flex"}}>
                         <FilesHolder style={{marginRight: "3rem"}}>
-                        {!inputObject?.Logo ?
+                        {!files?.Logo ?
                          <div className="no-files">
                           <div>
                             {/* <input type="file"ref={logoRef} name="Logo" style={{display: "none"}}/> */}
@@ -330,17 +297,17 @@ export const Players: React.FC = () => {
                             </div>
                           <h3>LOGO</h3>
                           </div> 
-                         : <img src={inputObject?.Logo} alt="teams-logo"/>}
+                         : <img src={files?.Logo} alt="teams-logo" className="team-img"/>}
                         </FilesHolder>
                         <FilesHolder>
-                        {!inputObject?.CoverImage ? 
+                        {!files?.CoverImage ? 
                         <div className="no-files">
                           <div>
                             {/* <input type="file" ref={myRef} name="Logo" style={{display: "none"}}/> */}
                             {/* <MdCameraAlt onClick={(e) => logoClick(e)} style={{cursor: "pointer"}}/> */}
                             </div>
                           <h3>COVER <br></br>IMAGE</h3>
-                          </div> : <img src={inputObject?.CoverImage}  alt="team "/>}
+                          </div> : <img src={files?.CoverImage}  alt="team " className="team-img"/>}
                         </FilesHolder>
                     </div>
                   <Section>
@@ -410,29 +377,8 @@ export const Players: React.FC = () => {
                         ))}
                     </Select>
                       </FormHolder>
-                    
                   </Section>
-                 
-                    <Section>
-                    
-                    <Label>OVERVIEW</Label>
-                    <TextArea
-                      name="Overview"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.Overview}
-                    />
-
-                    </Section>
-                    <Section>
-                  <FormHolder>  
-                    <Label>Logo</Label>
-                   <Input name="Logo" type="file" alt="Team logo" onChange={onImageChange}/>
-                      </FormHolder>
-                  <FormHolder>
-                    <Label>COVER IMAGE</Label>
-                    <Input name="CoverImage" type="file" onChange={onImageChange} alt="Team Cover Image"/>
-                  </FormHolder>
-                  </Section>
+                   
                     <Section>
                       {/* {inputObject.SocialMediaAssets?.map((item: any) => (
                       <FormHolder>
@@ -460,17 +406,38 @@ export const Players: React.FC = () => {
                         value={inputObject?.Facebook}
                       />
                       </FormHolder>
-                      <FormHolder>
+                      <Section>
                       <Label>INSTAGRAM</Label>
                       <Input
                         name="Instagram"
                         onChange={(e) => handleChange(e)}
                         value={inputObject?.Facebook}
                       />
-                      </FormHolder>
+                      </Section>
                     </Section>
+                    <Section>
+                    <Label>OVERVIEW</Label>
+                    <TextArea
+                      name="Overview"
+                      onChange={(e) => handleChange(e)}
+                      value={inputObject?.Overview}
+                    />
+                    </Section>
+                    <Section>
+                  <FormHolder>  
+                    <Label>Logo</Label>
+                   <Input name="Logo" type="file" alt="Team logo" onChange={onImageChange}/>
+                      </FormHolder>
+                  <FormHolder>
+                    <Label>COVER IMAGE</Label>
+                    <Input name="CoverImage" type="file" onChange={onImageChange} alt="Team Cover Image"/>
+                  </FormHolder>
+                  </Section>
+                  <FormHolder style={{paddingBottom: "3rem"}}>
+                    <CreateBtn onClick={(e) => upload(e)} style={{background:  "#FFB422", color:"#000229", marginLeft: "-.1rem"}} >{loading ? <Loader /> : "UPLOAD FILES"}</CreateBtn>
+                  </FormHolder>
                   <BtnDiv style={{paddingBottom: "3rem"}}>
-                    <CreateBtn type="submit" >{loading ? <Loader /> : "UPDATE"}</CreateBtn>
+                    <CreateBtn onClick={(e) => update(e)} >{loading ? <Loader /> : "UPDATE"}</CreateBtn>
                   </BtnDiv>
                 </Form>
                  }

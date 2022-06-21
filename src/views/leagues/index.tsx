@@ -35,8 +35,6 @@ function Leagues() {
   const dispatch: Dispatch<any> = useDispatch()
   const navigate = useNavigate();
   const items = useSelector((state: any) => state.leagues);
-  const fixtureItem = useSelector((state: any) => state.fixtures.fixtures);
-  const fixtureLoading = useSelector((state: any) => state.fixtures.loading);
   const loading = useSelector((state: any) => state.leagues.loading);
   const teamsData = useSelector((state: any) => state.team);
   const teamsLoader = useSelector((state: any) => state.team.loading);
@@ -53,6 +51,7 @@ function Leagues() {
   const [deleteTeam, setDelete] = useState(false);
   const [deleteItem, setDeleteItem] = useState();
   const [stageId, setStageId] = useState();
+  const [activeStage, setActiveStageItem]:any = useState();
   const [stageTeams, setStageTeams]: any = useState([]);
   const [inputObject, setObject] = useState({
     Abbreviation: "",
@@ -97,7 +96,16 @@ function Leagues() {
       FourthPlace: Finalists?.FourthPlace,
       LeagueStatus: singleLeagueResult?.LeagueStatus
     })
-  }, [singleLeagueResult, stagesResult]);
+  }, [singleLeagueResult, singleStage]);
+
+  useEffect(() => {
+    setStageItem({
+      StageName: activeStage?.StageName,
+      NoOfTeams: activeStage?.NoOfTeams,
+      OrderNumber: activeStage?.OrderNumber,
+      ActiveStage: activeStage?.ActiveStage === true ? "Active" : "Inactive"
+    })
+  }, [ activeStage]);
 
   const addLeague = () => {
     navigate(`/create-league-stage/${id}`)
@@ -114,6 +122,11 @@ function Leagues() {
       ...inputObject,
       [e.target.name]: e.target.value,
     });
+  
+  };
+
+  const handChange = (e: any) => {
+    e.preventDefault();
     setStageItem({
       ...stageItems,
       [e.target.name]: e.target.value,
@@ -161,15 +174,16 @@ function Leagues() {
     dispatch(getleagueStage(stage._id));
     setDeleteItem(stage._id);
     setStageTeams(stage.Teams);
-    setStageItem({
-      NoOfTeams: stage.NoOfTeams,
-      OrderNumber: stage.OrderNumber,
-      StageName: stage.StageName,
-      Teams: [],
-      ActiveStage: stage?.ActiveStage === true ? "OPENED" : "CLOSED",
-      Fixtures: [],
+    setActiveStageItem(stage)
+    // setStageItem({
+    //   NoOfTeams: stage.NoOfTeams,
+    //   OrderNumber: stage.OrderNumber,
+    //   StageName: stage.StageName,
+    //   Teams: [],
+    //   ActiveStage: stage?.ActiveStage === true ? "OPENED" : "CLOSED",
+    //   Fixtures: [],
 
-    })
+    // })
   }
 
 
@@ -206,14 +220,14 @@ function Leagues() {
     const details = {
       _id: deleteItem,
       params: {
-        StageName: stageItems.StageName,
-        NoOfTeams: stageItems.NoOfTeams,
-        OrderNumber: stageItems.OrderNumber,
-        ActiveStage: stageItems?.ActiveStage === true ? "OPENED" : "CLOSED"
+        StageName: stageItems?.StageName,
+        NoOfTeams: stageItems?.NoOfTeams,
+        OrderNumber: stageItems?.OrderNumber,
+        ActiveStage: stageItems?.ActiveStage === "OPENED" ? true : false
       }
     }
     dispatch(updateLeagueStage(details));
-    dispatch(getleagueStage(deleteItem));
+    dispatch(getleagueStage(activeStage._id));
 
   }
 
@@ -389,7 +403,7 @@ function Leagues() {
                                           <Label>STAGE</Label>
                                           <Input type="text"
                                             name="StageName"
-                                            onChange={(e) => handleChange(e)}
+                                            onChange={(e) => handChange(e)}
                                             value={stageItems?.StageName?.toUpperCase()} />
                                         </FormHolder>
                                         <FormHolder>
@@ -404,17 +418,17 @@ function Leagues() {
                                           <Label>ORDER NUMBER</Label>
                                           <Input type="number"
                                             name="OrderNumber"
-                                            onChange={(e) => handleChange(e)}
+                                            onChange={(e) => handChange(e)}
                                             value={stageItems?.OrderNumber}
                                           />
                                         </FormHolder>
                                         <FormHolder>
-                                          <Label>STATUS</Label>
+                                          <Label>STATUS <span>{stageItems?.ActiveStage === true ? "Active" : "Inactive"}</span></Label>
                                           <Select
                                             name="ActiveStage"
-                                            onChange={(e) => handleChange(e)}
-                                            value={stageItems?.ActiveStage}
+                                            onChange={(e) => handChange(e)}
                                           >
+                                            <option>Select Status</option>
                                             <option value="OPENED">ACTIVE</option>
                                             <option value="CLOSED">INACTIVE</option>
                                           </Select>
