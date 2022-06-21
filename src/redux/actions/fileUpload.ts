@@ -53,7 +53,7 @@ export const postFiles = (payload: any) => async (dispatch: Dispatch) => {
     
     const response = await privateHttp({
       method: "post",
-      url: '/file/upload/',
+      url: '/teams/team/uploads/',
       headers: headers,
       data: payload,
     })
