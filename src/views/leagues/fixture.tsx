@@ -21,7 +21,6 @@ import moment from "moment";
 import {getleagueStage} from "../../redux/actions/leagues";
 import {postFixture, getFixtures, updateFixture} from "../../redux/actions/fixtures";
 import { Form } from "./styles";
-import { isAnyArrayBuffer } from "util/types";
 
 const Fixture = ({ teamLoader}: any) => {
     const dispatch: Dispatch<any> = useDispatch()
