@@ -100,12 +100,13 @@ export const postSettings = (payload: any) => async (dispatch: Dispatch) => {
       }
 }
 
-export const updateSettings = () => async (dispatch: Dispatch) => {
+export const updateSettings = (payload:any) => async (dispatch: Dispatch) => {
     try {    
         dispatch(updateSettingStarted())
         const response = await privateHttp({
           method: "post",
-          url: `/settings/update/`
+          url: `/settings/update/`,
+          data: payload
         })
         const { data } = response;
         return dispatch(updateSettingSuccess(data))
