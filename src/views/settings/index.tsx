@@ -19,7 +19,7 @@ import {
   BtnDiv,
   Input
 } from "../players/style";
-import { postSettings, getSelectedItem } from "../../redux/actions/settings";
+import { postSettings, getSelectedItem, updateSettings, getSettings } from "../../redux/actions/settings";
 import { getSports } from "../../redux/actions/sport";
 import { Spinner } from "reactstrap";
 
@@ -39,9 +39,9 @@ function Setting() {
   const [activeSeason, setActiveSeason] = useState();
   const [activeLeague, setActiveLeague] = useState();
   const [url, setUrl] = useState("")
-  const sportData = useSelector((state: any) => state.sports)
+  const sportData = useSelector((state: any) => state.sports.sports)
   const sportLoading = useSelector((state: any) => state.sports.loading)
-  const sportResult = sportData && sportData ? sportData.sports : [];
+  const sportResult = sportData && sportData ? sportData : [];
   const leagueStagesResult = leaguesItem && leaguesItem ? leaguesItem.leagueStages : {};
   const [inputObject, setObject]: any = useState({
     CurrentSeason: "",
@@ -52,7 +52,6 @@ function Setting() {
     id: ""
   });
 
-console.log(sportResult, mainSeasonResult)
   useEffect(() => {
     dispatch(getSeasons());
     dispatch(getSports());
@@ -112,17 +111,19 @@ console.log(sportResult, mainSeasonResult)
         LeagueName: inputObject.LeagueName,
         Sport: inputObject.Sport
       }}
-      dispatch(postSettings(details));
+      dispatch(updateSettings(details));
     }else {
     const details = {
       CurrentSeason: activeSeason,
       CurrentLeague: activeLeague,
       CurrentStage: inputObject.CurrentStage,
-      LeagueName: inputObject.LeagueName,
+      CurrentLeagueName: inputObject.LeagueName,
       Sport: inputObject.Sport
     }
     dispatch(postSettings(details));
   }
+  dispatch(getSettings());
+  navigate("/settings")
   }
 
   const goBack = () => {
@@ -169,7 +170,7 @@ console.log(sportResult, mainSeasonResult)
                   <option>Select a Season</option>
                   {seasonLoading ? <Spinner /> :
                     mainSeasonResult?.length === 0 || mainSeasonResult === undefined ? "" :
-                      mainSeasonResult && mainSeasonResult?.data.map((item: any) => (
+                      mainSeasonResult && mainSeasonResult?.data?.map((item: any) => (
                         <option value={item._id} key={item.SeasonName}>{item?.SeasonName}</option>
                       ))}
                 </Select>
@@ -208,10 +209,11 @@ console.log(sportResult, mainSeasonResult)
                           onChange={(e) => handleChange(e)}
                         >
                           <option>Select a Sport</option>
-                          {/* {sportLoading ? Loader :
-                           sportResult &&  sportResult.map((item: any) => (
+                          {sportLoading ? <Spinner/> :
+                           sportResult === [] ? "" :
+                           sportResult &&  sportResult?.map((item: any) => (
                             <option value={item._id} key={item._id}>{item?.SportName}</option>
-                          ))} */}
+                          ))}
                         </Select>
               </FormHolder>
             </Section>

@@ -133,6 +133,7 @@ function Leagues() {
     });
   };
 
+
   const editLeague = () => {
     const payload = {
       _id: id,
@@ -153,7 +154,6 @@ function Leagues() {
     }
     dispatch(updateLeague(payload))
   }
-
   // Toggle for Modal
   const toggleModal = (item: any) => {
     setModal(!modal);
@@ -223,7 +223,7 @@ function Leagues() {
         StageName: stageItems?.StageName,
         NoOfTeams: stageItems?.NoOfTeams,
         OrderNumber: stageItems?.OrderNumber,
-        ActiveStage: stageItems?.ActiveStage === "OPENED" ? true : false
+        ActiveStage: stageItems?.ActiveStage === "Active" ? true : false
       }
     }
     dispatch(updateLeagueStage(details));
@@ -400,18 +400,17 @@ function Leagues() {
                                     <Form onSubmit={(e) => updateStage(e)} className="white" style={{ marginBottom: "1.5rem" }}>
                                       <Section>
                                         <FormHolder>
-                                          <Label>STAGE</Label>
+                                          <Label>STAGE </Label>
                                           <Input type="text"
                                             name="StageName"
                                             onChange={(e) => handChange(e)}
                                             value={stageItems?.StageName?.toUpperCase()} />
                                         </FormHolder>
                                         <FormHolder>
-                                          <Label>NO OF TEAMS</Label>
+                                          <Label>NO OF TEAMS <span>{stageItems?.NoOfTeams}</span></Label>
                                           <Input type="number"
                                             name="NoOfTeams"
-                                            onChange={(e) => handleChange(e)}
-                                            value={stageItems?.NoOfTeams}
+                                            onChange={(e) => handChange(e)}
                                           />
                                         </FormHolder>
                                         <FormHolder>
@@ -429,8 +428,8 @@ function Leagues() {
                                             onChange={(e) => handChange(e)}
                                           >
                                             <option>Select Status</option>
-                                            <option value="OPENED">ACTIVE</option>
-                                            <option value="CLOSED">INACTIVE</option>
+                                            <option value="Active">ACTIVE</option>
+                                            <option value="Inactive">INACTIVE</option>
                                           </Select>
                                         </FormHolder>
                                       </Section>
