@@ -2,6 +2,9 @@ import {
     GET_SETTING_STARTED,
     GET_SETTING_SUCCESSFUL,
     GET_SETTING_FAILED,
+    GET_SINGLE_SETTING_STARTED,
+    GET_SINGLE_SETTING_SUCCESSFUL,
+    GET_SINGLE_SETTING_FAILED,
     POST_SETTING_STARTED,
     POST_SETTING_SUCCESSFUL,
     POST_SETTING_FAILED,
@@ -17,6 +20,7 @@ import { selectedItem } from "../actions/settings";
 
 const  initialState = {
     settings: [],
+    singleSettings: {},
     loading: false,
     postLoading:false,
     newSetting: false,
@@ -40,6 +44,23 @@ export const settingsReducer = (state: SettingState = initialState, action: any)
           settings: action.payload
         }
       case GET_SETTING_FAILED:
+        return {
+          ...state,
+          loading: false,
+          error: action.payload
+        }
+        case  GET_SINGLE_SETTING_STARTED:
+        return {
+          ...state,
+          loading: true
+        }
+      case GET_SINGLE_SETTING_SUCCESSFUL: 
+        return {
+          ...state,
+          loading: false,
+          singleSettings: action.payload
+        }
+      case GET_SINGLE_SETTING_FAILED:
         return {
           ...state,
           loading: false,
