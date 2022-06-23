@@ -103,7 +103,8 @@ function Leagues() {
       StageName: activeStage?.StageName,
       NoOfTeams: activeStage?.NoOfTeams,
       OrderNumber: activeStage?.OrderNumber,
-      ActiveStage: activeStage?.ActiveStage === true ? "Active" : "Inactive"
+      ActiveStage: activeStage?.ActiveStage === true ? "Active" : "Inactive",
+      StageTeams: activeStage?.Teams
     })
   }, [ activeStage]);
 
@@ -113,7 +114,8 @@ function Leagues() {
 
   const changeTab = (tab: any) => {
     setActiveTab(tab)
-    // dispatch(getPlayerById(id));
+    dispatch(getleague(id));
+    dispatch(getleagueStages(id));
   }
 
   const handleChange = (e: any) => {
@@ -132,7 +134,6 @@ function Leagues() {
       [e.target.name]: e.target.value,
     });
   };
-
 
   const editLeague = () => {
     const payload = {
@@ -175,20 +176,12 @@ function Leagues() {
     setDeleteItem(stage._id);
     setStageTeams(stage.Teams);
     setActiveStageItem(stage)
-    // setStageItem({
-    //   NoOfTeams: stage.NoOfTeams,
-    //   OrderNumber: stage.OrderNumber,
-    //   StageName: stage.StageName,
-    //   Teams: [],
-    //   ActiveStage: stage?.ActiveStage === true ? "OPENED" : "CLOSED",
-    //   Fixtures: [],
-
-    // })
   }
 
-
-  const update = (e: any) => {
+  // delete & add team to league stage
+  const addDeleteTeam = (e: any) => {
     e.preventDefault();
+    // if delete is true update league stage 
     if (deleteTeam === true) {
       const details = {
         _id: deleteItem,
@@ -198,16 +191,17 @@ function Leagues() {
       }
       dispatch(updateLeagueStage(details));
       dispatch(getleagueStage(deleteItem));
-      setDelete(false)
+      setDelete(false);
       setDeleteModal(!deleteModal);
-    } else {
+    } 
+    else {
+      // add teams then update league stage
       const details = {
         _id: stageId,
         params: {
-          Teams: stageTeams.concat(stageItems.Teams)
+          Teams: [...stageTeams, stageItems.Teams]
         }
       }
-
       dispatch(updateLeagueStage(details))
       setModal(!modal);
       dispatch(getleagueStage(stageId));
@@ -235,6 +229,7 @@ function Leagues() {
     setDeleteModal(!deleteModal);
     setDelete(true)
     let newTeams = stageTeams?.splice(id, 1)
+    // const filteredArray = singleStage?.Teams?.filter((role: any) => role.id != id)
     setStageTeams(newTeams)
   }
 
@@ -475,7 +470,7 @@ function Leagues() {
                                 <Label>TEAMS</Label>
                                 <Select
                                   name="Teams"
-                                  onChange={(e) => handleChange(e)}
+                                  onChange={(e) => handChange(e)}
                                 >
                                   <option>Select a Position</option>
                                   {teamsLoader ? Loader :
@@ -486,7 +481,7 @@ function Leagues() {
                               </Section>
                             </Form>
                             <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
-                              <CreateBtn className="red" onClick={(e) => update(e)}
+                              <CreateBtn className="red" onClick={(e) => addDeleteTeam(e)}
                                 style={{ background: "#000229", color: "white", marginRight: "1rem" }} >
                                 ADD
                               </CreateBtn>
@@ -507,7 +502,7 @@ function Leagues() {
                           </ModalHeader>
                           <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
                             <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
-                              <CreateBtn className="red" onClick={(e) => update(e)}
+                              <CreateBtn className="red" onClick={(e) => addDeleteTeam(e)}
                                 style={{ background: "#000229", color: "white", marginRight: "1rem" }} >
                                 CONFIRM
                               </CreateBtn>
@@ -541,7 +536,7 @@ function Leagues() {
                           </ModalHeader>
                           <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
                             <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
-                              <CreateBtn className="red" onClick={(e) => update(e)}
+                              <CreateBtn className="red" onClick={(e) => addDeleteTeam(e)}
                                 style={{ background: "#000229", color: "white", marginRight: "1rem" }} >
                                 CONFIRM
                               </CreateBtn>

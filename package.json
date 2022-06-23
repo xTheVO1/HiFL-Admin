@@ -65,7 +65,6 @@
       "react-app/jest"
     ]
   },
-  "proxy": "https://hifl-staging.herokuapp.com/api/v1",
   "browserslist": {
     "production": [
       ">0.2%",

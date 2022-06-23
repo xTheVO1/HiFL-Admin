@@ -12,6 +12,7 @@ import Leagues from "../views/leagues";
 import Season from "../views/seasons";
 import CreateSetting from "../views/settings";
 import Setting from "../views/settings/viewSettings";
+import EditSetting from "../views/settings/editSetting";
 import User from "../views/user";
 import { AddInstitution } from "../views/institutions/createInstitution";
 import { AddLeague } from "../views/leagues/createLeague";
@@ -36,7 +37,7 @@ function AppRoutes() {
         <Route path="/create-season" element={<AddSeason />} />
         <Route path="/settings" element={<Setting />} />
         <Route path="/create-setting" element={<CreateSetting />} />
-        <Route path="/edit-setting" element={<CreateSetting />} />
+        <Route path="/edit-setting/:id" element={<EditSetting />} />
         <Route path="/guidelines" element={<Guidelines />} />
         <Route path="/official/:id" element={<UpdateOfficial />} />
         <Route path="/player/:id" element={<UpdatePlayer />} />

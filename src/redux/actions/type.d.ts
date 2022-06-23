@@ -163,6 +163,7 @@ interface SettingState {
   error: any;
   selectedItem: any;
   getItem: any;
+  singleSettings: any;
 }
 
 type SettingAction = {

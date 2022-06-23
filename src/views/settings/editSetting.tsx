@@ -24,7 +24,7 @@ import { getSports } from "../../redux/actions/sport";
 import { Spinner } from "reactstrap";
 
 
-function Setting() {
+function EditSetting() {
   const dispatch: Dispatch<any> = useDispatch()
   const navigate = useNavigate();
   const { id } = useParams();
@@ -55,40 +55,31 @@ function Setting() {
     id: ""
   });
 
-
-  // useEffect(() => {
-  //   dispatch(getleagues(activeSeason));
-  // }, [dispatch]);
-
-
   useEffect(() => {
     dispatch(getSeasons());
     dispatch(getSports());
-    setUrl(window.location.pathname)
-    if (window.location.pathname === `/edit-setting/${id}`) {
-      dispatch(getSingleSettings(id));
-      setObject({
-        CurrentSeason: settingResult?.CurrentSeason?.SeasonName,
-        CurrentSeasonId: settingResult?.CurrentSeason?._id,
-        CurrentLeague: settingResult?.CurrentLeague,
-        CurrentStage: settingResult?.CurrentStage,
-        Sport: settingResult?.Sport,
-        LeagueName: settingResult?.CurrentLeagueName,
-        id: settingResult?._id
-      })
-    } else {
-
-    }
+    dispatch(getSingleSettings(id));
   }, [dispatch]);
 
-console.log(inputObject)
   useEffect(() => {
-    dispatch(getleagues(activeSeason));
-  }, [activeSeason]);
+    setObject({
+      CurrentSeason: settingResult?.CurrentSeason?.SeasonName,
+      CurrentSeasonId: settingResult?.CurrentSeason?._id,
+      CurrentLeague: settingResult?.CurrentLeague?._id,
+      CurrentLeagueNa: settingResult?.CurrentLeague?.LeagueName,
+      CurrentStage: settingResult?.CurrentStage._id,
+      CurrentStageName: settingResult?.CurrentStage.StageName,
+      Sport: settingResult?.Sport?._id,
+      SportName: settingResult?.Sport?.SportName,
+      CurrentLeagueName: settingResult?.CurrentLeagueName,
+      id: settingResult?._id
+    })
+  }, [settingResult]);
 
   useEffect(() => {
-    dispatch(getleagueStages(activeLeague));
-  }, [activeLeague]);
+    dispatch(getleagues(inputObject.CurrentSeasonId));
+    dispatch(getleagueStages(inputObject.CurrentLeague));
+  }, [inputObject]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -112,15 +103,18 @@ console.log(inputObject)
   const create = (e: any) => {
     e.preventDefault();
     const details = {
-      CurrentSeason: activeSeason,
-      CurrentLeague: activeLeague,
-      CurrentStage: inputObject.CurrentStage,
-      CurrentLeagueName: inputObject.LeagueName,
-      Sport: inputObject.Sport
+      _id: inputObject?.id,
+      params: {
+        CurrentSeason: inputObject.CurrentSeasonId,
+        CurrentLeague: inputObject.CurrentLeague,
+        CurrentStage: inputObject.CurrentStage,
+        CurrentLeagueName: inputObject.CurrentLeagueName,
+        Sport: inputObject.Sport
+      }
     }
-    dispatch(postSettings(details));
-  dispatch(getSettings());
-  navigate("/settings")
+    dispatch(updateSettings(details));
+    // dispatch(getSettings());
+    // navigate("/settings")
   }
 
   const goBack = () => {
@@ -138,23 +132,24 @@ console.log(inputObject)
         </CreateBtn>
       </ContentHeader>
       <Content>
-        {seasonLoading ? <div style={{margin:"3rem auto", textAlign: "center",fontSize: "2rem" }}><Spinner /> </div> :
+        {seasonLoading ? <div style={{ margin: "3rem auto", textAlign: "center", fontSize: "2rem" }}><Spinner /> </div> :
           <Form>
             <Section>
-              <Label>LEAGUE NAME</Label>
-              
-                <Input
-                  name="LeagueName"
-                  type="text"
-                  onChange={(e) => handleChange(e)}
-                />
+              <Label>CURRENT LEAGUE NAME</Label>
+              <Input
+                name="CurrentLeagueName"
+                type="text"
+                onChange={(e) => handleChange(e)}
+                value={inputObject.CurrentLeagueName}
+              />
             </Section>
             <Section>
               <FormHolder>
-                <Label>SEASON{window.location.pathname === `/edit-setting/${id}` ? <span>{inputObject?.CurrentSeason}</span> : ""}</Label>
+                <Label>SEASON<span>{inputObject?.CurrentSeason}</span></Label>
                 <Select
                   name="CurrentSeasonId"
-                  onChange={(e) => seasonHandleChange(e)}
+                  onChange={(e) => handleChange(e)}
+                  value={inputObject?.CurrentSeasonId}
                 >
                   <option>Select a Season</option>
                   {seasonLoading ? <Spinner /> :
@@ -165,10 +160,10 @@ console.log(inputObject)
                 </Select>
               </FormHolder>
               <FormHolder>
-                <Label>LEAGUE </Label>
+                <Label>LEAGUE {window.location.pathname === `/edit-setting/${id}` ? <span>{inputObject?.CurrentLeagueNa}</span> : ""}</Label>
                 <Select
                   name="CurrentLeague"
-                  onChange={(e) => leagueHandleChange(e)}
+                  onChange={(e) => handleChange(e)}
                 >
                   <option>Select a League</option>
                   {leaguesLoading ? <Spinner /> :
@@ -180,7 +175,7 @@ console.log(inputObject)
             </Section>
             <Section>
               <FormHolder>
-                <Label>STAGE</Label>
+                <Label>STAGE{window.location.pathname === `/edit-setting/${id}` ? <span>{inputObject?.CurrentStageName}</span> : ""}</Label>
                 <Select
                   name="CurrentStage"
                   onChange={(e) => handleChange(e)}
@@ -192,23 +187,23 @@ console.log(inputObject)
                 </Select>
               </FormHolder>
               <FormHolder>
-              <Label>SPORT</Label>
-                        <Select
-                          name="Sport"
-                          onChange={(e) => handleChange(e)}
-                        >
-                          <option>Select a Sport</option>
-                          {sportLoading ? <Spinner/> :
-                           sportResult === [] ? "" :
-                           sportResult &&  sportResult?.map((item: any) => (
-                            <option value={item._id} key={item._id}>{item?.SportName}</option>
-                          ))}
-                        </Select>
+                <Label>SPORT<span>{inputObject?.SportName}</span></Label>
+                <Select
+                  name="Sport"
+                  onChange={(e) => handleChange(e)}
+                >
+                  <option>Select a Sport  </option>
+                  {sportLoading ? <Spinner /> :
+                    sportResult === [] ? "" :
+                      sportResult && sportResult?.map((item: any) => (
+                        <option value={item._id} key={item._id}>{item?.SportName}</option>
+                      ))}
+                </Select>
               </FormHolder>
             </Section>
             <BtnDiv style={{ marginBottom: "2rem" }}>
               <CreateBtn className="red" onClick={(e) => create(e)}
-                style={{ color: "white", marginRight: "1rem", float: "right" }} >SAVE</CreateBtn>
+                style={{ color: "white", marginRight: "1rem", float: "right" }} >UPDATE</CreateBtn>
             </BtnDiv>
           </Form>
         }
@@ -218,4 +213,4 @@ console.log(inputObject)
   );
 }
 
-export default Setting;
+export default EditSetting;

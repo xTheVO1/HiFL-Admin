@@ -46,7 +46,7 @@ function ViewSetting() {
     const toggle = (item: any) => {
         setModal(!modal)
         dispatch(selectedItem({data: item, isEdit: true}))
-        navigate("/edit-setting")
+        navigate(`/edit-setting/${item._id}`)
       }
 
     const update = (e: any) => {
