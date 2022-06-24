@@ -4,6 +4,9 @@ import {
 GET_SETTING_STARTED,
 GET_SETTING_SUCCESSFUL,
 GET_SETTING_FAILED,
+GET_SINGLE_SETTING_STARTED,
+GET_SINGLE_SETTING_SUCCESSFUL,
+GET_SINGLE_SETTING_FAILED,
 POST_SETTING_STARTED,
 POST_SETTING_SUCCESSFUL,
 POST_SETTING_FAILED,
@@ -30,6 +33,21 @@ const getSettingFailed = (data: any) => ({
     type: GET_SETTING_FAILED,
     payload: data
   })
+
+  const getSingleSettingStarted = () => ({
+    type:  GET_SINGLE_SETTING_STARTED
+  })
+
+const getSingleSettingSuccess = (data: ISeason) => ({
+    type:GET_SINGLE_SETTING_SUCCESSFUL,
+    payload: data
+  })
+
+const getSingleSettingFailed = (data: any) => ({
+    type: GET_SINGLE_SETTING_FAILED,
+    payload: data
+  })
+
 
   const postSettingStarted = () => ({
     type: POST_SETTING_STARTED
@@ -69,26 +87,40 @@ const updateSettingFailed = (data: any) => ({
     payload: data
   })
 
-export const getSettings = () => async (dispatch: Dispatch) => {
+export const getSingleSettings = (id: any) => async (dispatch: Dispatch) => {
 try {
-    dispatch(getSettingStarted())
+    dispatch(getSingleSettingStarted())
     const response = await privateHttp({
         method: "get",
-        url: `/settings/`
+        url: `/settings/setting/byid/?_id=${id}`
     })
     const { data } = response;
-    return dispatch(getSettingSuccess(data))
+    return dispatch(getSingleSettingSuccess(data))
     } catch (error: any) {
-    return dispatch(getSettingFailed(error.response))
+    return dispatch(getSingleSettingFailed(error.response))
     }
 }
+
+export const getSettings = () => async (dispatch: Dispatch) => {
+  try {
+      dispatch(getSettingStarted())
+      const response = await privateHttp({
+          method: "get",
+          url: `/settings/`
+      })
+      const { data } = response;
+      return dispatch(getSettingSuccess(data))
+      } catch (error: any) {
+      return dispatch(getSettingFailed(error.response))
+      }
+  }
 
 export const postSettings = (payload: any) => async (dispatch: Dispatch) => {
   try {
         dispatch(postSettingStarted())
         const response = await privateHttp({
           method: "post",
-          url: `/settings/`,
+          url: `/settings/create/`,
           data: payload
         })
         const { data } = response;
@@ -100,12 +132,13 @@ export const postSettings = (payload: any) => async (dispatch: Dispatch) => {
       }
 }
 
-export const updateSettings = () => async (dispatch: Dispatch) => {
-    try {    
+export const updateSettings = (payload:any) => async (dispatch: Dispatch) => {
+  try {    
         dispatch(updateSettingStarted())
         const response = await privateHttp({
-          method: "post",
-          url: `/settings/update/`
+          method: "patch",
+          url: `/settings/setting/update/`,
+          data: payload
         })
         const { data } = response;
         return dispatch(updateSettingSuccess(data))
