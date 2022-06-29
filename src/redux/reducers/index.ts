@@ -10,6 +10,8 @@ import { officialReducer } from './officials';
 import { fileUploadReducer } from './fileUpload';
 import { SportReducer} from "./sport";
 import { FixtureReducer } from './fixture';
+import { StoreReducer } from './store';
+import { volunteerReducer } from './volunteer';
 
 const reducers = combineReducers({
 auth: userReducer,
@@ -22,7 +24,9 @@ leagues: leagueReducer,
 files: fileUploadReducer,
 sports: SportReducer,
 settings: settingsReducer,
-fixtures: FixtureReducer
+fixtures: FixtureReducer,
+volunteers: volunteerReducer,
+store: StoreReducer
 });
 
 export default reducers;
