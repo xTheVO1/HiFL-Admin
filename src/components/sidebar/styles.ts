@@ -26,9 +26,9 @@ export const Container = styled.div<AsideTypeProps>`
 `;
 
 export const Header = styled.header`
-    display: flex;
-    align-items: center;
-    height: 80px;
+    margin: 0rem auto;
+    margin-top: 2rem;
+    width: 90%;
 `;
 
 export const LogoImg  = styled.img`
