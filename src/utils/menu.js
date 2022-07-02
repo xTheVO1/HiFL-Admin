@@ -4,7 +4,8 @@ import {
   MdPeopleAlt,
   MdToggleOn,
   MdSchool,
-  MdSports,
+  MdShop,
+  MdPeople,
   MdCalendarToday,
   MdInfo,MdOutlineLogout
 } from "react-icons/md";
@@ -87,6 +88,18 @@ export const SuperAdminMenu = [
     title: "SEASONS",
     href: "/seasons",
     icon: <MdCalendarToday />,
+  },
+  {
+    id: "store",
+    title: "STORE",
+    href: "/store",
+    icon: <MdShop />,
+  },
+  {
+    id: "volunteer",
+    title: "VOLUNTEER",
+    href: "/volunteer",
+    icon: <MdPeople />,
   },
   {
     id: "user",
