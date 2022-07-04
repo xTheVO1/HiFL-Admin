@@ -91,7 +91,7 @@ export const Players: React.FC = () => {
     Slug: "",
     Logo: "",
     CoverImage: "",
-    SocialMediaAssets: [],
+    SocialMediaAssets: {},
     Facebook: "",
     Twitter: "",
     Instagram: ""
@@ -143,6 +143,9 @@ export const Players: React.FC = () => {
       InstitutionId: teamDataResult?.Institution?._id,
       Slug: teamDataResult?.Slug,
       SocialMediaAssets:teamDataResult?.SocialMediaAssets,
+      Facebook: teamDataResult?.SocialMediaAssets?.Facebook, 
+      Twitter: teamDataResult?.SocialMediaAssets?.Twitter,
+      Instagram: teamDataResult?.SocialMediaAssets?.Instagram,
       // Instagram: SocialMediaAssets?.Instagram
     })
     setFileUpload({
@@ -178,11 +181,11 @@ export const Players: React.FC = () => {
         Sport: inputObject.Sport, 
         Institution: inputObject.InstitutionId,
         Slug: inputObject?.Slug,
-        SocialMediaAssets: [...SocialMediaAssets, 
-          {key:inputObject?.Facebook, value:"FACEBOOK"}, 
-          {key: inputObject?.Twitter, value: "TWITTER"},
-          {key: inputObject?.Instagram, value: "INSTAGRAM"}
-        ],
+        SocialMediaAssets: {...SocialMediaAssets, 
+         Facebook: inputObject?.Facebook, 
+          Twitter: inputObject?.Twitter,
+          Instagram: inputObject?.Instagram,
+        },
         // Logo: inputObject?.Logo,
         // CoverImage: inputObject?.CoverImage,
       }
@@ -403,7 +406,7 @@ export const Players: React.FC = () => {
                       <Input
                         name="Twitter"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject?.Facebook}
+                        value={inputObject?.Twitter}
                       />
                       </FormHolder>
                       <Section>
@@ -411,7 +414,7 @@ export const Players: React.FC = () => {
                       <Input
                         name="Instagram"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject?.Facebook}
+                        value={inputObject?.Instagram}
                       />
                       </Section>
                     </Section>

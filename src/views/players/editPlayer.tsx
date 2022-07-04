@@ -492,12 +492,8 @@ export const UpdatePlayer: React.FC = () => {
     dispatch(getPlayerById(id));
   }
 
-  const editAccredictItem = () => {
-  }
-
   return (
     <Container>
-
       <Modal isOpen={modal}
         toggle={toggleModal}
         modalTransition={{ timeout: 200 }}

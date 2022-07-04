@@ -22,6 +22,8 @@ import { AddLeagueStage } from "../views/leagues/createLeagueStage";
 import Store from "../views/store";
 import Volunteers from "../views/volunteers";
 import EditVolunteer from "../views/volunteers/editVolunteer";
+import EditOrder from "../views/store/editOrder";
+
 
 function AppRoutes() {
   return (
@@ -47,6 +49,7 @@ function AppRoutes() {
         <Route path="/players" element={<Players />} />
         <Route path="/dashboard" element={<Guidelines />} />
         <Route path="/teams" element={<TeamManager />} />
+        <Route path="/order/edit/:id" element={<EditOrder />} />
         <Route path="/store" element={<Store />} />
         <Route path="/volunteer/edit/:id" element={<EditVolunteer />} />
         <Route path="/volunteer" element={<Volunteers />} />
