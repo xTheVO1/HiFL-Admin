@@ -78,7 +78,7 @@ const EditOrder = () => {
       }, [mainDataResult])
 
       const handleChange = (e: any) => {
-        console.log(inputObject, e)
+       
         e.preventDefault();
         setInputObject({
           ...inputObject,

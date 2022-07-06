@@ -23,6 +23,7 @@ import Store from "../views/store";
 import Volunteers from "../views/volunteers";
 import EditVolunteer from "../views/volunteers/editVolunteer";
 import EditOrder from "../views/store/editOrder";
+import ViewUser from "../views/user/viewUser";
 
 
 function AppRoutes() {
@@ -31,6 +32,7 @@ function AppRoutes() {
       <Route element={<PrivateRoute />}>
         <Route path="/register-player" element={<AddPlayer />} />
         <Route path="/register-official" element={<AddPlayer />} />
+        <Route path="/user/:id" element={<ViewUser />} />
         <Route path="/users" element={<User />} />
         <Route path="/seasons" element={<Season />} />
         <Route path="/seasons/:id" element={<ViewSeason />} />
