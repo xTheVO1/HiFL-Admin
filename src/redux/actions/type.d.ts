@@ -13,9 +13,13 @@ interface IUser {
 }
 
 interface UserState {
-  user: IUser[];
+  user: any;
+  singleUser: any;
   loading: boolean;
-  error: string | null;
+  users: any;
+  updatedUsers: any;
+  updateLoading: boolean;
+  error: any;
 }
 
 type UserAction = {

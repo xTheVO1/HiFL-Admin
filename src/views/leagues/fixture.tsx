@@ -318,6 +318,7 @@ const Fixture = ({ teamLoader }: any) => {
                             >
                                 <option >Select Status</option>
                                 <option value="FIXTURE">Fixture</option>
+                                <option value="RESULT">Result</option>
                                 {/* <option value="Two-leg">Two Leg</option> */}
                             </Select>
                         </FormHolder>
