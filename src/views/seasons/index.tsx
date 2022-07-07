@@ -5,12 +5,12 @@ import { useNavigate } from "react-router-dom";
 import {getSeasons} from "../../redux/actions/seasons";
 
 // components
-import { Table } from "reactstrap";
 import { Container, Content } from "./styles";
 import ContentHeader from "../../components/ContentHeader";
 import Loader from "../../components/Loader";
 import { CreateBtn } from "../players/style";
 import { H2 } from "../institutions/styles";
+import { Table } from "reactstrap";
 
 function Seasons() {
     const dispatch: Dispatch<any> = useDispatch()

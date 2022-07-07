@@ -175,6 +175,7 @@ export const Players: React.FC = () => {
     const details = {
       _id: teamId,
       params:{
+        TeamAbbreviation:inputObject.TeamAbbreviation,
         TeamName: inputObject.TeamName, 
         Overview: inputObject.Overview, 
         Category: inputObject.Category, 
@@ -185,7 +186,7 @@ export const Players: React.FC = () => {
          Facebook: inputObject?.Facebook, 
           Twitter: inputObject?.Twitter,
           Instagram: inputObject?.Instagram,
-        },
+        }
         // Logo: inputObject?.Logo,
         // CoverImage: inputObject?.CoverImage,
       }
