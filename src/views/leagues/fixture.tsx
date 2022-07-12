@@ -88,11 +88,12 @@ const Fixture = ({ teamLoader }: any) => {
         StHome: 0,
         StAway: 0,
         HomeId: "",
-        AwayId: ""
+        AwayId: "",
+        Season: ""
     })
-
     useEffect(() => {
         setObject({
+            Season: sessionStorage.getItem("Seasonid"),
             id: activeItem._id,
             HomeTeam: activeItem.HomeTeam?.TeamAbbreviation,
             HomeId: activeItem.HomeTeam?._id,
@@ -155,7 +156,7 @@ const Fixture = ({ teamLoader }: any) => {
         const details = {
             _id: activeItem._id,
             params: {
-                Season: activeItem?.Season?._id,
+                Season: inputObject?.Season?._id,
                 League: activeItem?.League,
                 Stage: activeItem?.Stage?._id,
                 HomeTeam: inputObject.HomeId,

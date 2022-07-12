@@ -441,7 +441,6 @@ function Leagues() {
                                     <div className=" stage-header">
                                       <p>TEAMS</p>
                                       <div>
-                                        {console.log(item.NoOfTeams, item?.Teams?.length)}
                                         <span>{item.NoOfTeams - item?.Teams?.length} Teams Left</span>
                                         <button onClick={() => toggleModal(item)} disabled={item.NoOfTeams === item?.Teams?.length ? true : false}>+ Add Team</button>
                                       </div>

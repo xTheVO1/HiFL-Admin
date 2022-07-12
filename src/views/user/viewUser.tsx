@@ -48,7 +48,6 @@ function ViewUser() {
         Instagram: "",
     })
     
-    console.log( mainDataResult)
 
     useEffect(() => {
         dispatch(getUser(id))

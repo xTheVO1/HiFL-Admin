@@ -30,7 +30,7 @@ const CreateFixture = ({modal, toggleModal, activeItem, closeCreateModal, stageI
     const [inputObject, setObject]: any = useState({
         HomeTeam: "",
         AwayTeam: "",
-        MatchVenue: "",
+        MatchDate: "",
         MatchTime: ""
        
     })
@@ -50,12 +50,12 @@ const CreateFixture = ({modal, toggleModal, activeItem, closeCreateModal, stageI
     const createFixture = async (e: any) => {
         e.preventDefault();
         const details = {
-            Season: activeItem?.Season,
+            Season: activeItem?.Season?._id,
             League: activeItem?.League,
             Stage: stageId,
             HomeTeam: inputObject.HomeTeam,
             AwayTeam: inputObject.AwayTeam,
-            MatchVenue: inputObject.MatchVenue,
+            MatchDate: inputObject.MatchDate,
             MatchTime: inputObject.MatchTime,
         }
         try {
@@ -134,8 +134,8 @@ const CreateFixture = ({modal, toggleModal, activeItem, closeCreateModal, stageI
                             <Input type="text" name="MatchTime" onChange={(e) => handleChange(e)} />
                         </FormHolder>
                         <FormHolder>
-                            <Label>VENUE</Label>
-                            <Input type="text" name="MatchVenue" onChange={(e) => handleChange(e)} />
+                            <Label>MATCH DATE</Label>
+                            <Input type="date" name="MatchDate" onChange={(e) => handleChange(e)} />
                         </FormHolder>
                     </Section>
                 </Form>
