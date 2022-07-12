@@ -81,7 +81,6 @@ function Setting() {
     }
   }, [dispatch]);
 
-console.log(inputObject)
   useEffect(() => {
     dispatch(getleagues(activeSeason));
   }, [activeSeason]);

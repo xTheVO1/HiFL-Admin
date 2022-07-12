@@ -1,6 +1,7 @@
 import React, {useEffect} from "react";
 import { Table } from "reactstrap";
 import moment from "moment";
+import { H2 } from "../institutions/styles";
 
 const ViewFixture = ({toggle, fixtures}:any ) => {
 
@@ -9,6 +10,8 @@ const ViewFixture = ({toggle, fixtures}:any ) => {
     }, [fixtures]);
     return(
         <Table hover>
+            {fixtures && fixtures?.length > 0 ?
+            <>
             <thead>
                 <tr>
                     <th>#</th>
@@ -31,7 +34,10 @@ const ViewFixture = ({toggle, fixtures}:any ) => {
                     </tr>
                 ))
                 }
+
             </tbody>
+            </> : 
+            <H2>NO FIXTURE FOUND</H2>}
         </Table>
     )
 }

@@ -29,6 +29,8 @@ function Seasons() {
    }
 
    const viewSeason = (id:any) => {
+    sessionStorage.removeItem("Seasonid");
+    sessionStorage.setItem("Seasonid", id);
     navigate(`/seasons/${id}`);
    }
 
