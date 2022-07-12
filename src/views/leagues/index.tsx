@@ -237,6 +237,9 @@ function Leagues() {
   return (
     <Container>
       <ContentHeader title="LEAGUE">
+      {activeTab === "tab2" ? 
+        <CreateBtn onClick={addLeague}>CREATE STAGE</CreateBtn>
+      : ""}
       </ContentHeader>
       <Content>
         {leagueLoading ? <Loader /> :
@@ -438,6 +441,7 @@ function Leagues() {
                                     <div className=" stage-header">
                                       <p>TEAMS</p>
                                       <div>
+                                        {console.log(item.NoOfTeams, item?.Teams?.length)}
                                         <span>{item.NoOfTeams - item?.Teams?.length} Teams Left</span>
                                         <button onClick={() => toggleModal(item)} disabled={item.NoOfTeams === item?.Teams?.length ? true : false}>+ Add Team</button>
                                       </div>
@@ -514,9 +518,7 @@ function Leagues() {
                             </div>
                           </ModalBody>
                         </Modal>
-                        <BtnDiv>
-                          <CreateBtn onClick={addLeague} style={{ textAlign: "right", marginTop: "1rem" }}>CREATE STAGE</CreateBtn>
-                        </BtnDiv>
+                     
                       </>
 
                 )
