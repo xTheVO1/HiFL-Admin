@@ -102,7 +102,9 @@ function TeamManager() {
   return (
     <Container>
       <ContentHeader title="Teams" >
-      <CreateBtn onClick={toggleModal}>CREATE TEAM</CreateBtn>
+      {user.Role === "SuperAdmin"|| user.Role === "Admin" ? 
+                 <CreateBtn onClick={toggleModal}>CREATE TEAM</CreateBtn>
+                 : ""}
       </ContentHeader>
       <Content>
         {mainDataResult.length === 0 && loading ? (
@@ -152,6 +154,7 @@ function TeamManager() {
                   toggle={toggleModal}
                   modalTransition={{ timeout: 200 }}
                   size="md" contentClassName="modal-box">
+               
                 <ModalHeader>
                  CREATE TEAM
                 </ModalHeader>
