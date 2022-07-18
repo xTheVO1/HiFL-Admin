@@ -314,7 +314,7 @@ const Fixture = ({ teamLoader }: any) => {
                         <FormHolder>
                             <Label>MATCH STATUS <span>{inputObject?.MatchStatus}</span></Label>
                             <Select
-                                name="MatchTime" required
+                                name="MatchStatus" required
                                 onChange={(e) => handleChange(e)}
                             >
                                 <option >Select Status</option>
