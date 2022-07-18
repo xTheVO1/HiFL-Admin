@@ -35,8 +35,6 @@ function Leagues() {
   const dispatch: Dispatch<any> = useDispatch()
   const navigate = useNavigate();
   const items = useSelector((state: any) => state.leagues);
-  const fixtureItem = useSelector((state: any) => state.fixtures.fixtures);
-  const fixtureLoading = useSelector((state: any) => state.fixtures.loading);
   const loading = useSelector((state: any) => state.leagues.loading);
   const teamsData = useSelector((state: any) => state.team);
   const teamsLoader = useSelector((state: any) => state.team.loading);
@@ -53,6 +51,7 @@ function Leagues() {
   const [deleteTeam, setDelete] = useState(false);
   const [deleteItem, setDeleteItem] = useState();
   const [stageId, setStageId] = useState();
+  const [activeStage, setActiveStageItem]:any = useState();
   const [stageTeams, setStageTeams]: any = useState([]);
   const [inputObject, setObject] = useState({
     Abbreviation: "",
@@ -97,7 +96,17 @@ function Leagues() {
       FourthPlace: Finalists?.FourthPlace,
       LeagueStatus: singleLeagueResult?.LeagueStatus
     })
-  }, [singleLeagueResult, stagesResult]);
+  }, [singleLeagueResult, singleStage]);
+
+  useEffect(() => {
+    setStageItem({
+      StageName: activeStage?.StageName,
+      NoOfTeams: activeStage?.NoOfTeams,
+      OrderNumber: activeStage?.OrderNumber,
+      ActiveStage: activeStage?.ActiveStage === true ? "Active" : "Inactive",
+      StageTeams: activeStage?.Teams
+    })
+  }, [ activeStage]);
 
   const addLeague = () => {
     navigate(`/create-league-stage/${id}`)
@@ -105,7 +114,8 @@ function Leagues() {
 
   const changeTab = (tab: any) => {
     setActiveTab(tab)
-    // dispatch(getPlayerById(id));
+    dispatch(getleague(id));
+    dispatch(getleagueStages(id));
   }
 
   const handleChange = (e: any) => {
@@ -114,6 +124,11 @@ function Leagues() {
       ...inputObject,
       [e.target.name]: e.target.value,
     });
+  
+  };
+
+  const handChange = (e: any) => {
+    e.preventDefault();
     setStageItem({
       ...stageItems,
       [e.target.name]: e.target.value,
@@ -140,7 +155,6 @@ function Leagues() {
     }
     dispatch(updateLeague(payload))
   }
-
   // Toggle for Modal
   const toggleModal = (item: any) => {
     setModal(!modal);
@@ -161,20 +175,13 @@ function Leagues() {
     dispatch(getleagueStage(stage._id));
     setDeleteItem(stage._id);
     setStageTeams(stage.Teams);
-    setStageItem({
-      NoOfTeams: stage.NoOfTeams,
-      OrderNumber: stage.OrderNumber,
-      StageName: stage.StageName,
-      Teams: [],
-      ActiveStage: stage?.ActiveStage === true ? "OPENED" : "CLOSED",
-      Fixtures: [],
-
-    })
+    setActiveStageItem(stage)
   }
 
-
-  const update = (e: any) => {
+  // delete & add team to league stage
+  const addDeleteTeam = (e: any) => {
     e.preventDefault();
+    // if delete is true update league stage 
     if (deleteTeam === true) {
       const details = {
         _id: deleteItem,
@@ -184,16 +191,17 @@ function Leagues() {
       }
       dispatch(updateLeagueStage(details));
       dispatch(getleagueStage(deleteItem));
-      setDelete(false)
+      setDelete(false);
       setDeleteModal(!deleteModal);
-    } else {
+    } 
+    else {
+      // add teams then update league stage
       const details = {
         _id: stageId,
         params: {
-          Teams: stageTeams.concat(stageItems.Teams)
+          Teams: [...stageTeams, stageItems.Teams]
         }
       }
-
       dispatch(updateLeagueStage(details))
       setModal(!modal);
       dispatch(getleagueStage(stageId));
@@ -206,14 +214,14 @@ function Leagues() {
     const details = {
       _id: deleteItem,
       params: {
-        StageName: stageItems.StageName,
-        NoOfTeams: stageItems.NoOfTeams,
-        OrderNumber: stageItems.OrderNumber,
-        ActiveStage: stageItems?.ActiveStage === true ? "OPENED" : "CLOSED"
+        StageName: stageItems?.StageName,
+        NoOfTeams: stageItems?.NoOfTeams,
+        OrderNumber: stageItems?.OrderNumber,
+        ActiveStage: stageItems?.ActiveStage === "Active" ? true : false
       }
     }
     dispatch(updateLeagueStage(details));
-    dispatch(getleagueStage(deleteItem));
+    dispatch(getleagueStage(activeStage._id));
 
   }
 
@@ -221,6 +229,7 @@ function Leagues() {
     setDeleteModal(!deleteModal);
     setDelete(true)
     let newTeams = stageTeams?.splice(id, 1)
+    // const filteredArray = singleStage?.Teams?.filter((role: any) => role.id != id)
     setStageTeams(newTeams)
   }
 
@@ -228,6 +237,9 @@ function Leagues() {
   return (
     <Container>
       <ContentHeader title="LEAGUE">
+      {activeTab === "tab2" ? 
+        <CreateBtn onClick={addLeague}>CREATE STAGE</CreateBtn>
+      : ""}
       </ContentHeader>
       <Content>
         {leagueLoading ? <Loader /> :
@@ -386,37 +398,36 @@ function Leagues() {
                                     <Form onSubmit={(e) => updateStage(e)} className="white" style={{ marginBottom: "1.5rem" }}>
                                       <Section>
                                         <FormHolder>
-                                          <Label>STAGE</Label>
+                                          <Label>STAGE </Label>
                                           <Input type="text"
                                             name="StageName"
-                                            onChange={(e) => handleChange(e)}
+                                            onChange={(e) => handChange(e)}
                                             value={stageItems?.StageName?.toUpperCase()} />
                                         </FormHolder>
                                         <FormHolder>
-                                          <Label>NO OF TEAMS</Label>
+                                          <Label>NO OF TEAMS <span>{stageItems?.NoOfTeams}</span></Label>
                                           <Input type="number"
                                             name="NoOfTeams"
-                                            onChange={(e) => handleChange(e)}
-                                            value={stageItems?.NoOfTeams}
+                                            onChange={(e) => handChange(e)}
                                           />
                                         </FormHolder>
                                         <FormHolder>
                                           <Label>ORDER NUMBER</Label>
                                           <Input type="number"
                                             name="OrderNumber"
-                                            onChange={(e) => handleChange(e)}
+                                            onChange={(e) => handChange(e)}
                                             value={stageItems?.OrderNumber}
                                           />
                                         </FormHolder>
                                         <FormHolder>
-                                          <Label>STATUS</Label>
+                                          <Label>STATUS <span>{stageItems?.ActiveStage === true ? "Active" : "Inactive"}</span></Label>
                                           <Select
                                             name="ActiveStage"
-                                            onChange={(e) => handleChange(e)}
-                                            value={stageItems?.ActiveStage}
+                                            onChange={(e) => handChange(e)}
                                           >
-                                            <option value="OPENED">ACTIVE</option>
-                                            <option value="CLOSED">INACTIVE</option>
+                                            <option>Select Status</option>
+                                            <option value="Active">ACTIVE</option>
+                                            <option value="Inactive">INACTIVE</option>
                                           </Select>
                                         </FormHolder>
                                       </Section>
@@ -462,7 +473,7 @@ function Leagues() {
                                 <Label>TEAMS</Label>
                                 <Select
                                   name="Teams"
-                                  onChange={(e) => handleChange(e)}
+                                  onChange={(e) => handChange(e)}
                                 >
                                   <option>Select a Position</option>
                                   {teamsLoader ? Loader :
@@ -473,7 +484,7 @@ function Leagues() {
                               </Section>
                             </Form>
                             <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
-                              <CreateBtn className="red" onClick={(e) => update(e)}
+                              <CreateBtn className="red" onClick={(e) => addDeleteTeam(e)}
                                 style={{ background: "#000229", color: "white", marginRight: "1rem" }} >
                                 ADD
                               </CreateBtn>
@@ -494,7 +505,7 @@ function Leagues() {
                           </ModalHeader>
                           <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
                             <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
-                              <CreateBtn className="red" onClick={(e) => update(e)}
+                              <CreateBtn className="red" onClick={(e) => addDeleteTeam(e)}
                                 style={{ background: "#000229", color: "white", marginRight: "1rem" }} >
                                 CONFIRM
                               </CreateBtn>
@@ -506,9 +517,7 @@ function Leagues() {
                             </div>
                           </ModalBody>
                         </Modal>
-                        <BtnDiv>
-                          <CreateBtn onClick={addLeague} style={{ textAlign: "right", marginTop: "1rem" }}>CREATE STAGE</CreateBtn>
-                        </BtnDiv>
+                     
                       </>
 
                 )
@@ -528,7 +537,7 @@ function Leagues() {
                           </ModalHeader>
                           <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
                             <div style={{ display: "flex", justifyContent: "center", margin: "1.5rem 0" }}>
-                              <CreateBtn className="red" onClick={(e) => update(e)}
+                              <CreateBtn className="red" onClick={(e) => addDeleteTeam(e)}
                                 style={{ background: "#000229", color: "white", marginRight: "1rem" }} >
                                 CONFIRM
                               </CreateBtn>

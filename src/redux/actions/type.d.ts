@@ -13,9 +13,13 @@ interface IUser {
 }
 
 interface UserState {
-  user: IUser[];
+  user: any;
+  singleUser: any;
   loading: boolean;
-  error: string | null;
+  users: any;
+  updatedUsers: any;
+  updateLoading: boolean;
+  error: any;
 }
 
 type UserAction = {
@@ -163,6 +167,7 @@ interface SettingState {
   error: any;
   selectedItem: any;
   getItem: any;
+  singleSettings: any;
 }
 
 type SettingAction = {
@@ -251,6 +256,7 @@ type IFixture = {
   TeamManagers: [] 
 }
 
+
 interface FixtureState {
 fixtures: any;
 fixture: any;
@@ -266,6 +272,62 @@ type FixureAction = {
   payload: IFixture[];
 };
 
+type IVolunteer = {
+  User:	string,
+  Institution:	string,
+  desription: string,
+  department:	string,
+  desription: string,
+  matricNo:	string,
+  desription: string,
+  level:	string,
+  nextOfKinName:	string
+  desription: string
+  nextOfKinPhone:	string
+  whyJoinVolunteer:	string
+  participations:	[]
+  }
+
+  interface VolunteerState {
+    volunteers: any;
+    volunteer: any;
+    updatedVolunteer: any;
+    newVolunteer: any;
+    loading: boolean;
+    error: {},
+    updateLoading: boolean,
+    }
+    
+    type  VolunteerAction = {
+      type: string;
+      payload: IFixture[];
+    };
+    
+  type IOrder ={
+      User:string,
+      UserID: string,
+      OrderItems:[],
+      DeliveryAddress: {},
+      ShippingOption: string,
+      Total: number,
+      TotalPrice: nunmber,
+  }
+
+interface OrderState {
+  orders: IOrder[];
+  order: any;
+  updatedOrder: any;
+  newOrder: any;
+  loading: boolean;
+  error: {},
+  updateLoading: boolean
+  }
+  
+  type  OrderAction = {
+    type: string;
+    payload: IOrder[];
+  };
+
 type UserDispatchType = (args: UserAction) => UserAction;
 type TeamDispatchType = (args: TeamAction) => TeamAction;
 type PlayerDispatchType = (args: PlayerAction) => PlayerAction;
@@ -276,3 +338,5 @@ type LeagueDispatchType = (args: LeagueAction) => LeagueAction;
 type FileUploadDispatchType = (args: FileUploadAction) => FileUploadAction;
 type SportDispatchType = (args: SportAction) => SportAction;
 type FixtureDispatchType = (args: FixtureAction) => FixtureAction;
+type VolunteerDispatchType = (args: VolunteerAction) => VolunteerAction;
+type OrderDispatchType = (args: OrderAction) => OrderAction;

@@ -12,12 +12,19 @@ import Leagues from "../views/leagues";
 import Season from "../views/seasons";
 import CreateSetting from "../views/settings";
 import Setting from "../views/settings/viewSettings";
+import EditSetting from "../views/settings/editSetting";
 import User from "../views/user";
 import { AddInstitution } from "../views/institutions/createInstitution";
 import { AddLeague } from "../views/leagues/createLeague";
 import { AddSeason } from "../views/seasons/createSeason";
 import ViewSeason from "../views/seasons/viewSeason";
 import { AddLeagueStage } from "../views/leagues/createLeagueStage";
+import Store from "../views/store";
+import Volunteers from "../views/volunteers";
+import EditVolunteer from "../views/volunteers/editVolunteer";
+import EditOrder from "../views/store/editOrder";
+import ViewUser from "../views/user/viewUser";
+
 
 function AppRoutes() {
   return (
@@ -25,6 +32,7 @@ function AppRoutes() {
       <Route element={<PrivateRoute />}>
         <Route path="/register-player" element={<AddPlayer />} />
         <Route path="/register-official" element={<AddPlayer />} />
+        <Route path="/user/:id" element={<ViewUser />} />
         <Route path="/users" element={<User />} />
         <Route path="/seasons" element={<Season />} />
         <Route path="/seasons/:id" element={<ViewSeason />} />
@@ -36,13 +44,17 @@ function AppRoutes() {
         <Route path="/create-season" element={<AddSeason />} />
         <Route path="/settings" element={<Setting />} />
         <Route path="/create-setting" element={<CreateSetting />} />
-        <Route path="/edit-setting" element={<CreateSetting />} />
+        <Route path="/edit-setting/:id" element={<EditSetting />} />
         <Route path="/guidelines" element={<Guidelines />} />
         <Route path="/official/:id" element={<UpdateOfficial />} />
         <Route path="/player/:id" element={<UpdatePlayer />} />
         <Route path="/players" element={<Players />} />
         <Route path="/dashboard" element={<Guidelines />} />
         <Route path="/teams" element={<TeamManager />} />
+        <Route path="/order/edit/:id" element={<EditOrder />} />
+        <Route path="/store" element={<Store />} />
+        <Route path="/volunteer/edit/:id" element={<EditVolunteer />} />
+        <Route path="/volunteer" element={<Volunteers />} />
       </Route>
       <Route path="/" element={<Login />} />
     </Routes>

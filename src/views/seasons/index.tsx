@@ -1,16 +1,16 @@
 import React from "react";
-import { Container, Content } from "./styles";
 import { Dispatch } from "redux"
 import { useDispatch, useSelector } from "react-redux"
-import { Table } from "reactstrap";
+import { useNavigate } from "react-router-dom";
 import {getSeasons} from "../../redux/actions/seasons";
 
 // components
+import { Container, Content } from "./styles";
 import ContentHeader from "../../components/ContentHeader";
 import Loader from "../../components/Loader";
-import { H2 } from "../institutions/styles";
 import { CreateBtn } from "../players/style";
-import { useNavigate } from "react-router-dom";
+import { H2 } from "../institutions/styles";
+import { Table } from "reactstrap";
 
 function Seasons() {
     const dispatch: Dispatch<any> = useDispatch()
@@ -29,6 +29,8 @@ function Seasons() {
    }
 
    const viewSeason = (id:any) => {
+    sessionStorage.removeItem("Seasonid");
+    sessionStorage.setItem("Seasonid", id);
     navigate(`/seasons/${id}`);
    }
 
