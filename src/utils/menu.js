@@ -115,12 +115,6 @@ export const SuperAdminMenu = [
     icon: <MdPeopleAlt />,
   },
   {
-    id: "settings",
-    title: "SETTINGS",
-    href: "/settings",
-    icon: <MdToggleOn />,
-  },
-  {
     id:"logout",
     title: "LOGOUT",
     href: "",
