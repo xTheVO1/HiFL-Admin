@@ -5,6 +5,7 @@ import {
   MdToggleOn,
   MdSchool,
   MdShop,
+  MdSettingsApplications,
   MdPeople,
   MdCalendarToday,
   MdInfo,MdOutlineLogout
@@ -88,6 +89,12 @@ export const SuperAdminMenu = [
     title: "SEASONS",
     href: "/seasons",
     icon: <MdCalendarToday />,
+  },
+  {
+    id: "settings",
+    title: "SETTING",
+    href: "/settings",
+    icon: <MdSettingsApplications />,
   },
   {
     id: "store",
