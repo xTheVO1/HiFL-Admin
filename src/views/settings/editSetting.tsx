@@ -113,8 +113,8 @@ function EditSetting() {
       }
     }
     dispatch(updateSettings(details));
-    // dispatch(getSettings());
-    // navigate("/settings")
+    dispatch(getSettings());
+    navigate("/settings")
   }
 
   const goBack = () => {

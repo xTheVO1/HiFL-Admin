@@ -100,6 +100,20 @@ export const getVolunteers = () => async (dispatch: Dispatch) => {
     }
 }
 
+export const getVolunteersByInstitution = (payload: any) => async (dispatch: Dispatch) => {
+    console.log(payload, 104)
+    try {
+        dispatch(getVolunteersStarted())
+        const response = await privateHttp({
+            method: "get",
+            url: `/volunteers/all/?Institution=${payload}`
+        })
+        const { data } = response;
+        return dispatch(getVolunteersSuccess(data))
+    } catch (error: any) {
+        return dispatch(getVolunteersFailed(error.response))
+    }
+}
 
 export const updateVolunteer = (payload: any) => async (dispatch: Dispatch) => {
     try {
