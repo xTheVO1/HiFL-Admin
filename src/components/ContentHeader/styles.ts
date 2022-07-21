@@ -14,6 +14,9 @@ export const Container = styled.div`
     & .disabled{
         background: ${props => props.theme.colors.gray};
     }
+    @media(max-width: 580px) {
+        display: block;
+    }
 `;
 
 export const Title = styled.div<TitleContainerTypeProps>`

@@ -16,7 +16,10 @@
 			"path": "../../../../../hiveapp"
 		},
 		{
-			"path": "../../../../../Downloads/sshd-auth-sample-app-master"
+			"path": "../../../../pulse-app"
+		},
+		{
+			"path": "../../../../hiFL-new"
 		}
 	],
 	"settings": {
