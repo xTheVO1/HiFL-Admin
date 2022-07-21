@@ -132,7 +132,7 @@ export const Players: React.FC = () => {
 
 
   useEffect(() => {
-    const {TeamAbbreviation, TeamName, SocialMediaAssets } = teamDataResult;
+    const {TeamAbbreviation, TeamName } = teamDataResult;
     setObject({
       TeamAbbreviation: TeamAbbreviation,
       TeamName: TeamName, 
@@ -152,9 +152,7 @@ export const Players: React.FC = () => {
       Logo: teamDataResult?.TeamLogo,
       CoverImage: teamDataResult?.TeamCoverPhoto
     })
-  },[teamDataResult])
-
-
+  },[teamDataResult]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -481,11 +479,11 @@ export const Players: React.FC = () => {
                   {activeTab === "PLAYERS" ? (
                     <CreateBtn
                       onClick={addPlayer}
-                      className={
-                        mainDataResult[0]?.Settings?.RegistrationOpen !== true
-                          ? "disabled"
-                          : "disabled"
-                      }
+                      // className={
+                      //   mainDataResult[0]?.Settings?.RegistrationOpen !== true
+                      //     ? "disabled"
+                      //     : "disabled"
+                      // }
                       // disabled={
                       //   mainDataResult[0]?.Settings?.RegistrationOpen !==
                       //     true || mainData?.length === 30
@@ -525,19 +523,11 @@ export const Players: React.FC = () => {
                   PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
                   type="OFFICIALS"
                   _id={item._id}
-                  approval={
-                    !item?.AccreditationHistories
-                      ? "PENDING"
-                      : item?.AccreditationHistories[0]?.Approval
-                  }
+                  approval={!item?.AccreditationHistories ? "PENDING" : item?.AccreditationHistories[0]?.Approval}
                   status={!item?.isCompleted ? "" : item?.isCompleted}
-                  playerName={
-                    item?.User?.Firstname + " " + item?.User?.Lastname
-                  }
+                  playerName={item?.User?.Firstname + " " + item?.User?.Lastname }
                   age={moment(item?.DateOfBirth).fromNow(true)}
-                  position={
-                    !item?.SportRecord ? "" : item?.SportRecord?.Position
-                  }
+                  position={!item?.SportRecord ? "" : item?.SportRecord?.Position}
                 />
               ))
             )
