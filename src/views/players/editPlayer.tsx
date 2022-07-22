@@ -37,7 +37,7 @@ import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";
 import { MdCheck, MdFolder, MdCancel } from "react-icons/md";
-import { Table } from "reactstrap";
+import { Spinner, Table } from "reactstrap";
 import {
   POST_FILE_STARTED,
   POST_FILE_SUCCESSFUL,
@@ -64,7 +64,7 @@ export const UpdatePlayer: React.FC = () => {
   const [activeTab, setActiveTab] = useState("tab1");
   const [isModal, setIsModal] = useState(false);
   const [deleteItem, setDeleteItem] = useState();
-  const [, setLoading] = useState(false);
+  const [fileLoading, setLoading] = useState(false);
   const [, setLicense] = useState({});
   const [disable, setDisable] = useState(false);
   const [modal, setModal] = useState(false);
@@ -1046,9 +1046,9 @@ export const UpdatePlayer: React.FC = () => {
                       </FormHolder>
                       <BtnDiv>
                         <Section>
-                          {/* <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">ho
+                          <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">
                             {fileLoading ? <Spinner /> : "Upload Files"}
-                            </CreateBtn> */}
+                            </CreateBtn>
                         </Section>
                       </BtnDiv>
                     </Form>
