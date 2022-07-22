@@ -479,17 +479,16 @@ export const Players: React.FC = () => {
                   {activeTab === "PLAYERS" ? (
                     <CreateBtn
                       onClick={addPlayer}
-                      // className={
-                      //   mainDataResult[0]?.Settings?.RegistrationOpen !== true
-                      //     ? "disabled"
-                      //     : "disabled"
-                      // }
-                      // disabled={
-                      //   mainDataResult[0]?.Settings?.RegistrationOpen !==
-                      //     true || mainData?.length === 30
-                      //     ? true
-                      //     : false
-                      // }
+                      className={
+                         mainData?.length === 30
+                          ? "disabled"
+                          : ""
+                      }
+                      disabled={
+                         mainData?.length === 30
+                          ? true
+                          : false
+                      }
                     >
                       REGISTER PLAYER
                     </CreateBtn>

@@ -3,7 +3,15 @@ import styled from "styled-components";
 export const Container = styled.div`
     background-color: white;
     padding: 0rem 2rem;
-
+    .search-input{
+      border:1px solid #C7C7C7;
+       padding:0 .5rem;
+    }
+    .search-btn{
+      padding:.2rem 1rem;
+       background:#000229;
+        color:#ffffff;
+    }
 `;
 
 export const Loader = styled.p`
