@@ -15,9 +15,9 @@ import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 // components and styles
 import ContentHeader from "../../components/ContentHeader";
 import {
-   Container,
-    Content,
-     Table,
+  Container,
+  Content,
+  Table,
   Label,
   Form,
   FormHolder,
@@ -26,7 +26,8 @@ import {
   CreateBtn,
   BtnDiv,
   TextArea,
-  FilesHolder, } from "./style";
+  FilesHolder,
+} from "./style";
 import { PlayerCard } from "../../components/playerCard";
 import { getPlayers } from "../../redux/actions/players";
 import { getOfficials } from "../../redux/actions/officials";
@@ -35,9 +36,9 @@ import Loader from "../../components/Loader";
 import NoData from "../../components/NoData";
 import Input from "../../components/Input";
 import { getTeamById, updateTeam } from "../../redux/actions/teams";
-import { getInstitutions} from "../../redux/actions/institutions";
-import { getSports} from "../../redux/actions/sport";
-import {postFiles} from "../../redux/actions/fileUpload"
+import { getInstitutions } from "../../redux/actions/institutions";
+import { getSports } from "../../redux/actions/sport";
+import { postFiles } from "../../redux/actions/fileUpload"
 const data: any = sessionStorage.getItem("userData");
 const user = JSON.parse(data);
 
@@ -46,7 +47,7 @@ export const Players: React.FC = () => {
   const myRef: any = useRef();
   const logoRef: any = useRef();
   const dispatch: Dispatch<any> = useDispatch();
-  
+
   // Getting the team name and id
   const teamId = sessionStorage.getItem("Teamid");
   const teamName = sessionStorage.getItem("Teamname");
@@ -60,15 +61,15 @@ export const Players: React.FC = () => {
   const mainData = players && players ? players : [];
   const officialData = officials && officials ? officials : [];
   const fileData = fileStore && fileStore ? fileStore : {};
-  const [modal, setModal] =useState(false)
-  const [Loading, setLoading] =useState(false)
-  const [uploadFile, setFile] =useState({})
+  const [modal, setModal] = useState(false)
+  const [Loading, setLoading] = useState(false)
+  const [uploadFile, setFile] = useState({})
   const items = useSelector((state: any) => state.leagues);
   const leaguesLoading = useSelector((state: any) => state.leagues.loading);
   const mainDataResult = items && items ? items.leagues : [];
   const teamItems = useSelector((state: any) => state.team.singleTeam);
   const teamLoading = useSelector((state: any) => state.team.loading);
-  const teamDataResult =  teamItems &&  teamItems ? teamItems : [];
+  const teamDataResult = teamItems && teamItems ? teamItems : [];
   const institutionData = useSelector((state: any) => state.institution)
   const sportData = useSelector((state: any) => state.sports)
   const sportLoading = useSelector((state: any) => state.sports.loading)
@@ -81,13 +82,13 @@ export const Players: React.FC = () => {
     CoverImage: ""
   });
   const [inputObject, setObject]: any = useState({
-    TeamName: "", 
-    Overview: "", 
-    Category: '', 
-    Sport: "", 
+    TeamName: "",
+    Overview: "",
+    Category: '',
+    Sport: "",
     InstitutionName: "",
     InstitutionId: "",
-    TeamAbbreviation:"",
+    TeamAbbreviation: "",
     Slug: "",
     Logo: "",
     CoverImage: "",
@@ -95,21 +96,21 @@ export const Players: React.FC = () => {
     Facebook: "",
     Twitter: "",
     Instagram: ""
-})
+  })
 
   const addPlayer = () => {
     navigate("/register-player");
   };
 
-//  const handleClick = (event: any) => {
-//     event.preventDefault();
-//    myRef.current.click()
-//   };
+  //  const handleClick = (event: any) => {
+  //     event.preventDefault();
+  //    myRef.current.click()
+  //   };
 
-//   const logoClick = (event: any) => {
-//     event.preventDefault();
-//    myRef.current.click()
-//   };
+  //   const logoClick = (event: any) => {
+  //     event.preventDefault();
+  //    myRef.current.click()
+  //   };
   // const addOfficial = () => {
   //   navigate("/register-official");
   // };
@@ -132,18 +133,18 @@ export const Players: React.FC = () => {
 
 
   useEffect(() => {
-    const {TeamAbbreviation, TeamName } = teamDataResult;
+    const { TeamAbbreviation, TeamName } = teamDataResult;
     setObject({
       TeamAbbreviation: TeamAbbreviation,
-      TeamName: TeamName, 
-      Overview: teamDataResult?.Overview, 
-      Category: teamDataResult?.Category, 
-      Sport: teamDataResult?.Sport, 
+      TeamName: TeamName,
+      Overview: teamDataResult?.Overview,
+      Category: teamDataResult?.Category,
+      Sport: teamDataResult?.Sport,
       InstitutionName: teamDataResult?.Institution?.InstitutionName,
       InstitutionId: teamDataResult?.Institution?._id,
       Slug: teamDataResult?.Slug,
-      SocialMediaAssets:teamDataResult?.SocialMediaAssets,
-      Facebook: teamDataResult?.SocialMediaAssets?.Facebook, 
+      SocialMediaAssets: teamDataResult?.SocialMediaAssets,
+      Facebook: teamDataResult?.SocialMediaAssets?.Facebook,
       Twitter: teamDataResult?.SocialMediaAssets?.Twitter,
       Instagram: teamDataResult?.SocialMediaAssets?.Instagram,
       // Instagram: SocialMediaAssets?.Instagram
@@ -152,7 +153,7 @@ export const Players: React.FC = () => {
       Logo: teamDataResult?.TeamLogo,
       CoverImage: teamDataResult?.TeamCoverPhoto
     })
-  },[teamDataResult]);
+  }, [teamDataResult]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -163,8 +164,8 @@ export const Players: React.FC = () => {
   };
 
   const category = [
-    {name: "Men"},
-    {name: "Women"}
+    { name: "Men" },
+    { name: "Women" }
   ];
 
   const update = (e: any) => {
@@ -172,16 +173,17 @@ export const Players: React.FC = () => {
     const SocialMediaAssets: any = [];
     const details = {
       _id: teamId,
-      params:{
-        TeamAbbreviation:inputObject.TeamAbbreviation,
-        TeamName: inputObject.TeamName, 
-        Overview: inputObject.Overview, 
-        Category: inputObject.Category, 
-        Sport: inputObject.Sport, 
+      params: {
+        TeamAbbreviation: inputObject.TeamAbbreviation,
+        TeamName: inputObject.TeamName,
+        Overview: inputObject.Overview,
+        Category: inputObject.Category,
+        Sport: inputObject.Sport,
         Institution: inputObject.InstitutionId,
         Slug: inputObject?.Slug,
-        SocialMediaAssets: {...SocialMediaAssets, 
-         Facebook: inputObject?.Facebook, 
+        SocialMediaAssets: {
+          ...SocialMediaAssets,
+          Facebook: inputObject?.Facebook,
           Twitter: inputObject?.Twitter,
           Instagram: inputObject?.Instagram,
         }
@@ -192,7 +194,7 @@ export const Players: React.FC = () => {
     dispatch(updateTeam(details))
     dispatch(getTeamById(teamId));
   }
-  
+
   // Toggle for Modal
   const toggleModal = () => {
     setModal(!modal);
@@ -206,11 +208,11 @@ export const Players: React.FC = () => {
           ...files,
           [event.target.name]: event.target.files[0]
         })
-      
+
       };
       reader.readAsDataURL(event.target.files[0]);
-    
-  }
+
+    }
     // };
   };
 
@@ -244,7 +246,7 @@ export const Players: React.FC = () => {
         <Loader />
       ) : (
         <Container>
-        <Content>
+          <Content>
             <Table className="padding">
               <div className="players-flex-start">
                 <p onClick={viewTeams}>
@@ -272,115 +274,115 @@ export const Players: React.FC = () => {
                   {" "}
                   MANAGE OFFICIALS
                 </p>
-               {user.Role === "SuperAdmin" ? 
-               <>
-               |
-                <p
-                  className={activeTab === "TEAM" ? "active" : ""}
-                  onClick={() => setActiveTab("TEAM")}
-                >
-                  {" "}
-                  MANAGE TEAM
-                </p>
-                </> : "" }
+                {user.Role === "SuperAdmin" ?
+                  <>
+                    |
+                    <p
+                      className={activeTab === "TEAM" ? "active" : ""}
+                      onClick={() => setActiveTab("TEAM")}
+                    >
+                      {" "}
+                      MANAGE TEAM
+                    </p>
+                  </> : ""}
               </div>
             </Table>
             {activeTab === "TEAM" ?
               <div>
-                {teamLoading ? <Loader/> :
-                <Form >
-                    <div style={{display: "flex"}}>
-                        <FilesHolder style={{marginRight: "3rem"}}>
+                {teamLoading ? <Loader /> :
+                  <Form >
+                    <div style={{ display: "flex" }}>
+                      <FilesHolder style={{ marginRight: "3rem" }}>
                         {!files?.Logo ?
-                         <div className="no-files">
-                          <div>
-                            {/* <input type="file"ref={logoRef} name="Logo" style={{display: "none"}}/> */}
-                            {/* <MdCameraAlt onClick={(e) => handleClick(e)} style={{cursor: "pointer"}}/> */}
+                          <div className="no-files">
+                            <div>
+                              {/* <input type="file"ref={logoRef} name="Logo" style={{display: "none"}}/> */}
+                              {/* <MdCameraAlt onClick={(e) => handleClick(e)} style={{cursor: "pointer"}}/> */}
                             </div>
-                          <h3>LOGO</h3>
-                          </div> 
-                         : <img src={files?.Logo} alt="teams-logo" className="team-img"/>}
-                        </FilesHolder>
-                        <FilesHolder>
-                        {!files?.CoverImage ? 
-                        <div className="no-files">
-                          <div>
-                            {/* <input type="file" ref={myRef} name="Logo" style={{display: "none"}}/> */}
-                            {/* <MdCameraAlt onClick={(e) => logoClick(e)} style={{cursor: "pointer"}}/> */}
+                            <h3>LOGO</h3>
+                          </div>
+                          : <img src={files?.Logo} alt="teams-logo" className="team-img" />}
+                      </FilesHolder>
+                      <FilesHolder>
+                        {!files?.CoverImage ?
+                          <div className="no-files">
+                            <div>
+                              {/* <input type="file" ref={myRef} name="Logo" style={{display: "none"}}/> */}
+                              {/* <MdCameraAlt onClick={(e) => logoClick(e)} style={{cursor: "pointer"}}/> */}
                             </div>
-                          <h3>COVER <br></br>IMAGE</h3>
-                          </div> : <img src={files?.CoverImage}  alt="team " className="team-img"/>}
-                        </FilesHolder>
+                            <h3>COVER <br></br>IMAGE</h3>
+                          </div> : <img src={files?.CoverImage} alt="team " className="team-img" />}
+                      </FilesHolder>
                     </div>
-                  <Section>
-                    <FormHolder>
-                    <Label>TEAM NAME</Label>
-                    <Input
-                      name="TeamName"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.TeamName}
-                    />
-                    </FormHolder>
-                    <FormHolder>
-                    <Label>SLUG</Label>
-                    <Input
-                      name="Slug"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.Slug}
-                    />
-                    </FormHolder>
-                    <FormHolder>
-                    <Label>TEAM ABBREVIATION</Label>
-                    <Input
-                      name="TeamAbbreviation"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.TeamAbbreviation}
-                    />
-                    </FormHolder>
-                    <FormHolder>
-                    <Label>INSTITUTION NAME <span style={{color: "green"}}>{inputObject?.InstitutionName}</span></Label>
-                    <Select
-                      name="InstitutionId"
-                      onChange={(e) => handleChange(e)}
-                    >
-                      <option>Select an Institution</option>
-                      {institutionLoading ? Loader :
-                        institutionResult && institutionResult.map((item: any) => (
-                          <option value={item._id} key={item._id}>{item?.InstitutionName}</option>
-                        ))}
-                    </Select>
-                    </FormHolder>
-                  </Section>
-                  <Section>
-                  <FormHolder>  
-                    <Label>CATEGORY</Label>
-                    <Select
-                      name="Category"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.Category}
-                    >
-                      <option>Select a Category</option>
-                      {category.map((item: any) => (
-                        <option value={item.name} key={item.name}>{item?.name}</option>
-                      ))}
-                    </Select>
+                    <Section>
+                      <FormHolder>
+                        <Label>TEAM NAME</Label>
+                        <Input
+                          name="TeamName"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject?.TeamName}
+                        />
                       </FormHolder>
-                  <FormHolder>
-                    <Label>SPORT</Label>
-                    <Select
-                      name="Sport"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.Sport}
-                    >
-                      <option>Select a Sport</option>
-                      {sportLoading ? Loader :
-                        sportResult && sportResult.map((item: any) => (
-                          <option value={item._id} key={item._id}>{item?.SportName}</option>
-                        ))}
-                    </Select>
+                      <FormHolder>
+                        <Label>SLUG</Label>
+                        <Input
+                          name="Slug"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject?.Slug}
+                        />
                       </FormHolder>
-                  </Section>
-                   
+                      <FormHolder>
+                        <Label>TEAM ABBREVIATION</Label>
+                        <Input
+                          name="TeamAbbreviation"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject?.TeamAbbreviation}
+                        />
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>INSTITUTION NAME <span style={{ color: "green" }}>{inputObject?.InstitutionName}</span></Label>
+                        <Select
+                          name="InstitutionId"
+                          onChange={(e) => handleChange(e)}
+                        >
+                          <option>Select an Institution</option>
+                          {institutionLoading ? Loader :
+                            institutionResult && institutionResult.map((item: any) => (
+                              <option value={item._id} key={item._id}>{item?.InstitutionName}</option>
+                            ))}
+                        </Select>
+                      </FormHolder>
+                    </Section>
+                    <Section>
+                      <FormHolder>
+                        <Label>CATEGORY</Label>
+                        <Select
+                          name="Category"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject?.Category}
+                        >
+                          <option>Select a Category</option>
+                          {category.map((item: any) => (
+                            <option value={item.name} key={item.name}>{item?.name}</option>
+                          ))}
+                        </Select>
+                      </FormHolder>
+                      <FormHolder>
+                        <Label>SPORT</Label>
+                        <Select
+                          name="Sport"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject?.Sport}
+                        >
+                          <option>Select a Sport</option>
+                          {sportLoading ? Loader :
+                            sportResult && sportResult.map((item: any) => (
+                              <option value={item._id} key={item._id}>{item?.SportName}</option>
+                            ))}
+                        </Select>
+                      </FormHolder>
+                    </Section>
+
                     <Section>
                       {/* {inputObject.SocialMediaAssets?.map((item: any) => (
                       <FormHolder>
@@ -392,178 +394,181 @@ export const Players: React.FC = () => {
                       />
                       </FormHolder>
                       ))} */}
-                     <FormHolder>
-                      <Label>FACEBOOK</Label>
-                      <Input
-                        name="Facebook"
-                        onChange={(e) => handleChange(e)}
-                        value={inputObject?.Facebook}
-                      />
+                      <FormHolder>
+                        <Label>FACEBOOK</Label>
+                        <Input
+                          name="Facebook"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject?.Facebook}
+                        />
                       </FormHolder>
                       <FormHolder>
-                      <Label>TWITTER</Label>
-                      <Input
-                        name="Twitter"
-                        onChange={(e) => handleChange(e)}
-                        value={inputObject?.Twitter}
-                      />
+                        <Label>TWITTER</Label>
+                        <Input
+                          name="Twitter"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject?.Twitter}
+                        />
                       </FormHolder>
                       <Section>
-                      <Label>INSTAGRAM</Label>
-                      <Input
-                        name="Instagram"
-                        onChange={(e) => handleChange(e)}
-                        value={inputObject?.Instagram}
-                      />
+                        <Label>INSTAGRAM</Label>
+                        <Input
+                          name="Instagram"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject?.Instagram}
+                        />
                       </Section>
                     </Section>
                     <Section>
-                    <Label>OVERVIEW</Label>
-                    <TextArea
-                      name="Overview"
-                      onChange={(e) => handleChange(e)}
-                      value={inputObject?.Overview}
-                    />
+                      <Label>OVERVIEW</Label>
+                      <TextArea
+                        name="Overview"
+                        onChange={(e) => handleChange(e)}
+                        value={inputObject?.Overview}
+                      />
                     </Section>
                     <Section>
-                  <FormHolder>  
-                    <Label>Logo</Label>
-                   <Input name="Logo" type="file" alt="Team logo" onChange={onImageChange}/>
+                      <FormHolder>
+                        <Label>Logo</Label>
+                        <Input name="Logo" type="file" alt="Team logo" onChange={onImageChange} />
                       </FormHolder>
-                  <FormHolder>
-                    <Label>COVER IMAGE</Label>
-                    <Input name="CoverImage" type="file" onChange={onImageChange} alt="Team Cover Image"/>
-                  </FormHolder>
-                  </Section>
-                  <FormHolder style={{paddingBottom: "3rem"}}>
-                    <CreateBtn onClick={(e) => upload(e)} style={{background:  "#FFB422", color:"#000229", marginLeft: "-.1rem"}} >{loading ? <Loader /> : "UPLOAD FILES"}</CreateBtn>
-                  </FormHolder>
-                  <BtnDiv style={{paddingBottom: "3rem"}}>
-                    <CreateBtn onClick={(e) => update(e)} >{loading ? <Loader /> : "UPDATE"}</CreateBtn>
-                  </BtnDiv>
-                </Form>
-                 }
+                      <FormHolder>
+                        <Label>COVER IMAGE</Label>
+                        <Input name="CoverImage" type="file" onChange={onImageChange} alt="Team Cover Image" />
+                      </FormHolder>
+                    </Section>
+                    <FormHolder style={{ paddingBottom: "3rem" }}>
+                      <CreateBtn onClick={(e) => upload(e)} style={{ background: "#FFB422", color: "#000229", marginLeft: "-.1rem" }} >{loading ? <Loader /> : "UPLOAD FILES"}</CreateBtn>
+                    </FormHolder>
+                    <BtnDiv style={{ paddingBottom: "3rem" }}>
+                      <CreateBtn onClick={(e) => update(e)} >{loading ? <Loader /> : "UPDATE"}</CreateBtn>
+                    </BtnDiv>
+                  </Form>
+                }
               </div>
               :
               <>
-            <ContentHeader
-              title={
-                activeTab === "OFFICIAL"
-                  ? `OFFICIALS (${officialData.length})`
-                  : `PLAYERS (${mainData.length})`
-              }
-            >
-              {user.Role === "Accreditor" ? (
-                ""
-              ) : (
-                <>
-                  {activeTab === "OFFICIAL" ? (
-                    <CreateBtn
-                      // onClick={addOfficial}
-                      className={
-                        mainDataResult[0]?.Settings?.RegistrationOpen !== true
-                          ? "disabled"
-                          : "disabled"
-                      }
-                      disabled={
-                        mainDataResult[0]?.Settings?.RegistrationOpen !== true
-                          ? true
-                          : false
-                      }
-                    >
-                      REGISTER OFFICIAL
-                    </CreateBtn>
-                  ) : (
+                <ContentHeader
+                  title={
+                    activeTab === "OFFICIAL"
+                      ? `OFFICIALS (${officialData.length})`
+                      : `PLAYERS (${mainData.length})`
+                  }
+                >
+                  {user.Role === "Accreditor" ? (
                     ""
-                  )}
-                  {activeTab === "PLAYERS" ? (
-                    <CreateBtn
-                      onClick={addPlayer}
-                      className={
-                         mainData?.length === 30
-                          ? "disabled"
-                          : ""
-                      }
-                      disabled={
-                         mainData?.length === 30
-                          ? true
-                          : false
-                      }
-                    >
-                      REGISTER PLAYER
-                    </CreateBtn>
                   ) : (
-                    ""
+                    <>
+                      {activeTab === "OFFICIAL" ? (
+                        <CreateBtn
+                          // onClick={addOfficial}
+                          className={
+                            mainDataResult[0]?.Settings?.RegistrationOpen !== true
+                              ? "disabled"
+                              : "disabled"
+                          }
+                          disabled={
+                            mainDataResult[0]?.Settings?.RegistrationOpen !== true
+                              ? true
+                              : false
+                          }
+                        >
+                          REGISTER OFFICIAL
+                        </CreateBtn>
+                      ) : (
+                        ""
+                      )}
+                      {activeTab === "PLAYERS" ? (
+
+                        mainData?.length === 30 ? "" :
+
+                          <CreateBtn
+                            onClick={addPlayer}
+                            className={
+                              mainData?.length === 30
+                                ? "disabled"
+                                : ""
+                            }
+                            disabled={
+                              mainData?.length === 30
+                                ? true
+                                : false
+                            }
+                          >
+                            REGISTER PLAYER
+                          </CreateBtn>
+                      ) : (
+                        ""
+                      )}
+
+                    </>
                   )}
-                 
-                </>
-              )}
-            </ContentHeader>
-            <Table>
-              <div className="players-header">
-                <p className="">DETAILS</p>
-                <div className="players-header-flex">
-                  <p>SUBMITTED</p>
-                  <p>APPROVAL</p>
-                  <p>ACTION</p>
-                </div>
-              </div>
-            </Table>
-          {activeTab === "OFFICIAL" ? (
-            loading ? (
-              <Loader />
-            ) : officialData.length === 0 ? (
-              <NoData text="NO DATA FOUND" />
-            ) : (
-              officialData &&
-              officialData?.map((item: any) => (
-                <PlayerCard
-                  key={item._id}
-                  PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
-                  type="OFFICIALS"
-                  _id={item._id}
-                  approval={!item?.AccreditationHistories ? "PENDING" : item?.AccreditationHistories[0]?.Approval}
-                  status={!item?.isCompleted ? "" : item?.isCompleted}
-                  playerName={item?.User?.Firstname + " " + item?.User?.Lastname }
-                  age={moment(item?.DateOfBirth).fromNow(true)}
-                  position={!item?.SportRecord ? "" : item?.SportRecord?.Position}
-                />
-              ))
-            )
-          ) : (
-            <>
-              {loading ? (
-                <Loader />
-              ) : mainData.length === 0 ? (
-                <NoData text="NO DATA FOUND" />
-              ) : (
-                mainData &&
-                mainData?.map((item: any) => (
-                  <PlayerCard
-                    type="PLAYER"
-                    PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
-                    _id={item._id}
-                    age={!item?.Age ? "" : item?.Age}
-                    approval={
-                      item?.AccreditationHistories === []
-                        ? "PENDING"
-                        : item?.AccreditationHistories[0]?.Approval
-                    }
-                    status={!item?.isCompleted ? "" : item?.isCompleted}
-                    playerName={
-                      item?.User?.Firstname + " " + item?.User?.Lastname
-                    }
-                    position={
-                      !item?.SportRecord ? "" : item?.SportRecord?.Position
-                    }
-                  />
-                ))
-              )}
-            </>
-          )}
-          </>
-}
-</Content>
+                </ContentHeader>
+                <Table>
+                  <div className="players-header">
+                    <p className="">DETAILS</p>
+                    <div className="players-header-flex">
+                      <p>SUBMITTED</p>
+                      <p>APPROVAL</p>
+                      <p>ACTION</p>
+                    </div>
+                  </div>
+                </Table>
+                {activeTab === "OFFICIAL" ? (
+                  loading ? (
+                    <Loader />
+                  ) : officialData.length === 0 ? (
+                    <NoData text="NO DATA FOUND" />
+                  ) : (
+                    officialData &&
+                    officialData?.map((item: any) => (
+                      <PlayerCard
+                        key={item._id}
+                        PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
+                        type="OFFICIALS"
+                        _id={item._id}
+                        approval={!item?.AccreditationHistories ? "PENDING" : item?.AccreditationHistories[0]?.Approval}
+                        status={!item?.isCompleted ? "" : item?.isCompleted}
+                        playerName={item?.User?.Firstname + " " + item?.User?.Lastname}
+                        age={moment(item?.DateOfBirth).fromNow(true)}
+                        position={!item?.SportRecord ? "" : item?.SportRecord?.Position}
+                      />
+                    ))
+                  )
+                ) : (
+                  <>
+                    {loading ? (
+                      <Loader />
+                    ) : mainData.length === 0 ? (
+                      <NoData text="NO DATA FOUND" />
+                    ) : (
+                      mainData &&
+                      mainData?.map((item: any) => (
+                        <PlayerCard
+                          type="PLAYER"
+                          PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
+                          _id={item._id}
+                          age={!item?.Age ? "" : item?.Age}
+                          approval={
+                            item?.AccreditationHistories === []
+                              ? "PENDING"
+                              : item?.AccreditationHistories[0]?.Approval
+                          }
+                          status={!item?.isCompleted ? "" : item?.isCompleted}
+                          playerName={
+                            item?.User?.Firstname + " " + item?.User?.Lastname
+                          }
+                          position={
+                            !item?.SportRecord ? "" : item?.SportRecord?.Position
+                          }
+                        />
+                      ))
+                    )}
+                  </>
+                )}
+              </>
+            }
+          </Content>
         </Container>
       )}
     </>
