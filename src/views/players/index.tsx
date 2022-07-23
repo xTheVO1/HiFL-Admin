@@ -111,9 +111,10 @@ export const Players: React.FC = () => {
   //     event.preventDefault();
   //    myRef.current.click()
   //   };
-  // const addOfficial = () => {
-  //   navigate("/register-official");
-  // };
+
+  const addOfficial = () => {
+    navigate("/register-official");
+  };
 
   const viewTeams = () => {
     navigate("/teams");
@@ -461,17 +462,17 @@ export const Players: React.FC = () => {
                     <>
                       {activeTab === "OFFICIAL" ? (
                         <CreateBtn
-                          // onClick={addOfficial}
-                          className={
-                            mainDataResult[0]?.Settings?.RegistrationOpen !== true
-                              ? "disabled"
-                              : "disabled"
-                          }
-                          disabled={
-                            mainDataResult[0]?.Settings?.RegistrationOpen !== true
-                              ? true
-                              : false
-                          }
+                          onClick={addOfficial}
+                          // className={
+                          //   mainDataResult[0]?.Settings?.RegistrationOpen === true
+                          //     ? "disabled"
+                          //     : "disabled"
+                          // }
+                          // disabled={
+                          //   mainDataResult[0]?.Settings?.RegistrationOpen !== true
+                          //     ? true
+                          //     : false
+                          // }
                         >
                           REGISTER OFFICIAL
                         </CreateBtn>
