@@ -149,7 +149,7 @@ export const createPlayers = (data: any) => async (dispatch: Dispatch) => {
     SuccessPopUp("Player created Successfully")
     return dispatch(postPlayerSuccess(playerResponse.data));
   } catch (error: any) {
-    ErrorPopUp(error.response.data)
+    ErrorPopUp(error.response.data.message)
     return dispatch(postPlayerFailed(error.response));
   }
 };
