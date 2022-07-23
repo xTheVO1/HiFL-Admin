@@ -479,9 +479,7 @@ export const Players: React.FC = () => {
                         ""
                       )}
                       {activeTab === "PLAYERS" ? (
-
                         mainData?.length === 30 ? "" :
-
                           <CreateBtn
                             onClick={addPlayer}
                             className={
