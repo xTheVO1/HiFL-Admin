@@ -70,11 +70,13 @@ export const AddPlayer: React.FC = () => {
       }
       return result.join('');
     }
+    
     const userData = {
       Firstname: object.Firstname,
       Lastname: object.Lastname,
       Email: object.email,
     };
+
     const playerData = {
       Team: teamId,
       Email: object.email?.toLowerCase(),
