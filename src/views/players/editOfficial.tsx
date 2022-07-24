@@ -614,11 +614,11 @@ export const UpdateOfficial: React.FC = () => {
                     <Label>PASSPORT PHOTOGRAPH</Label>
                     <Input  disabled={disable} type="file" name="passportphotograph" onChange={onImageChange} />
                   </FormHolder>
-                  {/* <BtnDiv>
+                  <BtnDiv>
                     <Section>
-                      <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
+                      <CreateBtn   type="submit">{fileLoading ? <Spinner /> : "Upload Files"}</CreateBtn>
                     </Section>
-                  </BtnDiv> */}
+                  </BtnDiv>
                 </Form>
                 {user.Role === "Accreditor" ?  "" :
                  <BtnDiv>
