@@ -463,16 +463,16 @@ export const Players: React.FC = () => {
                       {activeTab === "OFFICIAL" ? (
                         <CreateBtn
                           onClick={addOfficial}
-                          // className={
-                          //   mainDataResult[0]?.Settings?.RegistrationOpen === true
-                          //     ? "disabled"
-                          //     : "disabled"
-                          // }
-                          // disabled={
-                          //   mainDataResult[0]?.Settings?.RegistrationOpen !== true
-                          //     ? true
-                          //     : false
-                          // }
+                          className={
+                            mainDataResult[0]?.Settings?.RegistrationOpen === true
+                              ? "disabled"
+                              : "disabled"
+                          }
+                          disabled={
+                            mainDataResult[0]?.Settings?.RegistrationOpen !== true
+                              ? true
+                              : false
+                          }
                         >
                           REGISTER OFFICIAL
                         </CreateBtn>
@@ -484,15 +484,15 @@ export const Players: React.FC = () => {
                           <CreateBtn
                             onClick={addPlayer}
                             className={
-                              mainData?.length === 30
-                                ? "disabled"
-                                : ""
+                              // mainData?.length === 30? 
+                              "disabled"
+                                // : ""
                             }
                             disabled={
-                              mainData?.length === 30
-                                ? true
-                                : false
-                            }
+                              // mainData?.length === 30 ? 
+                              true
+                                // : false
+                              }
                           >
                             REGISTER PLAYER
                           </CreateBtn>
