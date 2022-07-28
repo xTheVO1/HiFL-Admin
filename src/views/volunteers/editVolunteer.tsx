@@ -32,6 +32,7 @@ const EditVolunteer = () => {
         Level: "",
         Department: "",
         Program: "",
+        Phone: "",
         MatricNo: "",
         WhyJoinVolunteer: "",
         NextOfKinName:"",
@@ -56,6 +57,7 @@ const EditVolunteer = () => {
             Email: User?.Email,
             Firstname: User?.Firstname,
             Lastname: User?.Lastname,
+            Phone: User?.Phonenumber,
             Level: mainDataResult?.Level,
             Department: mainDataResult?.Department,
             Program: mainDataResult?.Program,
@@ -126,11 +128,26 @@ const EditVolunteer = () => {
                   />
               </FormHolder>
               <FormHolder>
+                  <Label>PHONE</Label>
+                  <Input
+                    name="text"
+                    onChange={(e) => handleChange(e)}
+                    value={inputObject.Phone ? `+234 ${inputObject.Phone}` : ""} disabled
+                  />
+              </FormHolder>
+              <FormHolder>
                   <Label>MATRIC NO.</Label>
                   <Input
                     name="MatricNo"
                     onChange={(e) => handleChange(e)}
                     value={inputObject.MatricNo}
+                  />
+                  </FormHolder>
+                  <FormHolder>
+                  <Label>REF CODE </Label>
+                  <Input
+                    name="MatricNo"
+                    onChange={(e) => handleChange(e)}
                   />
                   </FormHolder>
                 <FormHolder>
