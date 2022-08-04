@@ -45,7 +45,8 @@ function TeamManager() {
      Overview: "", 
      Category: '', 
      Sport: "", 
-     InstitutionName: ""})
+     InstitutionName: "",
+     TeamAbbreviation: ""})
   // TeamManager
 
   React.useEffect(() => {
@@ -88,9 +89,12 @@ function TeamManager() {
       Overview: inputObject.Overview, 
       Category: inputObject.Category, 
       Sport: inputObject.Sport, 
-      Institution: inputObject.InstitutionName
+      Institution: inputObject.InstitutionName,
+      TeamAbbreviation: inputObject.TeamAbbreviation
     }
     dispatch(postTeam(details))
+    dispatch(getTeams());
+    setModal(!modal);
   }
 
   const category = [
@@ -171,6 +175,13 @@ function TeamManager() {
                         <Label>OVERVIEW</Label>
                         <Input
                           name="Overview"
+                          onChange={(e) => handleChange(e)}
+                        />
+                    </Section>
+                    <Section>
+                        <Label>TeamAbbreviation</Label>
+                        <Input
+                          name="TeamAbbreviation"
                           onChange={(e) => handleChange(e)}
                         />
                     </Section>
