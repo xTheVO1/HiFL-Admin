@@ -46,7 +46,8 @@ function Institutions() {
                         </tr>
                     </thead>
                     <tbody>
-                    {mainDataResult && mainDataResult?.map((item: any, index: any) => (
+                    {
+                    mainDataResult && mainDataResult?.map((item: any, index: any) => (
                         <tr key={index}>
                             <th scope="row">{index + 1}</th>
                             <td>{item.InstitutionName}</td>

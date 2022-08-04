@@ -16,7 +16,13 @@
 			"path": "../../../../../hiveapp"
 		},
 		{
-			"path": "../../../../../Downloads/sshd-auth-sample-app-master"
+			"path": "../../../../pulse-app"
+		},
+		{
+			"path": "../../../../hiFL-new"
+		},
+		{
+			"path": "../../../../radartrail-web"
 		}
 	],
 	"settings": {
