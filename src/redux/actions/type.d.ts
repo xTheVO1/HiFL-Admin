@@ -264,7 +264,8 @@ updatedFixture: any;
 newFixture: any;
 loading: boolean;
 error: {},
-updateLoading: boolean,
+updateLoading: boolean
+
 }
 
 type FixureAction = {
@@ -285,7 +286,8 @@ type IVolunteer = {
   desription: string
   nextOfKinPhone:	string
   whyJoinVolunteer:	string
-  participations:	[]
+  participations:	[],
+  fans: []
   }
 
   interface VolunteerState {
@@ -296,6 +298,8 @@ type IVolunteer = {
     loading: boolean;
     error: {},
     updateLoading: boolean,
+    fans: any,
+    fansLoading: boolean
     }
     
     type  VolunteerAction = {
