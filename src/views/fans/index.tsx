@@ -30,7 +30,8 @@ const Fans = () => {
 
     return(
         <Container>
-        <ContentHeader title="Fans">
+        <ContentHeader title={`Fans ${" "}(${mainDataResult?.length})`}>
+
          </ContentHeader>
          <Content>
          {loading ? <Loader/> :
