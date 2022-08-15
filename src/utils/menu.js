@@ -8,7 +8,8 @@ import {
   MdSettingsApplications,
   MdPeople,
   MdCalendarToday,
-  MdInfo,MdOutlineLogout
+  MdInfo,
+  MdOutlineLogout,
 } from "react-icons/md";
 
 export const teamManagerMenu = [
@@ -31,11 +32,11 @@ export const teamManagerMenu = [
     icon: <MdInfo />,
   },
   {
-    id:"logout",
+    id: "logout",
     title: "LOGOUT",
     href: "",
-    icon: <MdOutlineLogout/>
-  }
+    icon: <MdOutlineLogout />,
+  },
 ];
 
 export const AdminMenu = [
@@ -58,11 +59,11 @@ export const AdminMenu = [
     icon: <MdSchool />,
   },
   {
-    id:"logout",
+    id: "logout",
     title: "LOGOUT",
     href: "",
-    icon: <MdOutlineLogout/>
-  }
+    icon: <MdOutlineLogout />,
+  },
 ];
 
 export const SuperAdminMenu = [
@@ -71,6 +72,12 @@ export const SuperAdminMenu = [
     title: "DASHBOARD",
     href: "/dashboard",
     icon: <MdDashboard />,
+  },
+  {
+    id: "fans",
+    title: "FANS",
+    href: "/fans",
+    icon: <MdPeople />,
   },
   {
     id: "team",
@@ -115,11 +122,11 @@ export const SuperAdminMenu = [
     icon: <MdPeopleAlt />,
   },
   {
-    id:"logout",
+    id: "logout",
     title: "LOGOUT",
     href: "",
-    icon: <MdOutlineLogout/>
-  }
+    icon: <MdOutlineLogout />,
+  },
 ];
 
 export const AccreditorMenu = [
@@ -142,9 +149,9 @@ export const AccreditorMenu = [
     icon: <MdInfo />,
   },
   {
-    id:"logout",
+    id: "logout",
     title: "LOGOUT",
     href: "",
-    icon: <MdOutlineLogout/>
-  }
+    icon: <MdOutlineLogout />,
+  },
 ];
