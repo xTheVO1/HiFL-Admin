@@ -24,7 +24,7 @@ import Volunteers from "../views/volunteers";
 import EditVolunteer from "../views/volunteers/editVolunteer";
 import EditOrder from "../views/store/editOrder";
 import ViewUser from "../views/user/viewUser";
-
+import Fans from "../views/fans";
 
 function AppRoutes() {
   return (
@@ -55,6 +55,7 @@ function AppRoutes() {
         <Route path="/store" element={<Store />} />
         <Route path="/volunteer/edit/:id" element={<EditVolunteer />} />
         <Route path="/volunteer" element={<Volunteers />} />
+        <Route path="/fans" element={<Fans />} />
       </Route>
       <Route path="/" element={<Login />} />
     </Routes>

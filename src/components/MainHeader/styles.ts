@@ -3,7 +3,7 @@ import ToggleComponent from "../Toggle";
 
 export const Container = styled.div`
     grid-area: MH;
-    background-color: ${props => props.theme.colors.secondary};
+    // background-color: ${props => props.theme.colors.secondary};
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -60,6 +60,7 @@ p{
     margin-top: -.5rem;
 }
 .details{
+    color:${props => props.theme.colors.gray};
     padding-top: 1.5rem;
     p{
         text-transform: uppercase;

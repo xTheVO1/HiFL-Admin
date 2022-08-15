@@ -7,7 +7,10 @@ import {
     GET_VOLUNTEER_FAILED,
     UPDATE_VOLUNTEER_STARTED,
     UPDATE_VOLUNTEER_SUCCESSFUL,
-    UPDATE_VOLUNTEER_FAILED
+    UPDATE_VOLUNTEER_FAILED,
+    GET_FANS_STARTED,
+   GET_FANS_SUCCESSFUL,
+   GET_FANS_FAILED
 } from "../actions/actionTypes";
 
 const initialState = {
@@ -15,6 +18,8 @@ const initialState = {
     volunteer: {},
     updatedVolunteer: {},
     newVolunteer: {},
+    fans: [],
+    fansLoading: false,
     loading: false,
     error: {},
     updateLoading:false,
@@ -37,6 +42,23 @@ export const volunteerReducer = (state: VolunteerState = initialState, action: a
         return {
           ...state,
           loading: false,
+          error: action.payload
+        }
+        case  GET_FANS_STARTED:
+        return {
+          ...state,
+          fansLoading: true
+        }
+      case GET_FANS_SUCCESSFUL: 
+        return {
+          ...state,
+          fansLoading: false,
+          fans: action.payload
+        }
+      case GET_FANS_FAILED:
+        return {
+          ...state,
+          fansLoading: false,
           error: action.payload
         }
         case  GET_VOLUNTEER_STARTED:
