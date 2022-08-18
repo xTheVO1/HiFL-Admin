@@ -10,6 +10,8 @@ import ContentHeader from "../../components/ContentHeader";
 import Loader from "../../components/Loader";
 import { H2 } from "../institutions/styles";
 import { getInstitutions} from "../../redux/actions/institutions";
+import { CSVLink, CSVDownload } from "react-csv";
+import { CreateBtn } from "../players/style";
 
 const Fans = () => {
     const dispatch: Dispatch<any> = useDispatch();
@@ -31,11 +33,11 @@ const Fans = () => {
     return(
         <Container>
         <ContentHeader title={`Fans ${" "}(${mainDataResult?.length})`}>
-
+        <CSVLink data={mainDataResult}><CreateBtn>DOWNLOAD</CreateBtn> </CSVLink>
          </ContentHeader>
          <Content>
          {loading ? <Loader/> :
-            mainDataResult?.data?.length === 0 ? <H2>NO FAN FOUND</H2> :
+            mainDataResult?.length === 0 ? <H2>NO FAN FOUND</H2> :
             <Table hover>
                 <thead>
                     <tr>
