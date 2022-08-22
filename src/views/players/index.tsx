@@ -2,15 +2,9 @@ import React, { useState, useEffect, useRef } from "react";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
-import { MdSchool, MdCamera, MdCameraAlt } from "react-icons/md";
+import { MdSchool } from "react-icons/md";
 import moment from "moment";
-import {
-  POST_FILE_STARTED,
-  POST_FILE_SUCCESSFUL,
-  POST_FILE_FAILED
-} from "../../redux/actions/actionTypes";
-import { privateHttp } from "../../baseUrl";
-import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
+import { CSVLink, CSVDownload } from "react-csv";
 
 // components and styles
 import ContentHeader from "../../components/ContentHeader";
@@ -47,6 +41,8 @@ export const Players: React.FC = () => {
   const myRef: any = useRef();
   const logoRef: any = useRef();
   const dispatch: Dispatch<any> = useDispatch();
+  const [playerArray, setPlayerArray] = useState([]);
+  const [officialArray, setOfficialArray] = useState([]);
 
   // Getting the team name and id
   const teamId = sessionStorage.getItem("Teamid");
@@ -61,9 +57,7 @@ export const Players: React.FC = () => {
   const mainData = players && players ? players : [];
   const officialData = officials && officials ? officials : [];
   const fileData = fileStore && fileStore ? fileStore : {};
-  const [modal, setModal] = useState(false)
-  const [Loading, setLoading] = useState(false)
-  const [uploadFile, setFile] = useState({})
+  const [modal, setModal] = useState(false);
   const items = useSelector((state: any) => state.leagues);
   const leaguesLoading = useSelector((state: any) => state.leagues.loading);
   const mainDataResult = items && items ? items.leagues : [];
@@ -102,15 +96,17 @@ export const Players: React.FC = () => {
     navigate("/register-player");
   };
 
-  //  const handleClick = (event: any) => {
-  //     event.preventDefault();
-  //    myRef.current.click()
-  //   };
+  const createPlayerArray = (data: any) => {
+    let newArray: any = [];
+     data.forEach((item: any) => newArray.push(item.User))
+     setPlayerArray(newArray)
+  }
 
-  //   const logoClick = (event: any) => {
-  //     event.preventDefault();
-  //    myRef.current.click()
-  //   };
+  // const createOfficialArray = (data: any) => {
+  //   let newOfficial: any = [];
+  //    data.forEach((item: any) => newOfficial.push(item.User))
+  //    setOfficialArray(newOfficial)
+  // }
 
   const addOfficial = () => {
     navigate("/register-official");
@@ -155,6 +151,13 @@ export const Players: React.FC = () => {
       CoverImage: teamDataResult?.TeamCoverPhoto
     })
   }, [teamDataResult]);
+
+  useEffect(() => {
+    createPlayerArray(mainData)
+    // createOfficialArray(officialData)
+  }, []);
+  
+
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -461,6 +464,8 @@ export const Players: React.FC = () => {
                   ) : (
                     <>
                       {activeTab === "OFFICIAL" ? (
+                        <>
+                      {/* <CSVLink data={officialArray}><CreateBtn>DOWNLOAD</CreateBtn> </CSVLink> */}
                         <CreateBtn
                           onClick={addOfficial}
                           className={
@@ -476,26 +481,26 @@ export const Players: React.FC = () => {
                         >
                           REGISTER OFFICIAL
                         </CreateBtn>
+                        </>
                       ) : (
                         ""
                       )}
                       {activeTab === "PLAYERS" ? (
                         mainData?.length === 30 ? "" :
+                        <>
                           <CreateBtn
                             onClick={addPlayer}
                             className={
-                              // mainData?.length === 30? 
                               "disabled"
-                                // : ""
                             }
                             disabled={
-                              // mainData?.length === 30 ? 
                               true
-                                // : false
                               }
                           >
-                            REGISTER PLAYER
+                            + PLAYER
                           </CreateBtn>
+                          <CSVLink data={playerArray}><CreateBtn>DOWNLOAD</CreateBtn> </CSVLink>
+                        </>
                       ) : (
                         ""
                       )}
@@ -544,6 +549,7 @@ export const Players: React.FC = () => {
                       mainData &&
                       mainData?.map((item: any) => (
                         <PlayerCard
+                          key={item._id}
                           type="PLAYER"
                           PlayerLogo={item?.DocumentUploads?.PassportPhotograph}
                           _id={item._id}
