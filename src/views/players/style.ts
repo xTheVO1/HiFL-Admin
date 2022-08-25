@@ -87,6 +87,7 @@ export const Select = styled.select`
 export const Label = styled.label`
     display: block;
     font-weight: 500;
+    width: 100%;
     span{
         color: green;
         float: right;
@@ -149,7 +150,7 @@ export const FormHolder = styled.div`
     }
     svg{
         position: absolute;
-        color: vlue;
+        color: blue;
     }
     margin-bottom: 1rem;
     @media(max-width: 1050px) {

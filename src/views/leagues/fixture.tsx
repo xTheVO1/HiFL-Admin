@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Dispatch } from "redux";
 import Input from "../../components/Input";
@@ -20,6 +20,7 @@ import {
 import moment from "moment";
 import { getleagueStage } from "../../redux/actions/leagues";
 import { getFixtures } from "../../redux/actions/fixtures";
+import { getSeasons } from "../../redux/actions/seasons";
 import { Form } from "./styles";
 import ViewFixture from "./viewFixture";
 import {
@@ -47,6 +48,8 @@ const Fixture = ({ teamLoader }: any) => {
     const stagesResult = items && items ? items.leagueStages : [];
     const fixtures = fixtureItem && fixtureItem ? fixtureItem : [];
     const newFixture = UpdatedFixtureItem && UpdatedFixtureItem ? UpdatedFixtureItem : [];
+    const seasonItem = useSelector((state: any) => state.seasons)
+    const seasonDataResult = seasonItem && seasonItem ? seasonItem.seasons: [];
     const [modal, setModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [stageId, setStageId] = useState("");
@@ -91,9 +94,10 @@ const Fixture = ({ teamLoader }: any) => {
         AwayId: "",
         Season: ""
     })
+
     useEffect(() => {
         setObject({
-            Season: sessionStorage.getItem("Seasonid"),
+            Season: activeItem?.Season,
             id: activeItem._id,
             HomeTeam: activeItem.HomeTeam?.TeamAbbreviation,
             HomeId: activeItem.HomeTeam?._id,
@@ -118,7 +122,7 @@ const Fixture = ({ teamLoader }: any) => {
 
     useEffect(() => {
         dispatch(getleagueStage(id))
-
+        dispatch(getSeasons())
     }, [dispatch]);
 
     const handleChange = (e: any) => {
@@ -132,10 +136,10 @@ const Fixture = ({ teamLoader }: any) => {
     const toggleModal = (item?: any) => {
         setModal(!modal);
         setActiveItem(item);
-        // setStageId(item._id);
-        // setStageTeams(item.Teams);
-        // dispatch(getleagueStage(item._id));
+       
     }
+
+
 
     const toggleEditModal = (item: any) => {
         setEditModal(!editModal);
@@ -156,7 +160,7 @@ const Fixture = ({ teamLoader }: any) => {
         const details = {
             _id: activeItem._id,
             params: {
-                Season: inputObject?.Season?._id,
+                Season: inputObject?.Season,
                 League: activeItem?.League,
                 Stage: activeItem?.Stage?._id,
                 HomeTeam: inputObject.HomeId,
@@ -289,7 +293,6 @@ const Fixture = ({ teamLoader }: any) => {
                                 onChange={(e) => handleChange(e)}
                                 value={inputObject?.MatchVenue}
                             />
-
                         </FormHolder>
                         <FormHolder>
                             <Label>MATCH NUMBER</Label>
@@ -334,6 +337,19 @@ const Fixture = ({ teamLoader }: any) => {
                                 <option value="Two-leg">Two Leg</option>
                             </Select>
                         </FormHolder>
+                        <Section>
+                            <Label>SEASON <span>{inputObject?.Season?.SeasonYear}</span></Label>
+                            <Select
+                                name="Season" required
+                                onChange={(e) => handleChange(e)}
+                                // value={inputObject?.MatchType}
+                                >
+                                <option >Select a Season</option>
+                                {seasonDataResult?.data?.map((item: any) => (
+                                <option value={item?._id}>{item?.SeasonName}</option>
+                                ))}
+                            </Select>
+                        </Section>
                     </Section>
                     <Section className="form-header">
                         <h5>MATCH STATISTICS</h5>

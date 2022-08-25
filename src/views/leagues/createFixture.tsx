@@ -24,8 +24,6 @@ import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 
 const CreateFixture = ({modal, toggleModal, activeItem, closeCreateModal, stageId}: any) => {
     const dispatch: Dispatch<any> = useDispatch()
-    const { id } = useParams();
-    const navigate = useNavigate();
     // const [modal, setModal] = useState(false);
     const [inputObject, setObject]: any = useState({
         HomeTeam: "",
@@ -50,7 +48,7 @@ const CreateFixture = ({modal, toggleModal, activeItem, closeCreateModal, stageI
     const createFixture = async (e: any) => {
         e.preventDefault();
         const details = {
-            Season: activeItem?.Season?._id,
+            Season: sessionStorage.getItem("Seasonid"),
             League: activeItem?.League,
             Stage: stageId,
             HomeTeam: inputObject.HomeTeam,
