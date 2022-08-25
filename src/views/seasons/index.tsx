@@ -15,7 +15,6 @@ import { Table } from "reactstrap";
 function Seasons() {
     const dispatch: Dispatch<any> = useDispatch()
     const navigate = useNavigate();
-
     const items = useSelector((state: any) => state.seasons)
     const loading = useSelector((state: any) => state.seasons.loading)
     const mainDataResult = items && items ? items.seasons: [];
