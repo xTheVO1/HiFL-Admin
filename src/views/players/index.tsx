@@ -41,8 +41,7 @@ export const Players: React.FC = () => {
   const myRef: any = useRef();
   const logoRef: any = useRef();
   const dispatch: Dispatch<any> = useDispatch();
-  const [playerArray, setPlayerArray] = useState([]);
-  const [officialArray, setOfficialArray] = useState([]);
+
 
   // Getting the team name and id
   const teamId = sessionStorage.getItem("Teamid");
@@ -91,7 +90,8 @@ export const Players: React.FC = () => {
     Twitter: "",
     Instagram: ""
   })
-
+  const [playerArray, setPlayerArray] = useState([]);
+  const [officialArray, setOfficialArray] = useState([]);
   const addPlayer = () => {
     navigate("/register-player");
   };
@@ -102,11 +102,19 @@ export const Players: React.FC = () => {
      setPlayerArray(newArray)
   }
 
-  // const createOfficialArray = (data: any) => {
-  //   let newOfficial: any = [];
-  //    data.forEach((item: any) => newOfficial.push(item.User))
-  //    setOfficialArray(newOfficial)
-  // }
+  const createOfficialArray = (data: any) => {
+    let newOfficial: any = [];
+     data?.forEach((item: any) => {
+      if(item.User === undefined){
+
+      }else{
+        newOfficial.push(item.User)
+         setOfficialArray(newOfficial)
+      }
+      return newOfficial;
+     })
+    //  data?.forEach((item: any) => newOfficial.push(item.User))
+  }
 
   const addOfficial = () => {
     navigate("/register-official");
@@ -154,10 +162,12 @@ export const Players: React.FC = () => {
 
   useEffect(() => {
     createPlayerArray(mainData)
-    // createOfficialArray(officialData)
   }, []);
   
 
+  useEffect(() => {
+    createOfficialArray(officialData)
+  }, []);
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -465,7 +475,7 @@ export const Players: React.FC = () => {
                     <>
                       {activeTab === "OFFICIAL" ? (
                         <>
-                      {/* <CSVLink data={officialArray}><CreateBtn>DOWNLOAD</CreateBtn> </CSVLink> */}
+                        <CSVLink data={officialArray}><CreateBtn>DOWNLOAD</CreateBtn> </CSVLink> 
                         <CreateBtn
                           onClick={addOfficial}
                           className={
@@ -486,8 +496,10 @@ export const Players: React.FC = () => {
                         ""
                       )}
                       {activeTab === "PLAYERS" ? (
-                        mainData?.length === 30 ? "" :
-                        <>
+                      <>
+                          <CSVLink data={playerArray}><CreateBtn>DOWNLOAD</CreateBtn> </CSVLink>
+                          {mainData?.length >= 30 ? "" :
+                        
                           <CreateBtn
                             onClick={addPlayer}
                             className={
@@ -498,9 +510,8 @@ export const Players: React.FC = () => {
                               }
                           >
                             + PLAYER
-                          </CreateBtn>
-                          <CSVLink data={playerArray}><CreateBtn>DOWNLOAD</CreateBtn> </CSVLink>
-                        </>
+                          </CreateBtn>}
+                          </>
                       ) : (
                         ""
                       )}
