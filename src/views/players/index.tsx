@@ -98,16 +98,16 @@ export const Players: React.FC = () => {
 
   const createPlayerArray = (data: any) => {
     let newArray: any = [];
-     data.forEach((item: any) => {
-      if(item.User === undefined ){
+    data?.forEach((item: any) => {
 
-      }else{
-        const newUser = { ...item.User, Phone:item?.NextOfKin?.KinContact?.PhoneNumber}
-        newArray.push(newUser)
-      }
-      return setPlayerArray(newArray)
-    })
+     if(item?.User === undefined){
 
+    }else{
+   
+       newArray= [...newArray ,item.User]
+       setPlayerArray(newArray)
+    }
+  })
   }
 
   const createOfficialArray = (data: any) => {
@@ -169,12 +169,12 @@ export const Players: React.FC = () => {
 
   useEffect(() => {
     createPlayerArray(mainData)
-  }, []);
+  }, [mainData]);
   
 
   useEffect(() => {
     createOfficialArray(officialData)
-  }, []);
+  }, [officialData]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
