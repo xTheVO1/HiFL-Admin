@@ -69,6 +69,14 @@ function TeamManager() {
     sessionStorage.setItem("Teamname", name);
     navigate("/players");
   };
+
+  const viewPlayers_v2 = ({name, id}: any) => {
+    sessionStorage.removeItem("Teamid");
+    sessionStorage.removeItem("Teamname");
+    sessionStorage.setItem("Teamid", id);
+    sessionStorage.setItem("Teamname", name);
+    navigate("/players_v2");
+  };
   
   //   // Toggle for Modal
   const toggleModal = (data: any) => {
@@ -142,7 +150,7 @@ function TeamManager() {
               </thead>
               <tbody>
               {mainDataResult && mainDataResult?.map((item: any, index: any) => (
-                  <tr key={index} onClick={() => viewPlayers({name:item.TeamName, id:item._id})}>
+                  <tr key={index} onClick={() => viewPlayers_v2({name:item.TeamName, id:item._id})}>
                       <th scope="row">{index + 1}</th>
                       <td>{item.TeamName}</td>
                       <td>{item.TeamAbbreviation}</td>
