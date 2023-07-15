@@ -21,7 +21,7 @@ import Input from "../../components/Input";
 import Button from "../../components/Button";
 
 //actions
-import { createPlayers } from "../../redux/actions/players";
+import { createPlayers } from "../../redux/actions/players_v2";
 import { createOfficials } from "../../redux/actions/officials";
 import moment from "moment";
 import { RootState } from "../../redux/reducers";
@@ -140,7 +140,7 @@ export const AddPlayer: React.FC = () => {
       <Content>
         <ContentHeader
           title={
-            pathname === "/register-player"
+            pathname === "/register-player-v2"
               ? "REGISTER PLAYER"
               : "REGISTER OFFICIAL"
           }
@@ -243,7 +243,7 @@ export const AddPlayer: React.FC = () => {
                   />
                 </FormHolder>
                 <FormHolder>
-                  <Label>NEAREST BUSSTOP</Label>
+                  <Label>NEAREST BUS STOP</Label>
                   <Input
                     type="text"
                     name="nearestBusstop"
@@ -284,7 +284,7 @@ export const AddPlayer: React.FC = () => {
                   />
                 </FormHolder>
                 <FormHolder>
-                  <Label>NEAREST BUSSTOP</Label>
+                  <Label>NEAREST BUS STOP</Label>
                   <Input
                     type="text"
                     name="schBusstop"
@@ -345,7 +345,7 @@ export const AddPlayer: React.FC = () => {
               </Section>
               <BtnDiv>
                 {pathname === "/register-official" ? <CreateBtn type="submit">{officialLoading ? <Spinner/> : "SAVE"}</CreateBtn> : ""}
-                {pathname === "/register-player" ? <CreateBtn type="submit">{loading ? <Spinner/> : "SAVE"}</CreateBtn> : ""}
+                {pathname === "/register-player-v2" ? <CreateBtn type="submit">{loading ? <Spinner/> : "SAVE"}</CreateBtn> : ""}
               </BtnDiv>
             </Form>
           </Outlet>

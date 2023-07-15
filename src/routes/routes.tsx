@@ -6,6 +6,9 @@ import { Players } from "../views/players";
 import { UpdateOfficial } from "../views/players/editOfficial";
 import { AddPlayer } from "../views/players/createPlayer";
 import { UpdatePlayer } from "../views/players/editPlayer";
+import { PlayersV2 } from "../views/players_v2";
+import { AddPlayerV2 } from "../views/players_v2/createPlayer_v2";
+import { UpdatePlayerV2 } from "../views/players_v2/editPlayer_v2";
 import { Guidelines } from "../views/guidelines";
 import Institution from "../views/institutions";
 import Leagues from "../views/leagues";
@@ -49,6 +52,9 @@ function AppRoutes() {
         <Route path="/official/:id" element={<UpdateOfficial />} />
         <Route path="/player/:id" element={<UpdatePlayer />} />
         <Route path="/players" element={<Players />} />
+        <Route path="/register-player" element={<AddPlayerV2 />} />
+        <Route path="/players_v2" element={<PlayersV2 />} />
+        <Route path="/player_v2/:id" element={<UpdatePlayerV2 />} />
         <Route path="/dashboard" element={<Guidelines />} />
         <Route path="/teams" element={<TeamManager />} />
         <Route path="/order/edit/:id" element={<EditOrder />} />

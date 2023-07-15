@@ -23,7 +23,7 @@ import {
   Section,
   Input,
   Select
-} from "../players/style";
+} from "../players_v2/style";
 
 function TeamManager() {
   const dispatch: Dispatch<any> = useDispatch();
@@ -70,7 +70,7 @@ function TeamManager() {
     navigate("/players");
   };
 
-  const viewPlayers_v2 = ({name, id}: any) => {
+  const viewPlayersV2 = ({name, id}: any) => {
     sessionStorage.removeItem("Teamid");
     sessionStorage.removeItem("Teamname");
     sessionStorage.setItem("Teamid", id);
@@ -150,7 +150,7 @@ function TeamManager() {
               </thead>
               <tbody>
               {mainDataResult && mainDataResult?.map((item: any, index: any) => (
-                  <tr key={index} onClick={() => viewPlayers_v2({name:item.TeamName, id:item._id})}>
+                  <tr key={index} onClick={() => viewPlayersV2({name:item.TeamName, id:item._id})}>
                       <th scope="row">{index + 1}</th>
                       <td>{item.TeamName}</td>
                       <td>{item.TeamAbbreviation}</td>

@@ -23,7 +23,7 @@ import {
   FilesHolder,
 } from "./style";
 import { PlayerCard } from "../../components/playerCard";
-import { getPlayers } from "../../redux/actions/players";
+import { getPlayers } from "../../redux/actions/players_v2";
 import { getOfficials } from "../../redux/actions/officials";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -93,7 +93,7 @@ export const Players: React.FC = () => {
   })
 
   const addPlayer = () => {
-    navigate("/register-player");
+    navigate("/register-player-v2");
   };
 
   const createPlayerArray = (data: any) => {
@@ -109,7 +109,7 @@ export const Players: React.FC = () => {
   // }
 
   const addOfficial = () => {
-    navigate("/register-official");
+    navigate("/register-official-v2");
   };
 
   const viewTeams = () => {

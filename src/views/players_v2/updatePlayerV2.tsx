@@ -340,7 +340,7 @@ class PlayerUpdate extends Component<PropsType, any>{
             <Container>
             <Content>
               <ContentHeader title={"Player Profile"}>
-                <Button ><NavLink to={"/players"} >Go Back</NavLink></Button>
+                <Button ><NavLink to={"/players_v2"} >Go Back</NavLink></Button>
               </ContentHeader>
               {loading ? (
           <Loader />) : 
