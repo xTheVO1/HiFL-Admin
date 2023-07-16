@@ -29,7 +29,7 @@ import { Spinner } from "reactstrap";
 
 
  
-export const AddPlayer: React.FC = () => {
+export const AddPlayerV2: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const store = useSelector((state: RootState) => state.player);
@@ -128,7 +128,7 @@ export const AddPlayer: React.FC = () => {
         LatestCourseRegistration: ""
       }
     };
-    if (pathname === "/register-player") {
+    if (pathname === "/register-player-v2") {
       dispatch(createPlayers({ userData, playerData, navigate }));
     } else if (pathname === "/register-official") {
       dispatch(createOfficials({ userData, playerData, navigate }));

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { connect } from 'react-redux';
 import { RootState } from "../../redux/reducers";
-import { Players} from "./index";
+import { PlayersV2} from "./index";
 import { Dispatch } from "redux";
 import { NavLink } from "react-router-dom";
 import FormData from "form-data";
@@ -30,7 +30,7 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getPlayerById, updatePlayer } from "../../redux/actions/players";
+import { getPlayerById, updatePlayer } from "../../redux/actions/players_v2";
 import { useParams } from "react-router-dom";
 import Loader from "../../components/Loader";
 import Button from "../../components/Button";

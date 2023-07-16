@@ -56,7 +56,7 @@ import DeleteModal from "../../components/DeleteModal";
 
 
 
-export const UpdatePlayer: React.FC = () => {
+export const UpdatePlayerV2: React.FC = () => {
   const componentRef: any = useRef();
   const navigate = useNavigate();
   const dispatch: Dispatch<any> = useDispatch();

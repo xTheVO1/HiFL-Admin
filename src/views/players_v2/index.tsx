@@ -36,7 +36,7 @@ import { postFiles } from "../../redux/actions/fileUpload"
 const data: any = sessionStorage.getItem("userData");
 const user = JSON.parse(data);
 
-export const Players: React.FC = () => {
+export const PlayersV2: React.FC = () => {
   const navigate = useNavigate();
   const myRef: any = useRef();
   const logoRef: any = useRef();
