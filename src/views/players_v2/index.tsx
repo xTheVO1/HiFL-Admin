@@ -491,10 +491,10 @@ export const PlayersV2: React.FC = () => {
                           <CreateBtn
                             onClick={addPlayer}
                             className={
-                              "disabled"
+                              ""
                             }
                             disabled={
-                              true
+                              false
                               }
                           >
                             + PLAYER
