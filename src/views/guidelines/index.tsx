@@ -9,7 +9,7 @@ export const Guidelines: React.FC = () => {
     <Container>
       <div className="header">
         <ContentHeader title="Guidelines">
-          Guidelines for Participation in HiFL 2022 Season
+          Guidelines for Participation in HiFL 2023 Season
         </ContentHeader>
       </div>
       <Content>
@@ -42,29 +42,26 @@ export const Guidelines: React.FC = () => {
           <BtnCard>
             <CreateBtn
               target="_blank"
-              href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_GAME_REGULATIONS_2022.pdf"
-            >
-              HiFL 2022 Regulations
+              href="#"            >
+              HiFL 2023 Regulations
             </CreateBtn>{" "}
             <CreateBtn
             target="_blank"
-              href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_2022_Registration_Guidelines_v.05.pdf"
-            >
-              HiFL 2022 Registration Guidelines
+            href="#"            >
+              HiFL 2023 Registration Guidelines
             </CreateBtn>
           </BtnCard>
           <BtnCard>
             <CreateBtn 
-                href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HIFL_MEDICAL_CLEARANCE_FORM.pdf"
-                target="_blank"
+href="#"                target="_blank"
             >
               Medical Clearance Template
             </CreateBtn>
 
-            <CreateBtn href="https://prod-hiv.fra1.cdn.digitaloceanspaces.com/hifl-fileserver/docs/HiFL_2022_Covid_Protocol.pdf"
+            <CreateBtn href="#"
             target="_blank"
             >
-              HiFL 2022 COVID-19 Protocol
+              HiFL 2023 COVID-19 Protocol
             </CreateBtn>
           </BtnCard>
         </div>
