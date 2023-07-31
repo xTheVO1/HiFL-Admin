@@ -26,7 +26,7 @@ function TeamCard({
     sessionStorage.removeItem("Teamname");
     sessionStorage.setItem("Teamid", teamId);
     sessionStorage.setItem("Teamname", TeamName);
-    navigate("/players");
+    navigate("/players_v2");
   };
   
   return (
