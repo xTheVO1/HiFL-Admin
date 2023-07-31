@@ -145,7 +145,7 @@ export const AddPlayerV2: React.FC = () => {
               : "REGISTER OFFICIAL"
           }
         >
-          <Button onClick={() => navigate("/players")}>GO BACK</Button>
+          <Button onClick={() => navigate("/players_v2")}>GO BACK</Button>
         </ContentHeader>
         <Tab>
           <Nav>
