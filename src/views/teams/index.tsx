@@ -67,7 +67,7 @@ function TeamManager() {
     sessionStorage.removeItem("Teamname");
     sessionStorage.setItem("Teamid", id);
     sessionStorage.setItem("Teamname", name);
-    navigate("/players");
+    navigate("/players_v2");
   };
 
   const viewPlayersV2 = ({name, id}: any) => {
