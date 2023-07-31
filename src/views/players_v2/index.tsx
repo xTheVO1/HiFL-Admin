@@ -468,16 +468,16 @@ export const PlayersV2: React.FC = () => {
                       {/* <CSVLink data={officialArray}><CreateBtn>DOWNLOAD</CreateBtn> </CSVLink> */}
                         <CreateBtn
                           onClick={addOfficial}
-                          className={
-                            mainDataResult[0]?.Settings?.RegistrationOpen === true
-                              ? "disabled"
-                              : "disabled"
-                          }
-                          disabled={
-                            mainDataResult[0]?.Settings?.RegistrationOpen !== true
-                              ? true
-                              : false
-                          }
+                          // className={
+                          //   mainDataResult[0]?.Settings?.RegistrationOpen === true
+                          //     ? "disabled"
+                          //     : "disabled"
+                          // }
+                          // disabled={
+                          //   mainDataResult[0]?.Settings?.RegistrationOpen !== true
+                          //     ? true
+                          //     : false
+                          // }
                         >
                           REGISTER OFFICIAL
                         </CreateBtn>
@@ -490,12 +490,12 @@ export const PlayersV2: React.FC = () => {
                         <>
                           <CreateBtn
                             onClick={addPlayer}
-                            className={
-                              ""
-                            }
-                            disabled={
-                              false
-                              }
+                            // className={
+                            //   ""
+                            // }
+                            // disabled={
+                            //   false
+                            //   }
                           >
                             + PLAYER
                           </CreateBtn>
