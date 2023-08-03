@@ -31,7 +31,7 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getPlayerById, updatePlayer, accredictPlayer, getPlayerLicense } from "../../redux/actions/players";
+import { getPlayerById, updatePlayer, accredictPlayer, getPlayerLicense } from "../../redux/actions/players_v2";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -228,7 +228,7 @@ export const UpdatePlayerV2: React.FC = () => {
       teamId: team
     })
 
-  }, [singlePlayer, license]);
+  }, [singlePlayer, license, inputObject, files, id, team]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
@@ -309,7 +309,7 @@ export const UpdatePlayerV2: React.FC = () => {
     };
     setModal(!modal);
     dispatch(updatePlayer(details));
-    navigate("/players")
+    navigate("/players_v2")
     // dispatch(getPlayerById(id));
   };
 
@@ -318,13 +318,13 @@ export const UpdatePlayerV2: React.FC = () => {
     const details = {
       _id: id,
       params: {
-        YearAccredicted: 2022,
+        YearAccredicted: 2023,
         AccreditationComment: inputObject.AccreditationComment,
         Approval: inputObject.Approval
       }
     };
     dispatch(accredictPlayer(details));
-    navigate("/players")
+    navigate("/players_v2")
     dispatch(getPlayerById(id));
   };
 
@@ -338,7 +338,7 @@ export const UpdatePlayerV2: React.FC = () => {
     };
     dispatch(updatePlayer(details));
     dispatch(getPlayerById(id));
-    navigate("/players")
+    navigate("/players_v2")
   };
 
   const uploadFiles = async (e: any) => {
@@ -388,7 +388,7 @@ export const UpdatePlayerV2: React.FC = () => {
       }
       const response = await privateHttp({
         method: "post",
-        url: '/players/player/docuploads/',
+        url: '/players_v2/player/docuploads/',
         headers: headers,
         data: formData
       })

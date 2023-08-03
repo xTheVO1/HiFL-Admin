@@ -1,133 +1,133 @@
-import { POST_PLAYER_FAILED,
-        POST_PLAYER_STARTED,
-        POST_PLAYER_SUCCESSFUL,
-        GET_PLAYERS_STARTED,
-        GET_PLAYERS_SUCCESSFUL,
-        GET_PLAYERS_FAILED,
-        GET_PLAYER_STARTED,
-        GET_PLAYER_SUCCESSFUL,
-        GET_PLAYER_FAILED,
-        UPDATE_PLAYER_STARTED,
-        UPDATE_PLAYER_SUCCESSFUL,
-        UPDATE_PLAYER_FAILED,
-        DELETE_PLAYER_SUCCESSFUL,
-        DELETE_PLAYER_STARTED,
-        DELETE_PLAYER_FAILED,
-        GET_PLAYER_LICENSE_STARTED,
-        GET_PLAYER_LICENSE_SUCCESSFUL,
-        GET_PLAYER_LICENSE_FAILED,
+import { POST_PLAYER_V2_FAILED,
+        POST_PLAYER_V2_STARTED,
+        POST_PLAYER_V2_SUCCESSFUL,
+        GET_PLAYERS_V2_STARTED,
+        GET_PLAYERS_V2_SUCCESSFUL,
+        GET_PLAYERS_V2_FAILED,
+        GET_PLAYER_V2_STARTED,
+        GET_PLAYER_V2_SUCCESSFUL,
+        GET_PLAYER_V2_FAILED,
+        UPDATE_PLAYER_V2_STARTED,
+        UPDATE_PLAYER_V2_SUCCESSFUL,
+        UPDATE_PLAYER_V2_FAILED,
+        DELETE_PLAYER_V2_SUCCESSFUL,
+        DELETE_PLAYER_V2_STARTED,
+        DELETE_PLAYER_V2_FAILED,
+        GET_PLAYER_V2_LICENSE_STARTED,
+        GET_PLAYER_V2_LICENSE_SUCCESSFUL,
+        GET_PLAYER_V2_LICENSE_FAILED,
     } from "../actions/actionTypes";
 
 const  initialState = {
-  player:{},
-  players:[],
-  singlePlayer: {},
+  playerV2:{},
+  playersV2:[],
+  singlePlayerV2: {},
   loading: false,
   error: null,
-  deletedPlayer: {},
+  deletedPlayerV2: {},
   license: []
 }
 
-export const playerReducer = (state: PlayerState = initialState, action: any):PlayerState => {
+export const playerV2Reducer = (state: PlayerV2State = initialState, action: any):PlayerV2State => {
     switch(action.type) {
-      case POST_PLAYER_STARTED:
+      case POST_PLAYER_V2_STARTED:
         return {
           ...state,
           loading: true
         }
-      case POST_PLAYER_SUCCESSFUL: 
+      case POST_PLAYER_V2_SUCCESSFUL: 
         return {
           ...state,
           loading: false,
-          player: action.payload
+          playerV2: action.payload
         }
-      case POST_PLAYER_FAILED:
+      case POST_PLAYER_V2_FAILED:
         return {
           ...state,
           loading: false,
           error: action.payload
         }
-        case GET_PLAYERS_STARTED:
+        case GET_PLAYERS_V2_STARTED:
           return {
             ...state,
             loading: true
           }
-        case GET_PLAYERS_SUCCESSFUL: 
+        case GET_PLAYERS_V2_SUCCESSFUL: 
           return {
             ...state,
             loading: false,
-            players: action.payload
+            playersV2: action.payload
           }
-        case GET_PLAYERS_FAILED:
+        case GET_PLAYERS_V2_FAILED:
           return {
             ...state,
             loading: false,
             error: action.payload
           }
-        case GET_PLAYER_STARTED:
+        case GET_PLAYER_V2_STARTED:
         return {
           ...state,
           loading: true
         }
-        case GET_PLAYER_SUCCESSFUL: 
+        case GET_PLAYER_V2_SUCCESSFUL: 
           return {
             ...state,
             loading: false,
-            singlePlayer: action.payload
+            singlePlayerV2: action.payload
           }
-        case GET_PLAYER_FAILED:
+        case GET_PLAYER_V2_FAILED:
           return {
             ...state,
             loading: false,
             error: action.payload
           }
-          case GET_PLAYER_LICENSE_STARTED:
+          case GET_PLAYER_V2_LICENSE_STARTED:
             return {
               ...state,
               loading: true
             
             }
-            case GET_PLAYER_LICENSE_SUCCESSFUL: 
+            case GET_PLAYER_V2_LICENSE_SUCCESSFUL: 
               return {
                 ...state,
                 loading: false,
                 license: action.payload
               }
-            case GET_PLAYER_LICENSE_FAILED:
+            case GET_PLAYER_V2_LICENSE_FAILED:
               return {
                 ...state,
                 loading: false,
                 error: action.payload
               }
-          case UPDATE_PLAYER_STARTED:
+          case UPDATE_PLAYER_V2_STARTED:
             return {
               ...state,
               loading: true
             }
-          case UPDATE_PLAYER_SUCCESSFUL: 
+          case UPDATE_PLAYER_V2_SUCCESSFUL: 
             return {
               ...state,
               loading: false,
-              player: action.payload
+              playerV2: action.payload
             }
-          case UPDATE_PLAYER_FAILED:
+          case UPDATE_PLAYER_V2_FAILED:
             return {
               ...state,
               loading: false,
               error: action.payload
             }
-            case DELETE_PLAYER_STARTED:
+            case DELETE_PLAYER_V2_STARTED:
             return {
               ...state,
               loading: true
             }
-          case DELETE_PLAYER_SUCCESSFUL: 
+          case DELETE_PLAYER_V2_SUCCESSFUL: 
             return {
               ...state,
               loading: false,
-              deletedPlayer: action.payload
+              deletedPlayerV2: action.payload
             }
-          case DELETE_PLAYER_FAILED:
+          case DELETE_PLAYER_V2_FAILED:
             return {
               ...state,
               loading: false,

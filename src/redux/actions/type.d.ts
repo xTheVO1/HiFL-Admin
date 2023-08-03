@@ -70,7 +70,23 @@ interface PlayerState {
   deletedPlayer: any;
 }
 
+
+interface PlayerV2State {
+  playersV2: any;
+  playerV2: any;
+  license: any;
+  singlePlayerV2: any;
+  loading: boolean;
+  error: any;
+  deletedPlayerV2: any;
+}
+
 type PlayerAction = {
+  type: string;
+  payload: ITeam[];
+};
+
+type PlayerV2Action = {
   type: string;
   payload: ITeam[];
 };
@@ -314,7 +330,7 @@ type IVolunteer = {
       DeliveryAddress: {},
       ShippingOption: string,
       Total: number,
-      TotalPrice: nunmber,
+      TotalPrice: number,
   }
 
 interface OrderState {
@@ -335,6 +351,7 @@ interface OrderState {
 type UserDispatchType = (args: UserAction) => UserAction;
 type TeamDispatchType = (args: TeamAction) => TeamAction;
 type PlayerDispatchType = (args: PlayerAction) => PlayerAction;
+type PlayerV2DispatchType = (args: PlayerV2Action) => PlayerV2Action;
 type OfficialDispatchType = (args: OfficialAction) => PlayerAction;
 type InstitutionDispatchType = (args: InstitutionAction) => InstitutionAction;
 type SeasonDispatchType = (args: SeasonAction) => SeasonAction;

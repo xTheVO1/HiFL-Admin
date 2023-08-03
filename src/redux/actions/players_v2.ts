@@ -1,125 +1,125 @@
 import { Dispatch } from "redux";
 import {
-  POST_PLAYER_FAILED,
-  POST_PLAYER_STARTED,
-  POST_PLAYER_SUCCESSFUL,
-  GET_PLAYERS_STARTED,
-  GET_PLAYERS_SUCCESSFUL,
-  GET_PLAYERS_FAILED,
-  GET_PLAYER_STARTED,
-  GET_PLAYER_SUCCESSFUL,
-  GET_PLAYER_FAILED,
-  GET_PLAYER_LICENSE_STARTED,
-  GET_PLAYER_LICENSE_SUCCESSFUL,
-  GET_PLAYER_LICENSE_FAILED,
-  UPDATE_PLAYER_STARTED,
-  UPDATE_PLAYER_SUCCESSFUL,
-  UPDATE_PLAYER_FAILED,
-  DELETE_PLAYER_SUCCESSFUL,
-  DELETE_PLAYER_STARTED,
-  DELETE_PLAYER_FAILED,
-  ACCREDIT_PLAYER_STARTED,
-  ACCREDIT_PLAYER_SUCCESSFUL,
-  ACCREDIT_PLAYER_FAILED
+  POST_PLAYER_V2_FAILED,
+  GET_PLAYER_V2_STARTED,
+  GET_PLAYER_V2_SUCCESSFUL,
+  GET_PLAYER_V2_FAILED,
+  GET_PLAYER_V2_LICENSE_STARTED,
+  GET_PLAYER_V2_LICENSE_SUCCESSFUL,
+  GET_PLAYER_V2_LICENSE_FAILED,
+  UPDATE_PLAYER_V2_STARTED,
+  UPDATE_PLAYER_V2_SUCCESSFUL,
+  UPDATE_PLAYER_V2_FAILED,
+  DELETE_PLAYER_V2_SUCCESSFUL,
+  DELETE_PLAYER_V2_STARTED,
+  DELETE_PLAYER_V2_FAILED,
+  ACCREDIT_PLAYER_V2_STARTED,
+  ACCREDIT_PLAYER_V2_SUCCESSFUL,
+  ACCREDIT_PLAYER_V2_FAILED,
+  POST_PLAYER_V2_STARTED,
+  POST_PLAYER_V2_SUCCESSFUL,
+  GET_PLAYERS_V2_STARTED,
+  GET_PLAYERS_V2_SUCCESSFUL,
+  GET_PLAYERS_V2_FAILED
 } from "./actionTypes";
 import { privateHttp, http } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 
 const start = () => ({
-  type: POST_PLAYER_STARTED,
+  type: POST_PLAYER_V2_STARTED,
 });
 
 const postPlayerSuccess = (data: ITeam) => ({
-  type: POST_PLAYER_SUCCESSFUL,
+  type: POST_PLAYER_V2_SUCCESSFUL,
   payload: data,
 });
 
 const postPlayerFailed = (data: any) => ({
-  type: POST_PLAYER_FAILED,
+  type: POST_PLAYER_V2_FAILED,
   payload: data,
 });
 
 const getPlayerStarted = () => ({
-  type: GET_PLAYER_STARTED,
+  type: GET_PLAYER_V2_STARTED,
 });
 
 const getPlayerSuccess = (data: ITeam) => ({
-  type: GET_PLAYER_SUCCESSFUL,
+  type: GET_PLAYER_V2_SUCCESSFUL,
   payload: data,
 });
 
 const getPlayerFailed = (data: any) => ({
-  type: GET_PLAYER_FAILED,
+  type: GET_PLAYER_V2_FAILED,
   payload: data,
 });
 
 const getPlayersStarted = () => ({
-  type: GET_PLAYERS_STARTED,
+  type: GET_PLAYERS_V2_STARTED,
 });
 
 const getPlayersSuccess = (data: ITeam) => ({
-  type: GET_PLAYERS_SUCCESSFUL,
+  type: GET_PLAYERS_V2_SUCCESSFUL,
   payload: data,
 });
 
 const getPlayersFailed = (data: any) => ({
-  type: GET_PLAYERS_FAILED,
+  type: GET_PLAYERS_V2_FAILED,
   payload: data,
 });
 
 const getPlayerLicenseStarted = () => ({
-  type: GET_PLAYER_LICENSE_STARTED,
+  type: GET_PLAYER_V2_LICENSE_STARTED,
 });
 
 const getPlayerLicenseSuccess = (data: ITeam) => ({
-  type: GET_PLAYER_LICENSE_SUCCESSFUL,
+  type: GET_PLAYER_V2_LICENSE_SUCCESSFUL,
   payload: data,
 });
 
 const getPlayerLicenseFailed = (data: any) => ({
-  type: GET_PLAYER_LICENSE_FAILED,
+  type: GET_PLAYER_V2_LICENSE_FAILED,
   payload: data,
 })
 
 const updatePlayerStarted = () => ({
-  type: UPDATE_PLAYER_STARTED,
+  type: UPDATE_PLAYER_V2_STARTED,
 });
 
 const updatePlayerSuccess = (data: IPlayer) => ({
-  type: UPDATE_PLAYER_SUCCESSFUL,
+  type: UPDATE_PLAYER_V2_SUCCESSFUL,
   payload: data,
 });
 
 const updatePlayerFailed = (data: any) => ({
-  type: UPDATE_PLAYER_FAILED,
+  type: UPDATE_PLAYER_V2_FAILED,
   payload: data,
 });
 
 const accredictPlayerStarted = () => ({
-  type: ACCREDIT_PLAYER_STARTED
+  type: ACCREDIT_PLAYER_V2_STARTED
 });
 
 const accredictPlayerSuccess = (data: IPlayer) => ({
-  type: ACCREDIT_PLAYER_SUCCESSFUL,
+  type: ACCREDIT_PLAYER_V2_SUCCESSFUL,
   payload: data,
 });
 
 const accredictPlayerFailed = (data: any) => ({
-  type: ACCREDIT_PLAYER_FAILED,
+  type: ACCREDIT_PLAYER_V2_FAILED,
   payload: data,
 });
 
 const deletePlayerStarted = () => ({
-  type: DELETE_PLAYER_STARTED,
+  type: DELETE_PLAYER_V2_STARTED,
 });
 
 const deletePlayerSuccess = (data: IPlayer) => ({
-  type: DELETE_PLAYER_SUCCESSFUL,
+  type: DELETE_PLAYER_V2_SUCCESSFUL,
   payload: data,
 });
 
 const deletePlayerFailed = (data: any) => ({
-  type: DELETE_PLAYER_FAILED,
+  type: DELETE_PLAYER_V2_FAILED,
   payload: data,
 });
 
