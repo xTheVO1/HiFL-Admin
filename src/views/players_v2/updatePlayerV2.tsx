@@ -201,7 +201,8 @@ class PlayerUpdate extends Component<PropsType, any>{
             JerseyNumber,
             CourseStudy,
             CourseLevel,
-            MatricNumber,JambRegNumber,
+            MatricNumber,
+            JambRegNumber,
             LatestCourseRegistration,
             JambPhotograph,
             JambResultSlip,
@@ -245,7 +246,7 @@ class PlayerUpdate extends Component<PropsType, any>{
             },
             YearApplied: [
               {
-                Year: 2022
+                Year: 2023
               }
             ],
             MedicalRecord: {
@@ -327,7 +328,8 @@ class PlayerUpdate extends Component<PropsType, any>{
         JerseyNumber,
         CourseStudy,
         CourseLevel,
-        MatricNumber,JambRegNumber,
+        MatricNumber,
+        JambRegNumber,
         LatestCourseRegistration,
         JambPhotograph,
         JambResultSlip,
@@ -344,7 +346,7 @@ class PlayerUpdate extends Component<PropsType, any>{
               </ContentHeader>
               {loading ? (
           <Loader />) : 
-          !singlePlayer && !singlePlayer ? "NO DATA FOUND" :(
+          !singlePlayer && !singlePlayer ? "NO DATA YET" :(
               <Tab>
             <Nav>
               <List
@@ -461,7 +463,7 @@ class PlayerUpdate extends Component<PropsType, any>{
                       />
                     </FormHolder>
                     <FormHolder>
-                      <Label>NEAREST BUSSTOP</Label>
+                      <Label>NEAREST BUS STOP</Label>
                       <Input
                         type="text"
                         name="NearestBusStop"
@@ -504,7 +506,7 @@ class PlayerUpdate extends Component<PropsType, any>{
                       />
                     </FormHolder>
                     <FormHolder>
-                      <Label>NEAREST BUSSTOP</Label>
+                      <Label>NEAREST BUS STOP</Label>
                       <Input
                         type="text"
                         name="SchoolNearestBusStop"

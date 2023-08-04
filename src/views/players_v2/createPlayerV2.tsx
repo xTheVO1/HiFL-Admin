@@ -113,7 +113,7 @@ export const AddPlayerV2: React.FC = () => {
         CourseLevel: "",
         CourseStudy: "",
         MatricNumber: "",
-        JambRegNumber:  makeid(6),
+        JambRegNumber:  "",
         CourseFaculty: "",
         Programme: "",
         SchoolPortalID:"",

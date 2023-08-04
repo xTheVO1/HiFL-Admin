@@ -46,7 +46,7 @@ import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
 import { Btn } from "../../components/playerCardV2/style";
 import "./license/license.css"
-import { getPlayerLicense } from "../../redux/actions/players";
+import { getPlayerLicense } from "../../redux/actions/players_v2";
 
 export const UpdateOfficial: React.FC = () => {
   const navigate = useNavigate();

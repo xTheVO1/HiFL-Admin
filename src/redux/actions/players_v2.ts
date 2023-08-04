@@ -223,7 +223,7 @@ export const accredictPlayer = (playerData: any) => async (dispatch: Dispatch) =
       data: playerData,
     });
     const { data } = response;
-    SuccessPopUp("Player accredicted Successfully")
+    SuccessPopUp("Player accredited Successfully")
     return dispatch(accredictPlayerSuccess(data));
   } catch (error: any) {
     ErrorPopUp(error.response.data.message)
