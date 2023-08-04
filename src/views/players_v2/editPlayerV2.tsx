@@ -70,7 +70,7 @@ export const UpdatePlayerV2: React.FC = () => {
   const [modal, setModal] = useState(false);
   const [deleteModal, setDeleteModal]: any = useState(false);
   const [licenseModal, setLicenseModal] = useState(false);
-  const [accredidationItem, setItem] = useState({});
+  const [accreditationItem, setItem] = useState({});
 
   // const [show, setClass] = useState("none");
   const store = useSelector((state: RootState) => state.player);
@@ -388,7 +388,7 @@ export const UpdatePlayerV2: React.FC = () => {
       }
       const response = await privateHttp({
         method: "post",
-        url: '/players_v2/player/docuploads/',
+        url: '/players_v2/player_v2/docuploads/',
         headers: headers,
         data: formData
       })
@@ -713,7 +713,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         />
                       </FormHolder>
                       <FormHolder>
-                        <Label>NEAREST BUSSTOP</Label>
+                        <Label>NEAREST BUS STOP</Label>
                         <Input
                           type="text"
                           name="SchoolNearestBusStop"
@@ -987,7 +987,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         </Table>
                       </Section>
                       <Section>
-                        <h3>Upload Documents</h3>
+                        <h3>Uploaded Documents</h3>
                       </Section>
                       <FormHolder>
                         <Label>Medical Certificate</Label>
@@ -1107,7 +1107,7 @@ export const UpdatePlayerV2: React.FC = () => {
                               </tbody>
                             </Table>
                             <DeleteModal modal={deleteModal} toggle={toggleDeleteModal} id={id} actionCall={deleteAccredictItem} />
-                            <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData?.AccreditationHistories} accredictItem={accredidationItem} />
+                            <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData?.AccreditationHistories} accredictItem={accreditationItem} />
                             <Modal isOpen={licenseModal}
                               toggle={toggleLicenseModal}
                               modalTransition={{ timeout: 200 }}
