@@ -53,6 +53,7 @@ function AppRoutes() {
         <Route path="/player/:id" element={<UpdatePlayer />} />
         <Route path="/players" element={<Players />} />
         <Route path="/register-player-v2" element={<AddPlayerV2 />} />
+        <Route path="/register-official-v2" element={<AddPlayerV2 />} />
         <Route path="/players_v2" element={<PlayersV2 />} />
         <Route path="/player_v2/:id" element={<UpdatePlayerV2 />} />
         <Route path="/dashboard" element={<Guidelines />} />

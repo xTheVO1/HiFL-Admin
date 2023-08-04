@@ -31,7 +31,7 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getPlayerById, updatePlayer, accredictPlayer, getPlayerLicense } from "../../redux/actions/players_v2";
+import { getPlayerById, updatePlayer, accreditPlayer, getPlayerLicense } from "../../redux/actions/players_v2";
 import { useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -323,7 +323,7 @@ export const UpdatePlayerV2: React.FC = () => {
         Approval: inputObject.Approval
       }
     };
-    dispatch(accredictPlayer(details));
+    dispatch(accreditPlayer(details));
     navigate("/players_v2")
     dispatch(getPlayerById(id));
   };
