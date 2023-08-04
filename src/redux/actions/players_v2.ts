@@ -172,7 +172,7 @@ export const getPlayerById = (id: any) => async (dispatch: Dispatch) => {
     dispatch(getPlayerStarted());
     const response = await privateHttp({
       method: "get",
-      url: `/players_v2/player/?_id=${id}`,
+      url: `/players_v2/player_v2/?_id=${id}`,
     });
     const { data } = response;
     return dispatch(getPlayerSuccess(data.data));
