@@ -318,7 +318,7 @@ export const UpdatePlayerV2: React.FC = () => {
     const details = {
       _id: id,
       params: {
-        YearAccredicted: 2023,
+        YearAccredited: 2023,
         AccreditationComment: inputObject.AccreditationComment,
         Approval: inputObject.Approval
       }
@@ -478,7 +478,7 @@ export const UpdatePlayerV2: React.FC = () => {
 
   }
 
-  const deleteAccredictItem = () => {
+  const deleteAccreditItem = () => {
     setDeleteModal(!deleteModal)
     const accreditationList = mainData.AccreditationHistories;
     let newArr = accreditationList?.splice(deleteItem, 1)
@@ -667,7 +667,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         />
                       </FormHolder>
                       <FormHolder>
-                        <Label>NEAREST BUSSTOP</Label>
+                        <Label>NEAREST BUS STOP</Label>
                         <Input
                           type="text"
                           name="NearestBusStop"
@@ -1090,7 +1090,7 @@ export const UpdatePlayerV2: React.FC = () => {
                                 {mainData && mainData.AccreditationHistories?.map((item: any, index: any) => (
                                   <tr key={index}>
                                     <th scope="row">{index + 1}</th>
-                                    <td>{item?.YearAccredicted}</td>
+                                    <td>{item?.YearAccredited}</td>
                                     <td>{item?.Approval}</td>
                                     <td>{item?.AccreditationComment?.toUpperCase()}</td>
                                     <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" onClick={toggleLicenseModal}>DOWNLOAD</Download>}</td>
@@ -1106,7 +1106,7 @@ export const UpdatePlayerV2: React.FC = () => {
                                 ))}
                               </tbody>
                             </Table>
-                            <DeleteModal modal={deleteModal} toggle={toggleDeleteModal} id={id} actionCall={deleteAccredictItem} />
+                            <DeleteModal modal={deleteModal} toggle={toggleDeleteModal} id={id} actionCall={deleteAccreditItem} />
                             <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData?.AccreditationHistories} accredictItem={accreditationItem} />
                             <Modal isOpen={licenseModal}
                               toggle={toggleLicenseModal}
@@ -1177,13 +1177,13 @@ export const UpdatePlayerV2: React.FC = () => {
                       //  "NO DATA" 
                       //  :
                       <>
-                        <Form onSubmit={inputObject?.Accredicted === "APPROVED" ? editPlayer : accredict}>
+                        <Form onSubmit={inputObject?.Accredited === "APPROVED" ? editPlayer : accredict}>
                           <Section>
                             <Label>APPROVAL</Label>
                             <Select
                               name="Approval"
                               onChange={(e) => handleChange(e)} required
-                              value={inputObject?.Accredicted}
+                              value={inputObject?.Accredited}
                             >
                               <option>Select a status</option>
                               {status.map(item => (
@@ -1201,7 +1201,7 @@ export const UpdatePlayerV2: React.FC = () => {
                           </Section>
 
                           <BtnDiv>
-                            <CreateBtn type="submit">{inputObject?.Accredicted === "APPROVED" ? "EDIT & SAVE" : "SAVE"}</CreateBtn>
+                            <CreateBtn type="submit">{inputObject?.Accredited === "APPROVED" ? "EDIT & SAVE" : "SAVE"}</CreateBtn>
                           </BtnDiv>
                         </Form>
                         {user.Role === "SuperAdmin" ?
