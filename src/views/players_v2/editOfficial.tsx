@@ -29,7 +29,7 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getOfficialById, updateOfficials, accredictOfficial } from "../../redux/actions/officials";
+import { getOfficialById, updateOfficials, accreditOfficial } from "../../redux/actions/officials";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -325,18 +325,18 @@ export const UpdateOfficial: React.FC = () => {
     // dispatch(getPlayerById(id));
   };
 
-  const accredict = async (e: any) => {
+  const accredit = async (e: any) => {
     e.preventDefault();
     const details = {
       _id: id,
       params: {
-          YearAccredicted: 2022,
+          YearAccredited: 2023,
           AccreditationComment: inputObject.AccreditationComment,
           Approval: inputObject.Approval
        
       }
     };
-    dispatch(accredictOfficial(details));
+    dispatch(accreditOfficial(details));
     navigate("/players_v2")
     // dispatch(getOfficialById(id));
   }
@@ -648,7 +648,7 @@ export const UpdateOfficial: React.FC = () => {
                       {official && official.AccreditationHistories?.map((item: any, index: any) => (
                         <tr key={index}>
                           <th scope="row">{index + 1}</th>
-                          <td>{item?.YearAccredicted}</td>
+                          <td>{item?.YearAccredited}</td>
                           <td>{item?.Approval}</td>
                           <td>{item?.AccreditationComment}</td>
                         </tr>
@@ -657,7 +657,7 @@ export const UpdateOfficial: React.FC = () => {
                     </Table>
                  )}
               {user.Role === "Accreditor" ? 
-                   <Form onSubmit={accredict}>
+                   <Form onSubmit={accredit}>
                     <Section>
                         <Label>APPROVAL</Label>
                         <Select
