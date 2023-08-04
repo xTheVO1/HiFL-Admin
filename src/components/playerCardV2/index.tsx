@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { Content, Card, Div, ImgCard, CardText, Btn, Small, SideText } from "./style";
 import Modal from "../DeleteModal";
 import PlayerImage from "../../assests/dashboard .png";
-import { deletePlayerById } from '../../redux/actions/players_v2';
+import { deletePlayerById } from '../../redux/actions/players';
 import { Dispatch } from "redux";
 import { useDispatch } from "react-redux";
 
@@ -26,11 +26,11 @@ export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, statu
   const [modal, setModal] =useState(false);
 
   const editPlayer = () => {
-    navigate(`/player_v2/${_id}`)
+    navigate(`/player/${_id}`)
   }
 
   const editOfficial = () => {
-    navigate(`/official_v2/${_id}`)
+    navigate(`/official/${_id}`)
   }
 
   // Toggle for Modal
@@ -40,7 +40,7 @@ export const PlayerCard = ({_id, age, type, PlayerLogo, position,approval, statu
 
   const deletePlayer = () => {
       dispatch(deletePlayerById(_id))
-      navigate('/players_v2')
+      navigate('/players')
   }
 
   return (

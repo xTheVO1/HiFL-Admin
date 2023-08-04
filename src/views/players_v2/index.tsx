@@ -22,7 +22,7 @@ import {
   TextArea,
   FilesHolder,
 } from "./style";
-import { PlayerCard } from "../../components/playerCard";
+import { PlayerCard } from "../../components/playerCardV2";
 import { getPlayers } from "../../redux/actions/players_v2";
 import { getOfficials } from "../../redux/actions/officials";
 import { RootState } from "../../redux/reducers";

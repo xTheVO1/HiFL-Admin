@@ -45,7 +45,7 @@ import {
 } from "../../redux/actions/actionTypes";
 import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
-import { Btn } from "../../components/playerCard/style";
+import { Btn } from "../../components/playerCardV2/style";
 import {
   Modal,
   ModalHeader, ModalBody
@@ -520,7 +520,7 @@ export const UpdatePlayerV2: React.FC = () => {
       </Modal>
       <Content>
         <ContentHeader title={"Update Player Profile"}>
-          <Button onClick={() => navigate("/players")}>Go Back</Button>
+          <Button onClick={() => navigate("/players_v2")}>Go Back</Button>
         </ContentHeader>
         {loading ? (
           <Loader />

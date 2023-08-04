@@ -44,7 +44,7 @@ import {
 } from "../../redux/actions/actionTypes";
 import { privateHttp } from "../../baseUrl";
 import { ErrorPopUp, SuccessPopUp } from "../../utils/toastify";
-import { Btn } from "../../components/playerCard/style";
+import { Btn } from "../../components/playerCardV2/style";
 import "./license/license.css"
 import { getPlayerLicense } from "../../redux/actions/players";
 
@@ -337,7 +337,7 @@ export const UpdateOfficial: React.FC = () => {
       }
     };
     dispatch(accredictOfficial(details));
-    navigate("/players")
+    navigate("/players_v2")
     // dispatch(getOfficialById(id));
   }
 
@@ -375,7 +375,7 @@ export const UpdateOfficial: React.FC = () => {
       <Content>
         <ContentHeader
           title={"OFFICIAL PROFILE"}
-        > <Button onClick={() => navigate("/players")}>GO BACK</Button>
+        > <Button onClick={() => navigate("/players_v2")}>GO BACK</Button>
         </ContentHeader>
         {loading ? <Loader /> :
           <Tab>
