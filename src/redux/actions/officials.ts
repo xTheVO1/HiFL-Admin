@@ -75,16 +75,16 @@ const updateOfficialFailed = (data: any) => ({
   payload: data
 });
 
-const accredictOfficialStarted = () => ({
+const accreditOfficialStarted = () => ({
   type: ACCREDIT_OFFICIAL_STARTED
 });
 
-const accredictOfficialSuccess = (data: IPlayer) => ({
+const accreditOfficialSuccess = (data: IPlayer) => ({
   type: ACCREDIT_OFFICIAL_SUCCESSFUL,
   payload: data,
 });
 
-const accredictOfficialFailed = (data: any) => ({
+const accreditOfficialFailed = (data: any) => ({
   type: ACCREDIT_OFFICIAL_FAILED,
   payload: data,
 });
@@ -165,9 +165,9 @@ export const updateOfficials = (officialData: any) => async (dispatch: Dispatch)
   }
 }
 
-export const accredictOfficial = (officialData: any) => async (dispatch: Dispatch) => {
+export const accreditOfficial = (officialData: any) => async (dispatch: Dispatch) => {
   try {
-    dispatch(accredictOfficialStarted())
+    dispatch(accreditOfficialStarted())
     const response = await privateHttp({
       method: "patch",
       url: `/officials/official/accredict/`,
@@ -175,9 +175,9 @@ export const accredictOfficial = (officialData: any) => async (dispatch: Dispatc
     })
     const {data} = response;
     SuccessPopUp("Official updated Successfully")
-    return dispatch(accredictOfficialSuccess(data))
+    return dispatch(accreditOfficialSuccess(data))
   } catch (error: any) {
     ErrorPopUp(error.response.data.message)
-    return dispatch(accredictOfficialFailed(error.response))
+    return dispatch(accreditOfficialFailed(error.response))
   }
 }

@@ -29,7 +29,7 @@ import {
 } from "./style";
 import { Tab, Nav, List } from "../../components/tab/style";
 import Input from "../../components/Input";
-import { getOfficialById, updateOfficials, accredictOfficial } from "../../redux/actions/officials";
+import { getOfficialById, updateOfficials, accreditOfficial } from "../../redux/actions/officials";
 import { useNavigate, useParams } from "react-router-dom";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
@@ -336,7 +336,7 @@ export const UpdateOfficial: React.FC = () => {
        
       }
     };
-    dispatch(accredictOfficial(details));
+    dispatch(accreditOfficial(details));
     navigate("/players")
     // dispatch(getOfficialById(id));
   }
