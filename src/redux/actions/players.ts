@@ -95,16 +95,16 @@ const updatePlayerFailed = (data: any) => ({
   payload: data,
 });
 
-const accredictPlayerStarted = () => ({
+const accreditPlayerStarted = () => ({
   type: ACCREDIT_PLAYER_STARTED
 });
 
-const accredictPlayerSuccess = (data: IPlayer) => ({
+const accreditPlayerSuccess = (data: IPlayer) => ({
   type: ACCREDIT_PLAYER_SUCCESSFUL,
   payload: data,
 });
 
-const accredictPlayerFailed = (data: any) => ({
+const accreditPlayerFailed = (data: any) => ({
   type: ACCREDIT_PLAYER_FAILED,
   payload: data,
 });
@@ -216,7 +216,7 @@ export const deletePlayerById = (id: any) => async (dispatch: Dispatch) => {
 
 export const accreditPlayer = (playerData: any) => async (dispatch: Dispatch) => {
   try {
-    dispatch(accredictPlayerStarted());
+    dispatch(accreditPlayerStarted());
     const response = await privateHttp({
       method: "patch",
       url: `/players/player/accredit/`,
@@ -224,10 +224,10 @@ export const accreditPlayer = (playerData: any) => async (dispatch: Dispatch) =>
     });
     const { data } = response;
     SuccessPopUp("Player accredited Successfully")
-    return dispatch(accredictPlayerSuccess(data));
+    return dispatch(accreditPlayerSuccess(data));
   } catch (error: any) {
     ErrorPopUp(error.response.data.message)
-    return dispatch(accredictPlayerFailed(error.response));
+    return dispatch(accreditPlayerFailed(error.response));
   }
 };
 
