@@ -228,7 +228,7 @@ export const UpdatePlayerV2: React.FC = () => {
       teamId: team
     })
 
-  }, [singlePlayer, license, inputObject, files, id, team]);
+  }, [singlePlayer, license]);
 
   const handleChange = (e: any) => {
     e.preventDefault();
