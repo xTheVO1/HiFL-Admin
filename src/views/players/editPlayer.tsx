@@ -478,7 +478,7 @@ export const UpdatePlayer: React.FC = () => {
 
   }
 
-  const deleteAccredictItem = () => {
+  const deleteaccreditItem = () => {
     setDeleteModal(!deleteModal)
     const accreditationList = mainData.AccreditationHistories;
     let newArr = accreditationList?.splice(deleteItem, 1)
@@ -1106,8 +1106,8 @@ export const UpdatePlayer: React.FC = () => {
                                 ))}
                               </tbody>
                             </Table>
-                            <DeleteModal modal={deleteModal} toggle={toggleDeleteModal} id={id} actionCall={deleteAccredictItem} />
-                            <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData?.AccreditationHistories} accredictItem={accredidationItem} />
+                            <DeleteModal modal={deleteModal} toggle={toggleDeleteModal} id={id} actionCall={deleteaccreditItem} />
+                            <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData?.AccreditationHistories} accreditItem={accredidationItem} />
                             <Modal isOpen={licenseModal}
                               toggle={toggleLicenseModal}
                               modalTransition={{ timeout: 200 }}
