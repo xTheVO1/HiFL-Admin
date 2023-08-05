@@ -587,7 +587,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         onChange={(e) => handleChange(e)}
                         disabled={disable}
                         value={
-                          inputObject?.Firstname?.toUpperCase()}
+                          inputObject?.Firstname}
                       />
                     </FormHolder>
                     <FormHolder>
@@ -598,7 +598,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
                         value={
-                          inputObject?.Lastname?.toUpperCase()
+                          inputObject?.Lastname
                         }
                       />
                     </FormHolder>
@@ -609,7 +609,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         name="MiddleName"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject?.MiddleName?.toUpperCase()}
+                        value={inputObject?.MiddleName}
                       />
                     </FormHolder>
                     <FormHolder>
@@ -632,7 +632,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         name="Email"
                         onChange={(e) => handleChange(e)}
                         disabled={true}
-                        value={inputObject.Email?.toUpperCase()}
+                        value={inputObject.Email}
                       />
                     </Section>
                     <Section>
@@ -740,7 +740,7 @@ export const UpdatePlayerV2: React.FC = () => {
                           disabled={disable}
                           name="FullNameOfKin"
                           onChange={(e) => handleChange(e)} required
-                          value={inputObject.FullNameOfKin?.toUpperCase()}
+                          value={inputObject.FullNameOfKin}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -761,7 +761,7 @@ export const UpdatePlayerV2: React.FC = () => {
                           onChange={(e) => handleChange(e)}
                           disabled={disable}
                           required
-                          value={inputObject.KinEmail?.toUpperCase()}
+                          value={inputObject.KinEmail}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -805,7 +805,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         <Select
                           name="Position"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.Position?.toUpperCase()}
+                          value={inputObject.Position}
                         >
                           <option>Select a Position</option>
                           {positions.map(item => (
@@ -832,7 +832,7 @@ export const UpdatePlayerV2: React.FC = () => {
                           name="Genotype"
                           onChange={(e) => handleChange(e)}
                           disabled={disable}
-                          value={inputObject.Genotype?.toUpperCase()}
+                          value={inputObject.Genotype}
                         />
                       </FormHolder>
                       <FormHolder>
@@ -842,7 +842,7 @@ export const UpdatePlayerV2: React.FC = () => {
                           name="BloodGroup"
                           onChange={(e) => handleChange(e)}
                           disabled={disable}
-                          value={inputObject.BloodGroup?.toUpperCase()}
+                          value={inputObject.BloodGroup}
                         />
                       </FormHolder>
                       <Section>
@@ -852,7 +852,7 @@ export const UpdatePlayerV2: React.FC = () => {
                           name="AnyAllergies"
                           onChange={(e) => handleChange(e)}
                           disabled={disable}
-                          value={inputObject?.AnyAllergies?.toUpperCase()}
+                          value={inputObject?.AnyAllergies}
                         />
                       </Section>
                     </Section>
@@ -879,7 +879,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         name="JambRegNumber"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject?.JambRegNumber?.toUpperCase()} />
+                        value={inputObject?.JambRegNumber} />
                     </FormHolder>
                     <FormHolder>
                       <Label>COURSE LEVEL</Label>
@@ -887,7 +887,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         name="CourseLevel"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.CourseLevel?.toUpperCase()} />
+                        value={inputObject.CourseLevel} />
                     </FormHolder>
                     <FormHolder>
                       <Label>SCHOOL PORTAL ID</Label>
@@ -895,7 +895,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         name="SchoolPortalID"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.SchoolPortalID?.toUpperCase()} />
+                        value={inputObject.SchoolPortalID} />
                     </FormHolder>
                     <FormHolder>
                       <Label>COURSE STUDY</Label>
@@ -903,7 +903,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         disabled={disable}
                         name="CourseStudy"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.CourseStudy?.toUpperCase()}
+                        value={inputObject.CourseStudy}
                       />
                     </FormHolder>
                     <FormHolder>
@@ -912,13 +912,13 @@ export const UpdatePlayerV2: React.FC = () => {
                         name="SchoolPortalPassword"
                         disabled={disable}
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.SchoolPortalPassword?.toUpperCase()} />
+                        value={inputObject.SchoolPortalPassword} />
                     </FormHolder>
                     <FormHolder>
                       <Label>PROGRAMME</Label>
                       {/* <Select
                         disabled={disable}
-                        onChange={(e) => handleChange(e)} value={inputObject.Programme?.toUpperCase()} name="Programme">
+                        onChange={(e) => handleChange(e)} value={inputObject.Programme} name="Programme">
                         <option >Select Programme</option>
                         <option value="Undergraduate">Undergraduate</option>
                         <option value="Post-Graduate">Post-Graduate</option>
@@ -926,7 +926,7 @@ export const UpdatePlayerV2: React.FC = () => {
                       <Select
                           name="Programme"
                           onChange={(e) => handleChange(e)}
-                          value={inputObject.Programme?.toUpperCase()}
+                          value={inputObject.Programme}
                         >
                           <option>Select a Programme</option>
                           {programmes.map(item => (
@@ -940,7 +940,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         disabled={disable}
                         name="CourseFaculty"
                         onChange={(e) => handleChange(e)}
-                        value={inputObject.CourseFaculty?.toUpperCase()} />
+                        value={inputObject.CourseFaculty} />
                     </FormHolder>
                     {user.Role === "Accreditor" ? "" : <BtnDiv>
                       <CreateBtn disabled={disable} className={disable ? "disabled" : ""} type="submit">SAVE</CreateBtn>
@@ -1107,7 +1107,7 @@ export const UpdatePlayerV2: React.FC = () => {
                                     <th scope="row">{index + 1}</th>
                                     <td>{item?.YearAccredited}</td>
                                     <td>{item?.Approval}</td>
-                                    <td>{item?.AccreditationComment?.toUpperCase()}</td>
+                                    <td>{item?.AccreditationComment}</td>
                                     <td>{item?.Approval === "DISAPPROVED" ? "" : <Download className="btn-download" onClick={toggleLicenseModal}>DOWNLOAD</Download>}</td>
                                     <td>{user.Role === "Accreditor" || user.Role === "SuperAdmin" || user.Role === "Admin" ?
                                       <>
@@ -1139,7 +1139,7 @@ export const UpdatePlayerV2: React.FC = () => {
                                   </div>
                                   <div className="form-box">
                                     <div className="name">
-                                      <h2><span>{`${inputObject?.licenseName?.toUpperCase()}`}</span> {" "}{" "}</h2></div>
+                                      <h2><span>{`${inputObject?.licenseName}`}</span> {" "}{" "}</h2></div>
                                     <div className="form-control-box">
                                       <div className="form-group">
                                         <label>TEAM</label>
@@ -1147,15 +1147,15 @@ export const UpdatePlayerV2: React.FC = () => {
                                       </div>
                                       <div className="form-group">
                                         <label>POSITION</label>
-                                        <input type="text" name="team" value={inputObject?.Position?.toUpperCase()} />
+                                        <input type="text" name="team" value={inputObject?.Position} />
                                       </div>
                                       <div className="form-group">
                                         <label>COURSE & LEVEL</label>
-                                        <input type="text" name="team" value={inputObject?.licenseCourse?.toUpperCase()} />
+                                        <input type="text" name="team" value={inputObject?.licenseCourse} />
                                       </div>
                                       <div className="form-group">
                                         <label>MATRIC NO.</label>
-                                        <input type="text" name="team" value={inputObject?.MatricNumber?.toUpperCase()} />
+                                        <input type="text" name="team" value={inputObject?.MatricNumber} />
                                       </div>
                                     </div>
                                   </div>
