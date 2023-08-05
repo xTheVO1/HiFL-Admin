@@ -426,6 +426,11 @@ export const UpdatePlayerV2: React.FC = () => {
     { type: "Goal Keeper", value: "GK" }
   ]
 
+  const programmes = [
+    { type: "Undegraduate", value: "Undegraduate" },
+    { type: "Post-Graduate", value: "Post-Graduate" },
+  ]
+
   const status = [
     { type: "APPROVED", value: "APPROVED" },
     { type: "DISAPPROVED", value: "DISAPPROVED" }
@@ -841,7 +846,7 @@ export const UpdatePlayerV2: React.FC = () => {
                         />
                       </FormHolder>
                       <Section>
-                        <Label>ALLERGIES</Label>
+                      <Label>DO YOU HAVE ANY ALLERGIES? IF YES, SPECIFY.</Label>
                         <Input
                           type="text"
                           name="AnyAllergies"
@@ -911,13 +916,23 @@ export const UpdatePlayerV2: React.FC = () => {
                     </FormHolder>
                     <FormHolder>
                       <Label>PROGRAMME</Label>
-                      <Select
+                      {/* <Select
                         disabled={disable}
                         onChange={(e) => handleChange(e)} value={inputObject.Programme?.toUpperCase()} name="Programme">
                         <option >Select Programme</option>
                         <option value="Undergraduate">Undergraduate</option>
                         <option value="Post-Graduate">Post-Graduate</option>
-                      </Select>
+                      </Select> */}
+                      <Select
+                          name="Programme"
+                          onChange={(e) => handleChange(e)}
+                          value={inputObject.Programme?.toUpperCase()}
+                        >
+                          <option>Select a Programme</option>
+                          {programmes.map(item => (
+                            <option value={item.value}>{item.type}</option>
+                          ))}
+                        </Select>
                     </FormHolder>
                     <FormHolder>
                       <Label>COURSE FACULTY</Label>
