@@ -42,27 +42,29 @@ export const Guidelines: React.FC = () => {
           <BtnCard>
             <CreateBtn
               target="_blank"
-              href="#"            >
-              HiFL 2023 Regulations
+              href="/docs/HiFL_2023_Registration_Guidelines_v.01.docx.pdf" >
+              HiFL 2023 Regulations Guidelines
             </CreateBtn>{" "}
             <CreateBtn
             target="_blank"
-            href="#"            >
-              HiFL 2023 Registration Guidelines
+            href="/docs/HiFL_2023_Qualifiers_Rules.docx.pdf"            
+            >
+              HiFL 2023 Qualifiers Rules
             </CreateBtn>
           </BtnCard>
           <BtnCard>
             <CreateBtn 
-href="#"                target="_blank"
+              href="/docs/HiFL_2023_Medical_Clearance_Form.docx.pdf" 
+              target="_blank"
             >
               Medical Clearance Template
             </CreateBtn>
 
-            <CreateBtn href="#"
+            {/* <CreateBtn href="#"
             target="_blank"
             >
               HiFL 2023 COVID-19 Protocol
-            </CreateBtn>
+            </CreateBtn> */}
           </BtnCard>
         </div>
       </Content>
