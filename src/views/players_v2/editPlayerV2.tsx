@@ -427,7 +427,7 @@ export const UpdatePlayerV2: React.FC = () => {
   ]
 
   const programmes = [
-    { type: "Undegraduate", value: "Undegraduate" },
+    { type: "Undergraduate", value: "Undergraduate" },
     { type: "Post-Graduate", value: "Post-Graduate" },
   ]
 
