@@ -625,7 +625,7 @@ class PlayerUpdate extends Component<PropsType, any>{
                 />
               </FormHolder>
               <Section>
-                <Label>ALLERGIES</Label>
+                <Label>DO YOU HAVE ANY ALLERGIES? IF YES, SPECIFY.</Label>
                 <Input
                   type="text"
                   name="AnyAllergies"

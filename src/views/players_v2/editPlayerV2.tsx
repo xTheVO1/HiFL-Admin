@@ -549,7 +549,7 @@ export const UpdatePlayerV2: React.FC = () => {
                 className={activeTab === "tab4" ? "active" : ""}
                 onClick={() => changeTab("tab4")}
               >
-                DOCUMENT UPLOADS
+                 UPLOADS
               </List>
               <List
                 className={activeTab === "tab5" ? "active" : ""}
