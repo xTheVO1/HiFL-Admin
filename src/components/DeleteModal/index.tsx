@@ -4,7 +4,7 @@ import {
     Modal, 
     ModalHeader, ModalBody
 } from "reactstrap"
-import { Btn } from '../playerCard/style';
+import { Btn } from '../playerCardV2/style';
   
 interface PropsType {
     toggle?: any;

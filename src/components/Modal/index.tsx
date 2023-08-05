@@ -6,23 +6,23 @@ import {
     ModalHeader, ModalBody
   } from "reactstrap";
 import { Dispatch } from "redux";
-import { BtnDiv, CreateBtn, Form, Label, Section, Select, TextArea } from "../../views/players/style";
-import { Btn } from "../playerCard/style";
-import {getPlayerById, updatePlayer } from "../../redux/actions/players";
+import { BtnDiv, CreateBtn, Form, Label, Section, Select, TextArea } from "../../views/players_v2/style";
+import { Btn } from "../playerCardV2/style";
+import {getPlayerById, updatePlayer } from "../../redux/actions/players_v2";
 
 interface ModalProps {
     isModal?: boolean;
     toggle?: any;
     action?: (e:any) => void;
     user?: any;
-    accredictItem?: any;
+    accreditItem?: any;
 }
 
 export default function Content ({
                                 isModal,
                                 toggle, 
                                 user, 
-                                accredictItem }: ModalProps) {
+                                accreditItem }: ModalProps) {
 
     const { id } = useParams();                                       
     const dispatch: Dispatch<any> = useDispatch();
@@ -32,10 +32,10 @@ export default function Content ({
                                             });
              
    useEffect(() => {
-      setObject({AccreditationComment: accredictItem?.AccreditationComment,
-                Approval: accredictItem?.Approval
+      setObject({AccreditationComment: accreditItem?.AccreditationComment,
+                Approval: accreditItem?.Approval
               })
-   },[accredictItem]);
+   },[accreditItem]);
    
     const changeStatus = (e: any) => {
     const AccreditationHistories: any = [];
@@ -45,7 +45,7 @@ export default function Content ({
             AccreditationHistories: AccreditationHistories.push({
                 AccreditationComment: inputObject.AccreditationComment, 
                 Approval: inputObject.Approval, 
-                YearAccredicted: 2022
+                YearAccredited: 2023
             })
         }
     }
@@ -77,7 +77,7 @@ export default function Content ({
         <ModalBody style={{ textAlign: "center", fontSize: "1rem" }}>
         <Form onSubmit={changeStatus}>
             <Section>
-            <Label>APPROVAL </Label><span style={{color: "green"}}>{accredictItem?.Approval}</span>
+            <Label>APPROVAL </Label><span style={{color: "green"}}>{accreditItem?.Approval}</span>
             <Select
                 name="Approval"
               onChange={(e) => handleChange(e)} required

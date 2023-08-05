@@ -19,16 +19,16 @@ import { POST_PLAYER_V2_FAILED,
     } from "../actions/actionTypes";
 
 const  initialState = {
-  playerV2:{},
-  playersV2:[],
-  singlePlayerV2: {},
+  player:{},
+  players:[],
+  singlePlayer: {},
   loading: false,
   error: null,
-  deletedPlayerV2: {},
+  deletedPlayer: {},
   license: []
 }
 
-export const playerV2Reducer = (state: PlayerV2State = initialState, action: any):PlayerV2State => {
+export const playerV2Reducer = (state: PlayerState = initialState, action: any):PlayerState => {
     switch(action.type) {
       case POST_PLAYER_V2_STARTED:
         return {
@@ -39,7 +39,7 @@ export const playerV2Reducer = (state: PlayerV2State = initialState, action: any
         return {
           ...state,
           loading: false,
-          playerV2: action.payload
+          player: action.payload
         }
       case POST_PLAYER_V2_FAILED:
         return {
@@ -56,7 +56,7 @@ export const playerV2Reducer = (state: PlayerV2State = initialState, action: any
           return {
             ...state,
             loading: false,
-            playersV2: action.payload
+            players: action.payload
           }
         case GET_PLAYERS_V2_FAILED:
           return {
@@ -73,7 +73,7 @@ export const playerV2Reducer = (state: PlayerV2State = initialState, action: any
           return {
             ...state,
             loading: false,
-            singlePlayerV2: action.payload
+            singlePlayer: action.payload
           }
         case GET_PLAYER_V2_FAILED:
           return {
@@ -108,7 +108,7 @@ export const playerV2Reducer = (state: PlayerV2State = initialState, action: any
             return {
               ...state,
               loading: false,
-              playerV2: action.payload
+              player: action.payload
             }
           case UPDATE_PLAYER_V2_FAILED:
             return {
@@ -125,7 +125,7 @@ export const playerV2Reducer = (state: PlayerV2State = initialState, action: any
             return {
               ...state,
               loading: false,
-              deletedPlayerV2: action.payload
+              deletedPlayer: action.payload
             }
           case DELETE_PLAYER_V2_FAILED:
             return {

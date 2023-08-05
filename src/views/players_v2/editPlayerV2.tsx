@@ -313,7 +313,7 @@ export const UpdatePlayerV2: React.FC = () => {
     // dispatch(getPlayerById(id));
   };
 
-  const accredict = async (e: any) => {
+  const accredit = async (e: any) => {
     e.preventDefault();
     const details = {
       _id: id,
@@ -1107,7 +1107,7 @@ export const UpdatePlayerV2: React.FC = () => {
                               </tbody>
                             </Table>
                             <DeleteModal modal={deleteModal} toggle={toggleDeleteModal} id={id} actionCall={deleteAccreditItem} />
-                            <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData?.AccreditationHistories} accredictItem={accreditationItem} />
+                            <EditModal isModal={isModal} action={action} toggle={toggle} user={mainData?.AccreditationHistories} accreditItem={accreditationItem} />
                             <Modal isOpen={licenseModal}
                               toggle={toggleLicenseModal}
                               modalTransition={{ timeout: 200 }}
@@ -1177,7 +1177,7 @@ export const UpdatePlayerV2: React.FC = () => {
                       //  "NO DATA" 
                       //  :
                       <>
-                        <Form onSubmit={inputObject?.Accredited === "APPROVED" ? editPlayer : accredict}>
+                        <Form onSubmit={inputObject?.Accredited === "APPROVED" ? editPlayer : accredit}>
                           <Section>
                             <Label>APPROVAL</Label>
                             <Select
