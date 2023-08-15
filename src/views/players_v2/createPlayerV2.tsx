@@ -130,7 +130,7 @@ export const AddPlayerV2: React.FC = () => {
     };
     if (pathname === "/register-player-v2") {
       dispatch(createPlayers({ userData, playerData, navigate }));
-    } else if (pathname === "/register-official") {
+    } else if (pathname === "/register-official-v2") {
       dispatch(createOfficials({ userData, playerData, navigate }));
     }
   };
@@ -182,7 +182,7 @@ export const AddPlayerV2: React.FC = () => {
               </FormHolder>
               <FormHolder>
                   <Label>DATE OF BIRTH</Label>
-                  {pathname === "/register-official" ?
+                  {pathname === "/register-official-v2" ?
                   <Input type="date" 
                   name="DateOfBirth"
                   onChange={(e) => handleChange(e)}/>
@@ -344,7 +344,7 @@ export const AddPlayerV2: React.FC = () => {
                 </Section>
               </Section>
               <BtnDiv>
-                {pathname === "/register-official" ? <CreateBtn type="submit">{officialLoading ? <Spinner/> : "SAVE"}</CreateBtn> : ""}
+                {pathname === "/register-official-v2" ? <CreateBtn type="submit">{officialLoading ? <Spinner/> : "SAVE"}</CreateBtn> : ""}
                 {pathname === "/register-player-v2" ? <CreateBtn type="submit">{loading ? <Spinner/> : "SAVE"}</CreateBtn> : ""}
               </BtnDiv>
             </Form>
