@@ -489,13 +489,13 @@ export const PlayersV2: React.FC = () => {
                         mainData?.length === 30 ? "" :
                         <>
                           <CreateBtn
-                            onClick={addPlayer}
-                            // className={
-                            //   ""
-                            // }
-                            // disabled={
-                            //   false
-                            //   }
+                            // onClick={addPlayer}
+                            className={
+                              ""
+                            }
+                            disabled={
+                              false
+                              }
                           >
                             + PLAYER
                           </CreateBtn>
