@@ -24,7 +24,7 @@ import {
 } from "./style";
 import { PlayerCard } from "../../components/playerCardV2";
 import { getPlayers } from "../../redux/actions/players_v2";
-import { getOfficials } from "../../redux/actions/officials";
+import { getOfficials } from "../../redux/actions/officials_v2";
 import { RootState } from "../../redux/reducers";
 import Loader from "../../components/Loader";
 import NoData from "../../components/NoData";
